@@ -81,7 +81,7 @@ struct DeepTiledInputPart {
 
     IMF_EXPORT
     void rawTileData(int& dx, int& dy, int& lx, int& ly, char* data,
-                     Imf::Int64& dataSize) const;
+                     uint64_t& dataSize) const;
 
     IMF_EXPORT
     void readPixelSampleCount(int dx, int dy, int l = 0) CPPMM_IGNORE;

@@ -11,12 +11,12 @@ public:
     using BoundType = ::std::string;
 
     basic_string();
-    basic_string(const ::std::string & rhs);
+    basic_string(const ::std::string& rhs);
 
     ::std::string& assign(const char* s, ::std::string::size_type count);
     const char* c_str() const;
 
-} CPPMM_OPAQUEBYTES;
+} CPPMM_OPAQUEBYTES CPPMM_IGNORE_UNBOUND;
 
 using string = ::std::string;
 

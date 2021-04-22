@@ -11,9 +11,12 @@ namespace Imf = ::OPENEXR_IMF_INTERNAL_NAMESPACE;
 struct Image {
     using BoundType = Imf::Image;
 
-    IMFUTIL_EXPORT
     Image();
-    IMFUTIL_EXPORT
+
+    Image(const Imf::Image& rhs);
+
+    Imf::Image& operator=(const Imf::Image& rhs);
+
     virtual ~Image();
 
     // inherited from Image
@@ -74,14 +77,10 @@ struct Image {
         CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
             CPPMM_THROWS(std::exception, IEX_OUT_OF_MEMORY);
 
-    IMFUTIL_EXPORT
-    virtual Imf::ImageLevel& level(int l = 0) CPPMM_IGNORE;
-    IMFUTIL_EXPORT
-    virtual const Imf::ImageLevel& level(int l = 0) const CPPMM_IGNORE;
+    virtual Imf::ImageLevel& level(int l) CPPMM_IGNORE;
+    virtual const Imf::ImageLevel& level(int l) const CPPMM_IGNORE;
 
-    IMFUTIL_EXPORT
     virtual Imf::ImageLevel& level(int lx, int ly);
-    IMFUTIL_EXPORT
     virtual const Imf::ImageLevel& level(int lx, int ly) const
         CPPMM_RENAME(level_const);
 

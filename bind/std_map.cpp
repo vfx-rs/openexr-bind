@@ -16,7 +16,7 @@ public:
     map();
     ~map();
 
-} CPPMM_OPAQUEBYTES;
+} CPPMM_OPAQUEBYTES CPPMM_IGNORE_UNBOUND;
 
 // explicit instantiation
 template class map<::std::string, ::std::string>;

@@ -30,6 +30,8 @@ struct TiledOutputFile {
     IMF_EXPORT
     void setFrameBuffer(const Imf::FrameBuffer& frameBuffer);
 
+    const Imf::FrameBuffer& frameBuffer() const;
+
     IMF_EXPORT
     unsigned int tileXSize() const;
     IMF_EXPORT

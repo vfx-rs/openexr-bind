@@ -28,12 +28,22 @@ struct TiledRgbaOutputFile {
     IMF_EXPORT
     TiledRgbaOutputFile(const char name[], int tileXSize, int tileYSize,
                         Imf::LevelMode mode, Imf::LevelRoundingMode rmode,
-                        const IMATH_NAMESPACE::Box2i& displayWindow,
-                        const IMATH_NAMESPACE::Box2i& dataWindow,
+                        const Imath::Box2i& displayWindow,
+                        const Imath::Box2i& dataWindow,
                         Imf::RgbaChannels rgbaChannels, float pixelAspectRatio,
                         const IMATH_NAMESPACE::V2f screenWindowCenter,
                         float screenWindowWidth, Imf::LineOrder lineOrder,
                         Imf::Compression compression, int numThreads);
+
+    IMF_EXPORT
+    TiledRgbaOutputFile(const char name[], int width, int height, int tileXSize,
+                        int tileYSize, Imf::LevelMode mode,
+                        Imf::LevelRoundingMode rmode,
+                        Imf::RgbaChannels rgbaChannel, float pixelAspectRatio,
+                        const Imath::V2f screenWindowCenter,
+                        float screenWindowWidth, Imf::LineOrder lineOrder,
+                        Imf::Compression compression,
+                        int numThreads) CPPMM_IGNORE;
 
     IMF_EXPORT
     virtual ~TiledRgbaOutputFile();

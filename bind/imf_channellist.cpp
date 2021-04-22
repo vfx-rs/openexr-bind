@@ -15,8 +15,9 @@ public:
     IMF_EXPORT
     Channel(Imf::PixelType type, int xSampling, int ySampling, bool pLinear);
 
-    IMF_EXPORT
     Channel(const Imf::Channel& rhs);
+    Channel(Imf::Channel&& rhs);
+    ~Channel();
 
     IMF_EXPORT
     bool operator==(const Imf::Channel& other) const;
@@ -26,7 +27,10 @@ class ChannelList {
 public:
     using BoundType = Imf::ChannelList;
 
+    ChannelList();
+    ~ChannelList();
     ChannelList(const Imf::ChannelList& rhs);
+    ChannelList(Imf::ChannelList&& rhs);
 
     IMF_EXPORT
     void insert(const char name[], const Imf::Channel& channel);
@@ -93,19 +97,25 @@ public:
                          Imf::ChannelList::ConstIterator& last) const
         CPPMM_RENAME(channelsInLayer_const);
 
-    IMF_EXPORT
     void channelsWithPrefix(const char prefix[],
                             Imf::ChannelList::Iterator& first,
                             Imf::ChannelList::Iterator& last);
 
-    IMF_EXPORT
     void channelsWithPrefix(const char prefix[],
                             Imf::ChannelList::ConstIterator& first,
                             Imf::ChannelList::ConstIterator& last) const
         CPPMM_RENAME(channelsWithPrefix_const);
 
+    void channelsWithPrefix(const std::string& prefix,
+                            Imf::ChannelList::Iterator& first,
+                            Imf::ChannelList::Iterator& last) CPPMM_IGNORE;
+
+    void channelsWithPrefix(
+        const std::string& prefix, Imf::ChannelList::ConstIterator& first,
+        Imf::ChannelList::ConstIterator& last) const CPPMM_IGNORE;
+
     IMF_EXPORT
-    bool operator==(const ChannelList& other) const;
+    bool operator==(const Imf::ChannelList& other) const;
 
     class Iterator {
     public:
@@ -114,17 +124,16 @@ public:
         Iterator();
         IMF_EXPORT
         Iterator(const Imf::ChannelList::ChannelMap::iterator& i) CPPMM_IGNORE;
-        IMF_EXPORT
+
         Iterator(const Imf::ChannelList::Iterator& rhs);
+        Iterator(Imf::ChannelList::Iterator&& rhs);
 
         IMF_EXPORT
-        Iterator& operator++();
+        Imf::ChannelList::Iterator& operator++();
         IMF_EXPORT
-        Iterator operator++(int) CPPMM_IGNORE;
+        Imf::ChannelList::Iterator operator++(int) CPPMM_IGNORE;
 
-        IMF_EXPORT
         const char* name() const;
-        IMF_EXPORT
         Imf::Channel& channel() const;
 
     } CPPMM_OPAQUEBYTES;
@@ -138,18 +147,21 @@ public:
         IMF_EXPORT
         ConstIterator(const Imf::ChannelList::ChannelMap::const_iterator& i)
             CPPMM_IGNORE;
-        IMF_EXPORT
+
         ConstIterator(const Imf::ChannelList::ConstIterator& rhs);
+        ConstIterator(Imf::ChannelList::ConstIterator&& rhs);
+        ConstIterator(const Imf::ChannelList::Iterator& rhs)
+            CPPMM_RENAME(from_mut);
 
         IMF_EXPORT
-        ConstIterator& operator++();
+        Imf::ChannelList::ConstIterator& operator++();
         IMF_EXPORT
-        ConstIterator operator++(int) CPPMM_IGNORE;
+        Imf::ChannelList::ConstIterator operator++(int) CPPMM_IGNORE;
 
         IMF_EXPORT
         const char* name() const;
         IMF_EXPORT
-        Imf::Channel& channel() const;
+        const Imf::Channel& channel() const;
 
     } CPPMM_OPAQUEBYTES;
 

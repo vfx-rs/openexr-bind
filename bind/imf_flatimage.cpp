@@ -77,18 +77,21 @@ struct FlatImage {
               Imf::LevelMode levelMode,
               Imf::LevelRoundingMode levelRoundingMode);
 
+    CPPMM_COPY(Imf, FlatImage)
+
     IMFUTIL_EXPORT
     virtual ~FlatImage();
 
-    IMFUTIL_EXPORT
     virtual Imf::FlatImageLevel& level(int l = 0) CPPMM_IGNORE;
-    IMFUTIL_EXPORT
     virtual const Imf::FlatImageLevel& level(int l = 0) const CPPMM_IGNORE;
-
-    IMFUTIL_EXPORT
     virtual Imf::FlatImageLevel& level(int lx, int ly);
-    IMFUTIL_EXPORT
-    virtual const Imf::FlatImageLevel& level(int lx, int ly) const;
+    virtual const Imf::FlatImageLevel& level(int lx, int ly) const
+        CPPMM_RENAME(level_const);
+
+    // virtual Imf::ImageLevel& level(int l = 0) CPPMM_IGNORE;
+    // virtual const Imf::ImageLevel& level(int l = 0) const CPPMM_IGNORE;
+    // virtual Imf::ImageLevel& level(int lx, int ly) CPPMM_IGNORE;
+    // virtual const Imf::ImageLevel& level(int lx, int ly) const CPPMM_IGNORE;
 
 } CPPMM_OPAQUEBYTES;
 

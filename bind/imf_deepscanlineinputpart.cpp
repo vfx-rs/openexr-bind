@@ -38,7 +38,7 @@ struct DeepScanLineInputPart {
 
     IMF_EXPORT
     void rawPixelData(int firstScanLine, char* pixelData,
-                      Imf::Int64& pixelDataSize);
+                      uint64_t& pixelDataSize);
 
     IMF_EXPORT
     void readPixelSampleCounts(int scanline1, int scanline2);

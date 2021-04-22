@@ -13,6 +13,11 @@ struct HalfLut {
 
     template <class Function> HalfLut(Function f);
 
+    HalfLut(const Imf::HalfLut& rhs);
+    HalfLut(Imf::HalfLut&& rhs) CPPMM_IGNORE;
+
+    ~HalfLut();
+
     IMF_EXPORT
     void apply(half* data, int nData, int stride = 1) const;
 
@@ -26,6 +31,11 @@ struct RgbaLut {
     using BoundType = Imf::RgbaLut;
 
     template <class Function> RgbaLut(Function f, Imf::RgbaChannels chn);
+
+    RgbaLut(const Imf::RgbaLut& rhs);
+    RgbaLut(Imf::RgbaLut&& rhs) CPPMM_IGNORE;
+
+    ~RgbaLut();
 
     //----------------------------------------------------------------------
     // Apply the table to data[0], data[stride] ... data[(nData-1) * stride]

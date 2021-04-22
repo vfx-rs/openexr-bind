@@ -14,10 +14,10 @@ struct ImageLevel {
     Imf::Image& image();
     const Imf::Image& image() const CPPMM_RENAME(image_const);
 
-    int xLevelNumber();
-    int yLevelNumber();
+    int xLevelNumber() const;
+    int yLevelNumber() const;
 
-    const IMATH_NAMESPACE::Box2i& dataWindow();
+    const Imath::Box2i& dataWindow() const;
 
 } CPPMM_OPAQUEPTR;
 

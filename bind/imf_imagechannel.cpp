@@ -13,16 +13,18 @@ struct ImageChannel {
 
     // Inherited from ImageChannel
     virtual Imf::PixelType pixelType() const = 0;
-    IMFUTIL_EXPORT
+
     Imf::Channel channel() const;
+
     int xSampling() const;
     int ySampling() const;
     bool pLinear() const;
     int pixelsPerRow() const;
     int pixelsPerColumn() const;
     size_t numPixels() const;
+
     Imf::ImageLevel& level();
-    const Imf::ImageLevel& level() const;
+    const Imf::ImageLevel& level() const CPPMM_RENAME(level_const);
 
 } CPPMM_OPAQUEBYTES;
 

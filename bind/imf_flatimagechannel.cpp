@@ -22,6 +22,8 @@ struct FlatImageChannel {
     Imf::ImageLevel& level();
     const Imf::ImageLevel& level() const;
 
+    Imf::Channel channel() const;
+
     // this class
     virtual Imf::Slice slice() const = 0;
     IMFUTIL_EXPORT
@@ -51,6 +53,8 @@ template <typename T> struct TypedFlatImageChannel {
     Imf::FlatImageLevel& flatLevel();
     IMFUTIL_EXPORT
     const Imf::FlatImageLevel& flatLevel() const;
+
+    Imf::Channel channel() const;
 
     // This class
     T& operator()(int x, int y) CPPMM_RENAME(index);

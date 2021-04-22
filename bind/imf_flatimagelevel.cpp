@@ -20,10 +20,14 @@ struct FlatImageLevel {
 
     const IMATH_NAMESPACE::Box2i& dataWindow() const;
 
+    FlatImageLevel(const Imf::FlatImageLevel& rhs);
+
+    Imf::FlatImageLevel& operator=(const Imf::FlatImageLevel& rhs);
+
     IMFUTIL_EXPORT
-    Imf::FlatImage& deepImage();
+    Imf::FlatImage& flatImage();
     IMFUTIL_EXPORT
-    const Imf::FlatImage& deepImage() const CPPMM_RENAME(deepImage_const);
+    const Imf::FlatImage& flatImage() const CPPMM_RENAME(flatImage_const);
 
     IMFUTIL_EXPORT
     Imf::FlatImageChannel* findChannel(const std::string& name);
@@ -68,13 +72,11 @@ struct FlatImageLevel {
 
     struct Iterator {
         using BoundType = Imf::FlatImageLevel::Iterator;
-        IMFUTIL_EXPORT
         Iterator();
-        IMFUTIL_EXPORT
         Iterator(const Imf::FlatImageLevel::ChannelMap::iterator& i)
             CPPMM_IGNORE;
-        IMF_EXPORT
         Iterator(const Imf::FlatImageLevel::Iterator& rhs);
+        Iterator(Imf::FlatImageLevel::Iterator&& rhs) CPPMM_IGNORE;
 
         IMFUTIL_EXPORT
         Imf::FlatImageLevel::Iterator& operator++() CPPMM_RENAME(inc);
@@ -93,11 +95,12 @@ struct FlatImageLevel {
 
         IMFUTIL_EXPORT
         ConstIterator();
-        IMFUTIL_EXPORT
         ConstIterator(const Imf::FlatImageLevel::ChannelMap::const_iterator& i)
             CPPMM_IGNORE;
-        IMF_EXPORT
         ConstIterator(const Imf::FlatImageLevel::ConstIterator& rhs);
+        ConstIterator(const Imf::FlatImageLevel::Iterator& rhs)
+            CPPMM_RENAME(from_mut);
+        ConstIterator(Imf::FlatImageLevel::ConstIterator&& rhs);
 
         IMFUTIL_EXPORT
         Imf::FlatImageLevel::ConstIterator& operator++() CPPMM_RENAME(inc);

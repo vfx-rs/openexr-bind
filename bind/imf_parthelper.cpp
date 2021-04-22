@@ -11,6 +11,11 @@ namespace Imf = ::OPENEXR_IMF_INTERNAL_NAMESPACE;
 struct MultiViewChannelName {
     using BoundType = Imf::MultiViewChannelName;
 
+    MultiViewChannelName();
+    MultiViewChannelName(const Imf::MultiViewChannelName&);
+    MultiViewChannelName(Imf::MultiViewChannelName&&);
+    ~MultiViewChannelName();
+
     std::string getLayer() const;
     std::string getSuffix() const;
 } CPPMM_OPAQUEBYTES;

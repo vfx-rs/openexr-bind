@@ -11,6 +11,8 @@ namespace Imf = ::OPENEXR_IMF_INTERNAL_NAMESPACE;
 struct DeepImageLevel {
     using BoundType = Imf::DeepImageLevel;
 
+    CPPMM_COPY(Imf, DeepImageLevel)
+
     // Inherited from ImageLevel
     Imf::Image& image();
     const Imf::Image& image() const CPPMM_RENAME(image_const);
@@ -79,8 +81,9 @@ struct DeepImageLevel {
         IMFUTIL_EXPORT
         Iterator(const Imf::DeepImageLevel::ChannelMap::iterator& i)
             CPPMM_IGNORE;
-        IMF_EXPORT
+
         Iterator(const Imf::DeepImageLevel::Iterator& rhs);
+        Iterator(Imf::DeepImageLevel::Iterator&& rhs);
 
         IMFUTIL_EXPORT
         Imf::DeepImageLevel::Iterator& operator++() CPPMM_RENAME(inc);
@@ -102,8 +105,11 @@ struct DeepImageLevel {
         IMFUTIL_EXPORT
         ConstIterator(const Imf::DeepImageLevel::ChannelMap::const_iterator& i)
             CPPMM_IGNORE;
-        IMF_EXPORT
+
         ConstIterator(const Imf::DeepImageLevel::ConstIterator& rhs);
+        ConstIterator(Imf::DeepImageLevel::ConstIterator&& rhs);
+        ConstIterator(const Imf::DeepImageLevel::Iterator& rhs)
+            CPPMM_RENAME(from_mut);
 
         IMFUTIL_EXPORT
         Imf::DeepImageLevel::ConstIterator& operator++() CPPMM_RENAME(inc);

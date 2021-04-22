@@ -11,16 +11,21 @@ namespace Imf = ::OPENEXR_IMF_INTERNAL_NAMESPACE;
 struct DeepScanLineInputFile {
     using BoundType = Imf::DeepScanLineInputFile;
 
-    IMF_EXPORT
     DeepScanLineInputFile(const char fileName[], int numThreads);
 
-    IMF_EXPORT
     DeepScanLineInputFile(const Imf::Header& header, Imf::IStream* is,
                           int version, /*version field from file*/
                           int numThreads);
 
-    IMF_EXPORT
-    virtual ~DeepScanLineInputFile();
+    DeepScanLineInputFile(Imf::IStream& is, int numThreads);
+
+    DeepScanLineInputFile(const Imf::DeepScanLineInputFile& rhs);
+    Imf::DeepScanLineInputFile&
+    operator=(const Imf::DeepScanLineInputFile& rhs);
+
+    DeepScanLineInputFile(Imf::DeepScanLineInputFile&& rhs) CPPMM_IGNORE;
+
+    IMF_EXPORT virtual ~DeepScanLineInputFile();
     IMF_EXPORT
     const char* fileName() const;
 
@@ -52,7 +57,7 @@ struct DeepScanLineInputFile {
 
     IMF_EXPORT
     void rawPixelData(int firstScanLine, char* pixelData,
-                      Imf::Int64& pixelDataSize);
+                      uint64_t& pixelDataSize);
 
     IMF_EXPORT
     int firstScanLineInChunk(int y) const;

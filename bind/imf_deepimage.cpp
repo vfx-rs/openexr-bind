@@ -11,6 +11,9 @@ namespace Imf = ::OPENEXR_IMF_INTERNAL_NAMESPACE;
 struct DeepImage {
     using BoundType = Imf::DeepImage;
 
+    DeepImage(const Imf::DeepImage& rhs);
+    Imf::DeepImage& operator=(const Imf::DeepImage& rhs);
+
     // From Image
     IMFUTIL_EXPORT
     Imf::LevelMode levelMode() const;
@@ -83,15 +86,16 @@ struct DeepImage {
     IMFUTIL_EXPORT
     virtual ~DeepImage();
 
-    IMFUTIL_EXPORT
-    virtual Imf::DeepImageLevel& level(int l);
-    IMFUTIL_EXPORT
-    virtual const Imf::DeepImageLevel& level(int l) const;
-
-    IMFUTIL_EXPORT
+    virtual Imf::DeepImageLevel& level(int l) CPPMM_IGNORE;
+    virtual const Imf::DeepImageLevel& level(int l) const CPPMM_IGNORE;
     virtual Imf::DeepImageLevel& level(int lx, int ly);
-    IMFUTIL_EXPORT
-    virtual const Imf::DeepImageLevel& level(int lx, int ly) const;
+    virtual const Imf::DeepImageLevel& level(int lx, int ly) const
+        CPPMM_RENAME(level_const);
+
+    // virtual Imf::ImageLevel& level(int l) CPPMM_IGNORE;
+    // virtual const Imf::ImageLevel& level(int l) const CPPMM_IGNORE;
+    // virtual Imf::ImageLevel& level(int lx, int ly) CPPMM_IGNORE;
+    // virtual const Imf::ImageLevel& level(int lx, int ly) const CPPMM_IGNORE;
 
 } CPPMM_OPAQUEBYTES;
 

@@ -31,14 +31,8 @@ struct Header {
            float screenWindowWidth, Imf::LineOrder lineOrder,
            Imf::Compression compression);
 
-    IMF_EXPORT
-    Header(const Header& other);
-
-    IMF_EXPORT
+    CPPMM_COPY(Imf, Header)
     ~Header();
-
-    IMF_EXPORT
-    Header& operator=(const Header& other);
 
     IMF_EXPORT
     void insert(const char name[], const Imf::Attribute& attribute);
@@ -243,7 +237,7 @@ struct Header {
     bool readsNothing();
 
     IMF_EXPORT
-    Imf::Int64 writeTo(Imf::OStream& os, bool isTiled = false) const;
+    uint64_t writeTo(Imf::OStream& os, bool isTiled = false) const;
 
     IMF_EXPORT
     void readFrom(Imf::IStream& is, int& version);
@@ -255,8 +249,9 @@ struct Header {
         Iterator();
         IMF_EXPORT
         Iterator(const Imf::Header::AttributeMap::iterator& i) CPPMM_IGNORE;
-        IMF_EXPORT
+
         Iterator(const Imf::Header::Iterator& rhs);
+        Iterator(Imf::Header::Iterator&& rhs);
 
         IMF_EXPORT
         Imf::Header::Iterator& operator++() CPPMM_RENAME(inc);
@@ -276,10 +271,12 @@ struct Header {
         IMF_EXPORT
         ConstIterator();
         IMF_EXPORT
-        ConstIterator(const Imf::Header::AttributeMap::iterator& i)
+        ConstIterator(const Imf::Header::AttributeMap::const_iterator& i)
             CPPMM_IGNORE;
-        IMF_EXPORT
+        ConstIterator(const Imf::Header::Iterator& rhs) CPPMM_RENAME(from_mut);
+
         ConstIterator(const Imf::Header::ConstIterator& rhs);
+        ConstIterator(Imf::Header::ConstIterator&& rhs);
 
         IMF_EXPORT
         Imf::Header::ConstIterator& operator++() CPPMM_RENAME(inc);
@@ -289,7 +286,7 @@ struct Header {
         IMF_EXPORT
         const char* name() const;
         IMF_EXPORT
-        Imf::Attribute& attribute() const;
+        const Imf::Attribute& attribute() const;
 
     } CPPMM_OPAQUEBYTES;
 

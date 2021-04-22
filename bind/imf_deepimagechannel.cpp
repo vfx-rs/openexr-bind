@@ -24,11 +24,14 @@ struct DeepImageChannel {
 
     virtual Imf::DeepSlice slice() const = 0;
 
-    IMFUTIL_EXPORT Imf::DeepImageLevel& deepLevel();
-    IMFUTIL_EXPORT const Imf::DeepImageLevel& deepLevel() const;
+    Imf::DeepImageLevel& deepLevel();
+    const Imf::DeepImageLevel& deepLevel() const CPPMM_RENAME(deepLevel_const);
 
-    IMFUTIL_EXPORT Imf::SampleCountChannel& sampleCounts();
-    IMFUTIL_EXPORT const Imf::SampleCountChannel& sampleCounts() const;
+    Imf::ImageLevel& level();
+    const Imf::ImageLevel& level() const CPPMM_RENAME(level_const);
+
+    Imf::SampleCountChannel& sampleCounts();
+    const Imf::SampleCountChannel& sampleCounts() const;
 } CPPMM_OPAQUEPTR;
 
 template <typename T> struct TypedDeepImageChannel {
@@ -45,6 +48,15 @@ template <typename T> struct TypedDeepImageChannel {
     size_t numPixels() const;
     virtual Imf::PixelType pixelType() const;
 
+    Imf::DeepImageLevel& deepLevel();
+    const Imf::DeepImageLevel& deepLevel() const CPPMM_RENAME(deepLevel_const);
+
+    Imf::ImageLevel& level();
+    const Imf::ImageLevel& level() const CPPMM_RENAME(level_const);
+
+    Imf::SampleCountChannel& sampleCounts();
+    const Imf::SampleCountChannel& sampleCounts() const;
+
     virtual Imf::DeepSlice slice() const;
     T* operator()(int x, int y) CPPMM_RENAME(index);
     const T* operator()(int x, int y) const CPPMM_RENAME(index_const);
@@ -52,7 +64,8 @@ template <typename T> struct TypedDeepImageChannel {
     const T* at(int x, int y) const CPPMM_RENAME(at_const)
         CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
     T* const* row(int r) CPPMM_IGNORE; // TODO LT: Fix pointer to pointer
-    const T* const* row(int r) const CPPMM_RENAME(row_const) CPPMM_IGNORE; // TODO LT: Fix pointer to pointer
+    const T* const* row(int r) const
+        CPPMM_RENAME(row_const) CPPMM_IGNORE; // TODO LT: Fix pointer to pointer
 
 } CPPMM_OPAQUEBYTES;
 

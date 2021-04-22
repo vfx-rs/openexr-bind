@@ -11,10 +11,13 @@ namespace Imf = ::OPENEXR_IMF_INTERNAL_NAMESPACE;
 struct TiledInputFile {
     using BoundType = Imf::TiledInputFile;
 
-    IMF_EXPORT
     TiledInputFile(const char fileName[], int numThreads);
-    IMF_EXPORT
     TiledInputFile(Imf::IStream& is, int numThreads) CPPMM_RENAME(from_stream);
+
+    TiledInputFile(const Imf::TiledInputFile& rhs);
+    TiledInputFile(Imf::TiledInputFile&& rhs) CPPMM_IGNORE;
+
+    Imf::TiledInputFile& operator=(const Imf::TiledInputFile& rhs);
 
     IMF_EXPORT
     virtual ~TiledInputFile();

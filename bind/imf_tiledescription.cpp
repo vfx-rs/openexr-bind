@@ -16,7 +16,8 @@ struct TileDescription {
 
     TileDescription(unsigned int xs, unsigned int ys, Imf::LevelMode m,
                     Imf::LevelRoundingMode r);
-    bool operator==(const Imf::TileDescription& other);
+
+    bool operator==(const Imf::TileDescription& other) const;
 
 } CPPMM_VALUETYPE;
 

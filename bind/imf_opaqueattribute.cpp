@@ -22,6 +22,9 @@ struct OpaqueAttribute {
     IMF_EXPORT
     virtual const char* typeName() const;
 
+    static Imf::Attribute* newAttribute(const char* typeName);
+    static bool knownType(const char* typeName);
+
     IMF_EXPORT
     virtual Imf::Attribute* copy() const;
 
@@ -34,8 +37,10 @@ struct OpaqueAttribute {
     IMF_EXPORT
     virtual void copyValueFrom(const Imf::Attribute& other);
 
-    int dataSize();
+    int dataSize() const;
     const Imf::Array<char>& data() const;
+
+    Imf::OpaqueAttribute& operator=(const Imf::OpaqueAttribute& rhs);
 
 } CPPMM_OPAQUEBYTES;
 

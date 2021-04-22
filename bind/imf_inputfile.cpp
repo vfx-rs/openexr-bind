@@ -60,6 +60,13 @@ struct InputFile {
 
 } CPPMM_OPAQUEBYTES;
 
+class IMF_EXPORT_TYPE GenericInputFile {
+public:
+    using BoundType = Imf::GenericInputFile;
+    CPPMM_COPY(Imf, GenericInputFile);
+    virtual ~GenericInputFile();
+};
+
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 
 } // namespace cppmm_bind

@@ -10,6 +10,7 @@
 #include <OpenEXR/ImfKeyCodeAttribute.h>
 #include <OpenEXR/ImfLineOrderAttribute.h>
 #include <OpenEXR/ImfMatrixAttribute.h>
+#include <OpenEXR/ImfOpaqueAttribute.h>
 #include <OpenEXR/ImfPreviewImageAttribute.h>
 #include <OpenEXR/ImfRationalAttribute.h>
 #include <OpenEXR/ImfStringAttribute.h>
@@ -41,26 +42,56 @@ public:
 
     virtual void copyValueFrom(const Imf::Attribute& other) = 0;
 
-    IMF_EXPORT
-    static Imf::Attribute* newAttribute(const char typeName[]);
+    static Imf::Attribute* newAttribute(const char* typeName);
+    static bool knownType(const char* typeName);
 
-    IMF_EXPORT
-    static bool knownType(const char typeName[]);
+    Attribute();
+    CPPMM_COPY(Imf, Attribute)
 
 } CPPMM_OPAQUEPTR;
 
-template <class T> class TypedAttribute : public Attribute {
+class OpaqueAttribute {
+public:
+    using BoundType = Imf::OpaqueAttribute;
+
+    virtual const char* typeName() const = 0;
+    virtual Imf::Attribute* copy() const = 0;
+
+    virtual void writeValueTo(Imf::OStream& os, int version) const = 0;
+
+    virtual void readValueFrom(Imf::IStream& is, int size, int version) = 0;
+
+    virtual void copyValueFrom(const Imf::Attribute& other) = 0;
+
+    static Imf::Attribute* newAttribute(const char* typeName);
+    static bool knownType(const char* typeName);
+
+    int dataSize() const;
+    const Imf::Array<char>& data() const;
+
+    OpaqueAttribute(const char* typeName) CPPMM_RENAME(from_typeName);
+
+    CPPMM_COPY(Imf, OpaqueAttribute)
+
+} CPPMM_OPAQUEPTR;
+
+template <class T> class TypedAttribute {
 public:
     using BoundType = Imf::TypedAttribute<T>;
 
     TypedAttribute() CPPMM_RENAME(ctor);
     TypedAttribute(const T& value) CPPMM_RENAME(from_value);
-    TypedAttribute(const TypedAttribute<T>& other) CPPMM_RENAME(ctor_copy);
 
     virtual ~TypedAttribute() CPPMM_RENAME(dtor);
 
-    Imf::TypedAttribute<T>& operator=(const TypedAttribute<T>& other)
+    TypedAttribute(const Imf::TypedAttribute<T>& other) CPPMM_RENAME(ctor_copy);
+    TypedAttribute(Imf::TypedAttribute<T>&& other) CPPMM_IGNORE;
+
+    Imf::TypedAttribute<T>& operator=(const Imf::TypedAttribute<T>& other)
         CPPMM_RENAME(assign);
+
+    // Imf::TypedAttribute<T>&
+    // operator=(Imf::TypedAttribute<T>&& other) CPPMM_IGNORE;
 
     T& value();
     const T& value() const CPPMM_RENAME(value_const);
@@ -70,19 +101,25 @@ public:
     static Imf::Attribute* makeNewAttribute();
     virtual Imf::Attribute* copy() const;
 
+    static Imf::Attribute* newAttribute(const char* typeName);
+    static bool knownType(const char* typeName);
+
     virtual void writeValueTo(Imf::OStream& os, int version) const;
 
     virtual void readValueFrom(Imf::IStream& is, int size, int version);
 
-    virtual void copyValueFrom(const Attribute& other);
+    virtual void copyValueFrom(const Imf::Attribute& other);
 
-    static Imf::TypedAttribute<T>* cast(Attribute* attribute)
+    static Imf::TypedAttribute<T>* cast(Imf::Attribute* attribute)
         CPPMM_RENAME(cast_ptr) CPPMM_THROWS(Iex::TypeExc, IEX_INVALID_TYPE);
+
     static const Imf::TypedAttribute<T>* cast(const Imf::Attribute* attribute)
         CPPMM_RENAME(cast_ptr_const)
             CPPMM_THROWS(Iex::TypeExc, IEX_INVALID_TYPE);
-    static Imf::TypedAttribute<T>& cast(Attribute& attribute) CPPMM_RENAME(cast)
-        CPPMM_THROWS(Iex::TypeExc, IEX_INVALID_TYPE);
+
+    static Imf::TypedAttribute<T>& cast(Imf::Attribute& attribute)
+        CPPMM_RENAME(cast) CPPMM_THROWS(Iex::TypeExc, IEX_INVALID_TYPE);
+
     static const Imf::TypedAttribute<T>& cast(const Imf::Attribute& attribute)
         CPPMM_RENAME(cast_const) CPPMM_THROWS(Iex::TypeExc, IEX_INVALID_TYPE);
 
@@ -179,47 +216,10 @@ using V3dAttribute = Imf::TypedAttribute<Imath::V3d>;
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 
-namespace std {
-
-template <typename T> struct vector {
-    using BoundType = ::std::vector<T>;
-} CPPMM_OPAQUEBYTES;
-
-template class vector<float>;
-using vector_float = std::vector<float>;
-
-} // namespace std
-
 } // namespace cppmm_bind
 
 template class Imf::TypedAttribute<int>;
 template class Imf::TypedAttribute<float>;
 template class Imf::TypedAttribute<double>;
-template class Imf::TypedAttribute<Imath::Box2i>;
-template class Imf::TypedAttribute<Imath::Box2f>;
-template class Imf::TypedAttribute<Imf::ChannelList>;
-template class Imf::TypedAttribute<Imf::Chromaticities>;
-template class Imf::TypedAttribute<Imf::Compression>;
-template class Imf::TypedAttribute<Imf::DeepImageState>;
-template class Imf::TypedAttribute<Imf::Envmap>;
-template class Imf::TypedAttribute<Imf::KeyCode>;
-template class Imf::TypedAttribute<Imf::LineOrder>;
-template class Imf::TypedAttribute<Imath::M33f>;
-template class Imf::TypedAttribute<Imath::M33d>;
-template class Imf::TypedAttribute<Imath::M44f>;
-template class Imf::TypedAttribute<Imath::M44d>;
-template class Imf::TypedAttribute<Imf::PreviewImage>;
-template class Imf::TypedAttribute<Imf::Rational>;
-template class Imf::TypedAttribute<Imf::TimeCode>;
-template class Imf::TypedAttribute<Imf::TileDescription>;
-template class Imf::TypedAttribute<std::vector<float>>;
-template class Imf::TypedAttribute<std::vector<std::string>>;
-template class Imf::TypedAttribute<std::string>;
-template class Imf::TypedAttribute<Imath::V2i>;
-template class Imf::TypedAttribute<Imath::V2f>;
-template class Imf::TypedAttribute<Imath::V2d>;
-template class Imf::TypedAttribute<Imath::V3i>;
-template class Imf::TypedAttribute<Imath::V3f>;
-template class Imf::TypedAttribute<Imath::V3d>;
 
-template class std::vector<float>;
+extern template Imf::TypedAttribute<Imath::Box2i>::TypedAttribute();

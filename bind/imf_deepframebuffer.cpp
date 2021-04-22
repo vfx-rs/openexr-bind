@@ -15,22 +15,42 @@ struct DeepSlice {
               size_t sampleStride, int xSampling, int ySampling,
               double fillValue, bool xTileCoords, bool yTileCoords);
 
-    DeepSlice(const Imf::DeepSlice & rhs);
+    DeepSlice(const Imf::DeepSlice& rhs);
+    DeepSlice(Imf::DeepSlice&& rhs) CPPMM_IGNORE;
+
+    IMF_EXPORT
+    static Imf::Slice Make(Imf::PixelType type, const void* ptr,
+                           const Imath::V2i& origin, int64_t w, int64_t h,
+                           size_t xStride, size_t yStride, int xSampling,
+                           int ySampling, double fillValue, bool xTileCoords,
+                           bool yTileCoords) CPPMM_IGNORE;
+
+    IMF_EXPORT
+    static Imf::Slice Make(Imf::PixelType type, const void* ptr,
+                           const Imath::Box2i& dataWindow, size_t xStride,
+                           size_t yStride, int xSampling, int ySampling,
+                           double fillValue, bool xTileCoords,
+                           bool yTileCoords);
+
+    ~DeepSlice();
+
 } CPPMM_VALUETYPE;
 
 struct DeepFrameBuffer {
     using BoundType = Imf::DeepFrameBuffer;
 
-    IMF_EXPORT
-    void insert(const char name[], const Imf::DeepSlice& slice);
+    DeepFrameBuffer();
 
-    IMF_EXPORT
+    DeepFrameBuffer(const Imf::DeepFrameBuffer& rhs);
+    DeepFrameBuffer(Imf::DeepFrameBuffer&& rhs) CPPMM_IGNORE;
+
+    ~DeepFrameBuffer();
+
+    void insert(const char name[], const Imf::DeepSlice& slice);
     void insert(const std::string& name,
                 const Imf::DeepSlice& slice) CPPMM_IGNORE;
 
-    IMF_EXPORT
     Imf::DeepSlice& operator[](const char name[]);
-    IMF_EXPORT
     const Imf::DeepSlice& operator[](const char name[]) const;
 
     IMF_EXPORT
@@ -81,18 +101,14 @@ struct DeepFrameBuffer {
 
     struct Iterator {
         using BoundType = Imf::DeepFrameBuffer::Iterator;
-        IMF_EXPORT
         Iterator();
-        IMF_EXPORT
         Iterator(const Imf::DeepFrameBuffer::SliceMap::iterator& i)
             CPPMM_IGNORE;
-        IMF_EXPORT
         Iterator(const Imf::DeepFrameBuffer::Iterator& rhs);
+        Iterator(Imf::DeepFrameBuffer::Iterator&& rhs) CPPMM_IGNORE;
 
-        IMF_EXPORT
-        Iterator& operator++();
-        IMF_EXPORT
-        Iterator operator++(int) CPPMM_IGNORE;
+        Imf::DeepFrameBuffer::Iterator& operator++();
+        Imf::DeepFrameBuffer::Iterator operator++(int) CPPMM_IGNORE;
 
         IMF_EXPORT
         const char* name() const;
@@ -103,23 +119,19 @@ struct DeepFrameBuffer {
 
     struct ConstIterator {
         using BoundType = Imf::DeepFrameBuffer::ConstIterator;
-        IMF_EXPORT
         ConstIterator();
-        IMF_EXPORT
-        ConstIterator(const Imf::DeepFrameBuffer::SliceMap::iterator& i)
+        ConstIterator(const Imf::DeepFrameBuffer::SliceMap::const_iterator& i)
             CPPMM_IGNORE;
-        IMF_EXPORT
         ConstIterator(const Imf::DeepFrameBuffer::ConstIterator& rhs);
+        ConstIterator(const Imf::DeepFrameBuffer::Iterator& rhs)
+            CPPMM_RENAME(from_mut);
+        ConstIterator(Imf::DeepFrameBuffer::ConstIterator&& rhs) CPPMM_IGNORE;
 
-        IMF_EXPORT
-        ConstIterator& operator++();
-        IMF_EXPORT
-        ConstIterator operator++(int) CPPMM_IGNORE;
+        Imf::DeepFrameBuffer::ConstIterator& operator++();
+        Imf::DeepFrameBuffer::ConstIterator operator++(int) CPPMM_IGNORE;
 
-        IMF_EXPORT
         const char* name() const;
-        IMF_EXPORT
-        Imf::DeepSlice& slice() const;
+        const Imf::DeepSlice& slice() const;
 
     } CPPMM_OPAQUEBYTES;
 

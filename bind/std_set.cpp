@@ -16,7 +16,7 @@ public:
     set();
     ~set();
 
-} CPPMM_OPAQUEBYTES;
+} CPPMM_OPAQUEBYTES CPPMM_IGNORE_UNBOUND;
 
 // explicit instantiation
 template class set<::std::string>;

@@ -19,8 +19,12 @@ struct Name {
     IMF_EXPORT
     Imf::Name& operator=(const char text[]);
 
-    inline const char* text();
-    inline const char* operator*();
+    CPPMM_COPY(Imf, Name)
+    Name(Imf::Name&& rhs);
+    ~Name();
+
+    const char* text() const;
+    const char* operator*() const CPPMM_IGNORE;
 
     static const int SIZE = 256;
     static const int MAX_LENGTH = SIZE - 1;

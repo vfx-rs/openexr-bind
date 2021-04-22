@@ -24,6 +24,9 @@ struct DeepCompositing {
     virtual void sort(int order[], const float* inputs[],
                       const char* channel_names[], int num_channels,
                       int num_samples, int sources);
+
+    Imf::DeepCompositing& operator=(const Imf::DeepCompositing& rhs);
+
 } CPPMM_OPAQUEBYTES;
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE

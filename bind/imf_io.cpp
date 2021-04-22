@@ -15,9 +15,9 @@ struct OStream {
     virtual ~OStream();
 
     virtual void write(const char c[/*n*/], int n) = 0;
-    virtual Imf::Int64 tellp() = 0;
+    virtual uint64_t tellp() = 0;
 
-    virtual void seekp(Imf::Int64 pos) = 0;
+    virtual void seekp(uint64_t pos) = 0;
 
     IMF_EXPORT
     const char* fileName() const;
@@ -38,9 +38,9 @@ struct IStream {
     IMF_EXPORT
     virtual char* readMemoryMapped(int n);
 
-    virtual Imf::Int64 tellg() = 0;
+    virtual uint64_t tellg() = 0;
 
-    virtual void seekg(Imf::Int64 pos) = 0;
+    virtual void seekg(uint64_t pos) = 0;
 
     IMF_EXPORT
     virtual void clear();

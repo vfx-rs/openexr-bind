@@ -1,4 +1,4 @@
-#include <OpenEXR/ImathMatrix.h>
+#include <Imath/ImathMatrix.h>
 
 #include <vector>
 
@@ -10,6 +10,7 @@ namespace cppmm_bind {
 namespace IMATH_INTERNAL_NAMESPACE {
 
 namespace Imath = ::IMATH_INTERNAL_NAMESPACE;
+
 enum Uninitialized { UNINITIALIZED };
 
 template <class T> class Matrix33 {
@@ -44,10 +45,12 @@ public:
     // g h i
 
     Matrix33(const Imath::Matrix33<T>& v);
+
+    Imath::Matrix33<T>& operator=(const Imath::Matrix33<T>& v);
+
     template <class S>
     explicit Matrix33(const Imath::Matrix33<S>& v) CPPMM_IGNORE;
 
-    const Imath::Matrix33<T>& operator=(const Imath::Matrix33<T>& v);
     const Imath::Matrix33<T>& operator=(T a) CPPMM_IGNORE;
 
     ~Matrix33() = default;
@@ -99,13 +102,17 @@ public:
     const Imath::Matrix33<T>& transpose();
     Imath::Matrix33<T> transposed() const;
 
-    const Imath::Matrix33<T>& invert(bool singExc = false);
+    const Imath::Matrix33<T>& invert(bool singExc = false) CPPMM_IGNORE;
+    const Imath::Matrix33<T>& invert();
 
-    Imath::Matrix33<T> inverse(bool singExc = false) const;
+    Imath::Matrix33<T> inverse(bool singExc = false) const CPPMM_IGNORE;
+    Imath::Matrix33<T> inverse() const;
 
-    const Imath::Matrix33<T>& gjInvert(bool singExc = false);
+    const Imath::Matrix33<T>& gjInvert(bool singExc = false) CPPMM_IGNORE;
+    const Imath::Matrix33<T>& gjInvert();
 
-    Imath::Matrix33<T> gjInverse(bool singExc = false) const;
+    Imath::Matrix33<T> gjInverse(bool singExc = false) const CPPMM_IGNORE;
+    Imath::Matrix33<T> gjInverse() const;
 
     T minorOf(const int r, const int c) const;
     T fastMinor(const int r0, const int r1, const int c0, const int c1) const;
@@ -132,7 +139,7 @@ public:
 
     static unsigned int dimensions();
 
-    static T baseTypeMin();
+    static T baseTypeLowest();
     static T baseTypeMax();
     static T baseTypeSmallest();
     static T baseTypeEpsilon();
@@ -203,9 +210,11 @@ public:
     //--------------------------------
 
     Matrix44(const Imath::Matrix44<T>& v);
-    template <class S> explicit Matrix44(const Matrix44<S>& v) CPPMM_IGNORE;
 
     const Imath::Matrix44<T>& operator=(const Imath::Matrix44<T>& v);
+
+    template <class S> explicit Matrix44(const Matrix44<S>& v) CPPMM_IGNORE;
+
     const Imath::Matrix44<T>& operator=(T a) CPPMM_IGNORE;
 
     T* getValue();
@@ -259,10 +268,15 @@ public:
     const Imath::Matrix44<T>& transpose();
     Imath::Matrix44<T> transposed() const;
 
-    const Imath::Matrix44<T>& invert(bool singExc = false);
-    Imath::Matrix44<T> inverse(bool singExc = false) const;
-    const Imath::Matrix44<T>& gjInvert(bool singExc = false);
-    Imath::Matrix44<T> gjInverse(bool singExc = false) const;
+    const Imath::Matrix44<T>& invert(bool singExc = false) CPPMM_IGNORE;
+    Imath::Matrix44<T> inverse(bool singExc = false) const CPPMM_IGNORE;
+    const Imath::Matrix44<T>& gjInvert(bool singExc = false) CPPMM_IGNORE;
+    Imath::Matrix44<T> gjInverse(bool singExc = false) const CPPMM_IGNORE;
+
+    const Imath::Matrix44<T>& invert();
+    Imath::Matrix44<T> inverse() const;
+    const Imath::Matrix44<T>& gjInvert();
+    Imath::Matrix44<T> gjInverse() const;
 
     T minorOf(const int r, const int c) const;
 
@@ -305,7 +319,7 @@ public:
     template <class S>
     const Imath::Matrix44<T>& shear(const Imath::Shear6<S>& h) CPPMM_IGNORE;
 
-    static T baseTypeMin();
+    static T baseTypeLowest();
     static T baseTypeMax();
     static T baseTypeSmallest();
     static T baseTypeEpsilon();

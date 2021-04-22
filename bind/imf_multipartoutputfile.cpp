@@ -35,7 +35,8 @@ struct MultiPartOutputFile {
     IMF_EXPORT
     const Imf::Header& header(int n) const;
 
-    IMF_EXPORT
+    CPPMM_COPY(Imf, MultiPartOutputFile);
+    MultiPartOutputFile(Imf::MultiPartOutputFile&& rhs);
     ~MultiPartOutputFile();
 
 } CPPMM_OPAQUEBYTES;

@@ -11,15 +11,13 @@ namespace Imf = ::OPENEXR_IMF_INTERNAL_NAMESPACE;
 struct SampleCountChannel {
     using BoundType = Imf::SampleCountChannel;
 
-    IMFUTIL_EXPORT
+    CPPMM_COPY(Imf, SampleCountChannel)
+
     virtual Imf::PixelType pixelType() const;
 
-    IMFUTIL_EXPORT
     Imf::Slice slice() const;
 
-    IMFUTIL_EXPORT
     Imf::DeepImageLevel& deepLevel();
-    IMFUTIL_EXPORT
     const Imf::DeepImageLevel& deepLevel() const;
 
     IMFUTIL_EXPORT
@@ -55,12 +53,26 @@ struct SampleCountChannel {
     IMFUTIL_EXPORT
     size_t sampleBufferSize() const;
 
+    Imf::Channel channel() const;
+    int xSampling() const;
+    int ySampling() const;
+    bool pLinear() const;
+    int pixelsPerRow() const;
+    int pixelsPerColumn() const;
+    unsigned long numPixels() const;
+    Imf::ImageLevel& level();
+    const Imf::ImageLevel& level() const;
+
     struct Edit {
         using BoundType = Imf::SampleCountChannel::Edit;
 
-        IMFUTIL_EXPORT
+        Edit(const Imf::SampleCountChannel::Edit& level);
+        Edit(Imf::SampleCountChannel::Edit&& level) CPPMM_IGNORE;
+
+        Imf::SampleCountChannel::Edit&
+        operator=(const Imf::SampleCountChannel::Edit& level);
+
         Edit(Imf::SampleCountChannel& level);
-        IMFUTIL_EXPORT
         ~Edit();
 
         IMFUTIL_EXPORT

@@ -1,4 +1,4 @@
-#include <OpenEXR/ImathBox.h>
+#include <Imath/ImathBox.h>
 
 #include <cppmm_bind.hpp>
 
@@ -18,20 +18,24 @@ public:
     Box();
     Box(const V& point);
     Box(const V& minV, const V& maxV);
-    Box(const ::Imath::Box<V>& rhs);
 
-    bool operator==(const Box<V>& src) const;
-    bool operator!=(const Box<V>& src) const;
+    Box(const ::Imath::Box<V>& rhs);
+    Box(::Imath::Box<V>&& rhs);
+
+    ~Box();
+
+    bool operator==(const Imath::Box<V>& src) const;
+    bool operator!=(const Imath::Box<V>& src) const;
 
     void makeEmpty();
     void extendBy(const V& point);
-    void extendBy(const Box<V>& box);
+    void extendBy(const Imath::Box<V>& box);
     void makeInfinite();
 
     V size() const;
     V center() const;
     bool intersects(const V& point) const;
-    bool intersects(const Box<V>& box) const;
+    bool intersects(const Imath::Box<V>& box) const;
 
     unsigned int majorAxis() const;
 

@@ -50,6 +50,8 @@ struct MultiPartInputFile {
     IMF_EXPORT
     bool partComplete(int part) const;
 
+    void flushPartCache();
+
 } CPPMM_OPAQUEBYTES;
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE

@@ -6,19 +6,21 @@ set -e
 # keep track of the last executed command
 trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
 # echo an error message before exiting
-trap 'echo "\"${last_command}\" exited with code $?."' EXIT
+trap 'echo "\"${last_command}\" exited with code $?."' ERR
 
-rm -rf build/ast build/openexr-c build/openexr-sys
+rm -rf build
 
-astgen bind -v 1 -o build/ast -- \
+astgen bind -v 1 -u -o build/ast -- \
+    -I${IMATH_ROOT}/include \
+    -I${IMATH_ROOT}/include/Imath \
     -I${OPENEXR_ROOT}/include \
     -I${OPENEXR_ROOT}/include/OpenEXR 
 
 asttoc build/ast -o build -p openexr \
-    -major 2 -minor 5 -patch 5 \
+    -major 3 -minor 0 -patch 1 \
     -L $OPENEXR_ROOT/lib \
-    -l IlmImf-2_5 \
-    -l IlmImfUtil-2_5
+    -l IlmImf-3_0 \
+    -l IlmImfUtil-3_0
 
 cp test.rs build/openexr-sys/src
 

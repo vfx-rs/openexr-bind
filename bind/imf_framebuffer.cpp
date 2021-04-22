@@ -11,39 +11,40 @@ namespace Imf = ::OPENEXR_IMF_INTERNAL_NAMESPACE;
 struct Slice {
     using BoundType = Imf::Slice;
 
-    IMF_EXPORT
-    Slice(Imf::PixelType type, char* base = 0, size_t xStride = 0,
-          size_t yStride = 0, int xSampling = 1, int ySampling = 1,
-          double fillValue = 0.0, bool xTileCoords = false,
-          bool yTileCoords = false);
-
-    IMF_EXPORT
-    Slice(const Imf::Slice & rhs);
+    Slice(Imf::PixelType type, char* base, size_t xStride, size_t yStride,
+          int xSampling, int ySampling, double fillValue, bool xTileCoords,
+          bool yTileCoords);
 
     IMF_EXPORT
     static Imf::Slice Make(Imf::PixelType type, const void* ptr,
-                           const IMATH_NAMESPACE::V2i& origin, int64_t w,
-                           int64_t h, size_t xStride = 0, size_t yStride = 0,
-                           int xSampling = 1, int ySampling = 1,
-                           double fillValue = 0.0, bool xTileCoords = false,
-                           bool yTileCoords = false) CPPMM_IGNORE;
+                           const Imath::V2i& origin, int64_t w, int64_t h,
+                           size_t xStride, size_t yStride, int xSampling,
+                           int ySampling, double fillValue, bool xTileCoords,
+                           bool yTileCoords) CPPMM_IGNORE;
 
     IMF_EXPORT
     static Imf::Slice Make(Imf::PixelType type, const void* ptr,
-                           const IMATH_NAMESPACE::Box2i& dataWindow,
-                           size_t xStride = 0, size_t yStride = 0,
-                           int xSampling = 1, int ySampling = 1,
-                           double fillValue = 0.0, bool xTileCoords = false,
-                           bool yTileCoords = false);
+                           const Imath::Box2i& dataWindow, size_t xStride,
+                           size_t yStride, int xSampling, int ySampling,
+                           double fillValue, bool xTileCoords,
+                           bool yTileCoords);
+
+    Slice(const Imf::Slice&);
+    Slice(Imf::Slice&&) CPPMM_IGNORE;
+    ~Slice();
+
 } CPPMM_VALUETYPE;
 
 struct FrameBuffer {
     using BoundType = Imf::FrameBuffer;
 
-    IMF_EXPORT
+    FrameBuffer();
+    FrameBuffer(const Imf::FrameBuffer&);
+    FrameBuffer(Imf::FrameBuffer&&) CPPMM_IGNORE;
+    ~FrameBuffer();
+
     void insert(const char name[], const Imf::Slice& slice);
 
-    IMF_EXPORT
     void insert(const std::string& name, const Imf::Slice& slice) CPPMM_IGNORE;
 
     IMF_EXPORT
@@ -93,13 +94,14 @@ struct FrameBuffer {
         Iterator();
         IMF_EXPORT
         Iterator(const Imf::FrameBuffer::SliceMap::iterator& i) CPPMM_IGNORE;
-        IMF_EXPORT
-        Iterator(const Imf::FrameBuffer::Iterator& rhs);
+
+        Iterator(const Imf::FrameBuffer::Iterator&);
+        Iterator(Imf::FrameBuffer::Iterator&&) CPPMM_IGNORE;
 
         IMF_EXPORT
-        Iterator& operator++();
+        Imf::FrameBuffer::Iterator& operator++();
         IMF_EXPORT
-        Iterator operator++(int) CPPMM_IGNORE;
+        Imf::FrameBuffer::Iterator operator++(int) CPPMM_IGNORE;
 
         IMF_EXPORT
         const char* name() const;
@@ -113,20 +115,23 @@ struct FrameBuffer {
         IMF_EXPORT
         ConstIterator();
         IMF_EXPORT
-        ConstIterator(const Imf::FrameBuffer::SliceMap::iterator& i)
+        ConstIterator(const Imf::FrameBuffer::SliceMap::const_iterator& i)
             CPPMM_IGNORE;
-        IMF_EXPORT
-        ConstIterator(const Imf::FrameBuffer::ConstIterator& rhs);
+
+        ConstIterator(const Imf::FrameBuffer::Iterator&) CPPMM_RENAME(from_mut);
+
+        ConstIterator(const Imf::FrameBuffer::ConstIterator&);
+        ConstIterator(Imf::FrameBuffer::ConstIterator&&) CPPMM_IGNORE;
 
         IMF_EXPORT
-        ConstIterator& operator++();
+        Imf::FrameBuffer::ConstIterator& operator++();
         IMF_EXPORT
-        ConstIterator operator++(int) CPPMM_IGNORE;
+        Imf::FrameBuffer::ConstIterator operator++(int) CPPMM_IGNORE;
 
         IMF_EXPORT
         const char* name() const;
         IMF_EXPORT
-        Imf::Slice& slice() const;
+        const Imf::Slice& slice() const;
 
     } CPPMM_OPAQUEBYTES;
 
