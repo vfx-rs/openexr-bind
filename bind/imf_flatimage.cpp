@@ -77,9 +77,6 @@ struct FlatImage {
               Imf::LevelMode levelMode,
               Imf::LevelRoundingMode levelRoundingMode);
 
-    CPPMM_COPY(Imf, FlatImage)
-
-    IMFUTIL_EXPORT
     virtual ~FlatImage();
 
     virtual Imf::FlatImageLevel& level(int l = 0) CPPMM_IGNORE;

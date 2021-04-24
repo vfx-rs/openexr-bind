@@ -13,9 +13,6 @@ struct HalfLut {
 
     template <class Function> HalfLut(Function f);
 
-    HalfLut(const Imf::HalfLut& rhs);
-    HalfLut(Imf::HalfLut&& rhs) CPPMM_IGNORE;
-
     ~HalfLut();
 
     IMF_EXPORT
@@ -31,9 +28,6 @@ struct RgbaLut {
     using BoundType = Imf::RgbaLut;
 
     template <class Function> RgbaLut(Function f, Imf::RgbaChannels chn);
-
-    RgbaLut(const Imf::RgbaLut& rhs);
-    RgbaLut(Imf::RgbaLut&& rhs) CPPMM_IGNORE;
 
     ~RgbaLut();
 

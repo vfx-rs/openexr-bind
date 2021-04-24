@@ -11,9 +11,6 @@ namespace Imf = ::OPENEXR_IMF_INTERNAL_NAMESPACE;
 struct DeepImage {
     using BoundType = Imf::DeepImage;
 
-    DeepImage(const Imf::DeepImage& rhs);
-    Imf::DeepImage& operator=(const Imf::DeepImage& rhs);
-
     // From Image
     IMFUTIL_EXPORT
     Imf::LevelMode levelMode() const;

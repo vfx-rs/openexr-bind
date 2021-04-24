@@ -11,8 +11,6 @@ namespace Imf = ::OPENEXR_IMF_INTERNAL_NAMESPACE;
 struct SampleCountChannel {
     using BoundType = Imf::SampleCountChannel;
 
-    CPPMM_COPY(Imf, SampleCountChannel)
-
     virtual Imf::PixelType pixelType() const;
 
     Imf::Slice slice() const;
@@ -66,12 +64,6 @@ struct SampleCountChannel {
     struct Edit {
         using BoundType = Imf::SampleCountChannel::Edit;
 
-        Edit(const Imf::SampleCountChannel::Edit& level);
-        Edit(Imf::SampleCountChannel::Edit&& level) CPPMM_IGNORE;
-
-        Imf::SampleCountChannel::Edit&
-        operator=(const Imf::SampleCountChannel::Edit& level);
-
         Edit(Imf::SampleCountChannel& level);
         ~Edit();
 
@@ -80,7 +72,7 @@ struct SampleCountChannel {
 
     } CPPMM_OPAQUEBYTES;
 
-} CPPMM_VALUETYPE;
+} CPPMM_OPAQUEBYTES;
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 

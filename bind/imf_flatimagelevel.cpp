@@ -20,9 +20,8 @@ struct FlatImageLevel {
 
     const IMATH_NAMESPACE::Box2i& dataWindow() const;
 
-    FlatImageLevel(const Imf::FlatImageLevel& rhs);
-
-    Imf::FlatImageLevel& operator=(const Imf::FlatImageLevel& rhs);
+    // FlatImageLevel(const Imf::FlatImageLevel& rhs);
+    // Imf::FlatImageLevel& operator=(const Imf::FlatImageLevel& rhs);
 
     IMFUTIL_EXPORT
     Imf::FlatImage& flatImage();

@@ -19,11 +19,11 @@ struct DeepScanLineInputFile {
 
     DeepScanLineInputFile(Imf::IStream& is, int numThreads);
 
-    DeepScanLineInputFile(const Imf::DeepScanLineInputFile& rhs);
-    Imf::DeepScanLineInputFile&
-    operator=(const Imf::DeepScanLineInputFile& rhs);
+    // DeepScanLineInputFile(const Imf::DeepScanLineInputFile& rhs);
+    // Imf::DeepScanLineInputFile&
+    // operator=(const Imf::DeepScanLineInputFile& rhs);
 
-    DeepScanLineInputFile(Imf::DeepScanLineInputFile&& rhs) CPPMM_IGNORE;
+    // DeepScanLineInputFile(Imf::DeepScanLineInputFile&& rhs) CPPMM_IGNORE;
 
     IMF_EXPORT virtual ~DeepScanLineInputFile();
     IMF_EXPORT

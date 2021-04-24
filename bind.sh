@@ -19,8 +19,8 @@ astgen bind -v 1 -u -o build/ast -- \
 asttoc build/ast -o build -p openexr \
     -major 3 -minor 0 -patch 1 \
     -L $OPENEXR_ROOT/lib \
-    -l IlmImf-3_0 \
-    -l IlmImfUtil-3_0
+    -l OpenEXR-3_0 \
+    -l OpenEXRUtil-3_0
 
 cp test.rs build/openexr-sys/src
 

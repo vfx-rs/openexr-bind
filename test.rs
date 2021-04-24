@@ -42,10 +42,10 @@ fn write_rgba1() {
         // allocate pixel storage
         let mut pixels = vec![
             Imf_Rgba_t {
-                r: half_t::default(),
-                g: half_t::default(),
-                b: half_t::default(),
-                a: half_t::default()
+                r: Imath_half_t::default(),
+                g: Imath_half_t::default(),
+                b: Imath_half_t::default(),
+                a: Imath_half_t::default()
             };
             256 * 128
         ];
@@ -57,10 +57,10 @@ fn write_rgba1() {
                 let v = y as f32 / height as f32;
 
                 let pix = &mut pixels[(y * width + x) as usize];
-                half_from_float(&mut pix.r, u);
-                half_from_float(&mut pix.g, v);
-                half_from_float(&mut pix.b, 0.0f32);
-                half_from_float(&mut pix.a, 1.0f32);
+                Imath_half_from_float(&mut pix.r, u);
+                Imath_half_from_float(&mut pix.g, v);
+                Imath_half_from_float(&mut pix.b, 0.0f32);
+                Imath_half_from_float(&mut pix.a, 1.0f32);
             }
         }
 
