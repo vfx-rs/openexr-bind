@@ -8,7 +8,8 @@ namespace OPENEXR_IMF_INTERNAL_NAMESPACE {
 
 namespace Imf = ::OPENEXR_IMF_INTERNAL_NAMESPACE;
 
-const Imf::Chromaticities& acesChromaticities();
+// FIXME: we fail to link this for some reason
+// const Imf::Chromaticities& acesChromaticities();
 
 class AcesOutputFile {
 public:

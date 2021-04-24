@@ -14,11 +14,6 @@ struct TiledInputFile {
     TiledInputFile(const char fileName[], int numThreads);
     TiledInputFile(Imf::IStream& is, int numThreads) CPPMM_RENAME(from_stream);
 
-    TiledInputFile(const Imf::TiledInputFile& rhs);
-    TiledInputFile(Imf::TiledInputFile&& rhs) CPPMM_IGNORE;
-
-    Imf::TiledInputFile& operator=(const Imf::TiledInputFile& rhs);
-
     IMF_EXPORT
     virtual ~TiledInputFile();
 

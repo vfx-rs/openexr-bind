@@ -27,7 +27,7 @@ public:
     Vec2(T a, T b);                             // (a b)
 
     Vec2(const Imath::Vec2<T>& v);
-    Imath::Vec2<T>& operator=(const Imath::Vec2<T>& v);
+    const Imath::Vec2<T>& operator=(const Imath::Vec2<T>& v);
 
     template <class S> Vec2(const Imath::Vec2<S>& v) CPPMM_IGNORE;
 
@@ -144,16 +144,16 @@ public:
     // is 0.0, the result is undefined.
     //----------------------------------------------------------------
 
-    T length() const;
-    T length2() const;
+    T length() const noexcept;
+    T length2() const noexcept;
 
-    const Imath::Vec2<T>& normalize(); // modifies *this
+    const Imath::Vec2<T>& normalize() noexcept; // modifies *this
     const Imath::Vec2<T>& normalizeExc();
-    const Imath::Vec2<T>& normalizeNonNull();
+    const Imath::Vec2<T>& normalizeNonNull() noexcept;
 
-    Imath::Vec2<T> normalized() const; // does not modify *this
+    Imath::Vec2<T> normalized() const noexcept; // does not modify *this
     Imath::Vec2<T> normalizedExc() const;
-    Imath::Vec2<T> normalizedNonNull() const;
+    Imath::Vec2<T> normalizedNonNull() const noexcept;
 
     //--------------------------------------------------------
     // Number of dimensions, i.e. number of elements in a Vec2
@@ -170,15 +170,18 @@ public:
     static T baseTypeSmallest();
     static T baseTypeEpsilon();
 
-} CPPMM_VALUETYPE;
+} CPPMM_VALUETYPE CPPMM_TRIVIALLY_COPYABLE;
 
 // explicit instantiation
 template class Vec2<short>;
 template class Vec2<int>;
+template class Vec2<int64_t>;
 template class Vec2<float>;
 template class Vec2<double>;
+
 using V2s = Imath::V2s;
 using V2i = Imath::V2i;
+using V2i64 = Imath::V2i64;
 using V2f = Imath::V2f;
 using V2d = Imath::V2d;
 
@@ -189,7 +192,7 @@ public:
 
     Vec3() noexcept;
     Vec3(const ::Imath::Vec3<T>& v);
-    Imath::Vec3<T>& operator=(const Imath::Vec3<T>& v);
+    const Imath::Vec3<T>& operator=(const Imath::Vec3<T>& v);
 
     T& operator[](int i) noexcept CPPMM_RENAME(index);
 
@@ -410,15 +413,17 @@ public:
     /// Return the number of dimensions, i.e. 3
     IMATH_HOSTDEVICE constexpr static unsigned int dimensions() noexcept;
 
-} CPPMM_VALUETYPE;
+} CPPMM_VALUETYPE CPPMM_TRIVIALLY_COPYABLE;
 
 // explicit instantiation
 template class Vec3<short>;
 template class Vec3<int>;
+template class Vec3<int64_t>;
 template class Vec3<float>;
 template class Vec3<double>;
 using V3s = Imath::V3s;
 using V3i = Imath::V3i;
+using V3i64 = Imath::V3i64;
 using V3f = Imath::V3f;
 using V3d = Imath::V3d;
 
@@ -428,7 +433,7 @@ public:
     using BoundType = Imath::Vec4<T>;
 
     Vec4(const ::Imath::Vec4<T>& v);
-    Imath::Vec4<T>& operator=(const ::Imath::Vec4<T>& v);
+    const Imath::Vec4<T>& operator=(const ::Imath::Vec4<T>& v);
 
     /// Element access by index.
     IMATH_HOSTDEVICE IMATH_CONSTEXPR14 T& operator[](int i) noexcept
@@ -610,17 +615,129 @@ public:
     /// Return the number of dimensions, i.e. 4
     IMATH_HOSTDEVICE constexpr static unsigned int dimensions() noexcept;
 
-} CPPMM_VALUETYPE;
+} CPPMM_VALUETYPE CPPMM_TRIVIALLY_COPYABLE;
 
 // explicit instantiation
 template class Vec4<short>;
 template class Vec4<int>;
+template class Vec4<int64_t>;
 template class Vec4<float>;
 template class Vec4<double>;
 using V4s = Imath::V4s;
-using V4i = Imath::V4i;
+using V4i64 = Imath::V4i64;
 using V4f = Imath::V4f;
 using V4d = Imath::V4d;
+
+// Vec2<short>
+template <> short Vec2<short>::length() const noexcept = delete;
+template <>
+const Imath::Vec2<short>& Vec2<short>::normalize() noexcept = delete;
+template <> const Imath::Vec2<short>& Vec2<short>::normalizeExc() = delete;
+template <>
+const Imath::Vec2<short>& Vec2<short>::normalizeNonNull() noexcept = delete;
+template <>
+Imath::Vec2<short> Vec2<short>::normalized() const noexcept = delete;
+template <> Imath::Vec2<short> Vec2<short>::normalizedExc() const = delete;
+template <>
+Imath::Vec2<short> Vec2<short>::normalizedNonNull() const noexcept = delete;
+
+// Vec2<int>
+template <> int Vec2<int>::length() const noexcept = delete;
+template <> const Imath::Vec2<int>& Vec2<int>::normalize() noexcept = delete;
+template <> const Imath::Vec2<int>& Vec2<int>::normalizeExc() = delete;
+template <>
+const Imath::Vec2<int>& Vec2<int>::normalizeNonNull() noexcept = delete;
+template <> Imath::Vec2<int> Vec2<int>::normalized() const noexcept = delete;
+template <> Imath::Vec2<int> Vec2<int>::normalizedExc() const = delete;
+template <>
+Imath::Vec2<int> Vec2<int>::normalizedNonNull() const noexcept = delete;
+
+// Vec2<int64_t>
+template <> int64_t Vec2<int64_t>::length() const noexcept = delete;
+template <>
+const Imath::Vec2<int64_t>& Vec2<int64_t>::normalize() noexcept = delete;
+template <> const Imath::Vec2<int64_t>& Vec2<int64_t>::normalizeExc() = delete;
+template <>
+const Imath::Vec2<int64_t>& Vec2<int64_t>::normalizeNonNull() noexcept = delete;
+template <>
+Imath::Vec2<int64_t> Vec2<int64_t>::normalized() const noexcept = delete;
+template <> Imath::Vec2<int64_t> Vec2<int64_t>::normalizedExc() const = delete;
+template <>
+Imath::Vec2<int64_t> Vec2<int64_t>::normalizedNonNull() const noexcept = delete;
+
+// Vec3<short>
+template <> short Vec3<short>::length() const noexcept = delete;
+template <>
+const Imath::Vec3<short>& Vec3<short>::normalize() noexcept = delete;
+template <> const Imath::Vec3<short>& Vec3<short>::normalizeExc() = delete;
+template <>
+const Imath::Vec3<short>& Vec3<short>::normalizeNonNull() noexcept = delete;
+template <>
+Imath::Vec3<short> Vec3<short>::normalized() const noexcept = delete;
+template <> Imath::Vec3<short> Vec3<short>::normalizedExc() const = delete;
+template <>
+Imath::Vec3<short> Vec3<short>::normalizedNonNull() const noexcept = delete;
+
+// Vec3<int>
+template <> int Vec3<int>::length() const noexcept = delete;
+template <> const Imath::Vec3<int>& Vec3<int>::normalize() noexcept = delete;
+template <> const Imath::Vec3<int>& Vec3<int>::normalizeExc() = delete;
+template <>
+const Imath::Vec3<int>& Vec3<int>::normalizeNonNull() noexcept = delete;
+template <> Imath::Vec3<int> Vec3<int>::normalized() const noexcept = delete;
+template <> Imath::Vec3<int> Vec3<int>::normalizedExc() const = delete;
+template <>
+Imath::Vec3<int> Vec3<int>::normalizedNonNull() const noexcept = delete;
+
+// Vec3<int64_t>
+template <> int64_t Vec3<int64_t>::length() const noexcept = delete;
+template <>
+const Imath::Vec3<int64_t>& Vec3<int64_t>::normalize() noexcept = delete;
+template <> const Imath::Vec3<int64_t>& Vec3<int64_t>::normalizeExc() = delete;
+template <>
+const Imath::Vec3<int64_t>& Vec3<int64_t>::normalizeNonNull() noexcept = delete;
+template <>
+Imath::Vec3<int64_t> Vec3<int64_t>::normalized() const noexcept = delete;
+template <> Imath::Vec3<int64_t> Vec3<int64_t>::normalizedExc() const = delete;
+template <>
+Imath::Vec3<int64_t> Vec3<int64_t>::normalizedNonNull() const noexcept = delete;
+
+// Vec4<short>
+template <> short Vec4<short>::length() const noexcept = delete;
+template <>
+const Imath::Vec4<short>& Vec4<short>::normalize() noexcept = delete;
+template <> const Imath::Vec4<short>& Vec4<short>::normalizeExc() = delete;
+template <>
+const Imath::Vec4<short>& Vec4<short>::normalizeNonNull() noexcept = delete;
+template <>
+Imath::Vec4<short> Vec4<short>::normalized() const noexcept = delete;
+template <> Imath::Vec4<short> Vec4<short>::normalizedExc() const = delete;
+template <>
+Imath::Vec4<short> Vec4<short>::normalizedNonNull() const noexcept = delete;
+
+// Vec4<int>
+template <> int Vec4<int>::length() const noexcept = delete;
+template <> const Imath::Vec4<int>& Vec4<int>::normalize() noexcept = delete;
+template <> const Imath::Vec4<int>& Vec4<int>::normalizeExc() = delete;
+template <>
+const Imath::Vec4<int>& Vec4<int>::normalizeNonNull() noexcept = delete;
+template <> Imath::Vec4<int> Vec4<int>::normalized() const noexcept = delete;
+template <> Imath::Vec4<int> Vec4<int>::normalizedExc() const = delete;
+template <>
+Imath::Vec4<int> Vec4<int>::normalizedNonNull() const noexcept = delete;
+
+// Vec4<int64_t>
+template <> int64_t Vec4<int64_t>::length() const noexcept = delete;
+template <>
+const Imath::Vec4<int64_t>& Vec4<int64_t>::normalize() noexcept = delete;
+template <> const Imath::Vec4<int64_t>& Vec4<int64_t>::normalizeExc() = delete;
+template <>
+const Imath::Vec4<int64_t>& Vec4<int64_t>::normalizeNonNull() noexcept = delete;
+template <>
+Imath::Vec4<int64_t> Vec4<int64_t>::normalized() const noexcept = delete;
+template <> Imath::Vec4<int64_t> Vec4<int64_t>::normalizedExc() const = delete;
+template <>
+Imath::Vec4<int64_t> Vec4<int64_t>::normalizedNonNull() const noexcept = delete;
 
 } // namespace IMATH_INTERNAL_NAMESPACE
 } // namespace cppmm_bind

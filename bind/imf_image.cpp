@@ -13,10 +13,6 @@ struct Image {
 
     Image();
 
-    Image(const Imf::Image& rhs);
-
-    Imf::Image& operator=(const Imf::Image& rhs);
-
     virtual ~Image();
 
     // inherited from Image

@@ -62,7 +62,7 @@ struct KeyCode {
     IMF_EXPORT
     void setPerfsPerCount(int perfsPerCount);
 
-} CPPMM_VALUETYPE;
+} CPPMM_OPAQUEBYTES;
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 

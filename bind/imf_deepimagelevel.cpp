@@ -11,8 +11,6 @@ namespace Imf = ::OPENEXR_IMF_INTERNAL_NAMESPACE;
 struct DeepImageLevel {
     using BoundType = Imf::DeepImageLevel;
 
-    CPPMM_COPY(Imf, DeepImageLevel)
-
     // Inherited from ImageLevel
     Imf::Image& image();
     const Imf::Image& image() const CPPMM_RENAME(image_const);

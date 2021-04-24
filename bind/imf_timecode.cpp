@@ -114,7 +114,7 @@ struct TimeCode {
     bool operator==(const Imf::TimeCode& v) const;
     IMF_EXPORT
     bool operator!=(const Imf::TimeCode& v) const;
-} CPPMM_VALUETYPE;
+} CPPMM_OPAQUEBYTES;
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 

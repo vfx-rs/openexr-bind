@@ -46,7 +46,8 @@ public:
 
     Matrix33(const Imath::Matrix33<T>& v);
 
-    Imath::Matrix33<T>& operator=(const Imath::Matrix33<T>& v);
+    // Imath::Matrix33<T>& operator=(const Imath::Matrix33<T>& v);
+    const Imath::Matrix33<T>& operator=(const Imath::Matrix33<T>& v);
 
     template <class S>
     explicit Matrix33(const Imath::Matrix33<S>& v) CPPMM_IGNORE;
@@ -144,7 +145,7 @@ public:
     static T baseTypeSmallest();
     static T baseTypeEpsilon();
 
-} CPPMM_VALUETYPE;
+} CPPMM_VALUETYPE CPPMM_TRIVIALLY_COPYABLE;
 
 // explicit instantiation
 template class Matrix33<float>;
@@ -324,7 +325,7 @@ public:
     static T baseTypeSmallest();
     static T baseTypeEpsilon();
 
-} CPPMM_VALUETYPE;
+} CPPMM_VALUETYPE CPPMM_TRIVIALLY_COPYABLE;
 
 // explicit instantiation
 template class Matrix44<float>;

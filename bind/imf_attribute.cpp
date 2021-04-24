@@ -54,6 +54,8 @@ class OpaqueAttribute {
 public:
     using BoundType = Imf::OpaqueAttribute;
 
+    OpaqueAttribute(const Imf::OpaqueAttribute& rhs);
+
     virtual const char* typeName() const = 0;
     virtual Imf::Attribute* copy() const = 0;
 
@@ -70,9 +72,6 @@ public:
     const Imf::Array<char>& data() const;
 
     OpaqueAttribute(const char* typeName) CPPMM_RENAME(from_typeName);
-
-    CPPMM_COPY(Imf, OpaqueAttribute)
-
 } CPPMM_OPAQUEPTR;
 
 template <class T> class TypedAttribute {
