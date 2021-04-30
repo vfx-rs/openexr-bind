@@ -30,7 +30,7 @@ struct Header {
     Header(int width, int height, float pixelAspectRatio,
            const IMATH_NAMESPACE::V2f& screenWindowCenter,
            float screenWindowWidth, Imf::LineOrder lineOrder,
-           Imf::Compression compression) CPPMM_IGNORE;
+           Imf::Compression compression) CPPMM_RENAME(with_dimensions);
 
     IMF_EXPORT
     Header(int width, int height, const IMATH_NAMESPACE::Box2i& dataWindow,
