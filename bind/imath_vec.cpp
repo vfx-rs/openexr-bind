@@ -170,7 +170,7 @@ public:
     static T baseTypeSmallest();
     static T baseTypeEpsilon();
 
-} CPPMM_VALUETYPE CPPMM_TRIVIALLY_COPYABLE;
+} CPPMM_VALUETYPE CPPMM_TRIVIALLY_COPYABLE CPPMM_TRIVIALLY_MOVABLE;
 
 // explicit instantiation
 template class Vec2<short>;
@@ -413,7 +413,7 @@ public:
     /// Return the number of dimensions, i.e. 3
     IMATH_HOSTDEVICE constexpr static unsigned int dimensions() noexcept;
 
-} CPPMM_VALUETYPE CPPMM_TRIVIALLY_COPYABLE;
+} CPPMM_VALUETYPE CPPMM_TRIVIALLY_COPYABLE CPPMM_TRIVIALLY_MOVABLE;
 
 // explicit instantiation
 template class Vec3<short>;
@@ -615,7 +615,7 @@ public:
     /// Return the number of dimensions, i.e. 4
     IMATH_HOSTDEVICE constexpr static unsigned int dimensions() noexcept;
 
-} CPPMM_VALUETYPE CPPMM_TRIVIALLY_COPYABLE;
+} CPPMM_VALUETYPE CPPMM_TRIVIALLY_COPYABLE CPPMM_TRIVIALLY_MOVABLE;
 
 // explicit instantiation
 template class Vec4<short>;

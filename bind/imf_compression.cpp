@@ -8,7 +8,7 @@ namespace OPENEXR_IMF_INTERNAL_NAMESPACE {
 
 namespace Imf = ::OPENEXR_IMF_INTERNAL_NAMESPACE;
 
-enum Compression {};
+enum Compression {} CPPMM_RUSTIFY_ENUM CPPMM_ENUM_SUFFIX(_COMPRESSION);
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 

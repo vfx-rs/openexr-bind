@@ -16,9 +16,10 @@ struct MultiViewChannelName {
     MultiViewChannelName(Imf::MultiViewChannelName&&);
     ~MultiViewChannelName();
 
-    std::string getLayer() const;
-    std::string getSuffix() const;
-} CPPMM_OPAQUEBYTES;
+    // FIXME: re-enable these once we've got moves figured out
+    std::string getLayer() const CPPMM_IGNORE;
+    std::string getSuffix() const CPPMM_IGNORE;
+} CPPMM_OPAQUEPTR;
 
 // // FIXME: what do we do with these?
 // template <typename T>

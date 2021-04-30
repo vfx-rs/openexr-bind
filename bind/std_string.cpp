@@ -10,8 +10,9 @@ class basic_string {
 public:
     using BoundType = ::std::string;
 
-    basic_string();
-    basic_string(const ::std::string& rhs);
+    basic_string() CPPMM_RENAME(ctor);
+    ~basic_string() CPPMM_RENAME(dtor);
+    basic_string(const ::std::string& rhs) CPPMM_RENAME(copy);
 
     ::std::string& assign(const char* s, ::std::string::size_type count);
     const char* c_str() const;

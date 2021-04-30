@@ -13,7 +13,8 @@ struct RgbaOutputFile {
 
     IMF_EXPORT
     RgbaOutputFile(const char name[], const Imf::Header& header,
-                   Imf::RgbaChannels rgbaChannels, int numThreads);
+                   Imf::RgbaChannels rgbaChannels, int numThreads)
+        CPPMM_RENAME(ctor);
 
     IMF_EXPORT
     RgbaOutputFile(Imf::OStream& os, const Imf::Header& header,
@@ -77,13 +78,14 @@ struct RgbaOutputFile {
 
     IMF_EXPORT
     void breakScanLine(int y, int offset, int length, char c);
+
 } CPPMM_OPAQUEBYTES;
 
 struct RgbaInputFile {
     using BoundType = Imf::RgbaInputFile;
 
     IMF_EXPORT
-    RgbaInputFile(const char name[], int numThreads);
+    RgbaInputFile(const char name[], int numThreads) CPPMM_RENAME(ctor);
 
     IMF_EXPORT
     RgbaInputFile(Imf::IStream& is, int numThreads) CPPMM_RENAME(from_stream);

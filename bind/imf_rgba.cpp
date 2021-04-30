@@ -19,7 +19,7 @@ struct Rgba {
 
 } CPPMM_VALUETYPE;
 
-enum RgbaChannels {};
+enum RgbaChannels {} CPPMM_RUSTIFY_ENUM;
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 

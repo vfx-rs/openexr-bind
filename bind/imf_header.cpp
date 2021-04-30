@@ -1,4 +1,19 @@
+#include <OpenEXR/ImfChannelListAttribute.h>
+#include <OpenEXR/ImfChromaticitiesAttribute.h>
+#include <OpenEXR/ImfDeepImageStateAttribute.h>
+#include <OpenEXR/ImfEnvmapAttribute.h>
+#include <OpenEXR/ImfFloatVectorAttribute.h>
 #include <OpenEXR/ImfHeader.h>
+#include <OpenEXR/ImfKeyCodeAttribute.h>
+#include <OpenEXR/ImfLineOrderAttribute.h>
+#include <OpenEXR/ImfMatrixAttribute.h>
+#include <OpenEXR/ImfPreviewImageAttribute.h>
+#include <OpenEXR/ImfRationalAttribute.h>
+#include <OpenEXR/ImfStringAttribute.h>
+#include <OpenEXR/ImfStringVectorAttribute.h>
+#include <OpenEXR/ImfTileDescriptionAttribute.h>
+#include <OpenEXR/ImfTimeCodeAttribute.h>
+#include <OpenEXR/ImfVecAttribute.h>
 
 #include <cppmm_bind.hpp>
 
@@ -29,7 +44,7 @@ struct Header {
            const IMATH_NAMESPACE::Box2i& dataWindow, float pixelAspectRatio,
            const IMATH_NAMESPACE::V2f& screenWindowCenter,
            float screenWindowWidth, Imf::LineOrder lineOrder,
-           Imf::Compression compression);
+           Imf::Compression compression) CPPMM_RENAME(ctor);
 
     CPPMM_COPY(Imf, Header)
     ~Header();
@@ -77,8 +92,7 @@ struct Header {
         CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
     template <class T>
     const T* findTypedAttribute(const char name[]) const
-        CPPMM_RENAME(findTypedAttribute_const)
-            CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     template <class T>
     T* findTypedAttribute(const std::string& name) CPPMM_IGNORE;
@@ -178,7 +192,7 @@ struct Header {
     IMF_EXPORT
     int& version();
     IMF_EXPORT
-    const int& version() const;
+    const int& version() const CPPMM_RENAME(version_const);
 
     IMF_EXPORT
     bool hasVersion() const;
@@ -292,6 +306,637 @@ struct Header {
 
 } CPPMM_OPAQUEBYTES;
 
+// ------------ TypedAttribute<int> ---------------------
+extern template Imf::TypedAttribute<int>*
+Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<int>*
+Header::findTypedAttribute(const char name[]) const;
+
+Imf::TypedAttribute<int>* (Header::*findTypedAttribute_int)(const char name[]) =
+    &Header::findTypedAttribute<Imf::TypedAttribute<int>>;
+
+const Imf::TypedAttribute<int>* (Header::*findTypedAttribute_int_const)(
+    const char name[]) const =
+    &Header::findTypedAttribute<Imf::TypedAttribute<int>>;
+
+// ------------ TypedAttribute<float> ---------------------
+extern template Imf::TypedAttribute<float>*
+Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<float>*
+Header::findTypedAttribute(const char name[]) const;
+
+Imf::TypedAttribute<float>* (Header::*findTypedAttribute_float)(
+    const char name[]) =
+    &Header::findTypedAttribute<Imf::TypedAttribute<float>>;
+
+const Imf::TypedAttribute<float>* (Header::*findTypedAttribute_float_const)(
+    const char name[]) const =
+    &Header::findTypedAttribute<Imf::TypedAttribute<float>>;
+
+// ------------ TypedAttribute<double> ---------------------
+extern template Imf::TypedAttribute<double>*
+Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<double>*
+Header::findTypedAttribute(const char name[]) const;
+
+Imf::TypedAttribute<double>* (Header::*findTypedAttribute_double)(
+    const char name[]) =
+    &Header::findTypedAttribute<Imf::TypedAttribute<double>>;
+
+const Imf::TypedAttribute<double>* (Header::*findTypedAttribute_double_const)(
+    const char name[]) const =
+    &Header::findTypedAttribute<Imf::TypedAttribute<double>>;
+
+// ------------ TypedAttribute<Imath::Box2i> ---------------------
+extern template Imf::TypedAttribute<Imath::Box2i>*
+Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imath::Box2i>*
+Header::findTypedAttribute(const char name[]) const;
+
+Imf::TypedAttribute<Imath::Box2i>* (Header::*findTypedAttribute_Box2i)(
+    const char name[]) =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imath::Box2i>>;
+
+const Imf::TypedAttribute<Imath::Box2i>* (
+    Header::*findTypedAttribute_Box2i_const)(const char name[]) const =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imath::Box2i>>;
+
+// ------------ TypedAttribute<Imath::Box2f> ---------------------
+extern template Imf::TypedAttribute<Imath::Box2f>*
+Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imath::Box2f>*
+Header::findTypedAttribute(const char name[]) const;
+
+Imf::TypedAttribute<Imath::Box2f>* (Header::*findTypedAttribute_Box2f)(
+    const char name[]) =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imath::Box2f>>;
+
+const Imf::TypedAttribute<Imath::Box2f>* (
+    Header::*findTypedAttribute_Box2f_const)(const char name[]) const =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imath::Box2f>>;
+
+// ------------ TypedAttribute<Imf::ChannelList> ---------------------
+extern template Imf::TypedAttribute<Imf::ChannelList>*
+Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imf::ChannelList>*
+Header::findTypedAttribute(const char name[]) const;
+
+Imf::TypedAttribute<Imf::ChannelList>* (
+    Header::*findTypedAttribute_ChannelList)(const char name[]) =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imf::ChannelList>>;
+
+const Imf::TypedAttribute<Imf::ChannelList>* (
+    Header::*findTypedAttribute_ChannelList_const)(const char name[]) const =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imf::ChannelList>>;
+
+// ------------ TypedAttribute<Imf::Chromaticities> ---------------------
+extern template Imf::TypedAttribute<Imf::Chromaticities>*
+Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imf::Chromaticities>*
+Header::findTypedAttribute(const char name[]) const;
+
+Imf::TypedAttribute<Imf::Chromaticities>* (
+    Header::*findTypedAttribute_Chromaticities)(const char name[]) =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imf::Chromaticities>>;
+
+const Imf::TypedAttribute<Imf::Chromaticities>* (
+    Header::*findTypedAttribute_Chromaticities_const)(const char name[]) const =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imf::Chromaticities>>;
+
+// ------------ TypedAttribute<Imf::Compression> ---------------------
+extern template Imf::TypedAttribute<Imf::Compression>*
+Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imf::Compression>*
+Header::findTypedAttribute(const char name[]) const;
+
+Imf::TypedAttribute<Imf::Compression>* (
+    Header::*findTypedAttribute_Compression)(const char name[]) =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imf::Compression>>;
+
+const Imf::TypedAttribute<Imf::Compression>* (
+    Header::*findTypedAttribute_Compression_const)(const char name[]) const =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imf::Compression>>;
+
+// ------------ TypedAttribute<Imf::DeepImageState> ---------------------
+extern template Imf::TypedAttribute<Imf::DeepImageState>*
+Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imf::DeepImageState>*
+Header::findTypedAttribute(const char name[]) const;
+
+Imf::TypedAttribute<Imf::DeepImageState>* (
+    Header::*findTypedAttribute_DeepImageState)(const char name[]) =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imf::DeepImageState>>;
+
+const Imf::TypedAttribute<Imf::DeepImageState>* (
+    Header::*findTypedAttribute_DeepImageState_const)(const char name[]) const =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imf::DeepImageState>>;
+
+// ------------ TypedAttribute<Imf::Envmap> ---------------------
+extern template Imf::TypedAttribute<Imf::Envmap>*
+Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imf::Envmap>*
+Header::findTypedAttribute(const char name[]) const;
+
+Imf::TypedAttribute<Imf::Envmap>* (Header::*findTypedAttribute_Envmap)(
+    const char name[]) =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imf::Envmap>>;
+
+const Imf::TypedAttribute<Imf::Envmap>* (
+    Header::*findTypedAttribute_Envmap_const)(const char name[]) const =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imf::Envmap>>;
+
+// ------------ TypedAttribute<std::vector<float>> ---------------------
+extern template Imf::TypedAttribute<std::vector<float>>*
+Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<std::vector<float>>*
+Header::findTypedAttribute(const char name[]) const;
+
+Imf::TypedAttribute<std::vector<float>>* (
+    Header::*findTypedAttribute_vector_float)(const char name[]) =
+    &Header::findTypedAttribute<Imf::TypedAttribute<std::vector<float>>>;
+
+const Imf::TypedAttribute<std::vector<float>>* (
+    Header::*findTypedAttribute_vector_float_const)(const char name[]) const =
+    &Header::findTypedAttribute<Imf::TypedAttribute<std::vector<float>>>;
+
+// ------------ TypedAttribute<std::vector<std::string>> ---------------------
+extern template Imf::TypedAttribute<std::vector<std::string>>*
+Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<std::vector<std::string>>*
+Header::findTypedAttribute(const char name[]) const;
+
+Imf::TypedAttribute<std::vector<std::string>>* (
+    Header::*findTypedAttribute_vector_string)(const char name[]) =
+    &Header::findTypedAttribute<Imf::TypedAttribute<std::vector<std::string>>>;
+
+const Imf::TypedAttribute<std::vector<std::string>>* (
+    Header::*findTypedAttribute_vector_string_const)(const char name[]) const =
+    &Header::findTypedAttribute<Imf::TypedAttribute<std::vector<std::string>>>;
+
+// ------------ TypedAttribute<std::string> ---------------------
+extern template Imf::TypedAttribute<std::string>*
+Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<std::string>*
+Header::findTypedAttribute(const char name[]) const;
+
+Imf::TypedAttribute<std::string>* (Header::*findTypedAttribute_string)(
+    const char name[]) =
+    &Header::findTypedAttribute<Imf::TypedAttribute<std::string>>;
+
+const Imf::TypedAttribute<std::string>* (
+    Header::*findTypedAttribute_string_const)(const char name[]) const =
+    &Header::findTypedAttribute<Imf::TypedAttribute<std::string>>;
+
+// ------------ TypedAttribute<Imf::KeyCode> ---------------------
+extern template Imf::TypedAttribute<Imf::KeyCode>*
+Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imf::KeyCode>*
+Header::findTypedAttribute(const char name[]) const;
+
+Imf::TypedAttribute<Imf::KeyCode>* (Header::*findTypedAttribute_KeyCode)(
+    const char name[]) =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imf::KeyCode>>;
+
+const Imf::TypedAttribute<Imf::KeyCode>* (
+    Header::*findTypedAttribute_KeyCode_const)(const char name[]) const =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imf::KeyCode>>;
+
+// ------------ TypedAttribute<Imf::LineOrder> ---------------------
+extern template Imf::TypedAttribute<Imf::LineOrder>*
+Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imf::LineOrder>*
+Header::findTypedAttribute(const char name[]) const;
+
+Imf::TypedAttribute<Imf::LineOrder>* (Header::*findTypedAttribute_LineOrder)(
+    const char name[]) =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imf::LineOrder>>;
+
+const Imf::TypedAttribute<Imf::LineOrder>* (
+    Header::*findTypedAttribute_LineOrder_const)(const char name[]) const =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imf::LineOrder>>;
+
+// ------------ TypedAttribute<Imath::M33f> ---------------------
+extern template Imf::TypedAttribute<Imath::M33f>*
+Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imath::M33f>*
+Header::findTypedAttribute(const char name[]) const;
+
+Imf::TypedAttribute<Imath::M33f>* (Header::*findTypedAttribute_M33f)(
+    const char name[]) =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imath::M33f>>;
+
+const Imf::TypedAttribute<Imath::M33f>* (
+    Header::*findTypedAttribute_M33f_const)(const char name[]) const =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imath::M33f>>;
+
+// ------------ TypedAttribute<Imath::M33d> ---------------------
+extern template Imf::TypedAttribute<Imath::M33d>*
+Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imath::M33d>*
+Header::findTypedAttribute(const char name[]) const;
+
+Imf::TypedAttribute<Imath::M33d>* (Header::*findTypedAttribute_M33d)(
+    const char name[]) =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imath::M33d>>;
+
+const Imf::TypedAttribute<Imath::M33d>* (
+    Header::*findTypedAttribute_M33d_const)(const char name[]) const =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imath::M33d>>;
+
+// ------------ TypedAttribute<Imath::M44f> ---------------------
+extern template Imf::TypedAttribute<Imath::M44f>*
+Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imath::M44f>*
+Header::findTypedAttribute(const char name[]) const;
+
+Imf::TypedAttribute<Imath::M44f>* (Header::*findTypedAttribute_M44f)(
+    const char name[]) =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imath::M44f>>;
+
+const Imf::TypedAttribute<Imath::M44f>* (
+    Header::*findTypedAttribute_M44f_const)(const char name[]) const =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imath::M44f>>;
+
+// ------------ TypedAttribute<Imath::M44d> ---------------------
+extern template Imf::TypedAttribute<Imath::M44d>*
+Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imath::M44d>*
+Header::findTypedAttribute(const char name[]) const;
+
+Imf::TypedAttribute<Imath::M44d>* (Header::*findTypedAttribute_M44d)(
+    const char name[]) =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imath::M44d>>;
+
+const Imf::TypedAttribute<Imath::M44d>* (
+    Header::*findTypedAttribute_M44d_const)(const char name[]) const =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imath::M44d>>;
+
+// ------------ TypedAttribute<Imf::PreviewImage> ---------------------
+extern template Imf::TypedAttribute<Imf::PreviewImage>*
+Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imf::PreviewImage>*
+Header::findTypedAttribute(const char name[]) const;
+
+Imf::TypedAttribute<Imf::PreviewImage>* (
+    Header::*findTypedAttribute_PreviewImage)(const char name[]) =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imf::PreviewImage>>;
+
+const Imf::TypedAttribute<Imf::PreviewImage>* (
+    Header::*findTypedAttribute_PreviewImage_const)(const char name[]) const =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imf::PreviewImage>>;
+
+// ------------ TypedAttribute<Imf::Rational> ---------------------
+extern template Imf::TypedAttribute<Imf::Rational>*
+Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imf::Rational>*
+Header::findTypedAttribute(const char name[]) const;
+
+Imf::TypedAttribute<Imf::Rational>* (Header::*findTypedAttribute_Rational)(
+    const char name[]) =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imf::Rational>>;
+
+const Imf::TypedAttribute<Imf::Rational>* (
+    Header::*findTypedAttribute_Rational_const)(const char name[]) const =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imf::Rational>>;
+
+// ------------ TypedAttribute<Imf::TileDescription> ---------------------
+extern template Imf::TypedAttribute<Imf::TileDescription>*
+Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imf::TileDescription>*
+Header::findTypedAttribute(const char name[]) const;
+
+Imf::TypedAttribute<Imf::TileDescription>* (
+    Header::*findTypedAttribute_TileDescription)(const char name[]) =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imf::TileDescription>>;
+
+const Imf::TypedAttribute<Imf::TileDescription>* (
+    Header::*findTypedAttribute_TileDescription_const)(
+    const char name[]) const =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imf::TileDescription>>;
+
+// ------------ TypedAttribute<Imf::TimeCode> ---------------------
+extern template Imf::TypedAttribute<Imf::TimeCode>*
+Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imf::TimeCode>*
+Header::findTypedAttribute(const char name[]) const;
+
+Imf::TypedAttribute<Imf::TimeCode>* (Header::*findTypedAttribute_TimeCode)(
+    const char name[]) =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imf::TimeCode>>;
+
+const Imf::TypedAttribute<Imf::TimeCode>* (
+    Header::*findTypedAttribute_TimeCode_const)(const char name[]) const =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imf::TimeCode>>;
+
+// ------------ TypedAttribute<Imath::V2i> ---------------------
+extern template Imf::TypedAttribute<Imath::V2i>*
+Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imath::V2i>*
+Header::findTypedAttribute(const char name[]) const;
+
+Imf::TypedAttribute<Imath::V2i>* (Header::*findTypedAttribute_V2i)(
+    const char name[]) =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imath::V2i>>;
+
+const Imf::TypedAttribute<Imath::V2i>* (Header::*findTypedAttribute_V2i_const)(
+    const char name[]) const =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imath::V2i>>;
+
+// ------------ TypedAttribute<Imath::V2f> ---------------------
+extern template Imf::TypedAttribute<Imath::V2f>*
+Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imath::V2f>*
+Header::findTypedAttribute(const char name[]) const;
+
+Imf::TypedAttribute<Imath::V2f>* (Header::*findTypedAttribute_V2f)(
+    const char name[]) =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imath::V2f>>;
+
+const Imf::TypedAttribute<Imath::V2f>* (Header::*findTypedAttribute_V2f_const)(
+    const char name[]) const =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imath::V2f>>;
+
+// ------------ TypedAttribute<Imath::V2d> ---------------------
+extern template Imf::TypedAttribute<Imath::V2d>*
+Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imath::V2d>*
+Header::findTypedAttribute(const char name[]) const;
+
+Imf::TypedAttribute<Imath::V2d>* (Header::*findTypedAttribute_V2d)(
+    const char name[]) =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imath::V2d>>;
+
+const Imf::TypedAttribute<Imath::V2d>* (Header::*findTypedAttribute_V2d_const)(
+    const char name[]) const =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imath::V2d>>;
+
+// ------------ TypedAttribute<Imath::V3i> ---------------------
+extern template Imf::TypedAttribute<Imath::V3i>*
+Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imath::V3i>*
+Header::findTypedAttribute(const char name[]) const;
+
+Imf::TypedAttribute<Imath::V3i>* (Header::*findTypedAttribute_V3i)(
+    const char name[]) =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imath::V3i>>;
+
+const Imf::TypedAttribute<Imath::V3i>* (Header::*findTypedAttribute_V3i_const)(
+    const char name[]) const =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imath::V3i>>;
+
+// ------------ TypedAttribute<Imath::V3f> ---------------------
+extern template Imf::TypedAttribute<Imath::V3f>*
+Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imath::V3f>*
+Header::findTypedAttribute(const char name[]) const;
+
+Imf::TypedAttribute<Imath::V3f>* (Header::*findTypedAttribute_V3f)(
+    const char name[]) =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imath::V3f>>;
+
+const Imf::TypedAttribute<Imath::V3f>* (Header::*findTypedAttribute_V3f_const)(
+    const char name[]) const =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imath::V3f>>;
+
+// ------------ TypedAttribute<Imath::V3d> ---------------------
+extern template Imf::TypedAttribute<Imath::V3d>*
+Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imath::V3d>*
+Header::findTypedAttribute(const char name[]) const;
+
+Imf::TypedAttribute<Imath::V3d>* (Header::*findTypedAttribute_V3d)(
+    const char name[]) =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imath::V3d>>;
+
+const Imf::TypedAttribute<Imath::V3d>* (Header::*findTypedAttribute_V3d_const)(
+    const char name[]) const =
+    &Header::findTypedAttribute<Imf::TypedAttribute<Imath::V3d>>;
+
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 
 } // namespace cppmm_bind
+
+// ------------ TypedAttribute<int> ---------------------
+extern template Imf::TypedAttribute<int>*
+Imf::Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<int>*
+Imf::Header::findTypedAttribute(const char name[]) const;
+
+// ------------ TypedAttribute<float> ---------------------
+extern template Imf::TypedAttribute<float>*
+Imf::Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<float>*
+Imf::Header::findTypedAttribute(const char name[]) const;
+
+// ------------ TypedAttribute<double> ---------------------
+extern template Imf::TypedAttribute<double>*
+Imf::Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<double>*
+Imf::Header::findTypedAttribute(const char name[]) const;
+
+// ------------ TypedAttribute<Imath::Box2i> ---------------------
+extern template Imf::TypedAttribute<Imath::Box2i>*
+Imf::Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imath::Box2i>*
+Imf::Header::findTypedAttribute(const char name[]) const;
+
+// ------------ TypedAttribute<Imath::Box2f> ---------------------
+extern template Imf::TypedAttribute<Imath::Box2f>*
+Imf::Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imath::Box2f>*
+Imf::Header::findTypedAttribute(const char name[]) const;
+
+// ------------ TypedAttribute<Imf::ChannelList> ---------------------
+extern template Imf::TypedAttribute<Imf::ChannelList>*
+Imf::Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imf::ChannelList>*
+Imf::Header::findTypedAttribute(const char name[]) const;
+
+// ------------ TypedAttribute<Imf::Chromaticities> ---------------------
+extern template Imf::TypedAttribute<Imf::Chromaticities>*
+Imf::Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imf::Chromaticities>*
+Imf::Header::findTypedAttribute(const char name[]) const;
+
+// ------------ TypedAttribute<Imf::Compression> ---------------------
+extern template Imf::TypedAttribute<Imf::Compression>*
+Imf::Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imf::Compression>*
+Imf::Header::findTypedAttribute(const char name[]) const;
+
+// ------------ TypedAttribute<Imf::DeepImageState> ---------------------
+extern template Imf::TypedAttribute<Imf::DeepImageState>*
+Imf::Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imf::DeepImageState>*
+Imf::Header::findTypedAttribute(const char name[]) const;
+
+// ------------ TypedAttribute<Imf::Envmap> ---------------------
+extern template Imf::TypedAttribute<Imf::Envmap>*
+Imf::Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imf::Envmap>*
+Imf::Header::findTypedAttribute(const char name[]) const;
+
+// ------------ TypedAttribute<std::vector<float>> ---------------------
+extern template Imf::TypedAttribute<std::vector<float>>*
+Imf::Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<std::vector<float>>*
+Imf::Header::findTypedAttribute(const char name[]) const;
+
+// ------------ TypedAttribute<std::vector<std::string>> ---------------------
+extern template Imf::TypedAttribute<std::vector<std::string>>*
+Imf::Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<std::vector<std::string>>*
+Imf::Header::findTypedAttribute(const char name[]) const;
+
+// ------------ TypedAttribute<std::string> ---------------------
+extern template Imf::TypedAttribute<std::string>*
+Imf::Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<std::string>*
+Imf::Header::findTypedAttribute(const char name[]) const;
+
+// ------------ TypedAttribute<Imf::KeyCode> ---------------------
+extern template Imf::TypedAttribute<Imf::KeyCode>*
+Imf::Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imf::KeyCode>*
+Imf::Header::findTypedAttribute(const char name[]) const;
+
+// ------------ TypedAttribute<Imf::LineOrder> ---------------------
+extern template Imf::TypedAttribute<Imf::LineOrder>*
+Imf::Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imf::LineOrder>*
+Imf::Header::findTypedAttribute(const char name[]) const;
+
+// ------------ TypedAttribute<Imath::M33f> ---------------------
+extern template Imf::TypedAttribute<Imath::M33f>*
+Imf::Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imath::M33f>*
+Imf::Header::findTypedAttribute(const char name[]) const;
+
+// ------------ TypedAttribute<Imath::M33d> ---------------------
+extern template Imf::TypedAttribute<Imath::M33d>*
+Imf::Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imath::M33d>*
+Imf::Header::findTypedAttribute(const char name[]) const;
+
+// ------------ TypedAttribute<Imath::M44f> ---------------------
+extern template Imf::TypedAttribute<Imath::M44f>*
+Imf::Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imath::M44f>*
+Imf::Header::findTypedAttribute(const char name[]) const;
+
+// ------------ TypedAttribute<Imath::M44d> ---------------------
+extern template Imf::TypedAttribute<Imath::M44d>*
+Imf::Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imath::M44d>*
+Imf::Header::findTypedAttribute(const char name[]) const;
+
+// ------------ TypedAttribute<Imf::PreviewImage> ---------------------
+extern template Imf::TypedAttribute<Imf::PreviewImage>*
+Imf::Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imf::PreviewImage>*
+Imf::Header::findTypedAttribute(const char name[]) const;
+
+// ------------ TypedAttribute<Imf::Rational> ---------------------
+extern template Imf::TypedAttribute<Imf::Rational>*
+Imf::Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imf::Rational>*
+Imf::Header::findTypedAttribute(const char name[]) const;
+
+// ------------ TypedAttribute<Imf::TimeCode> ---------------------
+extern template Imf::TypedAttribute<Imf::TimeCode>*
+Imf::Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imf::TimeCode>*
+Imf::Header::findTypedAttribute(const char name[]) const;
+
+// ------------ TypedAttribute<Imath::V2i> ---------------------
+extern template Imf::TypedAttribute<Imath::V2i>*
+Imf::Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imath::V2i>*
+Imf::Header::findTypedAttribute(const char name[]) const;
+
+// ------------ TypedAttribute<Imath::V2f> ---------------------
+extern template Imf::TypedAttribute<Imath::V2f>*
+Imf::Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imath::V2f>*
+Imf::Header::findTypedAttribute(const char name[]) const;
+
+// ------------ TypedAttribute<Imath::V2d> ---------------------
+extern template Imf::TypedAttribute<Imath::V2d>*
+Imf::Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imath::V2d>*
+Imf::Header::findTypedAttribute(const char name[]) const;
+
+// ------------ TypedAttribute<Imath::V3i> ---------------------
+extern template Imf::TypedAttribute<Imath::V3i>*
+Imf::Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imath::V3i>*
+Imf::Header::findTypedAttribute(const char name[]) const;
+
+// ------------ TypedAttribute<Imath::V3f> ---------------------
+extern template Imf::TypedAttribute<Imath::V3f>*
+Imf::Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imath::V3f>*
+Imf::Header::findTypedAttribute(const char name[]) const;
+
+// ------------ TypedAttribute<Imath::V3d> ---------------------
+extern template Imf::TypedAttribute<Imath::V3d>*
+Imf::Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imath::V3d>*
+Imf::Header::findTypedAttribute(const char name[]) const;

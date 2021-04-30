@@ -145,7 +145,7 @@ public:
     static T baseTypeSmallest();
     static T baseTypeEpsilon();
 
-} CPPMM_VALUETYPE CPPMM_TRIVIALLY_COPYABLE;
+} CPPMM_VALUETYPE CPPMM_TRIVIALLY_COPYABLE CPPMM_TRIVIALLY_MOVABLE;
 
 // explicit instantiation
 template class Matrix33<float>;
@@ -325,7 +325,7 @@ public:
     static T baseTypeSmallest();
     static T baseTypeEpsilon();
 
-} CPPMM_VALUETYPE CPPMM_TRIVIALLY_COPYABLE;
+} CPPMM_VALUETYPE CPPMM_TRIVIALLY_COPYABLE CPPMM_TRIVIALLY_MOVABLE;
 
 // explicit instantiation
 template class Matrix44<float>;

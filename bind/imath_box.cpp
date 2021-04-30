@@ -42,7 +42,7 @@ public:
     bool isEmpty() const;
     bool hasVolume() const;
     bool isInfinite() const;
-} CPPMM_VALUETYPE;
+} CPPMM_VALUETYPE CPPMM_TRIVIALLY_COPYABLE CPPMM_TRIVIALLY_MOVABLE;
 
 template class Box<Imath::Vec2<short>>;
 template class Box<Imath::Vec2<int>>;

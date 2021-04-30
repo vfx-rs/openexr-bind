@@ -220,5 +220,3 @@ using V3dAttribute = Imf::TypedAttribute<Imath::V3d>;
 template class Imf::TypedAttribute<int>;
 template class Imf::TypedAttribute<float>;
 template class Imf::TypedAttribute<double>;
-
-extern template Imf::TypedAttribute<Imath::Box2i>::TypedAttribute();
