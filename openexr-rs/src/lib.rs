@@ -9,7 +9,7 @@ pub use openexr_sys::LineOrder;
 pub mod frame_buffer;
 pub use frame_buffer::{FrameBuffer, Slice};
 pub mod header;
-pub use header::Header;
+pub use header::{Header, HeaderRef};
 pub mod attribute;
 pub use attribute::{Attribute, Box2iAttribute, TypedAttribute};
 pub mod channel_list;
@@ -68,6 +68,11 @@ mod tests {
     fn write_rgba1() {
         let (pixels, width, height) = load_ferris();
 
+        let h = Header::default();
+        // .set_compression(Compression::Zip)
+        // .set_line_order(LineOrder::IncreasingY);
+
+        /*
         let mut file = RgbaOutputFile::with_dimensions(
             "write_rgba1.exr",
             width,
@@ -83,6 +88,7 @@ mod tests {
 
         file.set_frame_buffer(&pixels, 1, width as usize);
         file.write_pixels(height);
+        */
     }
 
     #[test]
@@ -95,7 +101,7 @@ mod tests {
         .join("ferris.exr");
 
         let mut file = RgbaInputFile::new(&path, 1);
-        let data_window = file.header().data_window::<[i32; 4]>();
+        let data_window = file.header().data_window::<[i32; 4]>().clone();
         let width = data_window[2] - data_window[0] + 1;
         let height = data_window[3] - data_window[1] + 1;
 

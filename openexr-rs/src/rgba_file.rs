@@ -1,6 +1,9 @@
-use crate::{imath::Vec2, Compression, Header, LineOrder, Rgba, RgbaChannels};
+use crate::{
+    imath::Vec2, Compression, Header, HeaderRef, LineOrder, Rgba, RgbaChannels,
+};
 use openexr_sys as sys;
 use std::ffi::CString;
+use std::marker::PhantomData;
 use std::path::Path;
 
 /// A simplified interface for writing an RGBA EXR file
@@ -134,10 +137,19 @@ impl RgbaOutputFile {
 
     /// Access to the file [`Header`]
     ///
-    pub fn header(&self) -> &Header {
+    pub fn header<'a>(&'a self) -> HeaderRef<'a, Self> {
         unsafe {
-            &*(sys::Imf_RgbaOutputFile_header(self.0)
-                as *const sys::Imf_Header_t as *const Header)
+            let ptr = sys::Imf_RgbaOutputFile_header(self.0);
+            if ptr.is_null() {
+                panic!("Received null ptr from sys::Imf_RgbaOutputFile_header");
+            }
+
+            HeaderRef {
+                header: std::mem::ManuallyDrop::<Header>::new(Header(
+                    ptr as *mut sys::Imf_Header_t,
+                )),
+                _p: PhantomData,
+            }
         }
     }
 
@@ -311,10 +323,19 @@ impl RgbaInputFile {
 
     /// Access to the file [`Header`]
     ///
-    pub fn header(&self) -> &Header {
+    pub fn header<'a>(&'a self) -> HeaderRef<'a, Self> {
         unsafe {
-            &*(sys::Imf_RgbaInputFile_header(self.0) as *const sys::Imf_Header_t
-                as *const Header)
+            let ptr = sys::Imf_RgbaInputFile_header(self.0);
+            if ptr.is_null() {
+                panic!("Received null ptr from sys::Imf_RgbaInputFile_header");
+            }
+
+            HeaderRef {
+                header: std::mem::ManuallyDrop::<Header>::new(Header(
+                    ptr as *mut sys::Imf_Header_t,
+                )),
+                _p: PhantomData,
+            }
         }
     }
 
