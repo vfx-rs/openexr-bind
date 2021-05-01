@@ -1,37 +1,21 @@
 use crate::imath::{Box2, Vec2};
 use crate::{
-    Box2iAttribute, ChannelList, Compression, LineOrder, PreviewImage,
-    TileDescription, TypedAttribute,
+    refptr::Ref, Box2iAttribute, ChannelList, Compression, LineOrder,
+    PreviewImage, TileDescription, TypedAttribute,
 };
 use openexr_sys as sys;
 
 use std::ffi::{CStr, CString};
-use std::marker::PhantomData;
-use std::mem::ManuallyDrop;
-use std::ops::{Deref, DerefMut};
 
 #[repr(transparent)]
 pub struct Header(pub(crate) *mut sys::Imf_Header_t);
 
-#[repr(transparent)]
-pub struct HeaderRef<'a, T> {
-    pub(crate) header: ManuallyDrop<Header>,
-    pub(crate) _p: PhantomData<&'a T>,
+unsafe impl crate::refptr::OpaquePtr for Header {
+    type SysPointee = sys::Imf_Header_t;
+    type Pointee = Header;
 }
 
-impl<'a, T> Deref for HeaderRef<'a, T> {
-    type Target = Header;
-
-    fn deref(&self) -> &Self::Target {
-        &self.header
-    }
-}
-
-impl<'a, T> DerefMut for HeaderRef<'a, T> {
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.header
-    }
-}
+pub type HeaderRef<'a, Owner, P = Header> = Ref<'a, Owner, P>;
 
 impl Header {
     /// Construct a new [`Header`] with the given attributes.
@@ -127,6 +111,15 @@ impl Header {
         }
 
         Header(header)
+    }
+
+    /// Shortcut to construct a new [`Header`] with just the dimensions and
+    /// everything else Default
+    ///
+    pub fn from_dimensions(width: i32, height: i32) -> Header {
+        let mut header = Header::default();
+        header.set_dimensions(width, height);
+        header
     }
 
     /// Examines the header and returns an error if it finds something wrong
@@ -312,6 +305,13 @@ impl Header {
         }
     }
 
+    /// Set both display and data windows to [[0, 0], [width-1, height-1]]
+    ///
+    pub fn set_dimensions(&mut self, width: i32, height: i32) {
+        *self.data_window_mut() = [0, 0, width - 1, height - 1];
+        *self.display_window_mut() = [0, 0, width - 1, height - 1];
+    }
+
     /// Get the pixel aspect ratio
     ///
     /// Given d_x, the difference between pixel locations (x, y) and (x+1, y),
@@ -462,11 +462,10 @@ impl Header {
     /// This does not affect the pixel space coordinates, only the order in
     /// which the data is stored.
     ///
-    pub fn set_line_order(&mut self, lo: LineOrder) -> &mut Self {
+    pub fn set_line_order(&mut self, lo: LineOrder) {
         unsafe {
             *sys::Imf_Header_lineOrder(self.0) = lo.into();
         };
-        self
     }
 
     /// Get the compression type from the header
@@ -482,11 +481,10 @@ impl Header {
     ///
     /// Defines the compression scheme used to store all pixel data.
     ///
-    pub fn set_compression(&mut self, cmp: Compression) -> &mut Self {
+    pub fn set_compression(&mut self, cmp: Compression) {
         unsafe {
             *sys::Imf_Header_compression(self.0) = cmp.into();
         };
-        self
     }
 }
 

@@ -22,6 +22,7 @@ pub mod input_file;
 pub use input_file::InputFile;
 pub mod input_part;
 pub use input_part::InputPart;
+pub mod refptr;
 
 pub mod imath;
 
@@ -68,27 +69,18 @@ mod tests {
     fn write_rgba1() {
         let (pixels, width, height) = load_ferris();
 
-        let h = Header::default();
-        // .set_compression(Compression::Zip)
-        // .set_line_order(LineOrder::IncreasingY);
+        let mut header = Header::from_dimensions(width, height);
+        header.set_compression(Compression::Piz);
 
-        /*
-        let mut file = RgbaOutputFile::with_dimensions(
+        let mut file = RgbaOutputFile::new(
             "write_rgba1.exr",
-            width,
-            height,
+            &header,
             RgbaChannels::WriteRgba,
-            1.0f32,
-            [0.0f32, 0.0f32],
-            1.0f32,
-            LineOrder::IncreasingY,
-            Compression::Piz,
             1,
         );
 
         file.set_frame_buffer(&pixels, 1, width as usize);
         file.write_pixels(height);
-        */
     }
 
     #[test]

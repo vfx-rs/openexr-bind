@@ -3,7 +3,6 @@ use crate::{
 };
 use openexr_sys as sys;
 use std::ffi::CString;
-use std::marker::PhantomData;
 use std::path::Path;
 
 /// A simplified interface for writing an RGBA EXR file
@@ -11,6 +10,42 @@ use std::path::Path;
 pub struct RgbaOutputFile(pub(crate) *mut sys::Imf_RgbaOutputFile_t);
 
 impl RgbaOutputFile {
+    /// Create a new [`RgbaOutputFile`] with the given header and parameters.
+    ///
+    /// # Arguments
+    /// * `filename` - The path to which the resulting file will be written
+    /// * `header` - Reference to a [`Header`]
+    /// * `channels` - Which channels the pixel data will contain.
+    /// * `num_threads` - The number of threads to use to write the image
+    ///
+    pub fn new<P: AsRef<Path>>(
+        filename: P,
+        header: &Header,
+        channels: RgbaChannels,
+        num_threads: i32,
+    ) -> RgbaOutputFile {
+        let c_filename = CString::new(
+            filename
+                .as_ref()
+                .to_str()
+                .expect("Invalid bytes in filename"),
+        )
+        .expect("Internal null bytes in filename");
+
+        let mut _inner = std::ptr::null_mut();
+        unsafe {
+            sys::Imf_RgbaOutputFile_ctor(
+                &mut _inner,
+                c_filename.as_ptr(),
+                header.0,
+                channels.into(),
+                num_threads,
+            );
+        }
+
+        RgbaOutputFile(_inner)
+    }
+
     /// Create a new [`RgbaOutputFile`] with the given parameters.
     ///
     /// Display window and data window will both be set to [0, width) and
@@ -144,12 +179,7 @@ impl RgbaOutputFile {
                 panic!("Received null ptr from sys::Imf_RgbaOutputFile_header");
             }
 
-            HeaderRef {
-                header: std::mem::ManuallyDrop::<Header>::new(Header(
-                    ptr as *mut sys::Imf_Header_t,
-                )),
-                _p: PhantomData,
-            }
+            HeaderRef::new(ptr)
         }
     }
 
@@ -330,12 +360,7 @@ impl RgbaInputFile {
                 panic!("Received null ptr from sys::Imf_RgbaInputFile_header");
             }
 
-            HeaderRef {
-                header: std::mem::ManuallyDrop::<Header>::new(Header(
-                    ptr as *mut sys::Imf_Header_t,
-                )),
-                _p: PhantomData,
-            }
+            HeaderRef::new(ptr)
         }
     }
 
