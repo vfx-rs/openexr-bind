@@ -22,7 +22,9 @@ pub mod input_file;
 pub use input_file::InputFile;
 pub mod input_part;
 pub use input_part::InputPart;
+pub mod pixel_type;
 pub mod refptr;
+pub use pixel_type::PixelType;
 
 pub mod imath;
 

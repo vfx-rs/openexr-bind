@@ -27,7 +27,7 @@ class ChannelList {
 public:
     using BoundType = Imf::ChannelList;
 
-    ChannelList();
+    ChannelList() CPPMM_RENAME(ctor);
     ~ChannelList();
     ChannelList(const Imf::ChannelList& rhs);
     ChannelList(Imf::ChannelList&& rhs);
@@ -39,14 +39,10 @@ public:
     void insert(const std::string& name,
                 const Imf::Channel& channel) CPPMM_IGNORE;
 
-    IMF_EXPORT
-    Imf::Channel& operator[](const char name[]) CPPMM_RENAME(index);
-    IMF_EXPORT
-    const Imf::Channel& operator[](const char name[]) const
-        CPPMM_RENAME(index_const);
+    Imf::Channel& operator[](const char name[]) CPPMM_IGNORE;
+    const Imf::Channel& operator[](const char name[]) const CPPMM_IGNORE;
 
-    IMF_EXPORT
-    Imf::Channel& operator[](const std::string& name) CPPMM_IGNORE;
+    IMF_EXPORT Imf::Channel& operator[](const std::string& name) CPPMM_IGNORE;
     IMF_EXPORT
     const Imf::Channel& operator[](const std::string& name) const CPPMM_IGNORE;
 
@@ -136,7 +132,7 @@ public:
         const char* name() const;
         Imf::Channel& channel() const;
 
-    } CPPMM_OPAQUEBYTES;
+    } CPPMM_OPAQUEBYTES CPPMM_TRIVIALLY_MOVABLE CPPMM_TRIVIALLY_COPYABLE;
 
     class ConstIterator {
     public:
@@ -163,9 +159,13 @@ public:
         IMF_EXPORT
         const Imf::Channel& channel() const;
 
-    } CPPMM_OPAQUEBYTES;
+    } CPPMM_OPAQUEBYTES CPPMM_TRIVIALLY_MOVABLE CPPMM_TRIVIALLY_COPYABLE;
 
 } CPPMM_OPAQUEBYTES;
+
+bool operator==(const Imf::ChannelList::ConstIterator& a,
+                const Imf::ChannelList::ConstIterator& b)
+    CPPMM_RENAME(channel_list_const_iter_eq);
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 

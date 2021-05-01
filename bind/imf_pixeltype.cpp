@@ -8,7 +8,7 @@ namespace OPENEXR_IMF_INTERNAL_NAMESPACE {
 
 namespace Imf = ::OPENEXR_IMF_INTERNAL_NAMESPACE;
 
-enum PixelType {} RUSTIFY_ENUM;
+enum PixelType {} CPPMM_RUSTIFY_ENUM;
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 
