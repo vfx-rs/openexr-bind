@@ -8,13 +8,29 @@ namespace cppmm_bind {
 
 namespace std {
 
+struct _Rb_tree_node_base {
+    using BoundType = ::std::_Rb_tree_node_base;
+} CPPMM_OPAQUEPTR CPPMM_IGNORE_UNBOUND;
+
 template <class T> class set {
 public:
     // This allows us to see through to the type in Imath
     using BoundType = ::std::set<T>;
 
-    set();
+    set() CPPMM_RENAME(ctor);
     ~set();
+
+    size_t size() const;
+
+    typename ::std::set<T>::const_iterator cbegin() const noexcept;
+    typename ::std::set<T>::const_iterator cend() const noexcept;
+
+    struct iterator {
+        using BoundType = typename ::std::set<T>::const_iterator;
+
+        typename ::std::set<T>::const_iterator& operator++() CPPMM_RENAME(inc);
+        const T& operator*() const CPPMM_RENAME(deref);
+    } CPPMM_VALUETYPE CPPMM_IGNORE_UNBOUND;
 
 } CPPMM_OPAQUEBYTES CPPMM_IGNORE_UNBOUND;
 
@@ -22,6 +38,7 @@ public:
 template class set<::std::string>;
 
 using set_string = ::std::set<::std::string>;
+using set_string_iterator = ::std::set<::std::string>::const_iterator;
 
 } // namespace std
 
