@@ -4,7 +4,9 @@ pub mod rgba;
 pub use rgba::{Rgba, RgbaChannels};
 
 pub use openexr_sys::Compression;
+pub use openexr_sys::Imf_Chromaticities_t as Chromaticities;
 pub use openexr_sys::LineOrder;
+pub use openexr_sys::PixelType;
 
 pub mod frame_buffer;
 pub use frame_buffer::{FrameBuffer, Slice};
@@ -22,9 +24,17 @@ pub mod input_file;
 pub use input_file::InputFile;
 pub mod input_part;
 pub use input_part::InputPart;
-pub mod pixel_type;
+pub mod composite_deep_scan_line;
 pub mod refptr;
-pub use pixel_type::PixelType;
+pub use composite_deep_scan_line::CompositeDeepScanLine;
+pub mod deep_scan_line_input_part;
+pub use deep_scan_line_input_part::DeepScanLineInputPart;
+pub mod deep_scan_line_input_file;
+pub use deep_scan_line_input_file::DeepScanLineInputFile;
+pub mod error;
+pub use error::Error;
+pub mod multi_part_input_file;
+pub use multi_part_input_file::MultiPartInputFile;
 
 pub mod imath;
 
@@ -83,6 +93,7 @@ mod tests {
 
         file.set_frame_buffer(&pixels, 1, width as usize);
         file.write_pixels(height);
+        std::mem::drop(file);
     }
 
     #[test]

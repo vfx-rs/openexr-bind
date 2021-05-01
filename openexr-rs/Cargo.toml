@@ -9,6 +9,7 @@ edition = "2018"
 [dependencies]
 openexr-sys = {path="../build/openexr-sys"}
 half = "1.7.1"
+thiserror = "1.0.24"
 
 [dev-dependencies]
 png = "0.16.8"

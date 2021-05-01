@@ -13,7 +13,7 @@ public:
     using BoundType = Imf::CompositeDeepScanLine;
 
     IMF_EXPORT
-    CompositeDeepScanLine();
+    CompositeDeepScanLine() CPPMM_RENAME(ctor);
     IMF_EXPORT
     virtual ~CompositeDeepScanLine();
 
@@ -21,13 +21,15 @@ public:
     ///@note all parts must remain valid until after last interaction with
     /// DeepComp
     IMF_EXPORT
-    void addSource(Imf::DeepScanLineInputPart* part);
+    void addSource(Imf::DeepScanLineInputPart* part)
+        CPPMM_RENAME(addSource_part);
 
     /// set the source data as a file
     ///@note all file must remain valid until after last interaction with
     /// DeepComp
     IMF_EXPORT
-    void addSource(Imf::DeepScanLineInputFile* file);
+    void addSource(Imf::DeepScanLineInputFile* file)
+        CPPMM_RENAME(addSource_file);
 
     /////////////////////////////////////////
     //

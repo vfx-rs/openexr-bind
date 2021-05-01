@@ -26,7 +26,7 @@ public:
     bool operator==(const Imf::Chromaticities& v) const;
     bool operator!=(const Imf::Chromaticities& v) const;
 
-} CPPMM_VALUETYPE;
+} CPPMM_VALUETYPE CPPMM_TRIVIALLY_MOVABLE CPPMM_TRIVIALLY_COPYABLE;
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 
