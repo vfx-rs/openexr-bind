@@ -24,6 +24,10 @@ impl<'a> CompositeDeepScanLine<'a> {
 
     /// Add a source part
     ///
+    /// ## Errors
+    /// * [`Error::InvalidArgument`] - If the part is missing deep Z or alpha
+    /// channels, or if the display window does not match previously added sources
+    ///
     pub fn add_source_part(
         &mut self,
         part: &'a DeepScanLineInputPart,
@@ -40,6 +44,10 @@ impl<'a> CompositeDeepScanLine<'a> {
     }
 
     /// Add a source file
+    ///
+    /// ## Errors
+    /// * [`Error::InvalidArgument`] - If the file is missing deep Z or alpha
+    /// channels, or if the display window does not match previously added sources
     ///
     pub fn add_source_file(
         &mut self,
@@ -80,15 +88,17 @@ impl<'a> CompositeDeepScanLine<'a> {
     /// Read scanlines from the sources from `start` to `end`, compositing them
     /// and storing them in the previously provided frame buffer
     ///
+    /// ## Errors
+    /// * [`Error::OutOfRange`] - If the start or end scanlines are outside
+    /// of the data window.
+    ///
     pub fn read_pixels(&mut self, start: i32, end: i32) -> Result<()> {
         let dw = self.data_window::<[i32; 4]>().clone();
         if start < dw[1] || end > dw[3] {
             Err(Error::OutOfRange)
         } else {
             unsafe {
-                sys::Imf_CompositeDeepScanLine_readPixels(self.ptr, start, end)
-                    .into_result()
-                    .unwrap();
+                sys::Imf_CompositeDeepScanLine_readPixels(self.ptr, start, end);
             }
 
             Ok(())

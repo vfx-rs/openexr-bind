@@ -53,7 +53,8 @@ struct Header {
 
     IMF_EXPORT
     void insert(const char name[], const Imf::Attribute& attribute)
-        CPPMM_THROWS(Iex::TypeExc, IEX_INVALID_TYPE);
+        CPPMM_THROWS(Iex::TypeExc, IEX_INVALID_TYPE)
+            CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     IMF_EXPORT
     void insert(const std::string& name,

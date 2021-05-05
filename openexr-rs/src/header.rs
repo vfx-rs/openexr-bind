@@ -38,6 +38,10 @@ impl Header {
     /// is a hint for readers and may not be respected.
     /// * `compression` - The compression scheme to use to store all image data.
     ///
+    /// ## Errors
+    /// * [`Error::InvalidArgument`] - If the pixel aspect ratio is negative, or
+    /// if the width or height of the display window is less than 1.
+    ///
     pub fn new<B, V>(
         data_window: B,
         display_window: B,
@@ -87,6 +91,10 @@ impl Header {
     /// is a hint for readers and may not be respected.
     /// * `compression` - The compression scheme to use to store all image data.
     ///
+    /// ## Errors
+    /// * [`Error::InvalidArgument`] - If the pixel aspect ratio is negative, or
+    /// if the width or height of the display window is less than 1.
+    ///
     pub fn with_dimensions<V>(
         width: i32,
         height: i32,
@@ -134,9 +142,8 @@ impl Header {
     /// * `is_tiled` - This header should represent a tiled file
     /// * `is_multi_part` - This header should represent a multi-part file
     ///
-    /// # Returns
-    /// * `Ok(())` - If no error is found
-    /// * `Err(Error::UNIMPLEMENTED)` - If an issue is found
+    /// ## Errors
+    /// * [`Error::InvalidArgument`] - If any of the header attributes are invalid
     ///
     pub fn sanity_check(
         &self,
@@ -865,6 +872,11 @@ impl Header {
     //! # Modifying user attributes
 
     /// Inserts the given metadata attribute with the given name
+    ///
+    /// ## Errors
+    /// * [`Error::InvalidType`] - If the attribute to be inserted matches an
+    /// attribute that is already present but with a different type.
+    /// * [`Error::InvalidArgument`] - If the attribute name is the empty string
     ///
     pub fn insert<A>(&mut self, name: &str, attribute: &A) -> Result<()>
     where

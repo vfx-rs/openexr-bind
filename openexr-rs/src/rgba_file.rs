@@ -21,6 +21,9 @@ impl RgbaOutputFile {
     /// * `channels` - Which channels the pixel data will contain.
     /// * `num_threads` - The number of threads to use to write the image
     ///
+    /// ## Errors
+    /// * [`Iex::BaseExc`] - If an error occurs
+    ///
     pub fn new<P: AsRef<Path>>(
         filename: P,
         header: &Header,
@@ -67,6 +70,9 @@ impl RgbaOutputFile {
     /// * `compression` - Which compression scheme to use
     /// * `num_threads` - The number of threads to use to write the image
     ///
+    /// ## Errors
+    /// * [`Iex::BaseExc`] - If an error occurs
+    ///
     pub fn with_dimensions<P: AsRef<Path>, V>(
         filename: P,
         width: i32,
@@ -110,7 +116,7 @@ impl RgbaOutputFile {
                 compression.into(),
                 num_threads,
             )
-            .into_result();
+            .into_result()?;
         }
 
         Ok(RgbaOutputFile(_inner))
@@ -119,6 +125,9 @@ impl RgbaOutputFile {
     /// Define a frame buffer as the pixel data source.
     ///
     /// Pixel (x, y) is at offset x * x_stride + y * y_stride
+    ///
+    /// ## Errors
+    /// * [`Iex::BaseExc`] - If an error occurs
     ///
     pub fn set_frame_buffer(
         &mut self,
@@ -149,6 +158,9 @@ impl RgbaOutputFile {
     /// To produce a complete and correct file, exactly `m` scan lines must
     /// be written, where `m` is equal to
     /// data_window().max.y - data_window().min.y + 1.
+    ///
+    /// ## Errors
+    /// * [`Iex::BaseExc`] - If an error occurs
     ///
     pub fn write_pixels(&mut self, num_scan_lines: i32) -> Result<()> {
         unsafe {
@@ -274,6 +286,9 @@ impl RgbaInputFile {
     /// Open the file at path `filename`, using `num_threads` threads to do the
     /// reading.
     ///
+    /// ## Errors
+    /// * [`Iex::BaseExc`] - If an error occurs
+    ///
     pub fn new<P: AsRef<Path>>(
         filename: P,
         num_threads: i32,
@@ -303,6 +318,10 @@ impl RgbaInputFile {
     /// Set a frame buffer as the destination for the decoded pixels
     ///
     /// Pixel (x, y) is at offset x * x_stride + y * y_stride
+    ///
+    /// ## Errors
+    /// * [`Iex::InvalidArgument`] - If the frame buffer's data type can not be
+    /// determined
     ///
     pub fn set_frame_buffer(
         &mut self,
@@ -368,6 +387,9 @@ impl RgbaInputFile {
     /// individual scan lines may be skipped or read multiple times.
     /// For maximum efficiency, the scan lines should be read in the
     /// order in which they were written to the file.
+    ///
+    /// ## Errors
+    /// * [`Iex::BaseExc`] - If an error occurs
     ///
     pub fn read_pixels(
         &mut self,
