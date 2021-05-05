@@ -24,24 +24,36 @@ impl<'a> CompositeDeepScanLine<'a> {
 
     /// Add a source part
     ///
-    pub fn add_source_part(&mut self, part: &'a DeepScanLineInputPart) {
+    pub fn add_source_part(
+        &mut self,
+        part: &'a DeepScanLineInputPart,
+    ) -> Result<()> {
         unsafe {
-            sys::Imf_CompositeDeepScanLine_addSource_part(self.ptr, part.0);
+            sys::Imf_CompositeDeepScanLine_addSource_part(self.ptr, part.0)
+                .into_result()?;
         }
         // keep a reference to enforce that the part must live at least as long
         // as we do
-        self.parts.push(part)
+        self.parts.push(part);
+
+        Ok(())
     }
 
     /// Add a source file
     ///
-    pub fn add_source_file(&mut self, file: &'a DeepScanLineInputFile) {
+    pub fn add_source_file(
+        &mut self,
+        file: &'a DeepScanLineInputFile,
+    ) -> Result<()> {
         unsafe {
-            sys::Imf_CompositeDeepScanLine_addSource_file(self.ptr, file.0);
+            sys::Imf_CompositeDeepScanLine_addSource_file(self.ptr, file.0)
+                .into_result()?;
         }
         // keep a reference to enforce that the file must live at least as long
         // as we do
-        self.files.push(file)
+        self.files.push(file);
+
+        Ok(())
     }
 
     /// Set the frame buffer to composite into. The buffer specified must be
@@ -52,7 +64,9 @@ impl<'a> CompositeDeepScanLine<'a> {
             sys::Imf_CompositeDeepScanLine_setFrameBuffer(
                 self.ptr,
                 frame_buffer.0,
-            );
+            )
+            .into_result()
+            .unwrap();
         }
         self.frame_buffer = Some(frame_buffer);
     }
@@ -72,7 +86,9 @@ impl<'a> CompositeDeepScanLine<'a> {
             Err(Error::OutOfRange)
         } else {
             unsafe {
-                sys::Imf_CompositeDeepScanLine_readPixels(self.ptr, start, end);
+                sys::Imf_CompositeDeepScanLine_readPixels(self.ptr, start, end)
+                    .into_result()
+                    .unwrap();
             }
 
             Ok(())
@@ -82,7 +98,13 @@ impl<'a> CompositeDeepScanLine<'a> {
     /// The number of sources added
     ///
     pub fn num_sources(&self) -> i32 {
-        unsafe { sys::Imf_CompositeDeepScanLine_sources(self.ptr) }
+        let mut num = 0;
+        unsafe {
+            sys::Imf_CompositeDeepScanLine_sources(self.ptr, &mut num)
+                .into_result()
+                .unwrap();
+        }
+        num
     }
 
     /// Get the data window
@@ -94,8 +116,10 @@ impl<'a> CompositeDeepScanLine<'a> {
     where
         B: Box2<i32>,
     {
+        let mut ptr = std::ptr::null();
         unsafe {
-            &*(sys::Imf_CompositeDeepScanLine_dataWindow(self.ptr) as *const B)
+            sys::Imf_CompositeDeepScanLine_dataWindow(self.ptr, &mut ptr);
+            &*(ptr as *const B)
         }
     }
 

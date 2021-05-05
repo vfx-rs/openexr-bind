@@ -89,10 +89,11 @@ mod tests {
             &header,
             RgbaChannels::WriteRgba,
             1,
-        );
+        )
+        .unwrap();
 
-        file.set_frame_buffer(&pixels, 1, width as usize);
-        file.write_pixels(height);
+        file.set_frame_buffer(&pixels, 1, width as usize).unwrap();
+        file.write_pixels(height).unwrap();
         std::mem::drop(file);
     }
 
@@ -105,14 +106,15 @@ mod tests {
         .join("images")
         .join("ferris.exr");
 
-        let mut file = RgbaInputFile::new(&path, 1);
+        let mut file = RgbaInputFile::new(&path, 1).unwrap();
         let data_window = file.header().data_window::<[i32; 4]>().clone();
         let width = data_window[2] - data_window[0] + 1;
         let height = data_window[3] - data_window[1] + 1;
 
         let mut pixels = vec![Rgba::zero(); (width * height) as usize];
-        file.set_frame_buffer(&mut pixels, 1, width as usize);
-        file.read_pixels(0, height - 1);
+        file.set_frame_buffer(&mut pixels, 1, width as usize)
+            .unwrap();
+        file.read_pixels(0, height - 1).unwrap();
 
         let mut ofile = RgbaOutputFile::with_dimensions(
             "read_rgba1.exr",
@@ -125,9 +127,10 @@ mod tests {
             LineOrder::IncreasingY,
             Compression::Piz,
             1,
-        );
+        )
+        .unwrap();
 
-        ofile.set_frame_buffer(&pixels, 1, width as usize);
-        ofile.write_pixels(height);
+        ofile.set_frame_buffer(&pixels, 1, width as usize).unwrap();
+        ofile.write_pixels(height).unwrap();
     }
 }

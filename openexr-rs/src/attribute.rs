@@ -23,7 +23,9 @@ impl Box2iAttribute {
             sys::Imf_Box2iAttribute_from_value(
                 &mut inner,
                 value as *const T as *const sys::Imath_Box2i_t,
-            );
+            )
+            .into_result()
+            .unwrap();
         }
 
         Box2iAttribute(inner)
@@ -34,9 +36,12 @@ impl Box2iAttribute {
     where
         T: Box2<i32>,
     {
+        let mut ptr = std::ptr::null();
         unsafe {
-            &*(sys::Imf_Box2iAttribute_value_const(self.0)
-                as *const sys::Imath_Box2i_t as *const T)
+            sys::Imf_Box2iAttribute_value_const(self.0, &mut ptr)
+                .into_result()
+                .unwrap();
+            &*(ptr as *const sys::Imath_Box2i_t as *const T)
         }
     }
 
@@ -45,17 +50,25 @@ impl Box2iAttribute {
     where
         T: Box2<i32>,
     {
+        let mut ptr = std::ptr::null_mut();
         unsafe {
-            &mut *(sys::Imf_Box2iAttribute_value(self.0)
-                as *mut sys::Imath_Box2i_t as *mut T)
+            sys::Imf_Box2iAttribute_value(self.0, &mut ptr)
+                .into_result()
+                .unwrap();
+            &mut *(ptr as *mut sys::Imath_Box2i_t as *mut T)
         }
     }
 
     /// Get this attribute's type name
-    pub fn type_name(&self) -> String {
+    pub fn type_name(&self) -> &str {
         unsafe {
-            let ptr = sys::Imf_Box2iAttribute_typeName(self.0);
-            std::ffi::CStr::from_ptr(ptr).to_string_lossy().to_string()
+            let mut ptr = std::ptr::null();
+            sys::Imf_Box2iAttribute_typeName(self.0, &mut ptr)
+                .into_result()
+                .unwrap();
+            std::ffi::CStr::from_ptr(ptr)
+                .to_str()
+                .expect("Invalid UTF-8")
         }
     }
 }

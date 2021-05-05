@@ -1,9 +1,12 @@
 use crate::{
-    imath::Vec2, Compression, Header, HeaderRef, LineOrder, Rgba, RgbaChannels,
+    imath::Vec2, Compression, Error, Header, HeaderRef, LineOrder, Rgba,
+    RgbaChannels,
 };
 use openexr_sys as sys;
 use std::ffi::CString;
 use std::path::Path;
+
+type Result<T, E = Error> = std::result::Result<T, E>;
 
 /// A simplified interface for writing an RGBA EXR file
 #[repr(transparent)]
@@ -23,7 +26,7 @@ impl RgbaOutputFile {
         header: &Header,
         channels: RgbaChannels,
         num_threads: i32,
-    ) -> RgbaOutputFile {
+    ) -> Result<RgbaOutputFile> {
         let c_filename = CString::new(
             filename
                 .as_ref()
@@ -40,10 +43,11 @@ impl RgbaOutputFile {
                 header.0,
                 channels.into(),
                 num_threads,
-            );
+            )
+            .into_result()?;
         }
 
-        RgbaOutputFile(_inner)
+        Ok(RgbaOutputFile(_inner))
     }
 
     /// Create a new [`RgbaOutputFile`] with the given parameters.
@@ -74,7 +78,7 @@ impl RgbaOutputFile {
         line_order: LineOrder,
         compression: Compression,
         num_threads: i32,
-    ) -> RgbaOutputFile
+    ) -> Result<RgbaOutputFile>
     where
         V: Vec2<f32>,
     {
@@ -105,10 +109,11 @@ impl RgbaOutputFile {
                 line_order.into(),
                 compression.into(),
                 num_threads,
-            );
+            )
+            .into_result();
         }
 
-        RgbaOutputFile(_inner)
+        Ok(RgbaOutputFile(_inner))
     }
 
     /// Define a frame buffer as the pixel data source.
@@ -120,15 +125,18 @@ impl RgbaOutputFile {
         data: &[Rgba],
         x_stride: usize,
         y_stride: usize,
-    ) {
+    ) -> Result<()> {
         unsafe {
             sys::Imf_RgbaOutputFile_setFrameBuffer(
                 self.0,
                 data.as_ptr() as *const sys::Imf_Rgba_t,
                 x_stride as u64,
                 y_stride as u64,
-            );
+            )
+            .into_result()?;
         }
+
+        Ok(())
     }
 
     /// Write the pixel data to the output file
@@ -142,10 +150,12 @@ impl RgbaOutputFile {
     /// be written, where `m` is equal to
     /// data_window().max.y - data_window().min.y + 1.
     ///
-    pub fn write_pixels(&mut self, num_scan_lines: i32) {
+    pub fn write_pixels(&mut self, num_scan_lines: i32) -> Result<()> {
         unsafe {
-            sys::Imf_RgbaOutputFile_writePixels(self.0, num_scan_lines);
+            sys::Imf_RgbaOutputFile_writePixels(self.0, num_scan_lines)
+                .into_result()?;
         }
+        Ok(())
     }
 
     /// Access to the current scan line:
@@ -167,14 +177,19 @@ impl RgbaOutputFile {
     /// the current scan line is decremented by 1.
     ///
     pub fn current_scan_line(&self) -> i32 {
-        unsafe { sys::Imf_RgbaOutputFile_currentScanLine(self.0) }
+        let mut v = 0;
+        unsafe {
+            sys::Imf_RgbaOutputFile_currentScanLine(self.0, &mut v);
+        }
+        v
     }
 
     /// Access to the file [`Header`]
     ///
     pub fn header<'a>(&'a self) -> HeaderRef<'a, Self> {
         unsafe {
-            let ptr = sys::Imf_RgbaOutputFile_header(self.0);
+            let mut ptr = std::ptr::null();
+            sys::Imf_RgbaOutputFile_header(self.0, &mut ptr);
             if ptr.is_null() {
                 panic!("Received null ptr from sys::Imf_RgbaOutputFile_header");
             }
@@ -259,7 +274,10 @@ impl RgbaInputFile {
     /// Open the file at path `filename`, using `num_threads` threads to do the
     /// reading.
     ///
-    pub fn new<P: AsRef<Path>>(filename: P, num_threads: i32) -> RgbaInputFile {
+    pub fn new<P: AsRef<Path>>(
+        filename: P,
+        num_threads: i32,
+    ) -> Result<RgbaInputFile> {
         let mut inner = std::ptr::null_mut();
 
         let c_filename = CString::new(
@@ -275,10 +293,11 @@ impl RgbaInputFile {
                 &mut inner,
                 c_filename.as_ptr(),
                 num_threads,
-            );
+            )
+            .into_result()?;
         }
 
-        RgbaInputFile(inner)
+        Ok(RgbaInputFile(inner))
     }
 
     /// Set a frame buffer as the destination for the decoded pixels
@@ -290,15 +309,18 @@ impl RgbaInputFile {
         pixels: &mut [Rgba],
         x_stride: usize,
         y_stride: usize,
-    ) {
+    ) -> Result<()> {
         unsafe {
             sys::Imf_RgbaInputFile_setFrameBuffer(
                 self.0,
                 pixels.as_mut_ptr() as *mut sys::Imf_Rgba_t,
                 x_stride as u64,
                 y_stride as u64,
-            );
+            )
+            .into_result()?;
         }
+
+        Ok(())
     }
 
     /// Sets the layer that subsequent [`RgbaInputFile::read_pixels`] calls will
@@ -321,8 +343,10 @@ impl RgbaInputFile {
             // cppmm
             let mut s = std::ptr::null_mut();
             sys::std___cxx11_string_ctor(&mut s);
+            let mut dummy = std::ptr::null_mut();
             sys::std___cxx11_string_assign(
                 s,
+                &mut dummy,
                 cname.as_ptr(),
                 cname.as_bytes().len() as u64,
             );
@@ -345,17 +369,25 @@ impl RgbaInputFile {
     /// For maximum efficiency, the scan lines should be read in the
     /// order in which they were written to the file.
     ///
-    pub fn read_pixels(&mut self, scanline1: i32, scanline2: i32) {
+    pub fn read_pixels(
+        &mut self,
+        scanline1: i32,
+        scanline2: i32,
+    ) -> Result<()> {
         unsafe {
-            sys::Imf_RgbaInputFile_readPixels(self.0, scanline1, scanline2);
+            sys::Imf_RgbaInputFile_readPixels(self.0, scanline1, scanline2)
+                .into_result()?;
         }
+
+        Ok(())
     }
 
     /// Access to the file [`Header`]
     ///
     pub fn header<'a>(&'a self) -> HeaderRef<'a, Self> {
         unsafe {
-            let ptr = sys::Imf_RgbaInputFile_header(self.0);
+            let mut ptr = std::ptr::null();
+            sys::Imf_RgbaInputFile_header(self.0, &mut ptr);
             if ptr.is_null() {
                 panic!("Received null ptr from sys::Imf_RgbaInputFile_header");
             }
@@ -371,7 +403,9 @@ impl RgbaInputFile {
     /// (Another program may still be busy writing the file, or file
     /// writing may have been aborted prematurely.)
     pub fn is_complete(&self) -> bool {
-        unsafe { sys::Imf_RgbaInputFile_isComplete(self.0) }
+        let mut result = false;
+        unsafe { sys::Imf_RgbaInputFile_isComplete(self.0, &mut result) };
+        result
     }
 }
 

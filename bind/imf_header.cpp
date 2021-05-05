@@ -30,7 +30,8 @@ struct Header {
     Header(int width, int height, float pixelAspectRatio,
            const IMATH_NAMESPACE::V2f& screenWindowCenter,
            float screenWindowWidth, Imf::LineOrder lineOrder,
-           Imf::Compression compression) CPPMM_RENAME(with_dimensions);
+           Imf::Compression compression) CPPMM_RENAME(with_dimensions)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     IMF_EXPORT
     Header(int width, int height, const IMATH_NAMESPACE::Box2i& dataWindow,
@@ -44,20 +45,24 @@ struct Header {
            const IMATH_NAMESPACE::Box2i& dataWindow, float pixelAspectRatio,
            const IMATH_NAMESPACE::V2f& screenWindowCenter,
            float screenWindowWidth, Imf::LineOrder lineOrder,
-           Imf::Compression compression) CPPMM_RENAME(ctor);
+           Imf::Compression compression) CPPMM_RENAME(ctor)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     CPPMM_COPY(Imf, Header)
     ~Header();
 
     IMF_EXPORT
-    void insert(const char name[], const Imf::Attribute& attribute);
+    void insert(const char name[], const Imf::Attribute& attribute)
+        CPPMM_THROWS(Iex::TypeExc, IEX_INVALID_TYPE);
 
     IMF_EXPORT
     void insert(const std::string& name,
                 const Imf::Attribute& attribute) CPPMM_IGNORE;
 
     IMF_EXPORT
-    void erase(const char name[]);
+    void erase(const char name[])
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
+
     IMF_EXPORT
     void erase(const std::string& name) CPPMM_IGNORE;
 
@@ -240,7 +245,8 @@ struct Header {
     bool hasPreviewImage() const;
 
     IMF_EXPORT
-    void sanityCheck(bool isTiled = false, bool isMultipartFile = false) const;
+    void sanityCheck(bool isTiled = false, bool isMultipartFile = false) const
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     IMF_EXPORT
     static void setMaxImageSize(int maxWidth, int maxHeight);

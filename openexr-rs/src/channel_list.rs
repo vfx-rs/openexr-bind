@@ -41,7 +41,9 @@ impl ChannelList {
     pub fn insert(&mut self, name: &str, channel: &Channel) {
         unsafe {
             let cname = CString::new(name).expect("Inner NUL bytes in name");
-            sys::Imf_ChannelList_insert(self.0, cname.as_ptr(), channel);
+            sys::Imf_ChannelList_insert(self.0, cname.as_ptr(), channel)
+                .into_result()
+                .unwrap();
         }
     }
 
@@ -54,8 +56,15 @@ impl ChannelList {
     pub fn get(&self, name: &str) -> Option<&Channel> {
         unsafe {
             let cname = CString::new(name).expect("Inner NUL bytes in name");
-            let ptr =
-                sys::Imf_ChannelList_findChannel_const(self.0, cname.as_ptr());
+            let mut ptr = std::ptr::null();
+            sys::Imf_ChannelList_findChannel_const(
+                self.0,
+                &mut ptr,
+                cname.as_ptr(),
+            )
+            .into_result()
+            .unwrap();
+
             if ptr.is_null() {
                 None
             } else {
@@ -73,7 +82,12 @@ impl ChannelList {
     pub fn get_mut(&mut self, name: &str) -> Option<&mut Channel> {
         unsafe {
             let cname = CString::new(name).expect("Inner NUL bytes in name");
-            let ptr = sys::Imf_ChannelList_findChannel(self.0, cname.as_ptr());
+            let mut ptr = std::ptr::null_mut();
+
+            sys::Imf_ChannelList_findChannel(self.0, &mut ptr, cname.as_ptr())
+                .into_result()
+                .unwrap();
+
             if ptr.is_null() {
                 None
             } else {
@@ -86,12 +100,17 @@ impl ChannelList {
     ///
     pub fn iter(&self) -> ChannelListIter {
         unsafe {
-            let ptr = ChannelListConstIterator(
-                sys::Imf_ChannelList_begin_const(self.0),
-            );
-            let end = ChannelListConstIterator(sys::Imf_ChannelList_end_const(
-                self.0,
-            ));
+            let mut ptr = sys::Imf_ChannelList_ConstIterator_t::default();
+            sys::Imf_ChannelList_begin_const(self.0, &mut ptr)
+                .into_result()
+                .unwrap();
+            let ptr = ChannelListConstIterator(ptr);
+
+            let mut end = sys::Imf_ChannelList_ConstIterator_t::default();
+            sys::Imf_ChannelList_end_const(self.0, &mut end)
+                .into_result()
+                .unwrap();
+            let end = ChannelListConstIterator(end);
 
             ChannelListIter {
                 ptr,
@@ -135,9 +154,22 @@ impl ChannelList {
             sys::std_set_string_ctor(&mut set);
             sys::Imf_ChannelList_layers(self.0, set);
 
-            let mut ptr = sys::std_set_string_cbegin(set);
-            let end = sys::std_set_string_cend(set);
-            let size = sys::std_set_string_size(set);
+            let mut ptr = sys::std_set_string_iterator_t {
+                _m_node: std::ptr::null(),
+            };
+            sys::std_set_string_cbegin(set, &mut ptr)
+                .into_result()
+                .unwrap();
+            let mut end = sys::std_set_string_iterator_t {
+                _m_node: std::ptr::null(),
+            };
+            sys::std_set_string_cend(set, &mut end)
+                .into_result()
+                .unwrap();
+            let mut size = 0;
+            sys::std_set_string_size(set, &mut size)
+                .into_result()
+                .unwrap();
 
             let mut result = Vec::with_capacity(size as usize);
 
@@ -146,14 +178,24 @@ impl ChannelList {
                     break;
                 }
 
-                let str_ptr = sys::std_set_string_iterator_deref(&ptr);
-                let char_ptr = sys::std___cxx11_string_c_str(str_ptr);
+                let mut str_ptr = std::ptr::null();
+                sys::std_set_string_iterator_deref(&ptr, &mut str_ptr)
+                    .into_result()
+                    .unwrap();
+
+                let mut char_ptr = std::ptr::null();
+                sys::std___cxx11_string_c_str(str_ptr, &mut char_ptr)
+                    .into_result()
+                    .unwrap();
 
                 result.push(
                     CStr::from_ptr(char_ptr).to_string_lossy().to_string(),
                 );
 
-                sys::std_set_string_iterator_inc(&mut ptr);
+                let mut dummy = std::ptr::null_mut();
+                sys::std_set_string_iterator_inc(&mut ptr, &mut dummy)
+                    .into_result()
+                    .unwrap();
             }
 
             result
@@ -168,15 +210,22 @@ impl ChannelList {
         unsafe {
             let clayer = CString::new(layer).expect("NUL bytes in layer name");
             let mut s = std::ptr::null_mut();
-            sys::std___cxx11_string_ctor(&mut s);
+            sys::std___cxx11_string_ctor(&mut s).into_result().unwrap();
+            let mut dummy = std::ptr::null_mut();
             sys::std___cxx11_string_assign(
                 s,
+                &mut dummy,
                 clayer.as_ptr(),
                 clayer.as_bytes().len() as u64,
-            );
+            )
+            .into_result()
+            .unwrap();
+
             sys::Imf_ChannelList_channelsInLayer_const(
                 self.0, s, &mut ptr, &mut end,
-            );
+            )
+            .into_result()
+            .unwrap();
 
             ChannelListIter {
                 ptr: ChannelListConstIterator(ptr),
@@ -198,7 +247,9 @@ impl ChannelList {
                 cprefix.as_ptr(),
                 &mut ptr,
                 &mut end,
-            );
+            )
+            .into_result()
+            .unwrap();
 
             ChannelListIter {
                 ptr: ChannelListConstIterator(ptr),
@@ -221,7 +272,14 @@ impl Default for ChannelList {
 
 impl PartialEq for ChannelList {
     fn eq(&self, rhs: &ChannelList) -> bool {
-        unsafe { sys::Imf_ChannelList__eq(self.0, rhs.0) }
+        unsafe {
+            let mut result = false;
+            sys::Imf_ChannelList__eq(self.0, &mut result, rhs.0)
+                .into_result()
+                .unwrap();
+
+            result
+        }
     }
 }
 
@@ -238,7 +296,13 @@ impl<'a> Iterator for ChannelListIter<'a> {
         let ptr_curr = self.ptr.clone();
         let mut ptr_next = self.ptr.clone();
         unsafe {
-            sys::Imf_ChannelList_ConstIterator__op_inc(&mut ptr_next.0);
+            let mut dummy = std::ptr::null_mut();
+            sys::Imf_ChannelList_ConstIterator__op_inc(
+                &mut ptr_next.0,
+                &mut dummy,
+            )
+            .into_result()
+            .unwrap();
         }
 
         if ptr_curr == self.end {
@@ -246,16 +310,31 @@ impl<'a> Iterator for ChannelListIter<'a> {
         } else {
             self.ptr = ptr_next;
             unsafe {
-                let nameptr =
-                    sys::Imf_ChannelList_ConstIterator_name(&ptr_curr.0);
+                let mut nameptr = std::ptr::null();
+                sys::Imf_ChannelList_ConstIterator_name(
+                    &ptr_curr.0,
+                    &mut nameptr,
+                )
+                .into_result()
+                .unwrap();
+
                 if nameptr.is_null() {
                     panic!("ChannelList::ConstIterator::name() returned NULL");
                 }
+
+                let mut chanptr = std::ptr::null();
+                sys::Imf_ChannelList_ConstIterator_channel(
+                    &ptr_curr.0,
+                    &mut chanptr,
+                )
+                .into_result()
+                .unwrap();
+
                 Some((
                     CStr::from_ptr(nameptr)
                         .to_str()
                         .expect("NUL bytes in channel name"),
-                    &*sys::Imf_ChannelList_ConstIterator_channel(&ptr_curr.0),
+                    &*chanptr,
                 ))
             }
         }
@@ -264,7 +343,14 @@ impl<'a> Iterator for ChannelListIter<'a> {
 
 impl PartialEq for ChannelListConstIterator {
     fn eq(&self, rhs: &ChannelListConstIterator) -> bool {
-        unsafe { sys::Imf_channel_list_const_iter_eq(&self.0, &rhs.0) }
+        unsafe {
+            let mut result = false;
+            sys::Imf_channel_list_const_iter_eq(&mut result, &self.0, &rhs.0)
+                .into_result()
+                .unwrap();
+
+            result
+        }
     }
 }
 

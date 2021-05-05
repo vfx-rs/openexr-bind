@@ -1,9 +1,11 @@
 use crate::imath::{Box2, Vec2};
 use crate::{
-    refptr::Ref, Box2iAttribute, ChannelList, Compression, LineOrder,
+    refptr::Ref, Box2iAttribute, ChannelList, Compression, Error, LineOrder,
     PreviewImage, TileDescription, TypedAttribute,
 };
 use openexr_sys as sys;
+
+type Result<T, E = Error> = std::result::Result<T, E>;
 
 use std::ffi::{CStr, CString};
 
@@ -44,7 +46,7 @@ impl Header {
         screen_window_width: f32,
         line_order: LineOrder,
         compression: Compression,
-    ) -> Header
+    ) -> Result<Header>
     where
         B: Box2<i32>,
         V: Vec2<f32>,
@@ -60,10 +62,11 @@ impl Header {
                 screen_window_width,
                 line_order.into(),
                 compression.into(),
-            );
+            )
+            .into_result()?;
         }
 
-        Header(header)
+        Ok(Header(header))
     }
 
     /// Construct a new [`Header`] with the given attributes.
@@ -92,7 +95,7 @@ impl Header {
         screen_window_width: f32,
         line_order: LineOrder,
         compression: Compression,
-    ) -> Header
+    ) -> Result<Header>
     where
         V: Vec2<f32>,
     {
@@ -107,10 +110,11 @@ impl Header {
                 screen_window_width,
                 line_order.into(),
                 compression.into(),
-            );
+            )
+            .into_result()?;
         }
 
-        Header(header)
+        Ok(Header(header))
     }
 
     /// Shortcut to construct a new [`Header`] with just the dimensions and
@@ -138,8 +142,12 @@ impl Header {
         &self,
         is_tiled: bool,
         is_multi_part: bool,
-    ) -> Result<(), Box<dyn std::error::Error>> {
-        unimplemented!()
+    ) -> Result<()> {
+        unsafe {
+            sys::Imf_Header_sanityCheck(self.0, is_tiled, is_multi_part)
+                .into_result()?;
+        }
+        Ok(())
     }
 
     /// [`Header::sanity_check()`] will throw an exception if the width or
@@ -155,7 +163,11 @@ impl Header {
     /// a damaged image file.
     ///
     pub fn set_max_image_size(max_width: i32, max_height: i32) {
-        unimplemented!()
+        unsafe {
+            sys::Imf_3_0__Header_setMaxImageSize(max_width, max_height)
+                .into_result()
+                .unwrap();
+        }
     }
 
     /// [`Header::sanity_check()`] will throw an exception if the width or
@@ -171,7 +183,11 @@ impl Header {
     /// a damaged image file.
     ///
     pub fn set_max_tile_size(max_width: i32, max_height: i32) {
-        unimplemented!()
+        unsafe {
+            sys::Imf_3_0__Header_setMaxTileSize(max_width, max_height)
+                .into_result()
+                .unwrap();
+        }
     }
 
     /// Check if the header reads nothing
@@ -179,7 +195,13 @@ impl Header {
     /// FIXME: This should be a const method in C++ but it's not - patch OpenEXR?
     ///
     pub fn reads_nothing(&mut self) -> bool {
-        unsafe { sys::Imf_Header_readsNothing(self.0) }
+        let mut result = false;
+        unsafe {
+            sys::Imf_Header_readsNothing(self.0, &mut result)
+                .into_result()
+                .unwrap()
+        };
+        result
     }
 }
 
@@ -205,6 +227,7 @@ impl Default for Header {
             LineOrder::IncreasingY,
             Compression::Zip,
         )
+        .unwrap()
     }
 }
 
@@ -233,7 +256,10 @@ impl Header {
         B: Box2<i32>,
     {
         unsafe {
-            let ptr = sys::Imf_Header_displayWindow_const(self.0);
+            let mut ptr = std::ptr::null();
+            sys::Imf_Header_displayWindow_const(self.0, &mut ptr)
+                .into_result()
+                .unwrap();
             &*(ptr as *const sys::Imath_Box2i_t as *const B)
         }
     }
@@ -256,7 +282,10 @@ impl Header {
         B: Box2<i32>,
     {
         unsafe {
-            let ptr = sys::Imf_Header_displayWindow(self.0);
+            let mut ptr = std::ptr::null_mut();
+            sys::Imf_Header_displayWindow(self.0, &mut ptr)
+                .into_result()
+                .unwrap();
             &mut *(ptr as *mut sys::Imath_Box2i_t as *mut B)
         }
     }
@@ -278,7 +307,11 @@ impl Header {
         B: Box2<i32>,
     {
         unsafe {
-            let ptr = sys::Imf_Header_dataWindow_const(self.0);
+            let mut ptr = std::ptr::null();
+            sys::Imf_Header_dataWindow_const(self.0, &mut ptr)
+                .into_result()
+                .unwrap();
+
             &*(ptr as *const sys::Imath_Box2i_t as *const B)
         }
     }
@@ -300,7 +333,10 @@ impl Header {
         B: Box2<i32>,
     {
         unsafe {
-            let ptr = sys::Imf_Header_dataWindow(self.0);
+            let mut ptr = std::ptr::null_mut();
+            sys::Imf_Header_dataWindow(self.0, &mut ptr)
+                .into_result()
+                .unwrap();
             &mut *(ptr as *mut sys::Imath_Box2i_t as *mut B)
         }
     }
@@ -326,8 +362,11 @@ impl Header {
     ///
     pub fn pixel_aspect_ratio(&self) -> f32 {
         unsafe {
-            let par = sys::Imf_Header_pixelAspectRatio_const(self.0);
-            *par
+            let mut ptr = std::ptr::null();
+            sys::Imf_Header_pixelAspectRatio_const(self.0, &mut ptr)
+                .into_result()
+                .unwrap();
+            *ptr
         }
     }
 
@@ -345,7 +384,11 @@ impl Header {
     ///
     pub fn set_pixel_aspect_ratio(&mut self, par: f32) {
         unsafe {
-            *sys::Imf_Header_pixelAspectRatio(self.0) = par;
+            let mut ptr = std::ptr::null_mut();
+            sys::Imf_Header_pixelAspectRatio(self.0, &mut ptr)
+                .into_result()
+                .unwrap();
+            *ptr = par;
         }
     }
 
@@ -364,7 +407,10 @@ impl Header {
         B: Box2<i32>,
     {
         unsafe {
-            let ptr = sys::Imf_Header_screenWindowCenter_const(self.0);
+            let mut ptr = std::ptr::null();
+            sys::Imf_Header_screenWindowCenter_const(self.0, &mut ptr)
+                .into_result()
+                .unwrap();
             &*(ptr as *const sys::Imath_Box2i_t as *const B)
         }
     }
@@ -384,7 +430,10 @@ impl Header {
         B: Box2<i32>,
     {
         unsafe {
-            let ptr = sys::Imf_Header_screenWindowCenter(self.0);
+            let mut ptr = std::ptr::null_mut();
+            sys::Imf_Header_screenWindowCenter(self.0, &mut ptr)
+                .into_result()
+                .unwrap();
             &mut *(ptr as *mut sys::Imath_Box2i_t as *mut B)
         }
     }
@@ -401,7 +450,10 @@ impl Header {
     ///
     pub fn screen_window_width(&self) -> &f32 {
         unsafe {
-            let ptr = sys::Imf_Header_screenWindowWidth_const(self.0);
+            let mut ptr = std::ptr::null();
+            sys::Imf_Header_screenWindowWidth_const(self.0, &mut ptr)
+                .into_result()
+                .unwrap();
             &*ptr
         }
     }
@@ -418,7 +470,10 @@ impl Header {
     ///
     pub fn screen_window_width_mut(&mut self) -> &f32 {
         unsafe {
-            let ptr = sys::Imf_Header_screenWindowWidth(self.0);
+            let mut ptr = std::ptr::null_mut();
+            sys::Imf_Header_screenWindowWidth(self.0, &mut ptr)
+                .into_result()
+                .unwrap();
             &mut *ptr
         }
     }
@@ -426,7 +481,10 @@ impl Header {
     /// Get a reference to the list of channels in the header
     pub fn channels(&self) -> &ChannelList {
         unsafe {
-            let ptr = sys::Imf_Header_channels_const(self.0);
+            let mut ptr = std::ptr::null();
+            sys::Imf_Header_channels_const(self.0, &mut ptr)
+                .into_result()
+                .unwrap();
             &*(ptr as *const sys::Imf_ChannelList_t as *const ChannelList)
         }
     }
@@ -434,7 +492,10 @@ impl Header {
     /// Get a mutable reference to the list of channels in the header
     pub fn channels_mut(&mut self) -> &mut ChannelList {
         unsafe {
-            let ptr = sys::Imf_Header_channels(self.0);
+            let mut ptr = std::ptr::null_mut();
+            sys::Imf_Header_channels(self.0, &mut ptr)
+                .into_result()
+                .unwrap();
             &mut *(ptr as *mut sys::Imf_ChannelList_t as *mut ChannelList)
         }
     }
@@ -449,8 +510,13 @@ impl Header {
     /// which the data is stored.
     ///
     pub fn line_order(&self) -> LineOrder {
-        let lo = unsafe { *sys::Imf_Header_lineOrder_const(self.0) };
-        lo.into()
+        let mut ptr = std::ptr::null();
+        unsafe {
+            sys::Imf_Header_lineOrder_const(self.0, &mut ptr)
+                .into_result()
+                .unwrap();
+            (*ptr).into()
+        }
     }
 
     /// Set the line order in the header
@@ -464,7 +530,11 @@ impl Header {
     ///
     pub fn set_line_order(&mut self, lo: LineOrder) {
         unsafe {
-            *sys::Imf_Header_lineOrder(self.0) = lo.into();
+            let mut ptr = std::ptr::null_mut();
+            sys::Imf_Header_lineOrder(self.0, &mut ptr)
+                .into_result()
+                .unwrap();
+            *ptr = lo.into();
         };
     }
 
@@ -473,8 +543,13 @@ impl Header {
     /// Defines the compression scheme used to store all pixel data.
     ///
     pub fn compression(&self) -> Compression {
-        let cmp = unsafe { *sys::Imf_Header_compression_const(self.0) };
-        cmp.into()
+        let mut ptr = std::ptr::null();
+        unsafe {
+            sys::Imf_Header_compression_const(self.0, &mut ptr)
+                .into_result()
+                .unwrap();
+            (*ptr).into()
+        }
     }
 
     /// Set the compression type in the header
@@ -482,9 +557,13 @@ impl Header {
     /// Defines the compression scheme used to store all pixel data.
     ///
     pub fn set_compression(&mut self, cmp: Compression) {
+        let mut ptr = std::ptr::null_mut();
         unsafe {
-            *sys::Imf_Header_compression(self.0) = cmp.into();
-        };
+            sys::Imf_Header_compression(self.0, &mut ptr)
+                .into_result()
+                .unwrap();
+            *ptr = cmp.into();
+        }
     }
 }
 
@@ -501,10 +580,17 @@ impl Header {
     ///
     pub fn name(&self) -> String {
         unsafe {
-            let s = sys::Imf_Header_name_const(self.0);
-            CStr::from_ptr(sys::std___cxx11_string_c_str(s))
-                .to_string_lossy()
-                .to_string()
+            let mut s = std::ptr::null();
+            sys::Imf_Header_name_const(self.0, &mut s)
+                .into_result()
+                .unwrap();
+
+            let mut cptr = std::ptr::null();
+            sys::std___cxx11_string_c_str(s, &mut cptr)
+                .into_result()
+                .unwrap();
+
+            CStr::from_ptr(cptr).to_string_lossy().to_string()
         }
     }
 
@@ -525,8 +611,10 @@ impl Header {
             // cppmm
             let mut s = std::ptr::null_mut();
             sys::std___cxx11_string_ctor(&mut s);
+            let mut dummy = std::ptr::null_mut();
             sys::std___cxx11_string_assign(
                 s,
+                &mut dummy,
                 cname.as_ptr(),
                 cname.as_bytes().len() as u64,
             );
@@ -547,10 +635,12 @@ impl Header {
     ///
     pub fn image_type(&self) -> String {
         unsafe {
-            let s = sys::Imf_Header_type_const(self.0);
-            CStr::from_ptr(sys::std___cxx11_string_c_str(s))
-                .to_string_lossy()
-                .to_string()
+            let mut s = std::ptr::null();
+            sys::Imf_Header_type_const(self.0, &mut s);
+
+            let mut cptr = std::ptr::null();
+            sys::std___cxx11_string_c_str(s, &mut cptr);
+            CStr::from_ptr(cptr).to_string_lossy().to_string()
         }
     }
 
@@ -577,8 +667,10 @@ impl Header {
             // cppmm
             let mut s = std::ptr::null_mut();
             sys::std___cxx11_string_ctor(&mut s);
+            let mut dummy = std::ptr::null_mut();
             sys::std___cxx11_string_assign(
                 s,
+                &mut dummy,
                 cimage_type.as_ptr(),
                 cimage_type.as_bytes().len() as u64,
             );
@@ -591,7 +683,8 @@ impl Header {
     ///
     pub fn version(&self) -> i32 {
         unsafe {
-            let v = sys::Imf_Header_version_const(self.0);
+            let mut v = std::ptr::null();
+            sys::Imf_Header_version_const(self.0, &mut v);
             *v
         }
     }
@@ -607,7 +700,8 @@ impl Header {
     /// Does the file have its version specified?
     pub fn has_version(&self) -> bool {
         unsafe {
-            let v = sys::Imf_Header_hasVersion(self.0);
+            let mut v = false;
+            sys::Imf_Header_hasVersion(self.0, &mut v);
             v
         }
     }
@@ -621,7 +715,8 @@ impl Header {
     /// Does the file have its chunk count specified?
     pub fn has_chunk_count(&self) -> bool {
         unsafe {
-            let v = sys::Imf_Header_hasChunkCount(self.0);
+            let mut v = false;
+            sys::Imf_Header_hasChunkCount(self.0, &mut v);
             v
         }
     }
@@ -630,8 +725,9 @@ impl Header {
     ///
     pub fn chunk_count(&self) -> i32 {
         unsafe {
-            let v = sys::Imf_Header_chunkCount_const(self.0);
-            *v
+            let mut ptr = std::ptr::null();
+            sys::Imf_Header_chunkCount_const(self.0, &mut ptr);
+            *ptr
         }
     }
 }
@@ -647,10 +743,11 @@ impl Header {
     ///
     pub fn view(&self) -> String {
         unsafe {
-            let s = sys::Imf_Header_view_const(self.0);
-            CStr::from_ptr(sys::std___cxx11_string_c_str(s))
-                .to_string_lossy()
-                .to_string()
+            let mut s = std::ptr::null();
+            sys::Imf_Header_view_const(self.0, &mut s);
+            let mut cptr = std::ptr::null();
+            sys::std___cxx11_string_c_str(s, &mut cptr);
+            CStr::from_ptr(cptr).to_string_lossy().to_string()
         }
     }
 
@@ -668,8 +765,10 @@ impl Header {
             // cppmm
             let mut s = std::ptr::null_mut();
             sys::std___cxx11_string_ctor(&mut s);
+            let mut dummy = std::ptr::null_mut();
             sys::std___cxx11_string_assign(
                 s,
+                &mut dummy,
                 cview.as_ptr(),
                 cview.as_bytes().len() as u64,
             );
@@ -681,7 +780,8 @@ impl Header {
     /// Does the part have a view specified?
     pub fn has_view(&self) -> bool {
         unsafe {
-            let v = sys::Imf_Header_hasView(self.0);
+            let mut v = false;
+            sys::Imf_Header_hasView(self.0, &mut v);
             v
         }
     }
@@ -697,7 +797,11 @@ impl Header {
     /// Get the tile description from the header
     ///
     pub fn tile_description(&self) -> &TileDescription {
-        unsafe { &*sys::Imf_Header_tileDescription_const(self.0) }
+        let mut ptr = std::ptr::null();
+        unsafe {
+            sys::Imf_Header_tileDescription_const(self.0, &mut ptr);
+            &*ptr
+        }
     }
 
     /// Set the tile description in the header
@@ -712,7 +816,8 @@ impl Header {
     ///
     pub fn has_tile_description(&self) -> bool {
         unsafe {
-            let v = sys::Imf_Header_hasTileDescription(self.0);
+            let mut v = false;
+            sys::Imf_Header_hasTileDescription(self.0, &mut v);
             v
         }
     }
@@ -730,9 +835,10 @@ impl Header {
     /// Get the preview image from the header
     ///
     pub fn preview_image(&self) -> &PreviewImage {
+        let mut ptr = std::ptr::null();
         unsafe {
-            &*(sys::Imf_Header_previewImage_const(self.0)
-                as *const PreviewImage)
+            sys::Imf_Header_previewImage_const(self.0, &mut ptr);
+            &*(ptr as *const PreviewImage)
         }
     }
 
@@ -748,7 +854,8 @@ impl Header {
     ///
     pub fn has_preview_image(&self) -> bool {
         unsafe {
-            let v = sys::Imf_Header_hasPreviewImage(self.0);
+            let mut v = false;
+            sys::Imf_Header_hasPreviewImage(self.0, &mut v);
             v
         }
     }
@@ -759,7 +866,7 @@ impl Header {
 
     /// Inserts the given metadata attribute with the given name
     ///
-    pub fn insert<A>(&mut self, name: &str, attribute: &A)
+    pub fn insert<A>(&mut self, name: &str, attribute: &A) -> Result<()>
     where
         A: TypedAttribute,
     {
@@ -769,19 +876,23 @@ impl Header {
                 self.0,
                 c_name.as_ptr(),
                 attribute.as_attribute_ptr(),
-            );
+            )
+            .into_result()?;
         }
+
+        Ok(())
     }
 
     /// Erases the attribute with the given name.
     ///
     /// If no attribute with `name` exists, the [`Header`] is unchanged.
     ///
-    pub fn erase(&mut self, name: &str) {
+    pub fn erase(&mut self, name: &str) -> Result<()> {
         let c_name = CString::new(name).expect("Invalid UTF-8 in name");
         unsafe {
-            sys::Imf_Header_erase(self.0, c_name.as_ptr());
+            sys::Imf_Header_erase(self.0, c_name.as_ptr()).into_result()?;
         }
+        Ok(())
     }
 
     /// Get a reference to the Box2iAttribute with the given name
@@ -795,12 +906,15 @@ impl Header {
         name: &str,
     ) -> Option<&Box2iAttribute> {
         let c_name = CString::new(name).expect("Invalid UTF-8 in name");
-        let attr_ptr = unsafe {
+        let mut attr_ptr = std::ptr::null();
+        unsafe {
             sys::Imf_Header_findTypedAttribute_Box2i_const(
                 self.0,
+                &mut attr_ptr,
                 c_name.as_ptr(),
             )
         };
+
         if !attr_ptr.is_null() {
             Some(unsafe {
                 // We can do this as Attribute is a #[repr(transparent)] wrapper
@@ -824,9 +938,15 @@ impl Header {
         name: &str,
     ) -> Option<&mut Box2iAttribute> {
         let c_name = CString::new(name).expect("Invalid UTF-8 in name");
-        let attr_ptr = unsafe {
-            sys::Imf_Header_findTypedAttribute_Box2i(self.0, c_name.as_ptr())
+        let mut attr_ptr = std::ptr::null_mut();
+        unsafe {
+            sys::Imf_Header_findTypedAttribute_Box2i(
+                self.0,
+                &mut attr_ptr,
+                c_name.as_ptr(),
+            )
         };
+
         if !attr_ptr.is_null() {
             Some(unsafe {
                 // We can do this as Attribute is a #[repr(transparent)] wrapper
