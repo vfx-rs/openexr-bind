@@ -184,7 +184,7 @@ impl ChannelList {
                     .unwrap();
 
                 let mut char_ptr = std::ptr::null();
-                sys::std___cxx11_string_c_str(str_ptr, &mut char_ptr)
+                sys::std_string_c_str(str_ptr, &mut char_ptr)
                     .into_result()
                     .unwrap();
 
@@ -210,9 +210,9 @@ impl ChannelList {
         unsafe {
             let clayer = CString::new(layer).expect("NUL bytes in layer name");
             let mut s = std::ptr::null_mut();
-            sys::std___cxx11_string_ctor(&mut s).into_result().unwrap();
+            sys::std_string_ctor(&mut s).into_result().unwrap();
             let mut dummy = std::ptr::null_mut();
-            sys::std___cxx11_string_assign(
+            sys::std_string_assign(
                 s,
                 &mut dummy,
                 clayer.as_ptr(),

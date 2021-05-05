@@ -593,9 +593,7 @@ impl Header {
                 .unwrap();
 
             let mut cptr = std::ptr::null();
-            sys::std___cxx11_string_c_str(s, &mut cptr)
-                .into_result()
-                .unwrap();
+            sys::std_string_c_str(s, &mut cptr).into_result().unwrap();
 
             CStr::from_ptr(cptr).to_string_lossy().to_string()
         }
@@ -617,16 +615,16 @@ impl Header {
             // We can get around this by implementing ignored parameters in
             // cppmm
             let mut s = std::ptr::null_mut();
-            sys::std___cxx11_string_ctor(&mut s);
+            sys::std_string_ctor(&mut s);
             let mut dummy = std::ptr::null_mut();
-            sys::std___cxx11_string_assign(
+            sys::std_string_assign(
                 s,
                 &mut dummy,
                 cname.as_ptr(),
                 cname.as_bytes().len() as u64,
             );
             sys::Imf_Header_setName(self.0, s);
-            sys::std___cxx11_string_dtor(s);
+            sys::std_string_dtor(s);
         }
     }
 
@@ -646,7 +644,7 @@ impl Header {
             sys::Imf_Header_type_const(self.0, &mut s);
 
             let mut cptr = std::ptr::null();
-            sys::std___cxx11_string_c_str(s, &mut cptr);
+            sys::std_string_c_str(s, &mut cptr);
             CStr::from_ptr(cptr).to_string_lossy().to_string()
         }
     }
@@ -673,16 +671,16 @@ impl Header {
             // We can get around this by implementing ignored parameters in
             // cppmm
             let mut s = std::ptr::null_mut();
-            sys::std___cxx11_string_ctor(&mut s);
+            sys::std_string_ctor(&mut s);
             let mut dummy = std::ptr::null_mut();
-            sys::std___cxx11_string_assign(
+            sys::std_string_assign(
                 s,
                 &mut dummy,
                 cimage_type.as_ptr(),
                 cimage_type.as_bytes().len() as u64,
             );
             sys::Imf_Header_setType(self.0, s);
-            sys::std___cxx11_string_dtor(s);
+            sys::std_string_dtor(s);
         }
     }
 
@@ -753,7 +751,7 @@ impl Header {
             let mut s = std::ptr::null();
             sys::Imf_Header_view_const(self.0, &mut s);
             let mut cptr = std::ptr::null();
-            sys::std___cxx11_string_c_str(s, &mut cptr);
+            sys::std_string_c_str(s, &mut cptr);
             CStr::from_ptr(cptr).to_string_lossy().to_string()
         }
     }
@@ -771,16 +769,16 @@ impl Header {
             // We can get around this by implementing ignored parameters in
             // cppmm
             let mut s = std::ptr::null_mut();
-            sys::std___cxx11_string_ctor(&mut s);
+            sys::std_string_ctor(&mut s);
             let mut dummy = std::ptr::null_mut();
-            sys::std___cxx11_string_assign(
+            sys::std_string_assign(
                 s,
                 &mut dummy,
                 cview.as_ptr(),
                 cview.as_bytes().len() as u64,
             );
             sys::Imf_Header_setView(self.0, s);
-            sys::std___cxx11_string_dtor(s);
+            sys::std_string_dtor(s);
         }
     }
 

@@ -8,10 +8,16 @@ namespace cppmm_bind {
 
 namespace std {
 
+#if defined(_LIBCPP_VERSION)
+namespace std = ::std::_LIBCPP_ABI_NAMESPACE;
+#else
+namespace std = ::std;
+#endif
+
 template <class T> class vector {
 public:
     // This allows us to see through to the type in Imath
-    using BoundType = ::std::vector<T>;
+    using BoundType = std::vector<T>;
 
     vector();
     ~vector();
@@ -19,11 +25,11 @@ public:
 } CPPMM_OPAQUEBYTES CPPMM_IGNORE_UNBOUND;
 
 // explicit instantiation
-template class vector<::std::string>;
+template class vector<std::string>;
 template class vector<float>;
 
-using vector_string = ::std::vector<::std::string>;
-using vector_float = ::std::vector<float>;
+using vector_string = std::vector<std::string>;
+using vector_float = std::vector<float>;
 
 } // namespace std
 

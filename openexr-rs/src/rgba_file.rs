@@ -361,16 +361,16 @@ impl RgbaInputFile {
             // We can get around this by implementing ignored parameters in
             // cppmm
             let mut s = std::ptr::null_mut();
-            sys::std___cxx11_string_ctor(&mut s);
+            sys::std_string_ctor(&mut s);
             let mut dummy = std::ptr::null_mut();
-            sys::std___cxx11_string_assign(
+            sys::std_string_assign(
                 s,
                 &mut dummy,
                 cname.as_ptr(),
                 cname.as_bytes().len() as u64,
             );
             sys::Imf_RgbaInputFile_setLayerName(self.0, s);
-            sys::std___cxx11_string_dtor(s);
+            sys::std_string_dtor(s);
         }
     }
 
