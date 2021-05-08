@@ -242,7 +242,7 @@ impl SliceBuilder {
     pub fn build(self) -> Result<Slice> {
         let mut slice = sys::Imf_Slice_t::default();
         unsafe {
-            sys::Imf_3_0__Slice_with_origin(
+            sys::Imf_Slice_with_origin(
                 &mut slice,
                 self.pixel_type.into(),
                 self.data as *const std::os::raw::c_void,

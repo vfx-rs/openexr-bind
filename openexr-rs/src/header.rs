@@ -173,7 +173,7 @@ impl Header {
     ///
     pub fn set_max_image_size(max_width: i32, max_height: i32) {
         unsafe {
-            sys::Imf_3_0__Header_setMaxImageSize(max_width, max_height)
+            sys::Imf_Header_setMaxImageSize(max_width, max_height)
                 .into_result()
                 .unwrap();
         }
@@ -193,7 +193,7 @@ impl Header {
     ///
     pub fn set_max_tile_size(max_width: i32, max_height: i32) {
         unsafe {
-            sys::Imf_3_0__Header_setMaxTileSize(max_width, max_height)
+            sys::Imf_Header_setMaxTileSize(max_width, max_height)
                 .into_result()
                 .unwrap();
         }
