@@ -134,7 +134,6 @@ mod tests {
                     height as i64,
                 )
                 .x_stride(std::mem::size_of::<Rgba>())
-                .y_stride(std::mem::size_of::<Rgba>() * width as usize)
                 .build()
                 .unwrap(),
             )
@@ -150,7 +149,6 @@ mod tests {
                     height as i64,
                 )
                 .x_stride(std::mem::size_of::<Rgba>())
-                .y_stride(std::mem::size_of::<Rgba>() * width as usize)
                 .build()
                 .unwrap(),
             )
@@ -166,7 +164,6 @@ mod tests {
                     height as i64,
                 )
                 .x_stride(std::mem::size_of::<Rgba>())
-                .y_stride(std::mem::size_of::<Rgba>() * width as usize)
                 .build()
                 .unwrap(),
             )
@@ -182,7 +179,6 @@ mod tests {
                     height as i64,
                 )
                 .x_stride(std::mem::size_of::<Rgba>())
-                .y_stride(std::mem::size_of::<Rgba>() * width as usize)
                 .build()
                 .unwrap(),
             )
@@ -192,6 +188,188 @@ mod tests {
             OutputFile::new("write_outputfile1.exr", &header, 1).unwrap();
         file.set_frame_buffer(&frame_buffer).unwrap();
         unsafe { file.write_pixels(height).unwrap() };
+    }
+
+    #[test]
+    fn write_multipartoutputfile1() {
+        let (pixels, width, height) = load_ferris();
+
+        let channel = Channel {
+            type_: PixelType::Half.into(),
+            x_sampling: 1,
+            y_sampling: 1,
+            p_linear: true,
+        };
+
+        let mut header_array = Header::new_array(2);
+        let mut i = 0;
+        for mut header in header_array.iter_mut() {
+            header.set_compression(Compression::Piz);
+
+            header.channels_mut().insert("R", &channel);
+            header.channels_mut().insert("G", &channel);
+            header.channels_mut().insert("B", &channel);
+            header.channels_mut().insert("A", &channel);
+
+            header.set_image_type("scanlineimage");
+
+            header.set_dimensions(width, height);
+
+            if i == 0 {
+                header.set_name("left");
+                i += 1;
+            } else {
+                header.set_name("right");
+            }
+        }
+
+        let mut frame_buffer_left = FrameBuffer::new();
+
+        frame_buffer_left
+            .insert(
+                "R",
+                &Slice::new(
+                    PixelType::Half,
+                    &pixels[0].r as *const _ as *const u8,
+                    width as i64,
+                    height as i64,
+                )
+                .x_stride(std::mem::size_of::<Rgba>())
+                .build()
+                .unwrap(),
+            )
+            .unwrap();
+
+        frame_buffer_left
+            .insert(
+                "G",
+                &Slice::new(
+                    PixelType::Half,
+                    &pixels[0].g as *const _ as *const u8,
+                    width as i64,
+                    height as i64,
+                )
+                .x_stride(std::mem::size_of::<Rgba>())
+                .build()
+                .unwrap(),
+            )
+            .unwrap();
+
+        frame_buffer_left
+            .insert(
+                "B",
+                &Slice::new(
+                    PixelType::Half,
+                    &pixels[0].b as *const _ as *const u8,
+                    width as i64,
+                    height as i64,
+                )
+                .x_stride(std::mem::size_of::<Rgba>())
+                .build()
+                .unwrap(),
+            )
+            .unwrap();
+
+        frame_buffer_left
+            .insert(
+                "A",
+                &Slice::new(
+                    PixelType::Half,
+                    &pixels[0].a as *const _ as *const u8,
+                    width as i64,
+                    height as i64,
+                )
+                .x_stride(std::mem::size_of::<Rgba>())
+                .build()
+                .unwrap(),
+            )
+            .unwrap();
+
+        let mut frame_buffer_right = FrameBuffer::new();
+
+        frame_buffer_right
+            .insert(
+                "B",
+                &Slice::new(
+                    PixelType::Half,
+                    &pixels[0].r as *const _ as *const u8,
+                    width as i64,
+                    height as i64,
+                )
+                .x_stride(std::mem::size_of::<Rgba>())
+                .build()
+                .unwrap(),
+            )
+            .unwrap();
+
+        frame_buffer_right
+            .insert(
+                "G",
+                &Slice::new(
+                    PixelType::Half,
+                    &pixels[0].g as *const _ as *const u8,
+                    width as i64,
+                    height as i64,
+                )
+                .x_stride(std::mem::size_of::<Rgba>())
+                .build()
+                .unwrap(),
+            )
+            .unwrap();
+
+        frame_buffer_right
+            .insert(
+                "R",
+                &Slice::new(
+                    PixelType::Half,
+                    &pixels[0].b as *const _ as *const u8,
+                    width as i64,
+                    height as i64,
+                )
+                .x_stride(std::mem::size_of::<Rgba>())
+                .build()
+                .unwrap(),
+            )
+            .unwrap();
+
+        frame_buffer_right
+            .insert(
+                "A",
+                &Slice::new(
+                    PixelType::Half,
+                    &pixels[0].a as *const _ as *const u8,
+                    width as i64,
+                    height as i64,
+                )
+                .x_stride(std::mem::size_of::<Rgba>())
+                .build()
+                .unwrap(),
+            )
+            .unwrap();
+
+        let mut file = MultiPartOutputFile::new(
+            "write_multipartoutputfile1.exr",
+            &header_array,
+            true,
+            4,
+        )
+        .unwrap();
+
+        let mut part_left = OutputPart::new(&file, 0).unwrap();
+        let mut part_right = OutputPart::new(&file, 1).unwrap();
+
+        part_left.set_frame_buffer(&frame_buffer_left);
+        part_right.set_frame_buffer(&frame_buffer_right);
+
+        unsafe {
+            part_left.write_pixels(height);
+            part_right.write_pixels(height);
+        }
+
+        // let mut file =
+        //     OutputFile::new("write_outputfile1.exr", &header, 1).unwrap();
+        // file.set_frame_buffer(&frame_buffer).unwrap();
+        // unsafe { file.write_pixels(height).unwrap() };
     }
 
     #[test]

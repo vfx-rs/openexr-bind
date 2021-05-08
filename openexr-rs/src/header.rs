@@ -1,7 +1,7 @@
 use crate::imath::{Box2, Vec2};
 use crate::{
     channel_list::{ChannelList, ChannelListRef, ChannelListRefMut},
-    refptr::Ref,
+    refptr::{Ref, RefMut},
     Box2iAttribute, Compression, Error, LineOrder, PreviewImage,
     TileDescription, TypedAttribute,
 };
@@ -24,6 +24,7 @@ unsafe impl crate::refptr::OpaquePtr for Header {
 }
 
 pub type HeaderRef<'a, P = Header> = Ref<'a, P>;
+pub type HeaderRefMut<'a, P = Header> = RefMut<'a, P>;
 
 impl Header {
     /// Construct a new [`Header`] with the given attributes.
@@ -1034,6 +1035,70 @@ impl Drop for Header {
     fn drop(&mut self) {
         unsafe {
             sys::Imf_Header_dtor(self.0.as_mut());
+        }
+    }
+}
+
+impl HeaderSlice {
+    pub fn iter(&self) -> HeaderSliceIter {
+        HeaderSliceIter {
+            curr: 0,
+            len: self.0.len(),
+            header_slice: self,
+        }
+    }
+
+    pub fn iter_mut(&mut self) -> HeaderSliceIterMut {
+        HeaderSliceIterMut {
+            curr: 0,
+            len: self.0.len(),
+            header_slice: self,
+        }
+    }
+}
+
+pub struct HeaderSliceIter<'s> {
+    curr: usize,
+    len: usize,
+    header_slice: &'s HeaderSlice,
+}
+
+impl<'s> Iterator for HeaderSliceIter<'s> {
+    type Item = HeaderRef<'s>;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.curr == self.len {
+            None
+        } else {
+            let ptr = &((*self.header_slice.0)[self.curr])
+                as *const sys::Imf_Header_t;
+
+            self.curr += 1;
+
+            Some(HeaderRef::new(ptr))
+        }
+    }
+}
+
+pub struct HeaderSliceIterMut<'s> {
+    curr: usize,
+    len: usize,
+    header_slice: &'s mut HeaderSlice,
+}
+
+impl<'s> Iterator for HeaderSliceIterMut<'s> {
+    type Item = HeaderRefMut<'s>;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.curr == self.len {
+            None
+        } else {
+            let ptr = &mut ((*self.header_slice.0)[self.curr])
+                as *mut sys::Imf_Header_t;
+
+            self.curr += 1;
+
+            Some(HeaderRefMut::new(ptr))
         }
     }
 }
