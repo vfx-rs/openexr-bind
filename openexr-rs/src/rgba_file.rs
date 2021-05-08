@@ -198,7 +198,7 @@ impl RgbaOutputFile {
 
     /// Access to the file [`Header`]
     ///
-    pub fn header<'a>(&'a self) -> HeaderRef<'a, Self> {
+    pub fn header<'a>(&'a self) -> HeaderRef<'a> {
         unsafe {
             let mut ptr = std::ptr::null();
             sys::Imf_RgbaOutputFile_header(self.0, &mut ptr);
@@ -406,7 +406,7 @@ impl RgbaInputFile {
 
     /// Access to the file [`Header`]
     ///
-    pub fn header<'a>(&'a self) -> HeaderRef<'a, Self> {
+    pub fn header<'a>(&'a self) -> HeaderRef<'a> {
         unsafe {
             let mut ptr = std::ptr::null();
             sys::Imf_RgbaInputFile_header(self.0, &mut ptr);

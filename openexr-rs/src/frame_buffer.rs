@@ -17,7 +17,7 @@ unsafe impl crate::refptr::OpaquePtr for FrameBuffer {
     type Pointee = FrameBuffer;
 }
 
-pub type FrameBufferRef<'a, Owner, P = FrameBuffer> = Ref<'a, Owner, P>;
+pub type FrameBufferRef<'a> = Ref<'a, FrameBuffer>;
 
 impl FrameBuffer {
     /// Create a new `FrameBuffer`.
@@ -52,7 +52,7 @@ impl FrameBuffer {
     /// * `Some([`SliceRef`])` - if the [`Slice`] is found
     /// * `None` - otherwise
     ///
-    pub fn get_slice<'a>(&'a self, name: &str) -> Option<SliceRef<'a, Self>> {
+    pub fn get_slice<'a>(&'a self, name: &str) -> Option<SliceRef<'a>> {
         let c_name =
             CString::new(name).expect("Internal null bytes in filename");
 
@@ -82,7 +82,7 @@ impl FrameBuffer {
     pub fn get_slice_mut<'a>(
         &'a mut self,
         name: &str,
-    ) -> Option<SliceRefMut<'a, Self>> {
+    ) -> Option<SliceRefMut<'a>> {
         let c_name =
             CString::new(name).expect("Internal null bytes in filename");
 
@@ -149,9 +149,9 @@ pub struct FrameBufferIter<'a> {
 }
 
 impl<'a> Iterator for FrameBufferIter<'a> {
-    type Item = (&'a str, SliceRef<'a, FrameBuffer>);
+    type Item = (&'a str, SliceRef<'a>);
 
-    fn next(&mut self) -> Option<(&'a str, SliceRef<'a, FrameBuffer>)> {
+    fn next(&mut self) -> Option<(&'a str, SliceRef<'a>)> {
         let ptr_curr = self.ptr.clone();
         let mut ptr_next = self.ptr.clone();
         unsafe {
@@ -215,8 +215,8 @@ impl PartialEq for FrameBufferConstIterator {
 
 #[repr(transparent)]
 pub struct Slice(pub(crate) sys::Imf_Slice_t);
-pub type SliceRef<'a, Owner, P = Slice> = Ref<'a, Owner, P>;
-pub type SliceRefMut<'a, Owner, P = Slice> = RefMut<'a, Owner, P>;
+pub type SliceRef<'a, P = Slice> = Ref<'a, P>;
+pub type SliceRefMut<'a, P = Slice> = RefMut<'a, P>;
 
 unsafe impl crate::refptr::OpaquePtr for Slice {
     type SysPointee = sys::Imf_Slice_t;

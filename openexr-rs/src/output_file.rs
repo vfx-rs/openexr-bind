@@ -68,7 +68,7 @@ impl OutputFile {
 
     /// Access to the file [`Header`]
     ///
-    pub fn header<'a>(&'a self) -> HeaderRef<'a, Self> {
+    pub fn header<'a>(&'a self) -> HeaderRef<'a> {
         unsafe {
             let mut ptr = std::ptr::null();
             sys::Imf_OutputFile_header(self.0, &mut ptr);
@@ -108,7 +108,7 @@ impl OutputFile {
 
     /// Get a reference to the frame buffer.
     ///
-    pub fn frame_buffer<'a>(&'a self) -> FrameBufferRef<'a, Self> {
+    pub fn frame_buffer<'a>(&'a self) -> FrameBufferRef<'a> {
         unsafe {
             let mut ptr = std::ptr::null();
             sys::Imf_OutputFile_frameBuffer(self.0, &mut ptr);

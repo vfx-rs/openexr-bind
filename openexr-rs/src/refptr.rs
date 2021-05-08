@@ -27,20 +27,20 @@ pub unsafe trait OpaquePtr {
 /// pointer type is also newtyped and we wish to Deref to the newtype rather
 /// than the pointer.
 #[repr(transparent)]
-pub struct Ref<'a, Owner, P>
+pub struct Ref<'a, P>
 where
     P: OpaquePtr,
 {
     ptr: *const P::SysPointee,
-    _o: PhantomData<&'a Owner>,
+    _o: PhantomData<&'a ()>,
     _p: PhantomData<P::Pointee>,
 }
 
-impl<'a, Owner, P> Ref<'a, Owner, P>
+impl<'a, P> Ref<'a, P>
 where
     P: OpaquePtr,
 {
-    pub(crate) fn new(ptr: *const P::SysPointee) -> Ref<'a, Owner, P> {
+    pub(crate) fn new(ptr: *const P::SysPointee) -> Ref<'a, P> {
         Ref {
             ptr,
             _o: PhantomData,
@@ -53,20 +53,20 @@ where
 /// pointer type is also newtyped and we wish to Deref to the newtype rather
 /// than the pointer.
 #[repr(transparent)]
-pub struct RefMut<'a, Owner, P>
+pub struct RefMut<'a, P>
 where
     P: OpaquePtr,
 {
     ptr: *mut P::SysPointee,
-    _o: PhantomData<&'a Owner>,
+    _o: PhantomData<&'a ()>,
     _p: PhantomData<P::Pointee>,
 }
 
-impl<'a, Owner, P> RefMut<'a, Owner, P>
+impl<'a, P> RefMut<'a, P>
 where
     P: OpaquePtr,
 {
-    pub(crate) fn new(ptr: *mut P::SysPointee) -> RefMut<'a, Owner, P> {
+    pub(crate) fn new(ptr: *mut P::SysPointee) -> RefMut<'a, P> {
         RefMut {
             ptr,
             _o: PhantomData,
@@ -75,7 +75,7 @@ where
     }
 }
 
-impl<'a, Owner, P> Deref for Ref<'a, Owner, P>
+impl<'a, P> Deref for Ref<'a, P>
 where
     P: OpaquePtr,
 {
@@ -88,7 +88,7 @@ where
     }
 }
 
-impl<'a, Owner, P> Deref for RefMut<'a, Owner, P>
+impl<'a, P> Deref for RefMut<'a, P>
 where
     P: OpaquePtr,
 {
@@ -101,7 +101,7 @@ where
     }
 }
 
-impl<'a, Owner, P> DerefMut for RefMut<'a, Owner, P>
+impl<'a, P> DerefMut for RefMut<'a, P>
 where
     P: OpaquePtr,
 {

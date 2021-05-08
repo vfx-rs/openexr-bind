@@ -84,7 +84,7 @@ impl MultiPartOutputFile {
     /// * [`Error::InvalidArgument`] - if `n` does not correspond to a part in
     /// the file.
     ///
-    pub fn header<'a>(&'a self, n: i32) -> Result<HeaderRef<'a, ()>> {
+    pub fn header<'a>(&'a self, n: i32) -> Result<HeaderRef<'a>> {
         let mut ptr = std::ptr::null();
         unsafe {
             sys::Imf_MultiPartOutputFile_header(self.0, &mut ptr, n)

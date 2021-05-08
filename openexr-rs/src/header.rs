@@ -23,7 +23,7 @@ unsafe impl crate::refptr::OpaquePtr for Header {
     type Pointee = Header;
 }
 
-pub type HeaderRef<'a, Owner, P = Header> = Ref<'a, Owner, P>;
+pub type HeaderRef<'a, P = Header> = Ref<'a, P>;
 
 impl Header {
     /// Construct a new [`Header`] with the given attributes.
@@ -545,7 +545,7 @@ impl Header {
     }
 
     /// Get a reference to the list of channels in the header
-    pub fn channels<'a>(&'a self) -> ChannelListRef<'a, Self> {
+    pub fn channels<'a>(&'a self) -> ChannelListRef<'a> {
         unsafe {
             let mut ptr = std::ptr::null();
             sys::Imf_Header_channels_const(self.0.as_ref(), &mut ptr)
@@ -556,7 +556,7 @@ impl Header {
     }
 
     /// Get a mutable reference to the list of channels in the header
-    pub fn channels_mut<'a>(&'a mut self) -> ChannelListRefMut<'a, Self> {
+    pub fn channels_mut<'a>(&'a mut self) -> ChannelListRefMut<'a> {
         unsafe {
             let mut ptr = std::ptr::null_mut();
             sys::Imf_Header_channels(self.0.as_mut(), &mut ptr)

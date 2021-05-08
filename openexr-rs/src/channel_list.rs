@@ -27,8 +27,8 @@ unsafe impl crate::refptr::OpaquePtr for ChannelList {
     type Pointee = ChannelList;
 }
 
-pub type ChannelListRef<'a, Owner, P = ChannelList> = Ref<'a, Owner, P>;
-pub type ChannelListRefMut<'a, Owner, P = ChannelList> = RefMut<'a, Owner, P>;
+pub type ChannelListRef<'a, P = ChannelList> = Ref<'a, P>;
+pub type ChannelListRefMut<'a, P = ChannelList> = RefMut<'a, P>;
 
 impl ChannelList {
     /// Create a Default channel list
