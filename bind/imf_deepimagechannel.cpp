@@ -67,7 +67,7 @@ template <typename T> struct TypedDeepImageChannel {
     const T* const* row(int r) const
         CPPMM_RENAME(row_const) CPPMM_IGNORE; // TODO LT: Fix pointer to pointer
 
-} CPPMM_OPAQUEBYTES;
+} CPPMM_OPAQUEPTR;
 
 template class TypedDeepImageChannel<half>;
 using DeepHalfChannel = Imf::TypedDeepImageChannel<half>;

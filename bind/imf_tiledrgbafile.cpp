@@ -131,7 +131,7 @@ struct TiledRgbaOutputFile {
     IMF_EXPORT
     void breakTile(int dx, int dy, int lx, int ly, int offset, int length,
                    char c);
-} CPPMM_OPAQUEBYTES;
+} CPPMM_OPAQUEPTR;
 
 struct TiledRgbaInputFile {
     using BoundType = Imf::TiledRgbaInputFile;
@@ -241,7 +241,7 @@ struct TiledRgbaInputFile {
     void readTiles(int dxMin, int dxMax, int dyMin, int dyMax,
                    int l = 0) CPPMM_IGNORE;
 
-} CPPMM_OPAQUEBYTES;
+} CPPMM_OPAQUEPTR;
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 

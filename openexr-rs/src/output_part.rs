@@ -5,51 +5,29 @@ use std::path::Path;
 
 use crate::{
     Error, FrameBuffer, FrameBufferRef, Header, HeaderRef, InputFile,
-    InputPart, PreviewRgba,
+    InputPart, MultiPartOutputFile, PreviewRgba,
 };
 
 type Result<T, E = Error> = std::result::Result<T, E>;
 
 #[repr(transparent)]
-pub struct OutputFile(pub(crate) *mut sys::Imf_OutputFile_t);
+pub struct OutputPart(pub(crate) sys::Imf_OutputPart_t);
 
-impl OutputFile {
-    /// Opens the file and writes the file header.
+impl OutputPart {
+    /// Get an interface to the part `part_number` of the [`MultiPartOutputFile`]
+    /// `multi_part_file`.
     ///
-    /// The file header is also copied into the OutputFile object,
-    /// and can later be accessed via the `header()` method.
-    /// Dropping this OutputFile object automatically closes
-    /// the file.
-    ///
-    /// # Errors
-    /// * [`Error::Base`] - If the file could not be opened or the [`Header`]
-    /// is invalid
-    ///
-    pub fn new<P: AsRef<Path>>(
-        filename: P,
-        header: &Header,
-        num_threads: i32,
-    ) -> Result<OutputFile> {
-        let c_filename = CString::new(
-            filename
-                .as_ref()
-                .to_str()
-                .expect("Invalid bytes in filename"),
-        )
-        .expect("Internal null bytes in filename");
-
-        let mut _inner = std::ptr::null_mut();
+    pub fn new(
+        multi_part_file: &MultiPartOutputFile,
+        part_number: i32,
+    ) -> Result<OutputPart> {
+        let mut part = sys::Imf_OutputPart_t::default();
         unsafe {
-            sys::Imf_OutputFile_ctor(
-                &mut _inner,
-                c_filename.as_ptr(),
-                header.0.as_ref(),
-                num_threads,
-            )
-            .into_result()?;
+            sys::Imf_OutputPart_ctor(&mut part, multi_part_file.0, part_number)
+                .into_result()?;
         }
 
-        Ok(OutputFile(_inner))
+        Ok(OutputPart(part))
     }
 
     /// Get the filename this file is writing to.
@@ -57,7 +35,7 @@ impl OutputFile {
     pub fn file_name(&self) -> &str {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_OutputFile_fileName(self.0, &mut ptr)
+            sys::Imf_OutputPart_fileName(&self.0, &mut ptr)
                 .into_result()
                 .unwrap();
             std::ffi::CStr::from_ptr(ptr)
@@ -71,9 +49,9 @@ impl OutputFile {
     pub fn header<'a>(&'a self) -> HeaderRef<'a, Self> {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_OutputFile_header(self.0, &mut ptr);
+            sys::Imf_OutputPart_header(&self.0, &mut ptr);
             if ptr.is_null() {
-                panic!("Received null ptr from sys::Imf_OutputFile_header");
+                panic!("Received null ptr from sys::Imf_OutputPart_header");
             }
 
             HeaderRef::new(ptr)
@@ -81,13 +59,13 @@ impl OutputFile {
     }
 
     /// Set the current frame buffer -- copies the FrameBuffer
-    /// object into the OutputFile object.
+    /// object into the OutputPart object.
     ///
     /// The current frame buffer is the source of the pixel
     /// data written to the file.  The current frame buffer
-    /// must be set at least once before [`OutputFile::write_pixels`] is
+    /// must be set at least once before [`OutputPart::write_pixels`] is
     /// called.  The current frame buffer can be changed
-    /// after each call to [`OutputFile::write_pixels`].
+    /// after each call to [`OutputPart::write_pixels`].
     ///
     /// ## Errors
     /// * [`Iex::ArgExc`] - If the pixel type of the [`Channel`]s in the [`Header`]
@@ -99,7 +77,7 @@ impl OutputFile {
         frame_buffer: &FrameBuffer,
     ) -> Result<()> {
         unsafe {
-            sys::Imf_OutputFile_setFrameBuffer(self.0, frame_buffer.0)
+            sys::Imf_OutputPart_setFrameBuffer(&mut self.0, frame_buffer.0)
                 .into_result()?;
         }
 
@@ -111,10 +89,10 @@ impl OutputFile {
     pub fn frame_buffer<'a>(&'a self) -> FrameBufferRef<'a, Self> {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_OutputFile_frameBuffer(self.0, &mut ptr);
+            sys::Imf_OutputPart_frameBuffer(&self.0, &mut ptr);
             if ptr.is_null() {
                 panic!(
-                    "Received null ptr from sys::Imf_OutputFile_frameBuffer"
+                    "Received null ptr from sys::Imf_OutputPart_frameBuffer"
                 );
             }
 
@@ -126,7 +104,7 @@ impl OutputFile {
     ///
     /// Retrieves the next `num_scan_lines` worth of data from
     /// the current frame buffer, starting with the scan line indicated by
-    /// [`OutputFile::current_scan_line`] and stores the data in the output file, and
+    /// [`OutputPart::current_scan_line`] and stores the data in the output file, and
     /// progressing in the direction indicated by `header().line_order()`.
     ///
     /// To produce a complete and correct file, exactly m scan lines must
@@ -147,8 +125,8 @@ impl OutputFile {
     /// [`crate::frame_buffer::SliceBuilder::origin`] you can cause `write_pixels`
     /// to read from arbitrary memory locations.
     ///
-    pub unsafe fn write_pixels(&self, num_scan_lines: i32) -> Result<()> {
-        sys::Imf_OutputFile_writePixels(self.0, num_scan_lines)
+    pub unsafe fn write_pixels(&mut self, num_scan_lines: i32) -> Result<()> {
+        sys::Imf_OutputPart_writePixels(&mut self.0, num_scan_lines)
             .into_result()?;
         Ok(())
     }
@@ -157,7 +135,7 @@ impl OutputFile {
     ///
     /// Returns the y coordinate of the first scan line
     /// that will be read from the current frame buffer during the next
-    /// call to [`OutputFile::write_pixels`].
+    /// call to [`OutputPart::write_pixels`].
     ///
     /// If `line_order() == INCREASING_Y`:
     ///
@@ -174,7 +152,7 @@ impl OutputFile {
     pub fn current_scan_line(&self) -> i32 {
         let mut v = 0;
         unsafe {
-            sys::Imf_OutputFile_currentScanLine(self.0, &mut v);
+            sys::Imf_OutputPart_currentScanLine(&self.0, &mut v);
         }
         v
     }
@@ -192,7 +170,7 @@ impl OutputFile {
     ///
     pub fn copy_pixels_from_file(&mut self, file: &InputFile) -> Result<()> {
         unsafe {
-            sys::Imf_OutputFile_copyPixels_from_file(self.0, file.0)
+            sys::Imf_OutputPart_copyPixels_from_file(&mut self.0, file.0)
                 .into_result()?;
         }
         Ok(())
@@ -211,7 +189,7 @@ impl OutputFile {
     ///
     pub fn copy_pixels_from_part(&mut self, file: &InputPart) -> Result<()> {
         unsafe {
-            sys::Imf_OutputFile_copyPixels_from_part(self.0, file.0)
+            sys::Imf_OutputPart_copyPixels_from_part(&mut self.0, file.0)
                 .into_result()?;
         }
         Ok(())
@@ -239,21 +217,13 @@ impl OutputFile {
         new_pixels: &[PreviewRgba],
     ) -> Result<()> {
         unsafe {
-            sys::Imf_OutputFile_updatePreviewImage(
-                self.0,
+            sys::Imf_OutputPart_updatePreviewImage(
+                &mut self.0,
                 new_pixels.as_ptr() as *const sys::Imf_PreviewRgba_t,
             )
             .into_result()?;
         }
 
         Ok(())
-    }
-}
-
-impl Drop for OutputFile {
-    fn drop(&mut self) {
-        unsafe {
-            sys::Imf_OutputFile_dtor(self.0);
-        }
     }
 }

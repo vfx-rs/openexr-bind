@@ -58,7 +58,7 @@ struct OutputFile {
     IMF_EXPORT
     void breakScanLine(int y, int offset, int length, char c);
 
-} CPPMM_OPAQUEBYTES;
+} CPPMM_OPAQUEPTR;
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 

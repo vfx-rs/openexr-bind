@@ -43,7 +43,7 @@ impl RgbaOutputFile {
             sys::Imf_RgbaOutputFile_ctor(
                 &mut _inner,
                 c_filename.as_ptr(),
-                header.0,
+                header.0.as_ref(),
                 channels.into(),
                 num_threads,
             )
@@ -174,7 +174,7 @@ impl RgbaOutputFile {
     ///
     /// Returns the y coordinate of the first scan line
     /// that will be read from the current frame buffer during the next
-    /// call to write_pixels().
+    /// call to [`RgbaOutputFile::write_pixels`].
     ///
     /// If `line_order() == INCREASING_Y`:
     ///

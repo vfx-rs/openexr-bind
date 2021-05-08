@@ -70,9 +70,9 @@ struct SampleCountChannel {
         IMFUTIL_EXPORT
         unsigned int* sampleCounts() const;
 
-    } CPPMM_OPAQUEBYTES;
+    } CPPMM_OPAQUEPTR;
 
-} CPPMM_OPAQUEBYTES;
+} CPPMM_OPAQUEPTR;
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 

@@ -102,7 +102,7 @@ struct TiledOutputFile {
     IMF_EXPORT
     void breakTile(int dx, int dy, int lx, int ly, int offset, int length,
                    char c);
-} CPPMM_OPAQUEBYTES;
+} CPPMM_OPAQUEPTR;
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 

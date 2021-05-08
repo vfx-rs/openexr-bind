@@ -88,7 +88,7 @@ struct TiledInputFile {
     IMF_EXPORT
     void rawTileData(int& dx, int& dy, int& lx, int& ly, const char*& pixelData,
                      int& pixelDataSize);
-} CPPMM_OPAQUEBYTES;
+} CPPMM_OPAQUEPTR;
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 

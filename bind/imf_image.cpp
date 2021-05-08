@@ -80,7 +80,7 @@ struct Image {
     virtual const Imf::ImageLevel& level(int lx, int ly) const
         CPPMM_RENAME(level_const);
 
-} CPPMM_OPAQUEBYTES;
+} CPPMM_OPAQUEPTR;
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 

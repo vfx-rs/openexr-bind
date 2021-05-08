@@ -66,7 +66,7 @@ template <typename T> struct TypedFlatImageChannel {
     T* row(int r);
     const T* row(int r) const CPPMM_RENAME(row_const);
 
-} CPPMM_OPAQUEBYTES;
+} CPPMM_OPAQUEPTR;
 
 template class TypedFlatImageChannel<half>;
 using FlatHalfChannel = Imf::TypedFlatImageChannel<half>;

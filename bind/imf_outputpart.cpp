@@ -12,7 +12,8 @@ struct OutputPart {
     using BoundType = Imf::OutputPart;
 
     IMF_EXPORT
-    OutputPart(Imf::MultiPartOutputFile& multiPartFile, int partNumber);
+    OutputPart(Imf::MultiPartOutputFile& multiPartFile, int partNumber)
+        CPPMM_RENAME(ctor);
 
     IMF_EXPORT
     const char* fileName() const;
@@ -27,9 +28,9 @@ struct OutputPart {
     IMF_EXPORT
     int currentScanLine() const;
     IMF_EXPORT
-    void copyPixels(Imf::InputFile& in);
+    void copyPixels(Imf::InputFile& in) CPPMM_RENAME(copyPixels_from_file);
     IMF_EXPORT
-    void copyPixels(Imf::InputPart& in);
+    void copyPixels(Imf::InputPart& in) CPPMM_RENAME(copyPixels_from_part);
 
     IMF_EXPORT
     void updatePreviewImage(const Imf::PreviewRgba newPixels[]);

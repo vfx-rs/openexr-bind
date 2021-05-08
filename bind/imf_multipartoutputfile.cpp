@@ -1,3 +1,4 @@
+#include <OpenEXR/IexBaseExc.h>
 #include <OpenEXR/ImfMultiPartOutputFile.h>
 
 #include <cppmm_bind.hpp>
@@ -14,7 +15,9 @@ struct MultiPartOutputFile {
     IMF_EXPORT
     MultiPartOutputFile(const char fileName[], const Imf::Header* headers,
                         int parts, bool overrideSharedAttributes,
-                        int numThreads);
+                        int numThreads) CPPMM_RENAME(ctor)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+            CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
     MultiPartOutputFile(Imf::OStream& os, const Imf::Header* headers, int parts,
@@ -33,11 +36,12 @@ struct MultiPartOutputFile {
     // constructor)
     //
     IMF_EXPORT
-    const Imf::Header& header(int n) const;
+    const Imf::Header& header(int n) const
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     ~MultiPartOutputFile();
 
-} CPPMM_OPAQUEBYTES;
+} CPPMM_OPAQUEPTR;
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 

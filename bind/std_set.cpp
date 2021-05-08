@@ -37,7 +37,7 @@ public:
             CPPMM_RENAME(set_string_const_iterator_eq);
     } CPPMM_OPAQUEBYTES CPPMM_IGNORE_UNBOUND;
 
-} CPPMM_OPAQUEBYTES CPPMM_IGNORE_UNBOUND;
+} CPPMM_OPAQUEPTR CPPMM_IGNORE_UNBOUND;
 
 // explicit instantiation
 template class set<::std::string>;

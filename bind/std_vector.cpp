@@ -22,7 +22,7 @@ public:
     vector();
     ~vector();
 
-} CPPMM_OPAQUEBYTES CPPMM_IGNORE_UNBOUND;
+} CPPMM_OPAQUEPTR CPPMM_IGNORE_UNBOUND;
 
 // explicit instantiation
 template class vector<std::string>;

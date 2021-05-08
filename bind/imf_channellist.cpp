@@ -161,7 +161,7 @@ public:
 
     } CPPMM_OPAQUEBYTES CPPMM_TRIVIALLY_MOVABLE CPPMM_TRIVIALLY_COPYABLE;
 
-} CPPMM_OPAQUEBYTES;
+} CPPMM_OPAQUEPTR;
 
 bool operator==(const Imf::ChannelList::ConstIterator& a,
                 const Imf::ChannelList::ConstIterator& b)

@@ -52,7 +52,7 @@ struct MultiPartInputFile {
 
     void flushPartCache();
 
-} CPPMM_OPAQUEBYTES;
+} CPPMM_OPAQUEPTR;
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 

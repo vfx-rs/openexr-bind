@@ -49,7 +49,7 @@ struct DeepScanLineOutputFile {
 
     IMF_EXPORT
     void updatePreviewImage(const Imf::PreviewRgba newPixels[]);
-} CPPMM_OPAQUEBYTES;
+} CPPMM_OPAQUEPTR;
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 

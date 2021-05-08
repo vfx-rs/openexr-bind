@@ -49,7 +49,7 @@ struct PreviewImage {
     inline const Imf::PreviewRgba& pixel(unsigned int x, unsigned int y) const
         CPPMM_RENAME(pixel_const);
 
-} CPPMM_OPAQUEBYTES;
+} CPPMM_OPAQUEPTR;
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 

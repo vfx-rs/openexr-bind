@@ -23,7 +23,7 @@ public:
     void resizeEraseUnsafe(long size);
 
     long size() const;
-} CPPMM_OPAQUEBYTES;
+} CPPMM_OPAQUEPTR;
 
 template class Array<float>;
 using ArrayFloat = Imf::Array<float>;
@@ -46,7 +46,7 @@ public:
 
     long height() const;
     long width() const;
-} CPPMM_OPAQUEBYTES;
+} CPPMM_OPAQUEPTR;
 
 template class Array2D<float>;
 using Array2DFloat = Imf::Array2D<float>;

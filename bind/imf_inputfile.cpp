@@ -58,7 +58,7 @@ struct InputFile {
     void rawTileData(int& dx, int& dy, int& lx, int& ly, const char*& pixelData,
                      int& pixelDataSize);
 
-} CPPMM_OPAQUEBYTES;
+} CPPMM_OPAQUEPTR;
 
 class IMF_EXPORT_TYPE GenericInputFile {
 public:

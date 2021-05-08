@@ -103,7 +103,7 @@ struct DeepTiledInputFile {
     void readPixelSampleCounts(int dx1, int dx2, int dy1, int dy2,
                                int l = 0) CPPMM_IGNORE;
 
-} CPPMM_OPAQUEBYTES;
+} CPPMM_OPAQUEPTR;
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 

@@ -91,7 +91,7 @@ struct RgbaOutputFile {
     IMF_EXPORT
     void breakScanLine(int y, int offset, int length, char c) CPPMM_IGNORE;
 
-} CPPMM_OPAQUEBYTES;
+} CPPMM_OPAQUEPTR;
 
 struct RgbaInputFile {
     using BoundType = Imf::RgbaInputFile;
@@ -162,7 +162,7 @@ struct RgbaInputFile {
     IMF_EXPORT
     int version() const;
 
-} CPPMM_OPAQUEBYTES;
+} CPPMM_OPAQUEPTR;
 
 Imf::Rgba* ComputeBasePointer(Imf::Rgba* ptr,
                               const IMATH_NAMESPACE::Box2i& dataWindow);

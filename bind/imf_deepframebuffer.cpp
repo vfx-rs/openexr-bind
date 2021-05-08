@@ -135,7 +135,7 @@ struct DeepFrameBuffer {
 
     } CPPMM_OPAQUEBYTES;
 
-} CPPMM_OPAQUEBYTES;
+} CPPMM_OPAQUEPTR;
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 

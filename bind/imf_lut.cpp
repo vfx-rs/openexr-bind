@@ -22,7 +22,7 @@ struct HalfLut {
     void apply(const Imf::Slice& data,
                const IMATH_NAMESPACE::Box2i& dataWindow) const;
 
-} CPPMM_OPAQUEBYTES;
+} CPPMM_OPAQUEPTR;
 
 struct RgbaLut {
     using BoundType = Imf::RgbaLut;
@@ -46,7 +46,7 @@ struct RgbaLut {
     void apply(Imf::Rgba* base, int xStride, int yStride,
                const IMATH_NAMESPACE::Box2i& dataWindow) const;
 
-} CPPMM_OPAQUEBYTES;
+} CPPMM_OPAQUEPTR;
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 

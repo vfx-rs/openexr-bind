@@ -26,7 +26,7 @@ struct ImageChannel {
     Imf::ImageLevel& level();
     const Imf::ImageLevel& level() const CPPMM_RENAME(level_const);
 
-} CPPMM_OPAQUEBYTES;
+} CPPMM_OPAQUEPTR;
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 

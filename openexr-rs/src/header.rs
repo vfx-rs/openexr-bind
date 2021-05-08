@@ -9,10 +9,14 @@ use openexr_sys as sys;
 
 type Result<T, E = Error> = std::result::Result<T, E>;
 
+use std::alloc::{GlobalAlloc, Layout, System};
 use std::ffi::{CStr, CString};
 
 #[repr(transparent)]
-pub struct Header(pub(crate) *mut sys::Imf_Header_t);
+pub struct Header(pub(crate) Box<sys::Imf_Header_t>);
+
+#[repr(transparent)]
+pub struct HeaderSlice(pub(crate) Box<[sys::Imf_Header_t]>);
 
 unsafe impl crate::refptr::OpaquePtr for Header {
     type SysPointee = sys::Imf_Header_t;
@@ -57,10 +61,18 @@ impl Header {
         B: Box2<i32>,
         V: Vec2<f32>,
     {
-        let mut header = std::ptr::null_mut();
         unsafe {
+            // We use the system allocator here as Header is not movable, but
+            // is exposed as opaquebytes so that we can create arrays for it.
+            // That means that we need Header to wrap a Box<sys::Imf_Header_t>
+            // so that the C struct will never move.
+            // The only way to do this is with Box::from_raw
+            //
+            let header = System.alloc(Layout::new::<sys::Imf_Header_t>())
+                as *mut sys::Imf_Header_t;
+
             sys::Imf_Header_ctor(
-                &mut header,
+                header,
                 data_window.as_ptr() as *const sys::Imath_Box2i_t,
                 display_window.as_ptr() as *const sys::Imath_Box2i_t,
                 pixel_aspect_ratio,
@@ -70,9 +82,9 @@ impl Header {
                 compression.into(),
             )
             .into_result()?;
-        }
 
-        Ok(Header(header))
+            Ok(Header(Box::from_raw(header)))
+        }
     }
 
     /// Construct a new [`Header`] with the given attributes.
@@ -109,10 +121,18 @@ impl Header {
     where
         V: Vec2<f32>,
     {
-        let mut header = std::ptr::null_mut();
         unsafe {
+            // We use the system allocator here as Header is not movable, but
+            // is exposed as opaquebytes so that we can create arrays for it.
+            // That means that we need Header to wrap a Box<sys::Imf_Header_t>
+            // so that the C struct will never move.
+            // The only way to do this is with Box::from_raw
+            //
+            let header = System.alloc(Layout::new::<sys::Imf_Header_t>())
+                as *mut sys::Imf_Header_t;
+
             sys::Imf_Header_with_dimensions(
-                &mut header,
+                header,
                 width,
                 height,
                 pixel_aspect_ratio,
@@ -122,9 +142,42 @@ impl Header {
                 compression.into(),
             )
             .into_result()?;
-        }
 
-        Ok(Header(header))
+            Ok(Header(Box::from_raw(header)))
+        }
+    }
+
+    /// Construct a new [`HeaderSlice`], i.e. an array of `num` [`Header`]s,
+    /// suitable for passing to the constructor of e.g. [`MultiPartOutputFile`].
+    ///
+    /// All the resulting [`Header`]s are default-initialized so you should
+    /// manually iterate over and set their attributes after construction.
+    ///
+    pub fn new_array(num: usize) -> HeaderSlice {
+        unsafe {
+            let ptr = System
+                .alloc(Layout::array::<sys::Imf_Header_t>(num).unwrap())
+                as *mut sys::Imf_Header_t;
+
+            // FIXME: is this safe? We're only using Vec as an intermediary
+            // but not sure...
+            let mut array =
+                Vec::from_raw_parts(ptr, num, num).into_boxed_slice();
+            for header in array.iter_mut() {
+                sys::Imf_Header_with_dimensions(
+                    header,
+                    64,
+                    64,
+                    1.0f32,
+                    [0.0f32, 0.0f32].as_ptr() as *const sys::Imath_V2f_t,
+                    1.0f32,
+                    LineOrder::IncreasingY.into(),
+                    Compression::Zip.into(),
+                );
+            }
+
+            HeaderSlice(array)
+        }
     }
 
     /// Shortcut to construct a new [`Header`] with just the dimensions and
@@ -153,8 +206,12 @@ impl Header {
         is_multi_part: bool,
     ) -> Result<()> {
         unsafe {
-            sys::Imf_Header_sanityCheck(self.0, is_tiled, is_multi_part)
-                .into_result()?;
+            sys::Imf_Header_sanityCheck(
+                self.0.as_ref(),
+                is_tiled,
+                is_multi_part,
+            )
+            .into_result()?;
         }
         Ok(())
     }
@@ -206,7 +263,7 @@ impl Header {
     pub fn reads_nothing(&mut self) -> bool {
         let mut result = false;
         unsafe {
-            sys::Imf_Header_readsNothing(self.0, &mut result)
+            sys::Imf_Header_readsNothing(self.0.as_mut(), &mut result)
                 .into_result()
                 .unwrap()
         };
@@ -266,7 +323,7 @@ impl Header {
     {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_Header_displayWindow_const(self.0, &mut ptr)
+            sys::Imf_Header_displayWindow_const(self.0.as_ref(), &mut ptr)
                 .into_result()
                 .unwrap();
             &*(ptr as *const sys::Imath_Box2i_t as *const B)
@@ -292,7 +349,7 @@ impl Header {
     {
         unsafe {
             let mut ptr = std::ptr::null_mut();
-            sys::Imf_Header_displayWindow(self.0, &mut ptr)
+            sys::Imf_Header_displayWindow(self.0.as_mut(), &mut ptr)
                 .into_result()
                 .unwrap();
             &mut *(ptr as *mut sys::Imath_Box2i_t as *mut B)
@@ -317,7 +374,7 @@ impl Header {
     {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_Header_dataWindow_const(self.0, &mut ptr)
+            sys::Imf_Header_dataWindow_const(self.0.as_ref(), &mut ptr)
                 .into_result()
                 .unwrap();
 
@@ -343,7 +400,7 @@ impl Header {
     {
         unsafe {
             let mut ptr = std::ptr::null_mut();
-            sys::Imf_Header_dataWindow(self.0, &mut ptr)
+            sys::Imf_Header_dataWindow(self.0.as_mut(), &mut ptr)
                 .into_result()
                 .unwrap();
             &mut *(ptr as *mut sys::Imath_Box2i_t as *mut B)
@@ -372,7 +429,7 @@ impl Header {
     pub fn pixel_aspect_ratio(&self) -> f32 {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_Header_pixelAspectRatio_const(self.0, &mut ptr)
+            sys::Imf_Header_pixelAspectRatio_const(self.0.as_ref(), &mut ptr)
                 .into_result()
                 .unwrap();
             *ptr
@@ -394,7 +451,7 @@ impl Header {
     pub fn set_pixel_aspect_ratio(&mut self, par: f32) {
         unsafe {
             let mut ptr = std::ptr::null_mut();
-            sys::Imf_Header_pixelAspectRatio(self.0, &mut ptr)
+            sys::Imf_Header_pixelAspectRatio(self.0.as_mut(), &mut ptr)
                 .into_result()
                 .unwrap();
             *ptr = par;
@@ -417,7 +474,7 @@ impl Header {
     {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_Header_screenWindowCenter_const(self.0, &mut ptr)
+            sys::Imf_Header_screenWindowCenter_const(self.0.as_ref(), &mut ptr)
                 .into_result()
                 .unwrap();
             &*(ptr as *const sys::Imath_Box2i_t as *const B)
@@ -440,7 +497,7 @@ impl Header {
     {
         unsafe {
             let mut ptr = std::ptr::null_mut();
-            sys::Imf_Header_screenWindowCenter(self.0, &mut ptr)
+            sys::Imf_Header_screenWindowCenter(self.0.as_mut(), &mut ptr)
                 .into_result()
                 .unwrap();
             &mut *(ptr as *mut sys::Imath_Box2i_t as *mut B)
@@ -460,7 +517,7 @@ impl Header {
     pub fn screen_window_width(&self) -> &f32 {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_Header_screenWindowWidth_const(self.0, &mut ptr)
+            sys::Imf_Header_screenWindowWidth_const(self.0.as_ref(), &mut ptr)
                 .into_result()
                 .unwrap();
             &*ptr
@@ -480,7 +537,7 @@ impl Header {
     pub fn screen_window_width_mut(&mut self) -> &f32 {
         unsafe {
             let mut ptr = std::ptr::null_mut();
-            sys::Imf_Header_screenWindowWidth(self.0, &mut ptr)
+            sys::Imf_Header_screenWindowWidth(self.0.as_mut(), &mut ptr)
                 .into_result()
                 .unwrap();
             &mut *ptr
@@ -491,7 +548,7 @@ impl Header {
     pub fn channels<'a>(&'a self) -> ChannelListRef<'a, Self> {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_Header_channels_const(self.0, &mut ptr)
+            sys::Imf_Header_channels_const(self.0.as_ref(), &mut ptr)
                 .into_result()
                 .unwrap();
             ChannelListRef::new(ptr)
@@ -502,7 +559,7 @@ impl Header {
     pub fn channels_mut<'a>(&'a mut self) -> ChannelListRefMut<'a, Self> {
         unsafe {
             let mut ptr = std::ptr::null_mut();
-            sys::Imf_Header_channels(self.0, &mut ptr)
+            sys::Imf_Header_channels(self.0.as_mut(), &mut ptr)
                 .into_result()
                 .unwrap();
             ChannelListRefMut::new(ptr)
@@ -521,7 +578,7 @@ impl Header {
     pub fn line_order(&self) -> LineOrder {
         let mut ptr = std::ptr::null();
         unsafe {
-            sys::Imf_Header_lineOrder_const(self.0, &mut ptr)
+            sys::Imf_Header_lineOrder_const(self.0.as_ref(), &mut ptr)
                 .into_result()
                 .unwrap();
             (*ptr).into()
@@ -540,7 +597,7 @@ impl Header {
     pub fn set_line_order(&mut self, lo: LineOrder) {
         unsafe {
             let mut ptr = std::ptr::null_mut();
-            sys::Imf_Header_lineOrder(self.0, &mut ptr)
+            sys::Imf_Header_lineOrder(self.0.as_mut(), &mut ptr)
                 .into_result()
                 .unwrap();
             *ptr = lo.into();
@@ -554,7 +611,7 @@ impl Header {
     pub fn compression(&self) -> Compression {
         let mut ptr = std::ptr::null();
         unsafe {
-            sys::Imf_Header_compression_const(self.0, &mut ptr)
+            sys::Imf_Header_compression_const(self.0.as_ref(), &mut ptr)
                 .into_result()
                 .unwrap();
             (*ptr).into()
@@ -568,7 +625,7 @@ impl Header {
     pub fn set_compression(&mut self, cmp: Compression) {
         let mut ptr = std::ptr::null_mut();
         unsafe {
-            sys::Imf_Header_compression(self.0, &mut ptr)
+            sys::Imf_Header_compression(self.0.as_mut(), &mut ptr)
                 .into_result()
                 .unwrap();
             *ptr = cmp.into();
@@ -590,7 +647,7 @@ impl Header {
     pub fn name(&self) -> String {
         unsafe {
             let mut s = std::ptr::null();
-            sys::Imf_Header_name_const(self.0, &mut s)
+            sys::Imf_Header_name_const(self.0.as_ref(), &mut s)
                 .into_result()
                 .unwrap();
 
@@ -625,7 +682,7 @@ impl Header {
                 cname.as_ptr(),
                 cname.as_bytes().len() as u64,
             );
-            sys::Imf_Header_setName(self.0, s);
+            sys::Imf_Header_setName(self.0.as_mut(), s);
             sys::std_string_dtor(s);
         }
     }
@@ -643,7 +700,7 @@ impl Header {
     pub fn image_type(&self) -> String {
         unsafe {
             let mut s = std::ptr::null();
-            sys::Imf_Header_type_const(self.0, &mut s);
+            sys::Imf_Header_type_const(self.0.as_ref(), &mut s);
 
             let mut cptr = std::ptr::null();
             sys::std_string_c_str(s, &mut cptr);
@@ -681,7 +738,7 @@ impl Header {
                 cimage_type.as_ptr(),
                 cimage_type.as_bytes().len() as u64,
             );
-            sys::Imf_Header_setType(self.0, s);
+            sys::Imf_Header_setType(self.0.as_mut(), s);
             sys::std_string_dtor(s);
         }
     }
@@ -691,7 +748,7 @@ impl Header {
     pub fn version(&self) -> i32 {
         unsafe {
             let mut v = std::ptr::null();
-            sys::Imf_Header_version_const(self.0, &mut v);
+            sys::Imf_Header_version_const(self.0.as_ref(), &mut v);
             *v
         }
     }
@@ -700,7 +757,7 @@ impl Header {
     ///
     pub fn set_version(&mut self, v: i32) {
         unsafe {
-            sys::Imf_Header_setVersion(self.0, v);
+            sys::Imf_Header_setVersion(self.0.as_mut(), v);
         }
     }
 
@@ -708,7 +765,7 @@ impl Header {
     pub fn has_version(&self) -> bool {
         unsafe {
             let mut v = false;
-            sys::Imf_Header_hasVersion(self.0, &mut v);
+            sys::Imf_Header_hasVersion(self.0.as_ref(), &mut v);
             v
         }
     }
@@ -723,7 +780,7 @@ impl Header {
     pub fn has_chunk_count(&self) -> bool {
         unsafe {
             let mut v = false;
-            sys::Imf_Header_hasChunkCount(self.0, &mut v);
+            sys::Imf_Header_hasChunkCount(self.0.as_ref(), &mut v);
             v
         }
     }
@@ -733,7 +790,7 @@ impl Header {
     pub fn chunk_count(&self) -> i32 {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_Header_chunkCount_const(self.0, &mut ptr);
+            sys::Imf_Header_chunkCount_const(self.0.as_ref(), &mut ptr);
             *ptr
         }
     }
@@ -751,7 +808,7 @@ impl Header {
     pub fn view(&self) -> String {
         unsafe {
             let mut s = std::ptr::null();
-            sys::Imf_Header_view_const(self.0, &mut s);
+            sys::Imf_Header_view_const(self.0.as_ref(), &mut s);
             let mut cptr = std::ptr::null();
             sys::std_string_c_str(s, &mut cptr);
             CStr::from_ptr(cptr).to_string_lossy().to_string()
@@ -779,7 +836,7 @@ impl Header {
                 cview.as_ptr(),
                 cview.as_bytes().len() as u64,
             );
-            sys::Imf_Header_setView(self.0, s);
+            sys::Imf_Header_setView(self.0.as_mut(), s);
             sys::std_string_dtor(s);
         }
     }
@@ -788,7 +845,7 @@ impl Header {
     pub fn has_view(&self) -> bool {
         unsafe {
             let mut v = false;
-            sys::Imf_Header_hasView(self.0, &mut v);
+            sys::Imf_Header_hasView(self.0.as_ref(), &mut v);
             v
         }
     }
@@ -806,7 +863,7 @@ impl Header {
     pub fn tile_description(&self) -> &TileDescription {
         let mut ptr = std::ptr::null();
         unsafe {
-            sys::Imf_Header_tileDescription_const(self.0, &mut ptr);
+            sys::Imf_Header_tileDescription_const(self.0.as_ref(), &mut ptr);
             &*ptr
         }
     }
@@ -815,7 +872,7 @@ impl Header {
     ///
     pub fn set_tile_description(&mut self, td: &TileDescription) {
         unsafe {
-            sys::Imf_Header_setTileDescription(self.0, td);
+            sys::Imf_Header_setTileDescription(self.0.as_mut(), td);
         }
     }
 
@@ -824,7 +881,7 @@ impl Header {
     pub fn has_tile_description(&self) -> bool {
         unsafe {
             let mut v = false;
-            sys::Imf_Header_hasTileDescription(self.0, &mut v);
+            sys::Imf_Header_hasTileDescription(self.0.as_ref(), &mut v);
             v
         }
     }
@@ -844,7 +901,7 @@ impl Header {
     pub fn preview_image(&self) -> &PreviewImage {
         let mut ptr = std::ptr::null();
         unsafe {
-            sys::Imf_Header_previewImage_const(self.0, &mut ptr);
+            sys::Imf_Header_previewImage_const(self.0.as_ref(), &mut ptr);
             &*(ptr as *const PreviewImage)
         }
     }
@@ -853,7 +910,7 @@ impl Header {
     ///
     pub fn set_preview_image(&mut self, pi: &PreviewImage) {
         unsafe {
-            sys::Imf_Header_setPreviewImage(self.0, pi.0);
+            sys::Imf_Header_setPreviewImage(self.0.as_mut(), pi.0);
         }
     }
 
@@ -862,7 +919,7 @@ impl Header {
     pub fn has_preview_image(&self) -> bool {
         unsafe {
             let mut v = false;
-            sys::Imf_Header_hasPreviewImage(self.0, &mut v);
+            sys::Imf_Header_hasPreviewImage(self.0.as_ref(), &mut v);
             v
         }
     }
@@ -885,7 +942,7 @@ impl Header {
         let c_name = CString::new(name).expect("Invalid UTF-8 in name");
         unsafe {
             sys::Imf_Header_insert(
-                self.0,
+                self.0.as_mut(),
                 c_name.as_ptr(),
                 attribute.as_attribute_ptr(),
             )
@@ -902,7 +959,8 @@ impl Header {
     pub fn erase(&mut self, name: &str) -> Result<()> {
         let c_name = CString::new(name).expect("Invalid UTF-8 in name");
         unsafe {
-            sys::Imf_Header_erase(self.0, c_name.as_ptr()).into_result()?;
+            sys::Imf_Header_erase(self.0.as_mut(), c_name.as_ptr())
+                .into_result()?;
         }
         Ok(())
     }
@@ -921,7 +979,7 @@ impl Header {
         let mut attr_ptr = std::ptr::null();
         unsafe {
             sys::Imf_Header_findTypedAttribute_Box2i_const(
-                self.0,
+                self.0.as_ref(),
                 &mut attr_ptr,
                 c_name.as_ptr(),
             )
@@ -953,7 +1011,7 @@ impl Header {
         let mut attr_ptr = std::ptr::null_mut();
         unsafe {
             sys::Imf_Header_findTypedAttribute_Box2i(
-                self.0,
+                self.0.as_mut(),
                 &mut attr_ptr,
                 c_name.as_ptr(),
             )
@@ -975,7 +1033,7 @@ impl Header {
 impl Drop for Header {
     fn drop(&mut self) {
         unsafe {
-            sys::Imf_Header_dtor(self.0);
+            sys::Imf_Header_dtor(self.0.as_mut());
         }
     }
 }

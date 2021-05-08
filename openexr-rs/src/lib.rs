@@ -11,7 +11,7 @@ pub use openexr_sys::PixelType;
 pub mod frame_buffer;
 pub use frame_buffer::{FrameBuffer, FrameBufferRef, Slice};
 pub mod header;
-pub use header::{Header, HeaderRef};
+pub use header::{Header, HeaderRef, HeaderSlice};
 pub mod attribute;
 pub use attribute::{Attribute, Box2iAttribute, TypedAttribute};
 pub mod channel_list;
@@ -24,6 +24,8 @@ pub mod input_file;
 pub use input_file::InputFile;
 pub mod output_file;
 pub use output_file::OutputFile;
+pub mod output_part;
+pub use output_part::OutputPart;
 pub mod input_part;
 pub use input_part::InputPart;
 pub mod composite_deep_scan_line;
@@ -37,6 +39,8 @@ pub mod error;
 pub use error::Error;
 pub mod multi_part_input_file;
 pub use multi_part_input_file::MultiPartInputFile;
+pub mod multi_part_output_file;
+pub use multi_part_output_file::MultiPartOutputFile;
 
 pub mod imath;
 

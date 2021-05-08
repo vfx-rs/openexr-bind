@@ -75,7 +75,7 @@ struct DeepScanLineInputFile {
                                int scanLine1, int scanLine2) const
         CPPMM_RENAME(readPixelSampleCounts_into_frame_buffer);
 
-} CPPMM_OPAQUEBYTES;
+} CPPMM_OPAQUEPTR;
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 
