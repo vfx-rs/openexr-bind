@@ -1,10 +1,7 @@
 use openexr_sys as sys;
 pub use sys::Imf_Channel_t as Channel;
 
-use crate::{
-    refptr::{OpaquePtr, Ref, RefMut},
-    PixelType,
-};
+use crate::refptr::{Ref, RefMut};
 use std::ffi::{CStr, CString};
 use std::marker::PhantomData;
 
@@ -17,10 +14,10 @@ pub(crate) struct ChannelListConstIterator(
     pub(crate) sys::Imf_ChannelList_ConstIterator_t,
 );
 
-#[repr(transparent)]
-pub(crate) struct ChannelListIterator(
-    pub(crate) sys::Imf_ChannelList_Iterator_t,
-);
+// #[repr(transparent)]
+// pub(crate) struct ChannelListIterator(
+//     pub(crate) sys::Imf_ChannelList_Iterator_t,
+// );
 
 unsafe impl crate::refptr::OpaquePtr for ChannelList {
     type SysPointee = sys::Imf_ChannelList_t;
@@ -357,6 +354,7 @@ impl PartialEq for ChannelListConstIterator {
 #[cfg(test)]
 #[test]
 fn iter1() {
+    use crate::PixelType;
     let mut list = ChannelList::new();
     let channel = Channel {
         type_: PixelType::Half.into(),
@@ -379,6 +377,7 @@ fn iter1() {
 #[cfg(test)]
 #[test]
 fn eq() {
+    use crate::PixelType;
     let mut list1 = ChannelList::new();
     let mut list2 = ChannelList::new();
     let mut list3 = ChannelList::new();
@@ -410,6 +409,7 @@ fn eq() {
 #[cfg(test)]
 #[test]
 fn layers() {
+    use crate::PixelType;
     let mut list = ChannelList::new();
     let channel = Channel {
         type_: PixelType::Half.into(),
@@ -434,6 +434,7 @@ fn layers() {
 #[cfg(test)]
 #[test]
 fn channels_in_layer() {
+    use crate::PixelType;
     let mut list = ChannelList::new();
     let channel = Channel {
         type_: PixelType::Half.into(),
@@ -461,6 +462,7 @@ fn channels_in_layer() {
 #[cfg(test)]
 #[test]
 fn channels_with_prefix() {
+    use crate::PixelType;
     let mut list = ChannelList::new();
     let channel = Channel {
         type_: PixelType::Half.into(),

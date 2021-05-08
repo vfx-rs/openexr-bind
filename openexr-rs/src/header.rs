@@ -1,6 +1,6 @@
 use crate::imath::{Box2, Vec2};
 use crate::{
-    channel_list::{ChannelList, ChannelListRef, ChannelListRefMut},
+    channel_list::{ChannelListRef, ChannelListRefMut},
     refptr::{Ref, RefMut},
     Box2iAttribute, Compression, Error, LineOrder, PreviewImage,
     TileDescription, TypedAttribute,

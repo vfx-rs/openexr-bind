@@ -1,6 +1,6 @@
 use openexr_sys as sys;
 
-use std::ffi::{CStr, CString};
+use std::ffi::CString;
 use std::path::Path;
 
 use crate::{

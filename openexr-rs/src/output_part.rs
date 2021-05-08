@@ -1,11 +1,8 @@
 use openexr_sys as sys;
 
-use std::ffi::{CStr, CString};
-use std::path::Path;
-
 use crate::{
-    Error, FrameBuffer, FrameBufferRef, Header, HeaderRef, InputFile,
-    InputPart, MultiPartOutputFile, PreviewRgba,
+    Error, FrameBuffer, FrameBufferRef, HeaderRef, InputFile, InputPart,
+    MultiPartOutputFile, PreviewRgba,
 };
 
 type Result<T, E = Error> = std::result::Result<T, E>;

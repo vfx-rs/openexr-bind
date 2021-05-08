@@ -204,7 +204,7 @@ mod tests {
         let mut header_array = Header::new_array(2);
         let mut i = 0;
         for mut header in header_array.iter_mut() {
-            header.set_compression(Compression::Piz);
+            header.set_compression(Compression::Zip);
 
             header.channels_mut().insert("R", &channel);
             header.channels_mut().insert("G", &channel);
@@ -347,7 +347,7 @@ mod tests {
             )
             .unwrap();
 
-        let mut file = MultiPartOutputFile::new(
+        let file = MultiPartOutputFile::new(
             "write_multipartoutputfile1.exr",
             &header_array,
             true,
@@ -358,18 +358,13 @@ mod tests {
         let mut part_left = OutputPart::new(&file, 0).unwrap();
         let mut part_right = OutputPart::new(&file, 1).unwrap();
 
-        part_left.set_frame_buffer(&frame_buffer_left);
-        part_right.set_frame_buffer(&frame_buffer_right);
+        part_left.set_frame_buffer(&frame_buffer_left).unwrap();
+        part_right.set_frame_buffer(&frame_buffer_right).unwrap();
 
         unsafe {
-            part_left.write_pixels(height);
-            part_right.write_pixels(height);
+            part_left.write_pixels(height).unwrap();
+            part_right.write_pixels(height).unwrap();
         }
-
-        // let mut file =
-        //     OutputFile::new("write_outputfile1.exr", &header, 1).unwrap();
-        // file.set_frame_buffer(&frame_buffer).unwrap();
-        // unsafe { file.write_pixels(height).unwrap() };
     }
 
     #[test]

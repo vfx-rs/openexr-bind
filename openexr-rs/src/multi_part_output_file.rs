@@ -1,9 +1,9 @@
 use openexr_sys as sys;
 
-use std::ffi::{CStr, CString};
+use std::ffi::CString;
 use std::path::Path;
 
-use crate::{Error, Header, HeaderRef, HeaderSlice};
+use crate::{Error, HeaderRef, HeaderSlice};
 
 type Result<T, E = Error> = std::result::Result<T, E>;
 

@@ -137,10 +137,10 @@ pub(crate) struct FrameBufferConstIterator(
     pub(crate) sys::Imf_FrameBuffer_ConstIterator_t,
 );
 
-#[repr(transparent)]
-pub(crate) struct FrameBufferIterator(
-    pub(crate) sys::Imf_FrameBuffer_Iterator_t,
-);
+// #[repr(transparent)]
+// pub(crate) struct FrameBufferIterator(
+//     pub(crate) sys::Imf_FrameBuffer_Iterator_t,
+// );
 
 pub struct FrameBufferIter<'a> {
     ptr: FrameBufferConstIterator,
