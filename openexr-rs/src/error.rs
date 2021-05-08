@@ -16,6 +16,8 @@ pub enum Error {
     InvalidType(String),
     #[error("Invalid argument: {0}")]
     InvalidArgument(String),
+    #[error("I/O: {0}")]
+    Io(String),
 }
 
 impl From<sys::Error> for Error {
@@ -28,6 +30,7 @@ impl From<sys::Error> for Error {
             E::IexOutOfMemory(s) => Error::OutOfMemory(s),
             E::IexInvalidType(s) => Error::InvalidType(s),
             E::IexInvalidArgument(s) => Error::InvalidArgument(s),
+            E::IexIo(s) => Error::Io(s),
         }
     }
 }

@@ -9,19 +9,21 @@ pub use openexr_sys::LineOrder;
 pub use openexr_sys::PixelType;
 
 pub mod frame_buffer;
-pub use frame_buffer::{FrameBuffer, Slice};
+pub use frame_buffer::{FrameBuffer, FrameBufferRef, Slice};
 pub mod header;
 pub use header::{Header, HeaderRef};
 pub mod attribute;
 pub use attribute::{Attribute, Box2iAttribute, TypedAttribute};
 pub mod channel_list;
-pub use channel_list::ChannelList;
+pub use channel_list::{Channel, ChannelList};
 pub mod tile_description;
 pub use tile_description::TileDescription;
 pub mod preview_image;
-pub use preview_image::PreviewImage;
+pub use preview_image::{PreviewImage, PreviewRgba};
 pub mod input_file;
 pub use input_file::InputFile;
+pub mod output_file;
+pub use output_file::OutputFile;
 pub mod input_part;
 pub use input_part::InputPart;
 pub mod composite_deep_scan_line;
@@ -95,6 +97,97 @@ mod tests {
         file.set_frame_buffer(&pixels, 1, width as usize).unwrap();
         file.write_pixels(height).unwrap();
         std::mem::drop(file);
+    }
+
+    #[test]
+    fn write_outputfile1() {
+        let (pixels, width, height) = load_ferris();
+
+        let mut header = Header::from_dimensions(width, height);
+        header.set_compression(Compression::Piz);
+
+        let channel = Channel {
+            type_: PixelType::Half.into(),
+            x_sampling: 1,
+            y_sampling: 1,
+            p_linear: true,
+        };
+
+        header.channels_mut().insert("R", &channel);
+        header.channels_mut().insert("G", &channel);
+        header.channels_mut().insert("B", &channel);
+        header.channels_mut().insert("A", &channel);
+
+        let mut frame_buffer = FrameBuffer::new();
+
+        frame_buffer
+            .insert(
+                "R",
+                &Slice::new(
+                    PixelType::Half,
+                    &pixels[0].r as *const _ as *const u8,
+                    width as i64,
+                    height as i64,
+                )
+                .x_stride(std::mem::size_of::<Rgba>())
+                .y_stride(std::mem::size_of::<Rgba>() * width as usize)
+                .build()
+                .unwrap(),
+            )
+            .unwrap();
+
+        frame_buffer
+            .insert(
+                "G",
+                &Slice::new(
+                    PixelType::Half,
+                    &pixels[0].g as *const _ as *const u8,
+                    width as i64,
+                    height as i64,
+                )
+                .x_stride(std::mem::size_of::<Rgba>())
+                .y_stride(std::mem::size_of::<Rgba>() * width as usize)
+                .build()
+                .unwrap(),
+            )
+            .unwrap();
+
+        frame_buffer
+            .insert(
+                "B",
+                &Slice::new(
+                    PixelType::Half,
+                    &pixels[0].b as *const _ as *const u8,
+                    width as i64,
+                    height as i64,
+                )
+                .x_stride(std::mem::size_of::<Rgba>())
+                .y_stride(std::mem::size_of::<Rgba>() * width as usize)
+                .build()
+                .unwrap(),
+            )
+            .unwrap();
+
+        frame_buffer
+            .insert(
+                "A",
+                &Slice::new(
+                    PixelType::Half,
+                    &pixels[0].a as *const _ as *const u8,
+                    width as i64,
+                    height as i64,
+                )
+                .x_stride(std::mem::size_of::<Rgba>())
+                .y_stride(std::mem::size_of::<Rgba>() * width as usize)
+                .build()
+                .unwrap(),
+            )
+            .unwrap();
+
+        let mut file =
+            OutputFile::new("write_outputfile1.exr", &header, 1).unwrap();
+        file.set_frame_buffer(&frame_buffer).unwrap();
+        unsafe { file.write_pixels(height).unwrap() };
     }
 
     #[test]

@@ -1,3 +1,4 @@
+#include <OpenEXR/IexBaseExc.h>
 #include <OpenEXR/ImfFrameBuffer.h>
 
 #include <cppmm_bind.hpp>
@@ -20,30 +21,33 @@ struct Slice {
                            const Imath::V2i& origin, int64_t w, int64_t h,
                            size_t xStride, size_t yStride, int xSampling,
                            int ySampling, double fillValue, bool xTileCoords,
-                           bool yTileCoords) CPPMM_IGNORE;
+                           bool yTileCoords) CPPMM_RENAME(with_origin)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     IMF_EXPORT
     static Imf::Slice Make(Imf::PixelType type, const void* ptr,
                            const Imath::Box2i& dataWindow, size_t xStride,
                            size_t yStride, int xSampling, int ySampling,
-                           double fillValue, bool xTileCoords,
-                           bool yTileCoords);
+                           double fillValue, bool xTileCoords, bool yTileCoords)
+        CPPMM_RENAME(with_window)
+            CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     Slice(const Imf::Slice&);
     Slice(Imf::Slice&&) CPPMM_IGNORE;
     ~Slice();
 
-} CPPMM_VALUETYPE;
+} CPPMM_OPAQUEBYTES;
 
 struct FrameBuffer {
     using BoundType = Imf::FrameBuffer;
 
-    FrameBuffer();
-    FrameBuffer(const Imf::FrameBuffer&);
+    FrameBuffer() CPPMM_RENAME(ctor);
+    FrameBuffer(const Imf::FrameBuffer&) CPPMM_RENAME(copy);
     FrameBuffer(Imf::FrameBuffer&&) CPPMM_IGNORE;
     ~FrameBuffer();
 
-    void insert(const char name[], const Imf::Slice& slice);
+    void insert(const char name[], const Imf::Slice& slice)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     void insert(const std::string& name, const Imf::Slice& slice) CPPMM_IGNORE;
 
@@ -60,7 +64,8 @@ struct FrameBuffer {
     IMF_EXPORT
     Imf::Slice* findSlice(const char name[]);
     IMF_EXPORT
-    const Imf::Slice* findSlice(const char name[]) const;
+    const Imf::Slice* findSlice(const char name[]) const
+        CPPMM_RENAME(findSlice_const);
 
     IMF_EXPORT
     Imf::Slice* findSlice(const std::string& name) CPPMM_IGNORE;
@@ -135,7 +140,11 @@ struct FrameBuffer {
 
     } CPPMM_OPAQUEBYTES;
 
-} CPPMM_OPAQUEBYTES;
+} CPPMM_OPAQUEPTR;
+
+bool operator==(const Imf::FrameBuffer::ConstIterator& a,
+                const Imf::FrameBuffer::ConstIterator& b)
+    CPPMM_RENAME(frame_buffer_const_iter_eq);
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 

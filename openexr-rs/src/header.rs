@@ -1,7 +1,9 @@
 use crate::imath::{Box2, Vec2};
 use crate::{
-    refptr::Ref, Box2iAttribute, ChannelList, Compression, Error, LineOrder,
-    PreviewImage, TileDescription, TypedAttribute,
+    channel_list::{ChannelList, ChannelListRef, ChannelListRefMut},
+    refptr::Ref,
+    Box2iAttribute, Compression, Error, LineOrder, PreviewImage,
+    TileDescription, TypedAttribute,
 };
 use openexr_sys as sys;
 
@@ -486,24 +488,24 @@ impl Header {
     }
 
     /// Get a reference to the list of channels in the header
-    pub fn channels(&self) -> &ChannelList {
+    pub fn channels<'a>(&'a self) -> ChannelListRef<'a, Self> {
         unsafe {
             let mut ptr = std::ptr::null();
             sys::Imf_Header_channels_const(self.0, &mut ptr)
                 .into_result()
                 .unwrap();
-            &*(ptr as *const sys::Imf_ChannelList_t as *const ChannelList)
+            ChannelListRef::new(ptr)
         }
     }
 
     /// Get a mutable reference to the list of channels in the header
-    pub fn channels_mut(&mut self) -> &mut ChannelList {
+    pub fn channels_mut<'a>(&'a mut self) -> ChannelListRefMut<'a, Self> {
         unsafe {
             let mut ptr = std::ptr::null_mut();
             sys::Imf_Header_channels(self.0, &mut ptr)
                 .into_result()
                 .unwrap();
-            &mut *(ptr as *mut sys::Imf_ChannelList_t as *mut ChannelList)
+            ChannelListRefMut::new(ptr)
         }
     }
 

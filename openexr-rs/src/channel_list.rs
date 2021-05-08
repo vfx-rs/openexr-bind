@@ -2,7 +2,7 @@ use openexr_sys as sys;
 pub use sys::Imf_Channel_t as Channel;
 
 use crate::{
-    refptr::{OpaquePtr, Ref},
+    refptr::{OpaquePtr, Ref, RefMut},
     PixelType,
 };
 use std::ffi::{CStr, CString};
@@ -28,6 +28,7 @@ unsafe impl crate::refptr::OpaquePtr for ChannelList {
 }
 
 pub type ChannelListRef<'a, Owner, P = ChannelList> = Ref<'a, Owner, P>;
+pub type ChannelListRefMut<'a, Owner, P = ChannelList> = RefMut<'a, Owner, P>;
 
 impl ChannelList {
     /// Create a Default channel list
@@ -154,18 +155,15 @@ impl ChannelList {
             sys::std_set_string_ctor(&mut set);
             sys::Imf_ChannelList_layers(self.0, set);
 
-            let mut ptr = sys::std_set_string_iterator_t {
-                _m_node: std::ptr::null(),
-            };
+            let mut ptr = sys::std_set_string_iterator_t::default();
             sys::std_set_string_cbegin(set, &mut ptr)
                 .into_result()
                 .unwrap();
-            let mut end = sys::std_set_string_iterator_t {
-                _m_node: std::ptr::null(),
-            };
+            let mut end = sys::std_set_string_iterator_t::default();
             sys::std_set_string_cend(set, &mut end)
                 .into_result()
                 .unwrap();
+
             let mut size = 0;
             sys::std_set_string_size(set, &mut size)
                 .into_result()
@@ -174,7 +172,9 @@ impl ChannelList {
             let mut result = Vec::with_capacity(size as usize);
 
             loop {
-                if ptr._m_node == end._m_node {
+                let mut eq = false;
+                sys::std_set_string_const_iterator_eq(&mut eq, &ptr, &end);
+                if eq {
                     break;
                 }
 

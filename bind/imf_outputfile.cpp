@@ -12,8 +12,8 @@ struct OutputFile {
     using BoundType = Imf::OutputFile;
 
     IMF_EXPORT
-    OutputFile(const char fileName[], const Imf::Header& header,
-               int numThreads);
+    OutputFile(const char fileName[], const Imf::Header& header, int numThreads)
+        CPPMM_RENAME(ctor) CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
     OutputFile(Imf::OStream& os, const Imf::Header& header, int numThreads)
@@ -35,19 +35,25 @@ struct OutputFile {
     const Imf::FrameBuffer& frameBuffer() const;
 
     IMF_EXPORT
-    void writePixels(int numScanLines = 1);
+    void writePixels(int numScanLines = 1) CPPMM_THROWS(Iex::IoExc, IEX_IO)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+            CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
     int currentScanLine() const;
 
     IMF_EXPORT
-    void copyPixels(Imf::InputFile& in);
+    void copyPixels(Imf::InputFile& in) CPPMM_RENAME(copyPixels_from_file)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+            CPPMM_THROWS(Iex::LogicExc, IEX_LOGIC);
 
     IMF_EXPORT
     void copyPixels(Imf::InputPart& in) CPPMM_RENAME(copyPixels_from_part);
 
     IMF_EXPORT
-    void updatePreviewImage(const Imf::PreviewRgba newPixels[]);
+    void updatePreviewImage(const Imf::PreviewRgba newPixels[])
+        CPPMM_THROWS(Iex::LogicExc, IEX_LOGIC)
+            CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
     void breakScanLine(int y, int offset, int length, char c);
