@@ -99,7 +99,7 @@ impl OutputFile {
         frame_buffer: &FrameBuffer,
     ) -> Result<()> {
         unsafe {
-            sys::Imf_OutputFile_setFrameBuffer(self.0, frame_buffer.0)
+            sys::Imf_OutputFile_setFrameBuffer(self.0, frame_buffer.ptr)
                 .into_result()?;
         }
 
@@ -209,9 +209,12 @@ impl OutputFile {
     /// * [`Error::InvalidArgument`] - If the headers do not match
     /// * [`Error::Logic`] - If scan lines have already been written to this file.
     ///
-    pub fn copy_pixels_from_part(&mut self, file: &InputPart) -> Result<()> {
+    pub fn copy_pixels_from_part(
+        &mut self,
+        file: &mut InputPart,
+    ) -> Result<()> {
         unsafe {
-            sys::Imf_OutputFile_copyPixels_from_part(self.0, file.0)
+            sys::Imf_OutputFile_copyPixels_from_part(self.0, &mut file.0)
                 .into_result()?;
         }
         Ok(())
@@ -256,4 +259,122 @@ impl Drop for OutputFile {
             sys::Imf_OutputFile_dtor(self.0);
         }
     }
+}
+
+#[cfg(test)]
+#[test]
+fn write_outputfile1() {
+    use crate::imath::Box2;
+    use crate::tests::load_ferris;
+    use crate::{PixelType, Rgba, Slice, CHANNEL_HALF};
+
+    let (pixels, width, height) = load_ferris();
+
+    let mut header = Header::from_dimensions(width, height);
+
+    header.channels_mut().insert("R", &CHANNEL_HALF);
+    header.channels_mut().insert("G", &CHANNEL_HALF);
+    header.channels_mut().insert("B", &CHANNEL_HALF);
+    header.channels_mut().insert("A", &CHANNEL_HALF);
+
+    let mut frame_buffer = FrameBuffer::new();
+
+    frame_buffer
+        .insert(
+            "R",
+            &Slice::new(
+                PixelType::Half,
+                &pixels[0].r as *const _ as *const u8,
+                width as i64,
+                height as i64,
+            )
+            .x_stride(std::mem::size_of::<Rgba>())
+            .build()
+            .unwrap(),
+        )
+        .unwrap();
+
+    frame_buffer
+        .insert(
+            "G",
+            &Slice::new(
+                PixelType::Half,
+                &pixels[0].g as *const _ as *const u8,
+                width as i64,
+                height as i64,
+            )
+            .x_stride(std::mem::size_of::<Rgba>())
+            .build()
+            .unwrap(),
+        )
+        .unwrap();
+
+    frame_buffer
+        .insert(
+            "B",
+            &Slice::new(
+                PixelType::Half,
+                &pixels[0].b as *const _ as *const u8,
+                width as i64,
+                height as i64,
+            )
+            .x_stride(std::mem::size_of::<Rgba>())
+            .build()
+            .unwrap(),
+        )
+        .unwrap();
+
+    frame_buffer
+        .insert(
+            "A",
+            &Slice::new(
+                PixelType::Half,
+                &pixels[0].a as *const _ as *const u8,
+                width as i64,
+                height as i64,
+            )
+            .x_stride(std::mem::size_of::<Rgba>())
+            .build()
+            .unwrap(),
+        )
+        .unwrap();
+
+    let mut file =
+        OutputFile::new("write_outputfile1.exr", &header, 1).unwrap();
+    file.set_frame_buffer(&frame_buffer).unwrap();
+    unsafe { file.write_pixels(height).unwrap() };
+}
+
+#[cfg(test)]
+#[test]
+fn write_outputfile2() {
+    use crate::imath::Box2;
+    use crate::tests::load_ferris;
+    use crate::{Frame, CHANNEL_HALF};
+
+    let (pixels, width, height) = load_ferris();
+
+    let mut header = Header::from_dimensions(width, height);
+
+    let channel_names = ["R", "G", "B", "A"];
+    for c in &channel_names {
+        header.channels_mut().insert(c, &CHANNEL_HALF);
+    }
+
+    let mut frame_buffer = FrameBuffer::new();
+
+    let frame = Frame::with_vec(
+        &channel_names,
+        pixels,
+        *header.data_window::<[i32; 4]>(),
+        *header.display_window::<[i32; 4]>(),
+    )
+    .unwrap();
+
+    frame_buffer.insert_frame(frame).unwrap();
+
+    let mut file =
+        OutputFile::new("write_outputfile2.exr", &header, 6).unwrap();
+    file.set_frame_buffer(&frame_buffer).unwrap();
+    unsafe { file.write_pixels(height).unwrap() };
 }

@@ -9,8 +9,10 @@ use std::ffi::{CStr, CString};
 
 type Result<T, E = Error> = std::result::Result<T, E>;
 
-#[repr(transparent)]
-pub struct FrameBuffer(pub(crate) *mut sys::Imf_FrameBuffer_t);
+pub struct FrameBuffer {
+    pub(crate) ptr: *mut sys::Imf_FrameBuffer_t,
+    frames: Vec<Option<Frame>>,
+}
 
 unsafe impl crate::refptr::OpaquePtr for FrameBuffer {
     type SysPointee = sys::Imf_FrameBuffer_t;
@@ -26,7 +28,10 @@ impl FrameBuffer {
         unsafe {
             sys::Imf_FrameBuffer_ctor(&mut ptr);
         }
-        FrameBuffer(ptr)
+        FrameBuffer {
+            ptr,
+            frames: Vec::new(),
+        }
     }
 
     /// Insert a [`Slice`] into the `FrameBuffer`.
@@ -39,7 +44,7 @@ impl FrameBuffer {
             CString::new(name).expect("Internal null bytes in filename");
 
         unsafe {
-            sys::Imf_FrameBuffer_insert(self.0, c_name.as_ptr(), &slice.0)
+            sys::Imf_FrameBuffer_insert(self.ptr, c_name.as_ptr(), &slice.0)
                 .into_result()?;
         }
 
@@ -59,7 +64,7 @@ impl FrameBuffer {
         let mut ptr = std::ptr::null();
         unsafe {
             sys::Imf_FrameBuffer_findSlice_const(
-                self.0,
+                self.ptr,
                 &mut ptr,
                 c_name.as_ptr(),
             );
@@ -88,7 +93,7 @@ impl FrameBuffer {
 
         let mut ptr = std::ptr::null_mut();
         unsafe {
-            sys::Imf_FrameBuffer_findSlice(self.0, &mut ptr, c_name.as_ptr());
+            sys::Imf_FrameBuffer_findSlice(self.ptr, &mut ptr, c_name.as_ptr());
         }
 
         if ptr.is_null() {
@@ -103,13 +108,13 @@ impl FrameBuffer {
     pub fn iter(&self) -> FrameBufferIter {
         unsafe {
             let mut ptr = sys::Imf_FrameBuffer_ConstIterator_t::default();
-            sys::Imf_FrameBuffer_begin_const(self.0, &mut ptr)
+            sys::Imf_FrameBuffer_begin_const(self.ptr, &mut ptr)
                 .into_result()
                 .unwrap();
             let ptr = FrameBufferConstIterator(ptr);
 
             let mut end = sys::Imf_FrameBuffer_ConstIterator_t::default();
-            sys::Imf_FrameBuffer_end_const(self.0, &mut end)
+            sys::Imf_FrameBuffer_end_const(self.ptr, &mut end)
                 .into_result()
                 .unwrap();
             let end = FrameBufferConstIterator(end);
@@ -121,12 +126,45 @@ impl FrameBuffer {
             }
         }
     }
+
+    pub fn insert_frame(&mut self, frame: Frame) -> Result<FrameHandle> {
+        let mut ptr = frame.ptr;
+        let w = frame.data_window[2] - frame.data_window[0] + 1;
+        let ystride = w as usize * frame.stride;
+        for chan in &frame.channel_names {
+            self.insert(
+                &chan,
+                &Slice::with_data_window(
+                    frame.channel_type,
+                    ptr,
+                    frame.data_window,
+                )
+                .x_stride(frame.stride)
+                .y_stride(ystride)
+                .build()?,
+            )?;
+
+            ptr = unsafe { ptr.offset(frame.channel_stride as isize) };
+        }
+        let handle = FrameHandle(self.frames.len());
+        self.frames.push(Some(frame));
+
+        Ok(handle)
+    }
+
+    pub fn take_frame(&mut self, handle: FrameHandle) -> Option<Frame> {
+        if let Some(o) = self.frames.get_mut(handle.0) {
+            o.take()
+        } else {
+            None
+        }
+    }
 }
 
 impl Drop for FrameBuffer {
     fn drop(&mut self) {
         unsafe {
-            sys::Imf_FrameBuffer_dtor(self.0);
+            sys::Imf_FrameBuffer_dtor(self.ptr);
         }
     }
 }
@@ -387,6 +425,198 @@ impl Drop for Slice {
     fn drop(&mut self) {
         unsafe {
             sys::Imf_Slice_dtor(&mut self.0);
+        }
+    }
+}
+
+pub trait Pixel: Default + Clone {
+    type Type;
+    const CHANNEL_TYPE: PixelType;
+    const NUM_CHANNELS: usize;
+    const STRIDE: usize = std::mem::size_of::<Self::Type>();
+    const CHANNEL_STRIDE: usize = std::mem::size_of::<Self::Type>();
+}
+
+impl Pixel for crate::imath::f16 {
+    type Type = Self;
+    const CHANNEL_TYPE: PixelType = PixelType::Half;
+    const NUM_CHANNELS: usize = 1;
+}
+
+impl Pixel for f32 {
+    type Type = Self;
+    const CHANNEL_TYPE: PixelType = PixelType::Float;
+    const NUM_CHANNELS: usize = 1;
+}
+
+impl Pixel for u32 {
+    type Type = Self;
+    const CHANNEL_TYPE: PixelType = PixelType::Uint;
+    const NUM_CHANNELS: usize = 1;
+}
+
+impl Pixel for crate::Rgba {
+    type Type = Self;
+    const CHANNEL_TYPE: PixelType = PixelType::Half;
+    const NUM_CHANNELS: usize = 4;
+    const CHANNEL_STRIDE: usize = std::mem::size_of::<crate::imath::f16>();
+}
+
+/// `Frame` attempts to provide a safer API on top of OpenEXR's [`Slice`] type.
+///
+/// Instead of providing a pointer and calculating offsets based on the data
+/// window offset, as [`Slice`] does, `Frame` wraps up the data window offset
+/// and handles memory allocation internally so that you can't get it wrong.
+///
+pub struct Frame {
+    pub(crate) channel_type: PixelType,
+    pub(crate) data_window: [i32; 4],
+    pub(crate) display_window: [i32; 4],
+    pub(crate) channel_names: Vec<String>,
+    pub(crate) stride: usize,
+    pub(crate) channel_stride: usize,
+    pub(crate) ptr: *mut u8,
+    pub(crate) byte_len: usize,
+    pub(crate) align: usize,
+}
+
+#[repr(transparent)]
+#[derive(Copy, Clone, PartialEq, Hash)]
+pub struct FrameHandle(usize);
+
+use std::alloc::{GlobalAlloc, Layout, System};
+impl Frame {
+    pub fn new<T: Pixel, B: Box2<i32>>(
+        channel_name: &str,
+        data_window: B,
+        display_window: B,
+    ) -> Result<Frame> {
+        let data_window = *data_window.as_slice();
+        let display_window = *display_window.as_slice();
+        let w = data_window[2] - data_window[0] + 1;
+        let h = data_window[3] - data_window[1] + 1;
+        let len = (w * h) as usize;
+        let byte_len = len * std::mem::size_of::<T>();
+        let align = std::mem::align_of::<T>();
+        let ptr = unsafe { System.alloc(Layout::array::<T>(len).unwrap()) };
+
+        Ok(Frame {
+            channel_type: T::CHANNEL_TYPE,
+            data_window,
+            display_window,
+            channel_names: vec![channel_name.into()],
+            stride: T::STRIDE,
+            channel_stride: T::CHANNEL_STRIDE,
+            ptr,
+            byte_len,
+            align,
+        })
+    }
+
+    pub fn new_multi<T: Pixel, B: Box2<i32>, S: AsRef<str>>(
+        channel_names: &[S],
+        data_window: B,
+        display_window: B,
+    ) -> Result<Frame> {
+        let channel_names = channel_names
+            .iter()
+            .map(|s| s.as_ref().to_string())
+            .collect::<Vec<String>>();
+
+        if channel_names.len() != T::NUM_CHANNELS {
+            return Err(Error::InvalidArgument(format!("channel_names ({:?}) has {} channels but pixel type has {} channels.", channel_names, channel_names.len(), T::NUM_CHANNELS)));
+        }
+
+        let data_window = *data_window.as_slice();
+        let display_window = *display_window.as_slice();
+        let w = data_window[2] - data_window[0] + 1;
+        let h = data_window[3] - data_window[1] + 1;
+        let len = (w * h) as usize;
+        let byte_len = len * std::mem::size_of::<T>();
+        let align = std::mem::align_of::<T>();
+        let ptr = unsafe { System.alloc(Layout::array::<T>(len).unwrap()) };
+
+        Ok(Frame {
+            channel_type: T::CHANNEL_TYPE,
+            data_window,
+            display_window,
+            channel_names,
+            stride: T::STRIDE,
+            channel_stride: T::CHANNEL_STRIDE,
+            ptr,
+            byte_len,
+            align,
+        })
+    }
+
+    pub fn with_vec<T: Pixel, B: Box2<i32>, S: AsRef<str>>(
+        channel_names: &[S],
+        mut vec: Vec<T>,
+        data_window: B,
+        display_window: B,
+    ) -> Result<Frame> {
+        let channel_names = channel_names
+            .iter()
+            .map(|s| s.as_ref().to_string())
+            .collect::<Vec<String>>();
+
+        if channel_names.len() != T::NUM_CHANNELS {
+            return Err(Error::InvalidArgument(format!("channel_names ({:?}) has {} channels but pixel type has {} channels.", channel_names, channel_names.len(), T::NUM_CHANNELS)));
+        }
+
+        let data_window = *data_window.as_slice();
+        let display_window = *display_window.as_slice();
+        let w = data_window[2] - data_window[0] + 1;
+        let h = data_window[3] - data_window[1] + 1;
+        let len = (w * h) as usize;
+
+        vec.resize(len, T::default());
+        let mut vec = vec.into_boxed_slice();
+        let ptr = vec.as_mut_ptr() as *mut u8;
+        Box::leak(vec);
+
+        let byte_len = len * std::mem::size_of::<T>();
+        let align = std::mem::align_of::<T>();
+
+        Ok(Frame {
+            channel_type: T::CHANNEL_TYPE,
+            data_window,
+            display_window,
+            channel_names,
+            stride: T::STRIDE,
+            channel_stride: T::CHANNEL_STRIDE,
+            ptr,
+            byte_len,
+            align,
+        })
+    }
+
+    pub fn as_slice<T: Pixel>(&self) -> &[T] {
+        let stride = std::mem::size_of::<T>();
+        if T::STRIDE != stride {
+            panic!("Attempt to get a slice with a different type");
+        }
+
+        unsafe {
+            std::slice::from_raw_parts(
+                self.ptr as *const T,
+                self.byte_len / stride,
+            )
+        }
+    }
+
+    pub fn into_vec<T: Pixel>(self) -> Vec<T> {
+        self.as_slice().to_vec()
+    }
+}
+
+impl Drop for Frame {
+    fn drop(&mut self) {
+        unsafe {
+            System.dealloc(
+                self.ptr,
+                Layout::from_size_align(self.byte_len, self.align).unwrap(),
+            )
         }
     }
 }

@@ -13,7 +13,8 @@ struct DeepSlice {
     IMF_EXPORT
     DeepSlice(Imf::PixelType type, char* base, size_t xStride, size_t yStride,
               size_t sampleStride, int xSampling, int ySampling,
-              double fillValue, bool xTileCoords, bool yTileCoords);
+              double fillValue, bool xTileCoords, bool yTileCoords)
+        CPPMM_RENAME(ctor);
 
     DeepSlice(const Imf::DeepSlice& rhs);
     DeepSlice(Imf::DeepSlice&& rhs) CPPMM_IGNORE;
@@ -30,28 +31,30 @@ struct DeepSlice {
                            const Imath::Box2i& dataWindow, size_t xStride,
                            size_t yStride, int xSampling, int ySampling,
                            double fillValue, bool xTileCoords,
-                           bool yTileCoords);
+                           bool yTileCoords) CPPMM_IGNORE;
 
     ~DeepSlice();
 
-} CPPMM_VALUETYPE;
+} CPPMM_OPAQUEBYTES;
 
 struct DeepFrameBuffer {
     using BoundType = Imf::DeepFrameBuffer;
 
-    DeepFrameBuffer();
+    DeepFrameBuffer() CPPMM_RENAME(ctor);
 
     DeepFrameBuffer(const Imf::DeepFrameBuffer& rhs);
     DeepFrameBuffer(Imf::DeepFrameBuffer&& rhs) CPPMM_IGNORE;
 
     ~DeepFrameBuffer();
 
-    void insert(const char name[], const Imf::DeepSlice& slice);
+    void insert(const char name[], const Imf::DeepSlice& slice)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
+
     void insert(const std::string& name,
                 const Imf::DeepSlice& slice) CPPMM_IGNORE;
 
-    Imf::DeepSlice& operator[](const char name[]);
-    const Imf::DeepSlice& operator[](const char name[]) const;
+    Imf::DeepSlice& operator[](const char name[]) CPPMM_IGNORE;
+    const Imf::DeepSlice& operator[](const char name[]) const CPPMM_IGNORE;
 
     IMF_EXPORT
     Imf::DeepSlice& operator[](const std::string& name) CPPMM_IGNORE;
@@ -62,7 +65,8 @@ struct DeepFrameBuffer {
     IMF_EXPORT
     Imf::DeepSlice* findSlice(const char name[]);
     IMF_EXPORT
-    const Imf::DeepSlice* findSlice(const char name[]) const;
+    const Imf::DeepSlice* findSlice(const char name[]) const
+        CPPMM_RENAME(findSlice_const);
 
     IMF_EXPORT
     Imf::DeepSlice* findSlice(const std::string& name) CPPMM_IGNORE;
@@ -80,9 +84,10 @@ struct DeepFrameBuffer {
     Imf::DeepFrameBuffer::ConstIterator end() const CPPMM_RENAME(end_const);
 
     IMF_EXPORT
-    Imf::DeepFrameBuffer::Iterator find(const char name[]);
+    Imf::DeepFrameBuffer::Iterator find(const char name[]) CPPMM_IGNORE;
     IMF_EXPORT
-    Imf::DeepFrameBuffer::ConstIterator find(const char name[]) const;
+    Imf::DeepFrameBuffer::ConstIterator
+    find(const char name[]) const CPPMM_IGNORE;
 
     IMF_EXPORT
     Imf::DeepFrameBuffer::Iterator find(const std::string& name) CPPMM_IGNORE;
@@ -95,7 +100,8 @@ struct DeepFrameBuffer {
     //----------------------------------------------------
 
     IMF_EXPORT
-    void insertSampleCountSlice(const Imf::Slice& slice);
+    void insertSampleCountSlice(const Imf::Slice& slice)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
     IMF_EXPORT
     const Imf::Slice& getSampleCountSlice() const;
 
@@ -136,6 +142,10 @@ struct DeepFrameBuffer {
     } CPPMM_OPAQUEBYTES;
 
 } CPPMM_OPAQUEPTR;
+
+bool operator==(const Imf::DeepFrameBuffer::ConstIterator& a,
+                const Imf::DeepFrameBuffer::ConstIterator& b)
+    CPPMM_RENAME(deep_frame_buffer_const_iter_eq);
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 

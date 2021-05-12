@@ -9,13 +9,15 @@ pub use openexr_sys::LineOrder;
 pub use openexr_sys::PixelType;
 
 pub mod frame_buffer;
-pub use frame_buffer::{FrameBuffer, FrameBufferRef, Slice};
+pub use frame_buffer::{Frame, FrameBuffer, FrameBufferRef, Slice};
 pub mod header;
 pub use header::{Header, HeaderRef, HeaderSlice};
 pub mod attribute;
 pub use attribute::{Attribute, Box2iAttribute, TypedAttribute};
 pub mod channel_list;
-pub use channel_list::{Channel, ChannelList};
+pub use channel_list::{
+    Channel, ChannelList, CHANNEL_FLOAT, CHANNEL_HALF, CHANNEL_UINT,
+};
 pub mod tile_description;
 pub use tile_description::TileDescription;
 pub mod preview_image;
@@ -41,6 +43,8 @@ pub mod multi_part_input_file;
 pub use multi_part_input_file::MultiPartInputFile;
 pub mod multi_part_output_file;
 pub use multi_part_output_file::MultiPartOutputFile;
+pub mod deep_frame_buffer;
+pub use deep_frame_buffer::{DeepFrameBuffer, DeepSlice};
 
 pub mod imath;
 
@@ -49,7 +53,7 @@ mod tests {
     use crate::*;
     use std::path::PathBuf;
 
-    fn load_ferris() -> (Vec<Rgba>, i32, i32) {
+    pub(crate) fn load_ferris() -> (Vec<Rgba>, i32, i32) {
         let path = PathBuf::from(
             std::env::var("CARGO_MANIFEST_DIR")
                 .expect("CARGO_MANIFEST_DIR not set"),
@@ -87,8 +91,7 @@ mod tests {
     fn write_rgba1() {
         let (pixels, width, height) = load_ferris();
 
-        let mut header = Header::from_dimensions(width, height);
-        header.set_compression(Compression::Piz);
+        let header = Header::from_dimensions(width, height);
 
         let mut file = RgbaOutputFile::new(
             "write_rgba1.exr",
@@ -100,94 +103,6 @@ mod tests {
 
         file.set_frame_buffer(&pixels, 1, width as usize).unwrap();
         file.write_pixels(height).unwrap();
-        std::mem::drop(file);
-    }
-
-    #[test]
-    fn write_outputfile1() {
-        let (pixels, width, height) = load_ferris();
-
-        let mut header = Header::from_dimensions(width, height);
-        header.set_compression(Compression::Piz);
-
-        let channel = Channel {
-            type_: PixelType::Half.into(),
-            x_sampling: 1,
-            y_sampling: 1,
-            p_linear: true,
-        };
-
-        header.channels_mut().insert("R", &channel);
-        header.channels_mut().insert("G", &channel);
-        header.channels_mut().insert("B", &channel);
-        header.channels_mut().insert("A", &channel);
-
-        let mut frame_buffer = FrameBuffer::new();
-
-        frame_buffer
-            .insert(
-                "R",
-                &Slice::new(
-                    PixelType::Half,
-                    &pixels[0].r as *const _ as *const u8,
-                    width as i64,
-                    height as i64,
-                )
-                .x_stride(std::mem::size_of::<Rgba>())
-                .build()
-                .unwrap(),
-            )
-            .unwrap();
-
-        frame_buffer
-            .insert(
-                "G",
-                &Slice::new(
-                    PixelType::Half,
-                    &pixels[0].g as *const _ as *const u8,
-                    width as i64,
-                    height as i64,
-                )
-                .x_stride(std::mem::size_of::<Rgba>())
-                .build()
-                .unwrap(),
-            )
-            .unwrap();
-
-        frame_buffer
-            .insert(
-                "B",
-                &Slice::new(
-                    PixelType::Half,
-                    &pixels[0].b as *const _ as *const u8,
-                    width as i64,
-                    height as i64,
-                )
-                .x_stride(std::mem::size_of::<Rgba>())
-                .build()
-                .unwrap(),
-            )
-            .unwrap();
-
-        frame_buffer
-            .insert(
-                "A",
-                &Slice::new(
-                    PixelType::Half,
-                    &pixels[0].a as *const _ as *const u8,
-                    width as i64,
-                    height as i64,
-                )
-                .x_stride(std::mem::size_of::<Rgba>())
-                .build()
-                .unwrap(),
-            )
-            .unwrap();
-
-        let mut file =
-            OutputFile::new("write_outputfile1.exr", &header, 1).unwrap();
-        file.set_frame_buffer(&frame_buffer).unwrap();
-        unsafe { file.write_pixels(height).unwrap() };
     }
 
     #[test]

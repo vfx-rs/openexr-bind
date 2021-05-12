@@ -74,7 +74,7 @@ impl OutputPart {
         frame_buffer: &FrameBuffer,
     ) -> Result<()> {
         unsafe {
-            sys::Imf_OutputPart_setFrameBuffer(&mut self.0, frame_buffer.0)
+            sys::Imf_OutputPart_setFrameBuffer(&mut self.0, frame_buffer.ptr)
                 .into_result()?;
         }
 
@@ -184,9 +184,12 @@ impl OutputPart {
     /// * [`Error::InvalidArgument`] - If the headers do not match
     /// * [`Error::Logic`] - If scan lines have already been written to this file.
     ///
-    pub fn copy_pixels_from_part(&mut self, file: &InputPart) -> Result<()> {
+    pub fn copy_pixels_from_part(
+        &mut self,
+        file: &mut InputPart,
+    ) -> Result<()> {
         unsafe {
-            sys::Imf_OutputPart_copyPixels_from_part(&mut self.0, file.0)
+            sys::Imf_OutputPart_copyPixels_from_part(&mut self.0, &mut file.0)
                 .into_result()?;
         }
         Ok(())

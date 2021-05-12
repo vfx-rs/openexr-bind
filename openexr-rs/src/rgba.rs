@@ -2,7 +2,7 @@ use crate::imath::f16;
 use openexr_sys as sys;
 pub use sys::RgbaChannels;
 
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Copy, Clone, Debug, PartialEq, Default)]
 pub struct Rgba {
     pub r: f16,
     pub g: f16,

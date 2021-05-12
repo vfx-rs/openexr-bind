@@ -52,9 +52,9 @@ struct FrameBuffer {
     void insert(const std::string& name, const Imf::Slice& slice) CPPMM_IGNORE;
 
     IMF_EXPORT
-    Imf::Slice& operator[](const char name[]);
+    Imf::Slice& operator[](const char name[]) CPPMM_IGNORE;
     IMF_EXPORT
-    const Imf::Slice& operator[](const char name[]) const;
+    const Imf::Slice& operator[](const char name[]) const CPPMM_IGNORE;
 
     IMF_EXPORT
     Imf::Slice& operator[](const std::string& name) CPPMM_IGNORE;

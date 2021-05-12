@@ -13,3 +13,4 @@ thiserror = "1.0.24"
 
 [dev-dependencies]
 png = "0.16.8"
+itertools = "0.10.0"

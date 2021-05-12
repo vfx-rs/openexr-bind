@@ -71,7 +71,7 @@ impl<'a> CompositeDeepScanLine<'a> {
         unsafe {
             sys::Imf_CompositeDeepScanLine_setFrameBuffer(
                 self.ptr,
-                frame_buffer.0,
+                frame_buffer.ptr,
             )
             .into_result()
             .unwrap();

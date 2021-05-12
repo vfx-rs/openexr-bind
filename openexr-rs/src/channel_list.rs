@@ -2,6 +2,7 @@ use openexr_sys as sys;
 pub use sys::Imf_Channel_t as Channel;
 
 use crate::refptr::{Ref, RefMut};
+use crate::PixelType;
 use std::ffi::{CStr, CString};
 use std::marker::PhantomData;
 
@@ -18,6 +19,25 @@ pub(crate) struct ChannelListConstIterator(
 // pub(crate) struct ChannelListIterator(
 //     pub(crate) sys::Imf_ChannelList_Iterator_t,
 // );
+
+pub const CHANNEL_HALF: Channel = Channel {
+    type_: sys::Imf_PixelType_HALF,
+    x_sampling: 1,
+    y_sampling: 1,
+    p_linear: true,
+};
+pub const CHANNEL_FLOAT: Channel = Channel {
+    type_: sys::Imf_PixelType_FLOAT,
+    x_sampling: 1,
+    y_sampling: 1,
+    p_linear: true,
+};
+pub const CHANNEL_UINT: Channel = Channel {
+    type_: sys::Imf_PixelType_UINT,
+    x_sampling: 1,
+    y_sampling: 1,
+    p_linear: true,
+};
 
 unsafe impl crate::refptr::OpaquePtr for ChannelList {
     type SysPointee = sys::Imf_ChannelList_t;

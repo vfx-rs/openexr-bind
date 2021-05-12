@@ -11,7 +11,8 @@ namespace Imf = ::OPENEXR_IMF_INTERNAL_NAMESPACE;
 struct DeepScanLineInputFile {
     using BoundType = Imf::DeepScanLineInputFile;
 
-    DeepScanLineInputFile(const char fileName[], int numThreads);
+    DeepScanLineInputFile(const char fileName[], int numThreads)
+        CPPMM_RENAME(ctor) CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     DeepScanLineInputFile(const Imf::Header& header, Imf::IStream* is,
                           int version, /*version field from file*/
@@ -36,7 +37,8 @@ struct DeepScanLineInputFile {
     int version() const;
 
     IMF_EXPORT
-    void setFrameBuffer(const Imf::DeepFrameBuffer& frameBuffer);
+    void setFrameBuffer(const Imf::DeepFrameBuffer& frameBuffer)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     IMF_EXPORT
     const Imf::DeepFrameBuffer& frameBuffer() const;
@@ -45,7 +47,10 @@ struct DeepScanLineInputFile {
     bool isComplete() const;
 
     IMF_EXPORT
-    void readPixels(int scanLine1, int scanLine2);
+    void readPixels(int scanLine1, int scanLine2)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+            CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
+
     IMF_EXPORT
     void readPixels(int scanLine) CPPMM_IGNORE;
 
@@ -65,7 +70,8 @@ struct DeepScanLineInputFile {
     int lastScanLineInChunk(int y) const;
 
     IMF_EXPORT
-    void readPixelSampleCounts(int scanline1, int scanline2);
+    void readPixelSampleCounts(int scanline1, int scanline2)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
     IMF_EXPORT
     void readPixelSampleCounts(int scanline) CPPMM_IGNORE;
 

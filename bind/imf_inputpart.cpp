@@ -12,7 +12,8 @@ struct InputPart {
     using BoundType = Imf::InputPart;
 
     IMF_EXPORT
-    InputPart(Imf::MultiPartInputFile& multiPartFile, int partNumber);
+    InputPart(Imf::MultiPartInputFile& multiPartFile, int partNumber)
+        CPPMM_RENAME(ctor);
 
     IMF_EXPORT
     const char* fileName() const;

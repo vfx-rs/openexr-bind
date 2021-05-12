@@ -12,7 +12,8 @@ struct InputFile {
     using BoundType = Imf::InputFile;
 
     IMF_EXPORT
-    InputFile(const char fileName[], int numThreads);
+    InputFile(const char fileName[], int numThreads) CPPMM_RENAME(ctor)
+        CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
     InputFile(Imf::IStream& is, int numThreads) CPPMM_RENAME(from_stream);
@@ -30,7 +31,8 @@ struct InputFile {
     int version() const;
 
     IMF_EXPORT
-    void setFrameBuffer(const Imf::FrameBuffer& frameBuffer);
+    void setFrameBuffer(const Imf::FrameBuffer& frameBuffer)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     IMF_EXPORT
     const Imf::FrameBuffer& frameBuffer() const;
@@ -39,10 +41,13 @@ struct InputFile {
     bool isComplete() const;
 
     IMF_EXPORT
-    bool isOptimizationEnabled() const;
+    bool isOptimizationEnabled() const
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     IMF_EXPORT
-    void readPixels(int scanLine1, int scanLine2);
+    void readPixels(int scanLine1, int scanLine2)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+            CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
     IMF_EXPORT
     void readPixels(int scanLine) CPPMM_IGNORE;
 
