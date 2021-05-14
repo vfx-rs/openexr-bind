@@ -6,6 +6,10 @@ pub mod rgba;
 pub use rgba::{Rgba, RgbaChannels};
 
 pub use openexr_sys::Compression;
+pub use openexr_sys::CubeMapFace;
+pub use openexr_sys::DataWindowSource;
+pub use openexr_sys::DeepImageState;
+pub use openexr_sys::Envmap;
 pub use openexr_sys::Imf_Chromaticities_t as Chromaticities;
 pub use openexr_sys::LevelMode;
 pub use openexr_sys::LevelRoundingMode;
@@ -20,7 +24,8 @@ pub mod attribute;
 pub use attribute::{Attribute, Box2iAttribute, TypedAttribute};
 pub mod channel_list;
 pub use channel_list::{
-    Channel, ChannelList, CHANNEL_FLOAT, CHANNEL_HALF, CHANNEL_UINT,
+    Channel, ChannelList, ChannelListRef, ChannelListRefMut, CHANNEL_FLOAT,
+    CHANNEL_HALF, CHANNEL_UINT,
 };
 pub mod tile_description;
 pub use tile_description::TileDescription;
@@ -57,6 +62,10 @@ pub use flat_image_level::{
 };
 pub mod flat_image_channel;
 pub use flat_image_channel::{FlatChannelF16, FlatChannelF32, FlatChannelU32};
+pub mod flat_image_io;
+
+pub(crate) mod cppstd;
+pub(crate) use cppstd::CppString;
 
 pub mod imath;
 
