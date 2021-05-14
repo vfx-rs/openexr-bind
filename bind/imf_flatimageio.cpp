@@ -11,50 +11,62 @@ namespace Imf = ::OPENEXR_IMF_INTERNAL_NAMESPACE;
 IMFUTIL_EXPORT
 void saveFlatImage(const std::string& fileName, const Imf::Header& hdr,
                    const Imf::FlatImage& img, Imf::DataWindowSource dws)
-    CPPMM_RENAME(saveFlatImage_with_header);
+    CPPMM_RENAME(saveFlatImage_with_header)
+        CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
 IMFUTIL_EXPORT
-void saveFlatImage(const std::string& fileName, const Imf::FlatImage& img);
+void saveFlatImage(const std::string& fileName, const Imf::FlatImage& img)
+    CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
 IMFUTIL_EXPORT
 void loadFlatImage(const std::string& fileName, Imf::Header& hdr,
-                   Imf::FlatImage& img);
+                   Imf::FlatImage& img) CPPMM_THROWS(Iex::BaseExc, IEX_BASE)
+    CPPMM_RENAME(loadFlatImage_with_header);
 
 IMFUTIL_EXPORT
-void loadFlatImage(const std::string& fileName, Imf::FlatImage& img);
+void loadFlatImage(const std::string& fileName, Imf::FlatImage& img)
+    CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
 IMFUTIL_EXPORT
 void saveFlatScanLineImage(const std::string& fileName, const Imf::Header& hdr,
                            const Imf::FlatImage& img, Imf::DataWindowSource dws)
-    CPPMM_RENAME(saveFlatScanLineImage_with_header);
+    CPPMM_RENAME(saveFlatScanLineImage_with_header)
+        CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
 IMFUTIL_EXPORT
 void saveFlatScanLineImage(const std::string& fileName,
-                           const Imf::FlatImage& img);
+                           const Imf::FlatImage& img)
+    CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
 IMFUTIL_EXPORT
 void loadFlatScanLineImage(const std::string& fileName, Imf::Header& hdr,
                            Imf::FlatImage& img)
-    CPPMM_RENAME(loadFlatScanLineImage_with_header);
+    CPPMM_RENAME(loadFlatScanLineImage_with_header)
+        CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
 IMFUTIL_EXPORT
-void loadFlatScanLineImage(const std::string& fileName, Imf::FlatImage& img);
+void loadFlatScanLineImage(const std::string& fileName, Imf::FlatImage& img)
+    CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
 IMFUTIL_EXPORT
 void saveFlatTiledImage(const std::string& fileName, const Imf::Header& hdr,
                         const Imf::FlatImage& img, Imf::DataWindowSource dws)
-    CPPMM_RENAME(saveFlatTiledImage_with_header);
+    CPPMM_RENAME(saveFlatTiledImage_with_header)
+        CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
 IMFUTIL_EXPORT
-void saveFlatTiledImage(const std::string& fileName, const Imf::FlatImage& img);
+void saveFlatTiledImage(const std::string& fileName, const Imf::FlatImage& img)
+    CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
 IMFUTIL_EXPORT
 void loadFlatTiledImage(const std::string& fileName, Imf::Header& hdr,
                         Imf::FlatImage& img)
-    CPPMM_RENAME(loadFlatTiledImage_with_header);
+    CPPMM_RENAME(loadFlatTiledImage_with_header)
+        CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
 IMFUTIL_EXPORT
-void loadFlatTiledImage(const std::string& fileName, Imf::FlatImage& img);
+void loadFlatTiledImage(const std::string& fileName, Imf::FlatImage& img)
+    CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 
 } // namespace cppmm_bind
