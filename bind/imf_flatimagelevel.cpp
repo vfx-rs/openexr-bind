@@ -12,8 +12,8 @@ struct FlatImageLevel {
     using BoundType = Imf::FlatImageLevel;
 
     // Inherited from ImageLevel
-    Imf::Image& image();
-    const Imf::Image& image() const CPPMM_RENAME(image_const);
+    Imf::Image& image() CPPMM_IGNORE;
+    const Imf::Image& image() const CPPMM_IGNORE;
 
     int xLevelNumber() const;
     int yLevelNumber() const;
@@ -47,17 +47,15 @@ struct FlatImageLevel {
 
     template <class T>
     const Imf::TypedFlatImageChannel<T>*
-    findTypedChannel(const std::string& name) const
-        CPPMM_RENAME(findTypedChannel_const);
+    findTypedChannel(const std::string& name) const;
 
     template <class T>
-    Imf::TypedFlatImageChannel<T>& typedChannel(const std::string& name)
-        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
+    Imf::TypedFlatImageChannel<T>&
+    typedChannel(const std::string& name) CPPMM_IGNORE;
 
     template <class T>
     const Imf::TypedFlatImageChannel<T>&
-    typedChannel(const std::string& name) const CPPMM_RENAME(typedChannel_const)
-        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
+    typedChannel(const std::string& name) const CPPMM_IGNORE;
 
     IMFUTIL_EXPORT
     Imf::FlatImageLevel::Iterator begin();
@@ -115,6 +113,71 @@ struct FlatImageLevel {
 
 } CPPMM_OPAQUEPTR;
 
+// ------------ TypedChannel<half> ---------------------
+extern template Imf::TypedFlatImageChannel<Imath::half>*
+FlatImageLevel::findTypedChannel(const std::string& name);
+
+extern template const Imf::TypedFlatImageChannel<Imath::half>*
+FlatImageLevel::findTypedChannel(const std::string& name) const;
+
+Imf::TypedFlatImageChannel<Imath::half>* (
+    FlatImageLevel::*findTypedChannel_half)(const std::string& name) =
+    &FlatImageLevel::findTypedChannel<Imath::half>;
+
+const Imf::TypedFlatImageChannel<Imath::half>* (
+    FlatImageLevel::*findTypedChannel_half_const)(const std::string& name)
+    const = &FlatImageLevel::findTypedChannel<Imath::half>;
+
+// ------------ TypedChannel<float> ---------------------
+extern template Imf::TypedFlatImageChannel<float>*
+FlatImageLevel::findTypedChannel(const std::string& name);
+
+extern template const Imf::TypedFlatImageChannel<float>*
+FlatImageLevel::findTypedChannel(const std::string& name) const;
+
+Imf::TypedFlatImageChannel<float>* (FlatImageLevel::*findTypedChannel_float)(
+    const std::string& name) = &FlatImageLevel::findTypedChannel<float>;
+
+const Imf::TypedFlatImageChannel<float>* (
+    FlatImageLevel::*findTypedChannel_float_const)(
+    const std::string& name) const = &FlatImageLevel::findTypedChannel<float>;
+
+// ------------ TypedChannel<uint> ---------------------
+extern template Imf::TypedFlatImageChannel<unsigned int>*
+FlatImageLevel::findTypedChannel(const std::string& name);
+
+extern template const Imf::TypedFlatImageChannel<unsigned int>*
+FlatImageLevel::findTypedChannel(const std::string& name) const;
+
+Imf::TypedFlatImageChannel<unsigned int>* (
+    FlatImageLevel::*findTypedChannel_uint)(const std::string& name) =
+    &FlatImageLevel::findTypedChannel<unsigned int>;
+
+const Imf::TypedFlatImageChannel<unsigned int>* (
+    FlatImageLevel::*findTypedChannel_uint_const)(const std::string& name)
+    const = &FlatImageLevel::findTypedChannel<unsigned int>;
+
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 
 } // namespace cppmm_bind
+
+// ------------ TypedFlatImageChannel<half> ---------------------
+extern template Imf::TypedFlatImageChannel<Imath::half>*
+Imf::FlatImageLevel::findTypedChannel(const std::string& name);
+
+extern template const Imf::TypedFlatImageChannel<Imath::half>*
+Imf::FlatImageLevel::findTypedChannel(const std::string& name) const;
+
+// ------------ TypedFlatImageChannel<float> ---------------------
+extern template Imf::TypedFlatImageChannel<float>*
+Imf::FlatImageLevel::findTypedChannel(const std::string& name);
+
+extern template const Imf::TypedFlatImageChannel<float>*
+Imf::FlatImageLevel::findTypedChannel(const std::string& name) const;
+
+// ------------ TypedFlatImageChannel<unsigned int> ---------------------
+extern template Imf::TypedFlatImageChannel<unsigned int>*
+Imf::FlatImageLevel::findTypedChannel(const std::string& name);
+
+extern template const Imf::TypedFlatImageChannel<unsigned int>*
+Imf::FlatImageLevel::findTypedChannel(const std::string& name) const;

@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 pub mod rgba_file;
 pub use rgba_file::{RgbaInputFile, RgbaOutputFile};
 pub mod rgba;
@@ -5,6 +7,8 @@ pub use rgba::{Rgba, RgbaChannels};
 
 pub use openexr_sys::Compression;
 pub use openexr_sys::Imf_Chromaticities_t as Chromaticities;
+pub use openexr_sys::LevelMode;
+pub use openexr_sys::LevelRoundingMode;
 pub use openexr_sys::LineOrder;
 pub use openexr_sys::PixelType;
 
@@ -45,6 +49,14 @@ pub mod multi_part_output_file;
 pub use multi_part_output_file::MultiPartOutputFile;
 pub mod deep_frame_buffer;
 pub use deep_frame_buffer::{DeepFrameBuffer, DeepSlice};
+pub mod flat_image;
+pub use flat_image::{FlatImage, FlatImageRef, FlatImageRefMut};
+pub mod flat_image_level;
+pub use flat_image_level::{
+    FlatImageLevel, FlatImageLevelRef, FlatImageLevelRefMut,
+};
+pub mod flat_image_channel;
+pub use flat_image_channel::{FlatChannelF16, FlatChannelF32, FlatChannelU32};
 
 pub mod imath;
 
@@ -85,6 +97,23 @@ mod tests {
             .collect();
 
         (pixels, info.width as i32, info.height as i32)
+    }
+
+    type Result<T, E = Error> = std::result::Result<T, E>;
+
+    fn write_rgba(
+        filename: &str,
+        pixels: &[Rgba],
+        width: i32,
+        height: i32,
+    ) -> Result<()> {
+        let header = Header::from_dimensions(width, height);
+        let mut file =
+            RgbaOutputFile::new(filename, &header, RgbaChannels::WriteRgba, 4)?;
+        file.set_frame_buffer(&pixels, 1, width as usize)?;
+        file.write_pixels(height)?;
+
+        Ok(())
     }
 
     #[test]

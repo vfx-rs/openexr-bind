@@ -20,34 +20,38 @@ struct DeepImage {
     IMFUTIL_EXPORT
     int numLevels() const CPPMM_THROWS(Iex::LogicExc, IEX_LOGIC_ERROR);
     IMFUTIL_EXPORT
-    int numXLevels() const;
+    int numXLevels() const CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
     IMFUTIL_EXPORT
-    int numYLevels() const;
+    int numYLevels() const CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     IMFUTIL_EXPORT
     const IMATH_NAMESPACE::Box2i& dataWindow() const;
     IMFUTIL_EXPORT
-    const IMATH_NAMESPACE::Box2i& dataWindowForLevel(int l) const;
-    IMFUTIL_EXPORT
-    const IMATH_NAMESPACE::Box2i& dataWindowForLevel(int lx, int ly) const;
+    const IMATH_NAMESPACE::Box2i& dataWindowForLevel(int l) const CPPMM_IGNORE;
 
     IMFUTIL_EXPORT
-    int levelWidth(int lx) const;
+    const IMATH_NAMESPACE::Box2i& dataWindowForLevel(int lx, int ly) const
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
+
     IMFUTIL_EXPORT
-    int levelHeight(int ly) const;
+    int levelWidth(int lx) const
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
+    IMFUTIL_EXPORT
+    int levelHeight(int ly) const
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     IMFUTIL_EXPORT
     void shiftPixels(int dx, int dy)
         CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     IMFUTIL_EXPORT
-    void resize(const IMATH_NAMESPACE::Box2i& dataWindow);
-
+    void resize(const IMATH_NAMESPACE::Box2i& dataWindow) CPPMM_IGNORE;
+    CPPMM_THROWS(Iex::BaseExc, IEX_BASE)
     IMFUTIL_EXPORT
     virtual void resize(const IMATH_NAMESPACE::Box2i& dataWindow,
                         Imf::LevelMode levelMode,
                         Imf::LevelRoundingMode levelRoundingMode)
-        CPPMM_RENAME(resize_with_mode);
+        CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMFUTIL_EXPORT
     void insertChannel(const std::string& name, Imf::PixelType type,
@@ -78,7 +82,7 @@ struct DeepImage {
     IMFUTIL_EXPORT
     DeepImage(const IMATH_NAMESPACE::Box2i& dataWindow,
               Imf::LevelMode levelMode,
-              Imf::LevelRoundingMode levelRoundingMode);
+              Imf::LevelRoundingMode levelRoundingMode) CPPMM_RENAME(ctor);
 
     IMFUTIL_EXPORT
     virtual ~DeepImage();

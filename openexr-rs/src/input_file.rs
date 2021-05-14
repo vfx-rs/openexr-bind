@@ -1,9 +1,9 @@
 use openexr_sys as sys;
 
-use std::ffi::{CStr, CString};
+use std::ffi::CString;
 use std::path::Path;
 
-use crate::{Error, FrameBuffer, FrameBufferRef, Header, HeaderRef};
+use crate::{Error, FrameBuffer, FrameBufferRef, HeaderRef};
 
 type Result<T, E = Error> = std::result::Result<T, E>;
 
@@ -155,9 +155,7 @@ impl InputFile {
 #[cfg(test)]
 #[test]
 fn read_input1() {
-    use crate::{imath::f16, Frame, Rgba, Slice};
-    use itertools::izip;
-    use std::alloc::{GlobalAlloc, Layout, System};
+    use crate::{Frame, Rgba};
     use std::path::PathBuf;
 
     let path = PathBuf::from(
@@ -172,9 +170,6 @@ fn read_input1() {
 
     let data_window = *header.data_window::<[i32; 4]>();
     let display_window = *header.display_window::<[i32; 4]>();
-
-    let data_width = data_window[2] - data_window[0] + 1;
-    let data_height = data_window[3] - data_window[1] + 1;
 
     let mut frame_buffer = FrameBuffer::new();
 

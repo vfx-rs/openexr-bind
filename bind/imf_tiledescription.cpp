@@ -8,8 +8,8 @@ namespace OPENEXR_IMF_INTERNAL_NAMESPACE {
 
 namespace Imf = ::OPENEXR_IMF_INTERNAL_NAMESPACE;
 
-enum LevelMode {};
-enum LevelRoundingMode {};
+enum LevelMode {} CPPMM_RUSTIFY_ENUM;
+enum LevelRoundingMode {} CPPMM_RUSTIFY_ENUM;
 
 struct TileDescription {
     using BoundType = Imf::TileDescription;

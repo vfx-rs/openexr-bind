@@ -264,7 +264,6 @@ impl Drop for OutputFile {
 #[cfg(test)]
 #[test]
 fn write_outputfile1() {
-    use crate::imath::Box2;
     use crate::tests::load_ferris;
     use crate::{PixelType, Rgba, Slice, CHANNEL_HALF};
 
@@ -348,7 +347,6 @@ fn write_outputfile1() {
 #[cfg(test)]
 #[test]
 fn write_outputfile2() {
-    use crate::imath::Box2;
     use crate::tests::load_ferris;
     use crate::{Frame, CHANNEL_HALF};
 

@@ -2,7 +2,6 @@ use openexr_sys as sys;
 pub use sys::Imf_Channel_t as Channel;
 
 use crate::refptr::{Ref, RefMut};
-use crate::PixelType;
 use std::ffi::{CStr, CString};
 use std::marker::PhantomData;
 

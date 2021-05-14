@@ -1,11 +1,10 @@
 use openexr_sys as sys;
 
 use crate::{
-    deep_frame_buffer::DeepFrameBufferRef, DeepFrameBuffer, Error, Frame,
-    Header, HeaderRef,
+    deep_frame_buffer::DeepFrameBufferRef, DeepFrameBuffer, Error, HeaderRef,
 };
 
-use std::ffi::{CStr, CString};
+use std::ffi::CString;
 use std::path::Path;
 
 type Result<T, E = Error> = std::result::Result<T, E>;
@@ -174,7 +173,7 @@ impl DeepScanLineInputFile {
 #[cfg(test)]
 #[test]
 fn read_deep1() {
-    use crate::{imath::f16, DeepSlice, Slice};
+    use crate::{imath::f16, DeepSlice, Frame};
     use itertools::izip;
     use std::alloc::{GlobalAlloc, Layout, System};
     use std::path::PathBuf;

@@ -37,22 +37,23 @@ template <typename T> struct TypedFlatImageChannel {
     using BoundType = Imf::TypedFlatImageChannel<T>;
 
     // Inherited from ImageChannel
-    virtual Imf::PixelType pixelType() const = 0;
+    virtual Imf::PixelType pixelType() const;
     int xSampling() const;
     int ySampling() const;
     bool pLinear() const;
     int pixelsPerRow() const;
     int pixelsPerColumn() const;
     size_t numPixels() const;
-    Imf::ImageLevel& level();
-    const Imf::ImageLevel& level() const;
+    Imf::ImageLevel& level() CPPMM_IGNORE;
+    const Imf::ImageLevel& level() const CPPMM_IGNORE
+        CPPMM_RENAME(flatLevel_const);
 
     // Imherited from FlatImageChannel
     virtual Imf::Slice slice() const;
     IMFUTIL_EXPORT
     Imf::FlatImageLevel& flatLevel();
     IMFUTIL_EXPORT
-    const Imf::FlatImageLevel& flatLevel() const;
+    const Imf::FlatImageLevel& flatLevel() const CPPMM_RENAME(flatLevel_const);
 
     Imf::Channel channel() const;
 
