@@ -48,8 +48,8 @@ unsafe impl crate::refptr::OpaquePtr for CppVectorFloat {
     type Pointee = CppVectorFloat;
 }
 
-pub type CppVectorFloatRef<'a, P = CppVectorFloat> = Ref<'a, P>;
-pub type CppVectorFloatRefMut<'a, P = CppVectorFloat> = RefMut<'a, P>;
+pub(crate) type CppVectorFloatRef<'a, P = CppVectorFloat> = Ref<'a, P>;
+pub(crate) type CppVectorFloatRefMut<'a, P = CppVectorFloat> = RefMut<'a, P>;
 
 impl CppVectorFloat {
     pub fn new() -> CppVectorFloat {
@@ -76,7 +76,7 @@ impl CppVectorFloat {
         unsafe {
             sys::std_vector_float_size(self.0, &mut size);
             sys::std_vector_float_data(self.0, &mut ptr);
-            std::slice::from_raw_parts(ptr, size as usize)
+            std::slice::from_raw_parts_mut(ptr, size as usize)
         }
     }
 }
