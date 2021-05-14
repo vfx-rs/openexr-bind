@@ -19,8 +19,13 @@ public:
     // This allows us to see through to the type in Imath
     using BoundType = std::vector<T>;
 
-    vector();
+    vector() CPPMM_RENAME(ctor);
     ~vector();
+
+    T* data();
+    const T* data() const CPPMM_RENAME(data_const);
+
+    size_t size() const;
 
 } CPPMM_OPAQUEPTR CPPMM_IGNORE_UNBOUND;
 
