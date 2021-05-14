@@ -469,3 +469,11 @@ impl Default for FlatImage {
         FlatImage(ptr)
     }
 }
+
+impl Drop for FlatImage {
+    fn drop(&mut self) {
+        unsafe {
+            sys::Imf_FlatImage_dtor(self.0);
+        }
+    }
+}
