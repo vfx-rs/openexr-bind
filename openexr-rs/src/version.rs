@@ -75,7 +75,7 @@ pub static ALL_FLAGS: Flag =
     Flag(TILED_FLAG.0 | LONG_NAMES_FLAG.0 | NON_IMAGE_FLAG.0 | MULTI_PART_FILE_FLAG.0);
 
 /// The version represents a version number and the flags that are enabled for the file. For example,
-#[derive(Debug)]
+#[derive(Debug, Copy, Clone)]
 pub struct Version {
     inner: c_int,
 }
