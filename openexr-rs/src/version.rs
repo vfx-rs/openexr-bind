@@ -93,7 +93,7 @@ impl Version {
         result
     }
 
-    // Return the version as a tiled version
+    /// Return the version as a tiled version
     pub fn make_tiled(&self) -> Self {
         let mut result: c_int = 0;
 
@@ -104,7 +104,7 @@ impl Version {
         Self { inner: result }
     }
 
-    // Return the version as a non-tiled version
+    /// Return the version as a non-tiled version
     pub fn make_non_tiled(&self) -> Self {
         let mut result: c_int = 0;
 
@@ -115,7 +115,7 @@ impl Version {
         Self { inner: result }
     }
 
-    // Get the version number portion of encoded version.
+    /// Get the version number portion of encoded version.
     pub fn version(&self) -> i32 {
         let mut result: c_int = 0;
 
@@ -126,7 +126,7 @@ impl Version {
         result
     }
 
-    // Get the flags portion of encoded version.
+    /// Get the flags portion of encoded version.
     pub fn flags(&self) -> VersionFlags {
         let mut result: c_int = 0;
 
