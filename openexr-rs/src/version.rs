@@ -3,6 +3,8 @@ use openexr_sys as sys;
 use std::os::raw::{c_char, c_int};
 
 bitflags::bitflags! {
+    /// The version flags represents the options that are supported in the library and the EXR file.
+    ///
     pub struct VersionFlags: i32 {
         /// File is tiled
         const TILED_FLAG = 0x00000200;
@@ -31,7 +33,8 @@ impl VersionFlags {
     }
 }
 
-/// The version represents a version number and the flags that are enabled for the file. For example,
+/// The version represents a version number and the flags that are enabled for the file.
+///
 #[derive(Debug, Copy, Clone)]
 pub struct Version {
     inner: c_int,
