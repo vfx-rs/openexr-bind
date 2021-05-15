@@ -57,6 +57,8 @@ pub use flat_image_level::{
 };
 pub mod flat_image_channel;
 pub use flat_image_channel::{FlatChannelF16, FlatChannelF32, FlatChannelU32};
+pub mod version;
+pub use version::{TILED_FLAG, LONG_NAMES_FLAG, NON_IMAGE_FLAG, MULTI_PART_FILE_FLAG, ALL_FLAGS, Version};
 
 pub mod imath;
 
