@@ -155,7 +155,7 @@ impl Version {
     }
 
     // Get the version number portion of encoded version.
-    pub fn get_version(&self) -> i32 {
+    pub fn version(&self) -> i32 {
         let mut result: c_int = 0;
 
         unsafe {
@@ -166,7 +166,7 @@ impl Version {
     }
 
     // Get the flags portion of encoded version.
-    pub fn get_flags(&self) -> Flag {
+    pub fn flags(&self) -> Flag {
         let mut result: c_int = 0;
 
         unsafe {
@@ -267,7 +267,7 @@ mod tests {
     fn test_get_version_success() {
         #[allow(overflowing_literals)]
         let version = super::Version::from_c_int(0xffffffff);
-        let result = version.get_version();
+        let result = version.version();
 
         assert_eq!(result, 0x000000ff);
     }
@@ -276,7 +276,7 @@ mod tests {
     fn test_get_flags_success() {
         #[allow(overflowing_literals)]
         let version = super::Version::from_c_int(0xffffffff);
-        let result = version.get_flags();
+        let result = version.flags();
 
         #[allow(overflowing_literals)]
         let expected = super::Flag(0xffffff00);
