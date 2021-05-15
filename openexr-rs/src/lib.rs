@@ -65,7 +65,6 @@ pub use flat_image_channel::{FlatChannelF16, FlatChannelF32, FlatChannelU32};
 pub mod flat_image_io;
 
 pub(crate) mod cppstd;
-pub(crate) use cppstd::CppString;
 
 pub mod imath;
 

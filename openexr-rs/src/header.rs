@@ -1,8 +1,9 @@
 use crate::imath::{Box2, Vec2};
 use crate::{
     channel_list::{ChannelListRef, ChannelListRefMut},
+    cppstd::CppString,
     refptr::{Ref, RefMut},
-    Box2iAttribute, Compression, CppString, Error, LineOrder, PreviewImage,
+    Box2iAttribute, Compression, Error, LineOrder, PreviewImage,
     TileDescription, TypedAttribute,
 };
 use openexr_sys as sys;
@@ -706,8 +707,13 @@ impl Header {
     ///
     pub fn set_name(&mut self, name: &str) {
         unsafe {
-            let cname = CppString::new(name);
-            sys::Imf_Header_setName(self.0.as_mut(), cname.0);
+            let mut s = CppString::new();
+            let mut s = std::pin::Pin::new_unchecked(&mut s);
+            CppString::init(s.as_mut(), name);
+            sys::Imf_Header_setName(
+                self.0.as_mut(),
+                CppString::as_ptr(s.as_ref()),
+            );
         }
     }
 
@@ -744,26 +750,13 @@ impl Header {
     ///
     pub fn set_image_type(&mut self, image_type: &str) {
         unsafe {
-            let cimage_type = CString::new(image_type)
-                .expect("Inner NUL bytes in image_type");
-            // FIXME:
-            // this is quite the dance we have to do for std::string
-            // the issue is that all the overloads of std::string() that take
-            // a const char* also take an implicit allocator, which we don't
-            // want to bind.
-            // We can get around this by implementing ignored parameters in
-            // cppmm
-            let mut s = std::ptr::null_mut();
-            sys::std_string_ctor(&mut s);
-            let mut dummy = std::ptr::null_mut();
-            sys::std_string_assign(
-                s,
-                &mut dummy,
-                cimage_type.as_ptr(),
-                cimage_type.as_bytes().len() as u64,
+            let mut s = CppString::new();
+            let mut s = std::pin::Pin::new_unchecked(&mut s);
+            CppString::init(s.as_mut(), image_type);
+            sys::Imf_Header_setType(
+                self.0.as_mut(),
+                CppString::as_ptr(s.as_ref()),
             );
-            sys::Imf_Header_setType(self.0.as_mut(), s);
-            sys::std_string_dtor(s);
         }
     }
 
@@ -843,25 +836,13 @@ impl Header {
     ///
     pub fn set_view(&mut self, view: &str) {
         unsafe {
-            let cview = CString::new(view).expect("Inner NUL bytes in view");
-            // FIXME:
-            // this is quite the dance we have to do for std::string
-            // the issue is that all the overloads of std::string() that take
-            // a const char* also take an implicit allocator, which we don't
-            // want to bind.
-            // We can get around this by implementing ignored parameters in
-            // cppmm
-            let mut s = std::ptr::null_mut();
-            sys::std_string_ctor(&mut s);
-            let mut dummy = std::ptr::null_mut();
-            sys::std_string_assign(
-                s,
-                &mut dummy,
-                cview.as_ptr(),
-                cview.as_bytes().len() as u64,
+            let mut s = CppString::new();
+            let mut s = std::pin::Pin::new_unchecked(&mut s);
+            CppString::init(s.as_mut(), view);
+            sys::Imf_Header_setView(
+                self.0.as_mut(),
+                CppString::as_ptr(s.as_ref()),
             );
-            sys::Imf_Header_setView(self.0.as_mut(), s);
-            sys::std_string_dtor(s);
         }
     }
 

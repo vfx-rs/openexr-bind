@@ -1,10 +1,11 @@
 use crate::{
-    imath::Vec2, Compression, Error, Header, HeaderRef, LineOrder, Rgba,
-    RgbaChannels,
+    cppstd::CppString, imath::Vec2, Compression, Error, Header, HeaderRef,
+    LineOrder, Rgba, RgbaChannels,
 };
 use openexr_sys as sys;
 use std::ffi::CString;
 use std::path::Path;
+use std::pin::Pin;
 
 type Result<T, E = Error> = std::result::Result<T, E>;
 
@@ -351,25 +352,13 @@ impl RgbaInputFile {
     /// call to [`RgbaInputFile::set_frame_buffer`] before reading.
     pub fn set_layer_name(&mut self, name: &str) {
         unsafe {
-            let cname = CString::new(name).expect("Inner NUL bytes in name");
-            // FIXME:
-            // this is quite the dance we have to do for std::string
-            // the issue is that all the overloads of std::string() that take
-            // a const char* also take an implicit allocator, which we don't
-            // want to bind.
-            // We can get around this by implementing ignored parameters in
-            // cppmm
-            let mut s = std::ptr::null_mut();
-            sys::std_string_ctor(&mut s);
-            let mut dummy = std::ptr::null_mut();
-            sys::std_string_assign(
-                s,
-                &mut dummy,
-                cname.as_ptr(),
-                cname.as_bytes().len() as u64,
+            let mut s = CppString::new();
+            let mut s = Pin::new_unchecked(&mut s);
+            CppString::init(s.as_mut(), name);
+            sys::Imf_RgbaInputFile_setLayerName(
+                self.0,
+                CppString::as_ptr(s.as_ref()),
             );
-            sys::Imf_RgbaInputFile_setLayerName(self.0, s);
-            sys::std_string_dtor(s);
         }
     }
 

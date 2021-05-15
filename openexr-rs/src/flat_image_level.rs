@@ -1,5 +1,6 @@
 use crate::imath::Box2;
 use crate::{
+    cppstd::CppString,
     flat_image_channel::{
         FlatChannelF16Ref, FlatChannelF16RefMut, FlatChannelF32Ref,
         FlatChannelF32RefMut, FlatChannelU32Ref, FlatChannelU32RefMut,
@@ -7,8 +8,6 @@ use crate::{
     refptr::{Ref, RefMut},
     Error, FlatImageRef, FlatImageRefMut,
 };
-
-use std::ffi::CString;
 
 use openexr_sys as sys;
 
@@ -81,20 +80,15 @@ impl FlatImageLevel {
     pub fn find_channel_f16(&self, name: &str) -> Option<FlatChannelF16Ref> {
         let mut ptr = std::ptr::null();
         unsafe {
-            let cname = CString::new(name).expect("Inner NUL bytes in name");
-            let mut s = std::ptr::null_mut();
-            sys::std_string_ctor(&mut s);
-            let mut dummy = std::ptr::null_mut();
-            sys::std_string_assign(
-                s,
-                &mut dummy,
-                cname.as_ptr(),
-                cname.as_bytes().len() as u64,
-            );
+            let mut s = CppString::new();
+            let mut s = std::pin::Pin::new_unchecked(&mut s);
+            CppString::init(s.as_mut(), name);
+
             sys::Imf_FlatImageLevel_findTypedChannel_half_const(
-                self.0, &mut ptr, s,
+                self.0,
+                &mut ptr,
+                CppString::as_ptr(s.as_ref()),
             );
-            sys::std_string_dtor(s);
 
             if ptr.is_null() {
                 None
@@ -113,18 +107,15 @@ impl FlatImageLevel {
     ) -> Option<FlatChannelF16RefMut> {
         let mut ptr = std::ptr::null_mut();
         unsafe {
-            let cname = CString::new(name).expect("Inner NUL bytes in name");
-            let mut s = std::ptr::null_mut();
-            sys::std_string_ctor(&mut s);
-            let mut dummy = std::ptr::null_mut();
-            sys::std_string_assign(
-                s,
-                &mut dummy,
-                cname.as_ptr(),
-                cname.as_bytes().len() as u64,
+            let mut s = CppString::new();
+            let mut s = std::pin::Pin::new_unchecked(&mut s);
+            CppString::init(s.as_mut(), name);
+
+            sys::Imf_FlatImageLevel_findTypedChannel_half(
+                self.0,
+                &mut ptr,
+                CppString::as_ptr(s.as_ref()),
             );
-            sys::Imf_FlatImageLevel_findTypedChannel_half(self.0, &mut ptr, s);
-            sys::std_string_dtor(s);
 
             if ptr.is_null() {
                 None
@@ -139,20 +130,15 @@ impl FlatImageLevel {
     pub fn find_channel_f32(&self, name: &str) -> Option<FlatChannelF32Ref> {
         let mut ptr = std::ptr::null();
         unsafe {
-            let cname = CString::new(name).expect("Inner NUL bytes in name");
-            let mut s = std::ptr::null_mut();
-            sys::std_string_ctor(&mut s);
-            let mut dummy = std::ptr::null_mut();
-            sys::std_string_assign(
-                s,
-                &mut dummy,
-                cname.as_ptr(),
-                cname.as_bytes().len() as u64,
-            );
+            let mut s = CppString::new();
+            let mut s = std::pin::Pin::new_unchecked(&mut s);
+            CppString::init(s.as_mut(), name);
+
             sys::Imf_FlatImageLevel_findTypedChannel_float_const(
-                self.0, &mut ptr, s,
+                self.0,
+                &mut ptr,
+                CppString::as_ptr(s.as_ref()),
             );
-            sys::std_string_dtor(s);
 
             if ptr.is_null() {
                 None
@@ -171,18 +157,15 @@ impl FlatImageLevel {
     ) -> Option<FlatChannelF32RefMut> {
         let mut ptr = std::ptr::null_mut();
         unsafe {
-            let cname = CString::new(name).expect("Inner NUL bytes in name");
-            let mut s = std::ptr::null_mut();
-            sys::std_string_ctor(&mut s);
-            let mut dummy = std::ptr::null_mut();
-            sys::std_string_assign(
-                s,
-                &mut dummy,
-                cname.as_ptr(),
-                cname.as_bytes().len() as u64,
+            let mut s = CppString::new();
+            let mut s = std::pin::Pin::new_unchecked(&mut s);
+            CppString::init(s.as_mut(), name);
+
+            sys::Imf_FlatImageLevel_findTypedChannel_float(
+                self.0,
+                &mut ptr,
+                CppString::as_ptr(s.as_ref()),
             );
-            sys::Imf_FlatImageLevel_findTypedChannel_float(self.0, &mut ptr, s);
-            sys::std_string_dtor(s);
 
             if ptr.is_null() {
                 None
@@ -197,20 +180,15 @@ impl FlatImageLevel {
     pub fn find_channel_u32(&self, name: &str) -> Option<FlatChannelU32Ref> {
         let mut ptr = std::ptr::null();
         unsafe {
-            let cname = CString::new(name).expect("Inner NUL bytes in name");
-            let mut s = std::ptr::null_mut();
-            sys::std_string_ctor(&mut s);
-            let mut dummy = std::ptr::null_mut();
-            sys::std_string_assign(
-                s,
-                &mut dummy,
-                cname.as_ptr(),
-                cname.as_bytes().len() as u64,
-            );
+            let mut s = CppString::new();
+            let mut s = std::pin::Pin::new_unchecked(&mut s);
+            CppString::init(s.as_mut(), name);
+
             sys::Imf_FlatImageLevel_findTypedChannel_uint_const(
-                self.0, &mut ptr, s,
+                self.0,
+                &mut ptr,
+                CppString::as_ptr(s.as_ref()),
             );
-            sys::std_string_dtor(s);
 
             if ptr.is_null() {
                 None
@@ -229,18 +207,15 @@ impl FlatImageLevel {
     ) -> Option<FlatChannelU32RefMut> {
         let mut ptr = std::ptr::null_mut();
         unsafe {
-            let cname = CString::new(name).expect("Inner NUL bytes in name");
-            let mut s = std::ptr::null_mut();
-            sys::std_string_ctor(&mut s);
-            let mut dummy = std::ptr::null_mut();
-            sys::std_string_assign(
-                s,
-                &mut dummy,
-                cname.as_ptr(),
-                cname.as_bytes().len() as u64,
+            let mut s = CppString::new();
+            let mut s = std::pin::Pin::new_unchecked(&mut s);
+            CppString::init(s.as_mut(), name);
+
+            sys::Imf_FlatImageLevel_findTypedChannel_uint(
+                self.0,
+                &mut ptr,
+                CppString::as_ptr(s.as_ref()),
             );
-            sys::Imf_FlatImageLevel_findTypedChannel_uint(self.0, &mut ptr, s);
-            sys::std_string_dtor(s);
 
             if ptr.is_null() {
                 None

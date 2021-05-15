@@ -1,8 +1,6 @@
 use openexr_sys as sys;
 
-use std::ffi::CString;
-
-use crate::{DataWindowSource, Error, FlatImage, Header};
+use crate::{cppstd::CppString, DataWindowSource, Error, FlatImage, Header};
 
 use std::path::Path;
 
@@ -19,28 +17,19 @@ pub fn save_flat_image<P: AsRef<Path>>(
     filename: P,
     image: &FlatImage,
 ) -> Result<()> {
-    let c_filename = CString::new(
-        filename
-            .as_ref()
-            .to_str()
-            .expect("Invalid bytes in filename"),
-    )
-    .expect("Internal null bytes in filename");
-
     unsafe {
-        let mut s = std::ptr::null_mut();
-        sys::std_string_ctor(&mut s);
-        let mut dummy = std::ptr::null_mut();
-        sys::std_string_assign(
-            s,
-            &mut dummy,
-            c_filename.as_ptr(),
-            c_filename.as_bytes().len() as u64,
+        let mut s = CppString::new();
+        let mut s = std::pin::Pin::new_unchecked(&mut s);
+        CppString::init(
+            s.as_mut(),
+            filename
+                .as_ref()
+                .to_str()
+                .expect("Invalid bytes in filename"),
         );
 
-        let res = sys::Imf_saveFlatImage(s, image.0);
-        sys::std_string_dtor(s);
-        res.into_result()?;
+        sys::Imf_saveFlatImage(CppString::as_ptr(s.as_ref()), image.0)
+            .into_result()?;
     }
 
     Ok(())
@@ -69,34 +58,24 @@ pub fn save_flat_image_with_header<P: AsRef<Path>>(
     image: &FlatImage,
     data_window_source: DataWindowSource,
 ) -> Result<()> {
-    let c_filename = CString::new(
-        filename
-            .as_ref()
-            .to_str()
-            .expect("Invalid bytes in filename"),
-    )
-    .expect("Internal null bytes in filename");
-
     unsafe {
-        let mut s = std::ptr::null_mut();
-        sys::std_string_ctor(&mut s);
-        let mut dummy = std::ptr::null_mut();
-        sys::std_string_assign(
-            s,
-            &mut dummy,
-            c_filename.as_ptr(),
-            c_filename.as_bytes().len() as u64,
+        let mut s = CppString::new();
+        let mut s = std::pin::Pin::new_unchecked(&mut s);
+        CppString::init(
+            s.as_mut(),
+            filename
+                .as_ref()
+                .to_str()
+                .expect("Invalid bytes in filename"),
         );
 
-        let res = sys::Imf_saveFlatImage_with_header(
-            s,
+        sys::Imf_saveFlatImage_with_header(
+            CppString::as_ptr(s.as_ref()),
             header.0.as_ref() as *const sys::Imf_Header_t,
             image.0,
             data_window_source.into(),
-        );
-
-        sys::std_string_dtor(s);
-        res.into_result()?;
+        )
+        .into_result()?;
     }
 
     Ok(())
@@ -108,29 +87,21 @@ pub fn save_flat_image_with_header<P: AsRef<Path>>(
 /// * [`Error::Base`] - if any error occurs
 //
 pub fn load_flat_image<P: AsRef<Path>>(filename: P) -> Result<FlatImage> {
-    let c_filename = CString::new(
-        filename
-            .as_ref()
-            .to_str()
-            .expect("Invalid bytes in filename"),
-    )
-    .expect("Internal null bytes in filename");
-
     unsafe {
-        let mut s = std::ptr::null_mut();
-        sys::std_string_ctor(&mut s);
-        let mut dummy = std::ptr::null_mut();
-        sys::std_string_assign(
-            s,
-            &mut dummy,
-            c_filename.as_ptr(),
-            c_filename.as_bytes().len() as u64,
+        let mut s = CppString::new();
+        let mut s = std::pin::Pin::new_unchecked(&mut s);
+        CppString::init(
+            s.as_mut(),
+            filename
+                .as_ref()
+                .to_str()
+                .expect("Invalid bytes in filename"),
         );
 
+        #[allow(unused_mut)]
         let mut img = FlatImage::default();
-        let res = sys::Imf_loadFlatImage(s, img.0);
-        sys::std_string_dtor(s);
-        res.into_result()?;
+        sys::Imf_loadFlatImage(CppString::as_ptr(s.as_ref()), img.0)
+            .into_result()?;
 
         Ok(img)
     }
