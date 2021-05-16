@@ -9,6 +9,26 @@ use std::path::Path;
 type Result<T, E = Error> = std::result::Result<T, E>;
 
 /// A simplified interface for writing an RGBA EXR file
+/// ```no_run
+/// # let pixels = vec![];
+/// # let width = 1;
+/// # let height = 1;
+/// use openexr::{Header, RgbaOutputFile, RgbaChannels};
+///
+/// let header = Header::from_dimensions(width, height);
+///
+/// let mut file = RgbaOutputFile::new(
+///     "write_rgba1.exr",
+///     &header,
+///     RgbaChannels::WriteRgba,
+///     1,
+/// )
+/// .unwrap();
+///
+/// file.set_frame_buffer(&pixels, 1, width as usize).unwrap();
+/// file.write_pixels(height).unwrap();
+/// ```
+///
 #[repr(transparent)]
 pub struct RgbaOutputFile(pub(crate) *mut sys::Imf_RgbaOutputFile_t);
 
