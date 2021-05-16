@@ -7,15 +7,15 @@ bitflags::bitflags! {
     ///
     pub struct VersionFlags: i32 {
         /// File is tiled
-        const TILED_FLAG = 0x00000200;
+        const TILED = 0x00000200;
         /// File contains long attribute or channel names
-        const LONG_NAMES_FLAG = 0x00000400;
+        const LONG_NAMES = 0x00000400;
         /// File has at least one part which is not a regular scanline image or regular tiled image (that is, it is a deep format)
-        const NON_IMAGE_FLAG = 0x00000800;
+        const NON_IMAGE = 0x00000800;
         /// File has multiple parts
-        const MULTI_PART_FILE_FLAG = 0x00001000;
+        const MULTI_PART_FILE = 0x00001000;
         /// Bitwise OR of all known flags.
-        const ALL_FLAGS = Self::TILED_FLAG.bits | Self::LONG_NAMES_FLAG.bits | Self::NON_IMAGE_FLAG.bits | Self::MULTI_PART_FILE_FLAG.bits;
+        const ALL = Self::TILED.bits | Self::LONG_NAMES.bits | Self::NON_IMAGE.bits | Self::MULTI_PART_FILE.bits;
     }
 }
 
@@ -175,7 +175,7 @@ mod tests {
 
     #[test]
     fn test_is_tiled_true() {
-        let version = super::Version::new(1, super::VersionFlags::TILED_FLAG);
+        let version = super::Version::new(1, super::VersionFlags::TILED);
         let result = version.is_tiled();
         assert_eq!(result, true);
     }
@@ -189,7 +189,7 @@ mod tests {
 
     #[test]
     fn test_is_multi_part_true() {
-        let version = super::Version::new(1, super::VersionFlags::MULTI_PART_FILE_FLAG);
+        let version = super::Version::new(1, super::VersionFlags::MULTI_PART_FILE);
         let result = version.is_multi_part();
         assert_eq!(result, true);
     }
@@ -203,7 +203,7 @@ mod tests {
 
     #[test]
     fn test_is_non_image_true() {
-        let version = super::Version::new(1, super::VersionFlags::NON_IMAGE_FLAG);
+        let version = super::Version::new(1, super::VersionFlags::NON_IMAGE);
         let result = version.is_non_image();
         assert_eq!(result, true);
     }
@@ -223,7 +223,7 @@ mod tests {
 
     #[test]
     fn test_make_non_tiled_success() {
-        let version = super::Version::new(1, super::VersionFlags::TILED_FLAG).make_non_tiled();
+        let version = super::Version::new(1, super::VersionFlags::TILED).make_non_tiled();
         assert_eq!(version.is_tiled(), false);
     }
 
@@ -249,7 +249,7 @@ mod tests {
 
     #[test]
     fn test_supports_flags_true() {
-        let result = super::VersionFlags::ALL_FLAGS.supports_flags();
+        let result = super::VersionFlags::ALL.supports_flags();
         assert_eq!(result, true);
     }
 
