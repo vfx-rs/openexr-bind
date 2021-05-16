@@ -1,8 +1,7 @@
 use openexr_sys as sys;
 
-use std::ffi::CString;
-
 use crate::{
+    cppstd::CppString,
     imath::Box2,
     refptr::{Ref, RefMut},
     Channel, Error, FlatImageLevelRef, FlatImageLevelRefMut, LevelMode,
@@ -311,30 +310,20 @@ impl FlatImage {
         name: &str,
         channel: &Channel,
     ) -> Result<()> {
-        let cname =
-            CString::new(name).expect("Internal null bytes in filename");
-
         unsafe {
-            let mut s = std::ptr::null_mut();
-            sys::std_string_ctor(&mut s);
-            let mut dummy = std::ptr::null_mut();
-            sys::std_string_assign(
-                s,
-                &mut dummy,
-                cname.as_ptr(),
-                cname.as_bytes().len() as u64,
-            );
+            let mut s = CppString::new();
+            let mut s = std::pin::Pin::new_unchecked(&mut s);
+            CppString::init(s.as_mut(), name);
 
-            let res = sys::Imf_FlatImage_insertChannel(
+            sys::Imf_FlatImage_insertChannel(
                 self.0,
-                s,
+                CppString::as_ptr(s.as_ref()),
                 channel.type_,
                 channel.x_sampling,
                 channel.y_sampling,
                 channel.p_linear,
-            );
-            sys::std_string_dtor(s);
-            res.into_result()?;
+            )
+            .into_result()?;
         }
 
         Ok(())
@@ -346,21 +335,14 @@ impl FlatImage {
     ///
     pub fn erase_channel(&mut self, name: &str) {
         unsafe {
-            let cname =
-                CString::new(name).expect("Internal null bytes in filename");
+            let mut s = CppString::new();
+            let mut s = std::pin::Pin::new_unchecked(&mut s);
+            CppString::init(s.as_mut(), name);
 
-            let mut s = std::ptr::null_mut();
-            sys::std_string_ctor(&mut s);
-            let mut dummy = std::ptr::null_mut();
-            sys::std_string_assign(
-                s,
-                &mut dummy,
-                cname.as_ptr(),
-                cname.as_bytes().len() as u64,
+            sys::Imf_FlatImage_eraseChannel(
+                self.0,
+                CppString::as_ptr(s.as_ref()),
             );
-
-            sys::Imf_FlatImage_eraseChannel(self.0, s);
-            sys::std_string_dtor(s);
         }
     }
 
@@ -386,36 +368,20 @@ impl FlatImage {
         new_name: &str,
     ) -> Result<()> {
         unsafe {
-            let cold_name = CString::new(old_name)
-                .expect("Internal null bytes in filename");
+            let mut sold = CppString::new();
+            let mut sold = std::pin::Pin::new_unchecked(&mut sold);
+            CppString::init(sold.as_mut(), old_name);
 
-            let mut sold = std::ptr::null_mut();
-            sys::std_string_ctor(&mut sold);
-            let mut dummy = std::ptr::null_mut();
-            sys::std_string_assign(
-                sold,
-                &mut dummy,
-                cold_name.as_ptr(),
-                cold_name.as_bytes().len() as u64,
-            );
+            let mut snew = CppString::new();
+            let mut snew = std::pin::Pin::new_unchecked(&mut snew);
+            CppString::init(snew.as_mut(), new_name);
 
-            let cnew_name = CString::new(new_name)
-                .expect("Internal null bytes in filenew_name");
-
-            let mut snew = std::ptr::null_mut();
-            sys::std_string_ctor(&mut snew);
-            let mut dummy = std::ptr::null_mut();
-            sys::std_string_assign(
-                snew,
-                &mut dummy,
-                cnew_name.as_ptr(),
-                cnew_name.as_bytes().len() as u64,
-            );
-
-            let res = sys::Imf_FlatImage_renameChannel(self.0, sold, snew);
-            sys::std_string_dtor(sold);
-            sys::std_string_dtor(snew);
-            res.into_result()?;
+            sys::Imf_FlatImage_renameChannel(
+                self.0,
+                CppString::as_ptr(sold.as_ref()),
+                CppString::as_ptr(snew.as_ref()),
+            )
+            .into_result()?;
         }
 
         Ok(())
@@ -467,5 +433,13 @@ impl Default for FlatImage {
             sys::Imf_FlatImage_default(&mut ptr);
         }
         FlatImage(ptr)
+    }
+}
+
+impl Drop for FlatImage {
+    fn drop(&mut self) {
+        unsafe {
+            sys::Imf_FlatImage_dtor(self.0);
+        }
     }
 }

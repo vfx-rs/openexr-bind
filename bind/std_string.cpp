@@ -25,7 +25,7 @@ public:
     ::std::string& assign(const char* s, ::std::string::size_type count);
     const char* c_str() const;
 
-} CPPMM_OPAQUEPTR CPPMM_IGNORE_UNBOUND;
+} CPPMM_OPAQUEBYTES CPPMM_IGNORE_UNBOUND;
 
 using string = ::std::string;
 

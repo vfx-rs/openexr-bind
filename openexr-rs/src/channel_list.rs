@@ -1,6 +1,7 @@
 use openexr_sys as sys;
 pub use sys::Imf_Channel_t as Channel;
 
+use crate::cppstd::CppString;
 use crate::refptr::{Ref, RefMut};
 use std::ffi::{CStr, CString};
 use std::marker::PhantomData;
@@ -224,21 +225,15 @@ impl ChannelList {
         let mut ptr = sys::Imf_ChannelList_ConstIterator_t::default();
         let mut end = sys::Imf_ChannelList_ConstIterator_t::default();
         unsafe {
-            let clayer = CString::new(layer).expect("NUL bytes in layer name");
-            let mut s = std::ptr::null_mut();
-            sys::std_string_ctor(&mut s).into_result().unwrap();
-            let mut dummy = std::ptr::null_mut();
-            sys::std_string_assign(
-                s,
-                &mut dummy,
-                clayer.as_ptr(),
-                clayer.as_bytes().len() as u64,
-            )
-            .into_result()
-            .unwrap();
+            let mut s = CppString::new();
+            let mut s = std::pin::Pin::new_unchecked(&mut s);
+            CppString::init(s.as_mut(), layer);
 
             sys::Imf_ChannelList_channelsInLayer_const(
-                self.0, s, &mut ptr, &mut end,
+                self.0,
+                CppString::as_ptr(s.as_ref()),
+                &mut ptr,
+                &mut end,
             )
             .into_result()
             .unwrap();
