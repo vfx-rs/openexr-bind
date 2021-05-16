@@ -18,7 +18,7 @@ pub fn save_flat_image<P: AsRef<Path>>(
     image: &FlatImage,
 ) -> Result<()> {
     unsafe {
-        let mut s = CppString::new(
+        let s = CppString::new(
             filename
                 .as_ref()
                 .to_str()
@@ -55,7 +55,7 @@ pub fn save_flat_image_with_header<P: AsRef<Path>>(
     data_window_source: DataWindowSource,
 ) -> Result<()> {
     unsafe {
-        let mut s = CppString::new(
+        let s = CppString::new(
             filename
                 .as_ref()
                 .to_str()
@@ -81,7 +81,7 @@ pub fn save_flat_image_with_header<P: AsRef<Path>>(
 //
 pub fn load_flat_image<P: AsRef<Path>>(filename: P) -> Result<FlatImage> {
     unsafe {
-        let mut s = CppString::new(
+        let s = CppString::new(
             filename
                 .as_ref()
                 .to_str()

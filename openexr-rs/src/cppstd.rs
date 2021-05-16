@@ -130,7 +130,7 @@ impl CppVectorString {
             sys::std_vector_string_ctor(&mut ptr).into_result().unwrap();
 
             for rs in vec {
-                let mut s = CppString::new(rs.as_ref());
+                let s = CppString::new(rs.as_ref());
                 sys::std_vector_string_push_back(ptr, s.0)
                     .into_result()
                     .unwrap();

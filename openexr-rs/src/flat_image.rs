@@ -311,7 +311,7 @@ impl FlatImage {
         channel: &Channel,
     ) -> Result<()> {
         unsafe {
-            let mut s = CppString::new(name);
+            let s = CppString::new(name);
 
             sys::Imf_FlatImage_insertChannel(
                 self.0,
@@ -333,7 +333,7 @@ impl FlatImage {
     ///
     pub fn erase_channel(&mut self, name: &str) {
         unsafe {
-            let mut s = CppString::new(name);
+            let s = CppString::new(name);
             sys::Imf_FlatImage_eraseChannel(self.0, s.0);
         }
     }
@@ -360,9 +360,9 @@ impl FlatImage {
         new_name: &str,
     ) -> Result<()> {
         unsafe {
-            let mut sold = CppString::new(old_name);
+            let sold = CppString::new(old_name);
 
-            let mut snew = CppString::new(new_name);
+            let snew = CppString::new(new_name);
 
             sys::Imf_FlatImage_renameChannel(self.0, sold.0, snew.0)
                 .into_result()?;

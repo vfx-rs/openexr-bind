@@ -80,7 +80,7 @@ impl FlatImageLevel {
     pub fn find_channel_f16(&self, name: &str) -> Option<FlatChannelF16Ref> {
         let mut ptr = std::ptr::null();
         unsafe {
-            let mut s = CppString::new(name);
+            let s = CppString::new(name);
 
             sys::Imf_FlatImageLevel_findTypedChannel_half_const(
                 self.0, &mut ptr, s.0,
@@ -103,7 +103,7 @@ impl FlatImageLevel {
     ) -> Option<FlatChannelF16RefMut> {
         let mut ptr = std::ptr::null_mut();
         unsafe {
-            let mut s = CppString::new(name);
+            let s = CppString::new(name);
 
             sys::Imf_FlatImageLevel_findTypedChannel_half(
                 self.0, &mut ptr, s.0,
@@ -122,7 +122,7 @@ impl FlatImageLevel {
     pub fn find_channel_f32(&self, name: &str) -> Option<FlatChannelF32Ref> {
         let mut ptr = std::ptr::null();
         unsafe {
-            let mut s = CppString::new(name);
+            let s = CppString::new(name);
             sys::Imf_FlatImageLevel_findTypedChannel_float_const(
                 self.0, &mut ptr, s.0,
             );
@@ -144,7 +144,7 @@ impl FlatImageLevel {
     ) -> Option<FlatChannelF32RefMut> {
         let mut ptr = std::ptr::null_mut();
         unsafe {
-            let mut s = CppString::new(name);
+            let s = CppString::new(name);
             sys::Imf_FlatImageLevel_findTypedChannel_float(
                 self.0, &mut ptr, s.0,
             );
@@ -162,7 +162,7 @@ impl FlatImageLevel {
     pub fn find_channel_u32(&self, name: &str) -> Option<FlatChannelU32Ref> {
         let mut ptr = std::ptr::null();
         unsafe {
-            let mut s = CppString::new(name);
+            let s = CppString::new(name);
             sys::Imf_FlatImageLevel_findTypedChannel_uint_const(
                 self.0, &mut ptr, s.0,
             );
@@ -184,7 +184,7 @@ impl FlatImageLevel {
     ) -> Option<FlatChannelU32RefMut> {
         let mut ptr = std::ptr::null_mut();
         unsafe {
-            let mut s = CppString::new(name);
+            let s = CppString::new(name);
 
             sys::Imf_FlatImageLevel_findTypedChannel_uint(
                 self.0, &mut ptr, s.0,

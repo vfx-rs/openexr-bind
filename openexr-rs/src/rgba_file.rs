@@ -351,7 +351,7 @@ impl RgbaInputFile {
     /// call to [`RgbaInputFile::set_frame_buffer`] before reading.
     pub fn set_layer_name(&mut self, name: &str) {
         unsafe {
-            let mut s = CppString::new(name);
+            let s = CppString::new(name);
             sys::Imf_RgbaInputFile_setLayerName(self.0, s.0);
         }
     }

@@ -225,7 +225,7 @@ impl ChannelList {
         let mut ptr = sys::Imf_ChannelList_ConstIterator_t::default();
         let mut end = sys::Imf_ChannelList_ConstIterator_t::default();
         unsafe {
-            let mut s = CppString::new(layer);
+            let s = CppString::new(layer);
             sys::Imf_ChannelList_channelsInLayer_const(
                 self.0, s.0, &mut ptr, &mut end,
             )
