@@ -76,7 +76,7 @@ impl Version {
         let mut result = false;
 
         unsafe {
-            sys::Imf_isTiled_1(&mut result, self.inner);
+            sys::Imf_isTiled(&mut result, self.inner);
         }
 
         result
@@ -204,7 +204,8 @@ mod tests {
 
     #[test]
     fn test_is_multi_part_true() {
-        let version = super::Version::new(1, super::VersionFlags::MULTI_PART_FILE);
+        let version =
+            super::Version::new(1, super::VersionFlags::MULTI_PART_FILE);
         let result = version.is_multi_part();
         assert_eq!(result, true);
     }
@@ -232,13 +233,15 @@ mod tests {
 
     #[test]
     fn test_make_tiled_success() {
-        let version = super::Version::new(1, super::VersionFlags { bits: 0 }).make_tiled();
+        let version = super::Version::new(1, super::VersionFlags { bits: 0 })
+            .make_tiled();
         assert_eq!(version.is_tiled(), true);
     }
 
     #[test]
     fn test_make_non_tiled_success() {
-        let version = super::Version::new(1, super::VersionFlags::TILED).make_non_tiled();
+        let version =
+            super::Version::new(1, super::VersionFlags::TILED).make_non_tiled();
         assert_eq!(version.is_tiled(), false);
     }
 
