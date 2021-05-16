@@ -225,15 +225,9 @@ impl ChannelList {
         let mut ptr = sys::Imf_ChannelList_ConstIterator_t::default();
         let mut end = sys::Imf_ChannelList_ConstIterator_t::default();
         unsafe {
-            let mut s = CppString::new();
-            let mut s = std::pin::Pin::new_unchecked(&mut s);
-            CppString::init(s.as_mut(), layer);
-
+            let mut s = CppString::new(layer);
             sys::Imf_ChannelList_channelsInLayer_const(
-                self.0,
-                CppString::as_ptr(s.as_ref()),
-                &mut ptr,
-                &mut end,
+                self.0, s.0, &mut ptr, &mut end,
             )
             .into_result()
             .unwrap();

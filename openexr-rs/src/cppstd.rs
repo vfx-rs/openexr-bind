@@ -1,41 +1,25 @@
 use openexr_sys as sys;
 use std::ffi::{CStr, CString};
-use std::fmt;
-use std::marker::PhantomPinned;
-use std::pin::Pin;
 
 use crate::refptr::{OpaquePtr, Ref, RefMut};
 
 #[repr(transparent)]
-pub struct CppString {
-    pub(crate) inner: sys::std_string_t,
-    _p: PhantomPinned,
+pub struct CppString(pub(crate) *mut sys::std_string_t);
+
+unsafe impl OpaquePtr for CppString {
+    type SysPointee = sys::std_string_t;
+    type Pointee = CppString;
 }
 
+pub type CppStringRef<'a, P = CppString> = Ref<'a, P>;
+pub type CppStringRefMut<'a, P = CppString> = RefMut<'a, P>;
+
 impl CppString {
-    pub fn new() -> CppString {
-        let lay = sys::std_string_t::layout();
-        assert_eq!(lay.size(), std::mem::size_of::<sys::std_string_t>());
-        assert_eq!(lay.align(), std::mem::align_of::<sys::std_string_t>());
-
-        CppString {
-            inner: sys::std_string_t::default(),
-            _p: PhantomPinned,
-        }
-    }
-
-    pub fn init<'a>(self: Pin<&'a mut Self>, string: &str) {
+    pub fn new(string: &str) -> CppString {
         let cstring = CString::new(string).expect("Inner NUL bytes in string");
-        // FIXME:
-        // this is quite the dance we have to do for std::string
-        // the issue is that all the overloads of std::string() that take
-        // a const char* also take an implicit allocator, which we don't
-        // want to bind.
-        // We can get around this by implementing ignored parameters in
-        // cppmm
         unsafe {
-            let ptr = Self::as_ptr_mut(self);
-            sys::std_string_ctor(ptr);
+            let mut ptr = std::ptr::null_mut();
+            sys::std_string_ctor(&mut ptr);
             let mut dummy = std::ptr::null_mut();
             sys::std_string_assign(
                 ptr,
@@ -43,45 +27,24 @@ impl CppString {
                 cstring.as_ptr(),
                 cstring.as_bytes().len() as u64,
             );
+            CppString(ptr)
         }
     }
 
-    pub fn _as_str<'a>(self: &'a CppString) -> &'a str {
+    pub fn as_str(self: &CppString) -> &str {
         let mut cptr = std::ptr::null();
         unsafe {
-            sys::std_string_c_str(&self.inner, &mut cptr);
+            sys::std_string_c_str(self.0, &mut cptr);
             CStr::from_ptr(cptr).to_str().unwrap()
         }
-    }
-
-    pub fn as_str<'a>(self: Pin<&'a Self>) -> &'a str {
-        let mut cptr = std::ptr::null();
-        unsafe {
-            sys::std_string_c_str(&self.inner, &mut cptr);
-            CStr::from_ptr(cptr).to_str().unwrap()
-        }
-    }
-
-    pub fn as_ptr<'a>(self: Pin<&'a Self>) -> *const sys::std_string_t {
-        &self.inner as *const sys::std_string_t
-    }
-
-    pub fn as_ptr_mut<'a>(self: Pin<&'a mut Self>) -> *mut sys::std_string_t {
-        unsafe { &mut self.get_unchecked_mut().inner as *mut _ }
     }
 }
 
 impl Drop for CppString {
     fn drop(&mut self) {
         unsafe {
-            sys::std_string_dtor(&mut self.inner);
+            sys::std_string_dtor(self.0);
         }
-    }
-}
-
-impl fmt::Debug for CppString {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "CppString")
     }
 }
 
@@ -167,52 +130,36 @@ impl CppVectorString {
             sys::std_vector_string_ctor(&mut ptr).into_result().unwrap();
 
             for rs in vec {
-                let mut s = CppString::new();
-                let mut s = std::pin::Pin::new_unchecked(&mut s);
-                CppString::init(s.as_mut(), rs.as_ref());
-
-                sys::std_vector_string_push_back(
-                    ptr,
-                    CppString::as_ptr(s.as_ref()),
-                )
-                .into_result()
-                .unwrap();
+                let mut s = CppString::new(rs.as_ref());
+                sys::std_vector_string_push_back(ptr, s.0)
+                    .into_result()
+                    .unwrap();
             }
         }
 
         CppVectorString(ptr)
     }
 
-    pub fn as_slice(&self) -> Pin<&[CppString]> {
-        let mut size = 0;
+    pub unsafe fn get_unchecked(&self, pos: usize) -> CppStringRef {
         let mut ptr = std::ptr::null();
-        unsafe {
-            sys::std_vector_string_size(self.0, &mut size);
-            sys::std_vector_string_data_const(self.0, &mut ptr);
-            Pin::new_unchecked(std::slice::from_raw_parts(
-                ptr as *const CppString,
-                size as usize,
-            ))
-        }
-    }
-
-    pub fn as_slice_mut(&mut self) -> Pin<&mut [CppString]> {
-        let mut size = 0;
-        let mut ptr = std::ptr::null_mut();
-        unsafe {
-            sys::std_vector_string_size(self.0, &mut size);
-            sys::std_vector_string_data(self.0, &mut ptr);
-            Pin::new_unchecked(std::slice::from_raw_parts_mut(
-                ptr as *mut CppString,
-                size as usize,
-            ))
-        }
+        sys::std_vector_string_index(self.0, &mut ptr, pos as u64);
+        CppStringRef::new(ptr)
     }
 
     pub fn to_vec(&self) -> Vec<String> {
-        self.as_slice()
-            .iter()
-            .map(|cs| cs._as_str().to_string())
-            .collect::<Vec<String>>()
+        let mut size = 0;
+        unsafe {
+            sys::std_vector_string_size(self.0, &mut size);
+            let mut result = Vec::with_capacity(size as usize);
+            for i in 0..size {
+                let mut sptr = std::ptr::null();
+                sys::std_vector_string_index(self.0, &mut sptr, i);
+                let mut cptr = std::ptr::null();
+                sys::std_string_c_str(sptr, &mut cptr);
+                result.push(CStr::from_ptr(cptr).to_string_lossy().to_string());
+            }
+
+            result
+        }
     }
 }

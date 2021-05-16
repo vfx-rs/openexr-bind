@@ -311,13 +311,11 @@ impl FlatImage {
         channel: &Channel,
     ) -> Result<()> {
         unsafe {
-            let mut s = CppString::new();
-            let mut s = std::pin::Pin::new_unchecked(&mut s);
-            CppString::init(s.as_mut(), name);
+            let mut s = CppString::new(name);
 
             sys::Imf_FlatImage_insertChannel(
                 self.0,
-                CppString::as_ptr(s.as_ref()),
+                s.0,
                 channel.type_,
                 channel.x_sampling,
                 channel.y_sampling,
@@ -335,14 +333,8 @@ impl FlatImage {
     ///
     pub fn erase_channel(&mut self, name: &str) {
         unsafe {
-            let mut s = CppString::new();
-            let mut s = std::pin::Pin::new_unchecked(&mut s);
-            CppString::init(s.as_mut(), name);
-
-            sys::Imf_FlatImage_eraseChannel(
-                self.0,
-                CppString::as_ptr(s.as_ref()),
-            );
+            let mut s = CppString::new(name);
+            sys::Imf_FlatImage_eraseChannel(self.0, s.0);
         }
     }
 
@@ -368,20 +360,12 @@ impl FlatImage {
         new_name: &str,
     ) -> Result<()> {
         unsafe {
-            let mut sold = CppString::new();
-            let mut sold = std::pin::Pin::new_unchecked(&mut sold);
-            CppString::init(sold.as_mut(), old_name);
+            let mut sold = CppString::new(old_name);
 
-            let mut snew = CppString::new();
-            let mut snew = std::pin::Pin::new_unchecked(&mut snew);
-            CppString::init(snew.as_mut(), new_name);
+            let mut snew = CppString::new(new_name);
 
-            sys::Imf_FlatImage_renameChannel(
-                self.0,
-                CppString::as_ptr(sold.as_ref()),
-                CppString::as_ptr(snew.as_ref()),
-            )
-            .into_result()?;
+            sys::Imf_FlatImage_renameChannel(self.0, sold.0, snew.0)
+                .into_result()?;
         }
 
         Ok(())

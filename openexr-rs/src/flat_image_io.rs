@@ -18,18 +18,14 @@ pub fn save_flat_image<P: AsRef<Path>>(
     image: &FlatImage,
 ) -> Result<()> {
     unsafe {
-        let mut s = CppString::new();
-        let mut s = std::pin::Pin::new_unchecked(&mut s);
-        CppString::init(
-            s.as_mut(),
+        let mut s = CppString::new(
             filename
                 .as_ref()
                 .to_str()
                 .expect("Invalid bytes in filename"),
         );
 
-        sys::Imf_saveFlatImage(CppString::as_ptr(s.as_ref()), image.0)
-            .into_result()?;
+        sys::Imf_saveFlatImage(s.0, image.0).into_result()?;
     }
 
     Ok(())
@@ -59,10 +55,7 @@ pub fn save_flat_image_with_header<P: AsRef<Path>>(
     data_window_source: DataWindowSource,
 ) -> Result<()> {
     unsafe {
-        let mut s = CppString::new();
-        let mut s = std::pin::Pin::new_unchecked(&mut s);
-        CppString::init(
-            s.as_mut(),
+        let mut s = CppString::new(
             filename
                 .as_ref()
                 .to_str()
@@ -70,7 +63,7 @@ pub fn save_flat_image_with_header<P: AsRef<Path>>(
         );
 
         sys::Imf_saveFlatImage_with_header(
-            CppString::as_ptr(s.as_ref()),
+            s.0,
             header.0.as_ref() as *const sys::Imf_Header_t,
             image.0,
             data_window_source.into(),
@@ -88,10 +81,7 @@ pub fn save_flat_image_with_header<P: AsRef<Path>>(
 //
 pub fn load_flat_image<P: AsRef<Path>>(filename: P) -> Result<FlatImage> {
     unsafe {
-        let mut s = CppString::new();
-        let mut s = std::pin::Pin::new_unchecked(&mut s);
-        CppString::init(
-            s.as_mut(),
+        let mut s = CppString::new(
             filename
                 .as_ref()
                 .to_str()
@@ -100,8 +90,7 @@ pub fn load_flat_image<P: AsRef<Path>>(filename: P) -> Result<FlatImage> {
 
         #[allow(unused_mut)]
         let mut img = FlatImage::default();
-        sys::Imf_loadFlatImage(CppString::as_ptr(s.as_ref()), img.0)
-            .into_result()?;
+        sys::Imf_loadFlatImage(s.0, img.0).into_result()?;
 
         Ok(img)
     }

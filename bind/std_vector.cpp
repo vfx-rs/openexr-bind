@@ -29,6 +29,8 @@ public:
 
     void push_back(const T& value);
 
+    const T& operator[](size_t pos) const CPPMM_RENAME(index);
+
 } CPPMM_OPAQUEPTR CPPMM_IGNORE_UNBOUND;
 
 // explicit instantiation

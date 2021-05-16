@@ -922,16 +922,11 @@ impl CppStringAttribute {
     pub fn from_value(value: &str) -> CppStringAttribute {
         let mut inner = std::ptr::null_mut();
         unsafe {
-            let mut s = CppString::new();
-            let mut s = std::pin::Pin::new_unchecked(&mut s);
-            CppString::init(s.as_mut(), value);
+            let mut s = CppString::new(value);
 
-            sys::Imf_CppStringAttribute_from_value(
-                &mut inner,
-                CppString::as_ptr(s.as_ref()),
-            )
-            .into_result()
-            .unwrap();
+            sys::Imf_CppStringAttribute_from_value(&mut inner, s.0)
+                .into_result()
+                .unwrap();
         }
 
         CppStringAttribute(inner)

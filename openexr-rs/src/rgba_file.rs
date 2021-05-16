@@ -5,7 +5,6 @@ use crate::{
 use openexr_sys as sys;
 use std::ffi::CString;
 use std::path::Path;
-use std::pin::Pin;
 
 type Result<T, E = Error> = std::result::Result<T, E>;
 
@@ -352,13 +351,8 @@ impl RgbaInputFile {
     /// call to [`RgbaInputFile::set_frame_buffer`] before reading.
     pub fn set_layer_name(&mut self, name: &str) {
         unsafe {
-            let mut s = CppString::new();
-            let mut s = Pin::new_unchecked(&mut s);
-            CppString::init(s.as_mut(), name);
-            sys::Imf_RgbaInputFile_setLayerName(
-                self.0,
-                CppString::as_ptr(s.as_ref()),
-            );
+            let mut s = CppString::new(name);
+            sys::Imf_RgbaInputFile_setLayerName(self.0, s.0);
         }
     }
 

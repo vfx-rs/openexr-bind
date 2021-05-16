@@ -707,13 +707,8 @@ impl Header {
     ///
     pub fn set_name(&mut self, name: &str) {
         unsafe {
-            let mut s = CppString::new();
-            let mut s = std::pin::Pin::new_unchecked(&mut s);
-            CppString::init(s.as_mut(), name);
-            sys::Imf_Header_setName(
-                self.0.as_mut(),
-                CppString::as_ptr(s.as_ref()),
-            );
+            let mut s = CppString::new(name);
+            sys::Imf_Header_setName(self.0.as_mut(), s.0);
         }
     }
 
@@ -750,13 +745,8 @@ impl Header {
     ///
     pub fn set_image_type(&mut self, image_type: &str) {
         unsafe {
-            let mut s = CppString::new();
-            let mut s = std::pin::Pin::new_unchecked(&mut s);
-            CppString::init(s.as_mut(), image_type);
-            sys::Imf_Header_setType(
-                self.0.as_mut(),
-                CppString::as_ptr(s.as_ref()),
-            );
+            let mut s = CppString::new(image_type);
+            sys::Imf_Header_setType(self.0.as_mut(), s.0);
         }
     }
 
@@ -836,13 +826,8 @@ impl Header {
     ///
     pub fn set_view(&mut self, view: &str) {
         unsafe {
-            let mut s = CppString::new();
-            let mut s = std::pin::Pin::new_unchecked(&mut s);
-            CppString::init(s.as_mut(), view);
-            sys::Imf_Header_setView(
-                self.0.as_mut(),
-                CppString::as_ptr(s.as_ref()),
-            );
+            let mut s = CppString::new(view);
+            sys::Imf_Header_setView(self.0.as_mut(), s.0);
         }
     }
 
@@ -1254,17 +1239,16 @@ fn header_rtrip1() -> Result<()> {
         &[1.0f32, 2.0, 3.0, 4.0],
     );
 
-    // assert_eq!(
-    //     unsafe {
-    //         file.header()
-    //             .find_typed_attribute_vector_string("at_vector_string")
-    //             .unwrap()
-    //             .value()
-    //             .as_slice()
-    //             .get_unchecked()
-    //     },
-    //     &["a", "b", "c", "d"],
-    // );
+    assert_eq!(
+        unsafe {
+            file.header()
+                .find_typed_attribute_vector_string("at_vector_string")
+                .unwrap()
+                .value()
+                .to_vec()
+        },
+        &["a", "b", "c", "d"],
+    );
 
     assert_eq!(
         file.header()
