@@ -3,8 +3,8 @@ use crate::{
     channel_list::{ChannelListRef, ChannelListRefMut},
     cppstd::CppString,
     refptr::{Ref, RefMut},
-    Box2iAttribute, Compression, Error, LineOrder, PreviewImage,
-    TileDescription, TypedAttribute,
+    Compression, Error, LineOrder, PreviewImage, TileDescription,
+    TypedAttribute,
 };
 use openexr_sys as sys;
 
@@ -930,6 +930,63 @@ impl Header {
     }
 }
 
+use paste::paste;
+
+macro_rules! make_find_typed_attribute {
+    ($tn:ident, $sfx:ident) => {
+        paste! {
+            use crate::attribute::{[<$tn AttributeRef>], [<$tn AttributeRefMut>]};
+            impl Header {
+                /// Get a reference to the typed Attribute with the given name
+                ///
+                pub fn [<find_typed_attribute_ $sfx>](
+                    &self,
+                    name: &str,
+                ) -> Option<[<$tn AttributeRef>]> {
+                    let c_name = CString::new(name).expect("Invalid UTF-8 in name");
+                    let mut attr_ptr = std::ptr::null();
+                    unsafe {
+                        sys::[<Imf_Header_findTypedAttribute_ $tn _const>](
+                            self.0.as_ref(),
+                            &mut attr_ptr,
+                            c_name.as_ptr(),
+                        )
+                    };
+
+                    if !attr_ptr.is_null() {
+                        Some([<$tn AttributeRef>]::new(attr_ptr))
+                    } else {
+                        None
+                    }
+                }
+
+                /// Get a mutable reference to the typed Attribute with the given name
+                ///
+                pub fn [<find_typed_attribute_ $sfx _mut>](
+                    &mut self,
+                    name: &str,
+                ) -> Option<[<$tn AttributeRefMut>]> {
+                    let c_name = CString::new(name).expect("Invalid UTF-8 in name");
+                    let mut attr_ptr = std::ptr::null_mut();
+                    unsafe {
+                        sys::[<Imf_Header_findTypedAttribute_ $tn>](
+                            self.0.as_mut(),
+                            &mut attr_ptr,
+                            c_name.as_ptr(),
+                        )
+                    };
+
+                    if !attr_ptr.is_null() {
+                        Some([<$tn AttributeRefMut>]::new(attr_ptr))
+                    } else {
+                        None
+                    }
+                }
+            }
+        }
+    }
+}
+
 impl Header {
     //! # Modifying user attributes
 
@@ -969,71 +1026,38 @@ impl Header {
         }
         Ok(())
     }
-
-    /// Get a reference to the Box2iAttribute with the given name
-    ///
-    /// # Returns
-    /// * `Some(&Box2iAttribute)` - If the attribute exists
-    /// * `None` - Otherwise
-    ///
-    pub fn find_typed_attribute_box2i(
-        &self,
-        name: &str,
-    ) -> Option<&Box2iAttribute> {
-        let c_name = CString::new(name).expect("Invalid UTF-8 in name");
-        let mut attr_ptr = std::ptr::null();
-        unsafe {
-            sys::Imf_Header_findTypedAttribute_Box2i_const(
-                self.0.as_ref(),
-                &mut attr_ptr,
-                c_name.as_ptr(),
-            )
-        };
-
-        if !attr_ptr.is_null() {
-            Some(unsafe {
-                // We can do this as Attribute is a #[repr(transparent)] wrapper
-                // over Imf_Attribute_t
-                &*(attr_ptr as *const sys::Imf_Box2iAttribute_t
-                    as *const Box2iAttribute)
-            })
-        } else {
-            None
-        }
-    }
-
-    /// Get a mutable reference to the Box2iAttribute with the given name
-    ///
-    /// # Returns
-    /// * `Some(&mut Box2iAttribute)` - If the attribute exists
-    /// * `None` - Otherwise
-    ///
-    pub fn find_typed_attribute_box2i_mut(
-        &mut self,
-        name: &str,
-    ) -> Option<&mut Box2iAttribute> {
-        let c_name = CString::new(name).expect("Invalid UTF-8 in name");
-        let mut attr_ptr = std::ptr::null_mut();
-        unsafe {
-            sys::Imf_Header_findTypedAttribute_Box2i(
-                self.0.as_mut(),
-                &mut attr_ptr,
-                c_name.as_ptr(),
-            )
-        };
-
-        if !attr_ptr.is_null() {
-            Some(unsafe {
-                // We can do this as Attribute is a #[repr(transparent)] wrapper
-                // over Imf_Attribute_t
-                &mut *(attr_ptr as *mut sys::Imf_Box2iAttribute_t
-                    as *mut Box2iAttribute)
-            })
-        } else {
-            None
-        }
-    }
 }
+
+make_find_typed_attribute!(Int, int);
+make_find_typed_attribute!(Float, float);
+make_find_typed_attribute!(Double, double);
+
+make_find_typed_attribute!(Chromaticities, chromaticities);
+make_find_typed_attribute!(Compression, compression);
+make_find_typed_attribute!(DeepImageState, deep_image_state);
+make_find_typed_attribute!(Envmap, envmap);
+make_find_typed_attribute!(ChannelList, channel_list);
+make_find_typed_attribute!(CppVectorFloat, vector_float);
+make_find_typed_attribute!(CppVectorString, vector_string);
+make_find_typed_attribute!(CppString, string);
+make_find_typed_attribute!(LineOrder, line_order);
+
+make_find_typed_attribute!(V2i, v2i);
+make_find_typed_attribute!(V2f, v2f);
+make_find_typed_attribute!(V2d, v2d);
+
+make_find_typed_attribute!(V3i, v3i);
+make_find_typed_attribute!(V3f, v3f);
+make_find_typed_attribute!(V3d, v3d);
+
+make_find_typed_attribute!(Box2i, box2i);
+make_find_typed_attribute!(Box2f, box2f);
+
+make_find_typed_attribute!(M33f, m33f);
+make_find_typed_attribute!(M33d, m33d);
+
+make_find_typed_attribute!(M44f, m44f);
+make_find_typed_attribute!(M44d, m44d);
 
 impl Drop for Header {
     fn drop(&mut self) {
@@ -1105,4 +1129,150 @@ impl<'s> Iterator for HeaderSliceIterMut<'s> {
             Some(HeaderRefMut::new(ptr))
         }
     }
+}
+
+#[cfg(test)]
+#[test]
+fn header_rtrip1() -> Result<()> {
+    use crate::tests::load_ferris;
+    use crate::{
+        attribute::{
+            CompressionAttribute, CppStringAttribute, CppVectorFloatAttribute,
+            CppVectorStringAttribute, DeepImageStateAttribute, DoubleAttribute,
+            EnvmapAttribute, FloatAttribute, IntAttribute,
+        },
+        cppstd::{CppVectorFloat, CppVectorString},
+        DeepImageState, Envmap, RgbaChannels, RgbaInputFile, RgbaOutputFile,
+    };
+
+    let (pixels, width, height) = load_ferris();
+
+    let mut header = Header::from_dimensions(width, height);
+
+    header.insert("at_int", &IntAttribute::from_value(17))?;
+    header.insert("at_float", &FloatAttribute::from_value(42.0))?;
+    header.insert("at_double", &DoubleAttribute::from_value(127.0))?;
+
+    header.insert(
+        "at_compression",
+        &CompressionAttribute::from_value(&Compression::Dwaa),
+    )?;
+
+    header.insert(
+        "at_deep_image_state",
+        &DeepImageStateAttribute::from_value(&DeepImageState::NonOverlapping),
+    )?;
+
+    header
+        .insert("at_envmap", &EnvmapAttribute::from_value(&Envmap::Latlong))?;
+
+    header.insert(
+        "at_vector_float",
+        &CppVectorFloatAttribute::from_value(&CppVectorFloat::from_slice(&[
+            1.0, 2.0, 3.0, 4.0,
+        ])),
+    )?;
+
+    header.insert(
+        "at_vector_string",
+        &CppVectorStringAttribute::from_value(&CppVectorString::from_slice(&[
+            "a", "b", "c", "d",
+        ])),
+    )?;
+
+    header
+        .insert("at_string", &CppStringAttribute::from_value("lorem ipsum"))?;
+
+    let mut file = RgbaOutputFile::new(
+        "header_rtrip1.exr",
+        &header,
+        RgbaChannels::WriteRgba,
+        1,
+    )?;
+
+    file.set_frame_buffer(&pixels, 1, width as usize)?;
+    file.write_pixels(height)?;
+
+    std::mem::drop(file);
+
+    let file = RgbaInputFile::new("header_rtrip1.exr", 4)?;
+
+    assert_eq!(
+        file.header()
+            .find_typed_attribute_int("at_int")
+            .unwrap()
+            .value(),
+        &17
+    );
+
+    assert_eq!(
+        file.header()
+            .find_typed_attribute_float("at_float")
+            .unwrap()
+            .value(),
+        &42.0
+    );
+
+    assert_eq!(
+        file.header()
+            .find_typed_attribute_double("at_double")
+            .unwrap()
+            .value(),
+        &127.0
+    );
+
+    assert_eq!(
+        file.header()
+            .find_typed_attribute_compression("at_compression")
+            .unwrap()
+            .value(),
+        Compression::Dwaa
+    );
+
+    assert_eq!(
+        file.header()
+            .find_typed_attribute_deep_image_state("at_deep_image_state")
+            .unwrap()
+            .value(),
+        DeepImageState::NonOverlapping,
+    );
+
+    assert_eq!(
+        file.header()
+            .find_typed_attribute_envmap("at_envmap")
+            .unwrap()
+            .value(),
+        Envmap::Latlong,
+    );
+
+    assert_eq!(
+        file.header()
+            .find_typed_attribute_vector_float("at_vector_float")
+            .unwrap()
+            .value()
+            .as_slice(),
+        &[1.0f32, 2.0, 3.0, 4.0],
+    );
+
+    // assert_eq!(
+    //     unsafe {
+    //         file.header()
+    //             .find_typed_attribute_vector_string("at_vector_string")
+    //             .unwrap()
+    //             .value()
+    //             .as_slice()
+    //             .get_unchecked()
+    //     },
+    //     &["a", "b", "c", "d"],
+    // );
+
+    assert_eq!(
+        file.header()
+            .find_typed_attribute_string("at_string")
+            .unwrap()
+            .value(),
+        "lorem ipsum",
+    );
+
+    Ok(())
 }

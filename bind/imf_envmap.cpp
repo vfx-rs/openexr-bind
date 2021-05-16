@@ -8,7 +8,7 @@ namespace OPENEXR_IMF_INTERNAL_NAMESPACE {
 
 namespace Imf = ::OPENEXR_IMF_INTERNAL_NAMESPACE;
 
-enum Envmap {} CPPMM_RUSTIFY_ENUM;
+enum Envmap {} CPPMM_RUSTIFY_ENUM CPPMM_ENUM_PREFIX(ENVMAP_);
 enum CubeMapFace {} CPPMM_RUSTIFY_ENUM;
 
 namespace LatLongMap {

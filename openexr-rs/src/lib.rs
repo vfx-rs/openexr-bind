@@ -30,7 +30,9 @@ pub use channel_list::{
 pub mod tile_description;
 pub use tile_description::TileDescription;
 pub mod preview_image;
-pub use preview_image::{PreviewImage, PreviewRgba};
+pub use preview_image::{
+    PreviewImage, PreviewImageRef, PreviewImageRefMut, PreviewRgba,
+};
 pub mod input_file;
 pub use input_file::InputFile;
 pub mod output_file;
@@ -64,7 +66,7 @@ pub mod flat_image_channel;
 pub use flat_image_channel::{FlatChannelF16, FlatChannelF32, FlatChannelU32};
 pub mod flat_image_io;
 
-pub(crate) mod cppstd;
+pub mod cppstd;
 
 pub mod imath;
 

@@ -1,12 +1,13 @@
 use openexr_sys as sys;
 use std::ffi::{CStr, CString};
+use std::fmt;
 use std::marker::PhantomPinned;
 use std::pin::Pin;
 
 use crate::refptr::{OpaquePtr, Ref, RefMut};
 
 #[repr(transparent)]
-pub(crate) struct CppString {
+pub struct CppString {
     pub(crate) inner: sys::std_string_t,
     _p: PhantomPinned,
 }
@@ -78,16 +79,22 @@ impl Drop for CppString {
     }
 }
 
+impl fmt::Debug for CppString {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "CppString")
+    }
+}
+
 #[repr(transparent)]
-pub(crate) struct CppVectorFloat(pub(crate) *mut sys::std_vector_float_t);
+pub struct CppVectorFloat(pub(crate) *mut sys::std_vector_float_t);
 
 unsafe impl OpaquePtr for CppVectorFloat {
     type SysPointee = sys::std_vector_float_t;
     type Pointee = CppVectorFloat;
 }
 
-pub(crate) type CppVectorFloatRef<'a, P = CppVectorFloat> = Ref<'a, P>;
-pub(crate) type CppVectorFloatRefMut<'a, P = CppVectorFloat> = RefMut<'a, P>;
+pub type CppVectorFloatRef<'a, P = CppVectorFloat> = Ref<'a, P>;
+pub type CppVectorFloatRefMut<'a, P = CppVectorFloat> = RefMut<'a, P>;
 
 impl CppVectorFloat {
     pub fn new() -> CppVectorFloat {
@@ -95,6 +102,21 @@ impl CppVectorFloat {
         unsafe {
             sys::std_vector_float_ctor(&mut ptr).into_result().unwrap();
         }
+        CppVectorFloat(ptr)
+    }
+
+    pub fn from_slice(vec: &[f32]) -> CppVectorFloat {
+        let mut ptr = std::ptr::null_mut();
+        unsafe {
+            sys::std_vector_float_ctor(&mut ptr).into_result().unwrap();
+
+            for rs in vec {
+                sys::std_vector_float_push_back(ptr, rs)
+                    .into_result()
+                    .unwrap();
+            }
+        }
+
         CppVectorFloat(ptr)
     }
 
@@ -120,15 +142,15 @@ impl CppVectorFloat {
 }
 
 #[repr(transparent)]
-pub(crate) struct CppVectorString(pub(crate) *mut sys::std_vector_string_t);
+pub struct CppVectorString(pub(crate) *mut sys::std_vector_string_t);
 
 unsafe impl OpaquePtr for CppVectorString {
     type SysPointee = sys::std_vector_string_t;
     type Pointee = CppVectorString;
 }
 
-pub(crate) type CppVectorStringRef<'a, P = CppVectorString> = Ref<'a, P>;
-pub(crate) type CppVectorStringRefMut<'a, P = CppVectorString> = RefMut<'a, P>;
+pub type CppVectorStringRef<'a, P = CppVectorString> = Ref<'a, P>;
+pub type CppVectorStringRefMut<'a, P = CppVectorString> = RefMut<'a, P>;
 
 impl CppVectorString {
     pub fn new() -> CppVectorString {
@@ -136,6 +158,28 @@ impl CppVectorString {
         unsafe {
             sys::std_vector_string_ctor(&mut ptr).into_result().unwrap();
         }
+        CppVectorString(ptr)
+    }
+
+    pub fn from_slice<S: AsRef<str>>(vec: &[S]) -> CppVectorString {
+        let mut ptr = std::ptr::null_mut();
+        unsafe {
+            sys::std_vector_string_ctor(&mut ptr).into_result().unwrap();
+
+            for rs in vec {
+                let mut s = CppString::new();
+                let mut s = std::pin::Pin::new_unchecked(&mut s);
+                CppString::init(s.as_mut(), rs.as_ref());
+
+                sys::std_vector_string_push_back(
+                    ptr,
+                    CppString::as_ptr(s.as_ref()),
+                )
+                .into_result()
+                .unwrap();
+            }
+        }
+
         CppVectorString(ptr)
     }
 

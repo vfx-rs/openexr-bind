@@ -27,6 +27,8 @@ public:
 
     size_t size() const;
 
+    void push_back(const T& value);
+
 } CPPMM_OPAQUEPTR CPPMM_IGNORE_UNBOUND;
 
 // explicit instantiation

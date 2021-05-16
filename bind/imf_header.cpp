@@ -320,10 +320,10 @@ Header::findTypedAttribute(const char name[]);
 extern template const Imf::TypedAttribute<int>*
 Header::findTypedAttribute(const char name[]) const;
 
-Imf::TypedAttribute<int>* (Header::*findTypedAttribute_int)(const char name[]) =
+Imf::TypedAttribute<int>* (Header::*findTypedAttribute_Int)(const char name[]) =
     &Header::findTypedAttribute<Imf::TypedAttribute<int>>;
 
-const Imf::TypedAttribute<int>* (Header::*findTypedAttribute_int_const)(
+const Imf::TypedAttribute<int>* (Header::*findTypedAttribute_Int_const)(
     const char name[]) const =
     &Header::findTypedAttribute<Imf::TypedAttribute<int>>;
 
@@ -334,11 +334,11 @@ Header::findTypedAttribute(const char name[]);
 extern template const Imf::TypedAttribute<float>*
 Header::findTypedAttribute(const char name[]) const;
 
-Imf::TypedAttribute<float>* (Header::*findTypedAttribute_float)(
+Imf::TypedAttribute<float>* (Header::*findTypedAttribute_Float)(
     const char name[]) =
     &Header::findTypedAttribute<Imf::TypedAttribute<float>>;
 
-const Imf::TypedAttribute<float>* (Header::*findTypedAttribute_float_const)(
+const Imf::TypedAttribute<float>* (Header::*findTypedAttribute_Float_const)(
     const char name[]) const =
     &Header::findTypedAttribute<Imf::TypedAttribute<float>>;
 
@@ -349,11 +349,11 @@ Header::findTypedAttribute(const char name[]);
 extern template const Imf::TypedAttribute<double>*
 Header::findTypedAttribute(const char name[]) const;
 
-Imf::TypedAttribute<double>* (Header::*findTypedAttribute_double)(
+Imf::TypedAttribute<double>* (Header::*findTypedAttribute_Double)(
     const char name[]) =
     &Header::findTypedAttribute<Imf::TypedAttribute<double>>;
 
-const Imf::TypedAttribute<double>* (Header::*findTypedAttribute_double_const)(
+const Imf::TypedAttribute<double>* (Header::*findTypedAttribute_Double_const)(
     const char name[]) const =
     &Header::findTypedAttribute<Imf::TypedAttribute<double>>;
 
@@ -470,11 +470,11 @@ extern template const Imf::TypedAttribute<std::vector<float>>*
 Header::findTypedAttribute(const char name[]) const;
 
 Imf::TypedAttribute<std::vector<float>>* (
-    Header::*findTypedAttribute_vector_float)(const char name[]) =
+    Header::*findTypedAttribute_CppVectorFloat)(const char name[]) =
     &Header::findTypedAttribute<Imf::TypedAttribute<std::vector<float>>>;
 
 const Imf::TypedAttribute<std::vector<float>>* (
-    Header::*findTypedAttribute_vector_float_const)(const char name[]) const =
+    Header::*findTypedAttribute_CppVectorFloat_const)(const char name[]) const =
     &Header::findTypedAttribute<Imf::TypedAttribute<std::vector<float>>>;
 
 // ------------ TypedAttribute<std::vector<std::string>> ---------------------
@@ -485,11 +485,12 @@ extern template const Imf::TypedAttribute<std::vector<std::string>>*
 Header::findTypedAttribute(const char name[]) const;
 
 Imf::TypedAttribute<std::vector<std::string>>* (
-    Header::*findTypedAttribute_vector_string)(const char name[]) =
+    Header::*findTypedAttribute_CppVectorString)(const char name[]) =
     &Header::findTypedAttribute<Imf::TypedAttribute<std::vector<std::string>>>;
 
 const Imf::TypedAttribute<std::vector<std::string>>* (
-    Header::*findTypedAttribute_vector_string_const)(const char name[]) const =
+    Header::*findTypedAttribute_CppVectorString_const)(
+    const char name[]) const =
     &Header::findTypedAttribute<Imf::TypedAttribute<std::vector<std::string>>>;
 
 // ------------ TypedAttribute<std::string> ---------------------
@@ -499,12 +500,12 @@ Header::findTypedAttribute(const char name[]);
 extern template const Imf::TypedAttribute<std::string>*
 Header::findTypedAttribute(const char name[]) const;
 
-Imf::TypedAttribute<std::string>* (Header::*findTypedAttribute_string)(
+Imf::TypedAttribute<std::string>* (Header::*findTypedAttribute_CppString)(
     const char name[]) =
     &Header::findTypedAttribute<Imf::TypedAttribute<std::string>>;
 
 const Imf::TypedAttribute<std::string>* (
-    Header::*findTypedAttribute_string_const)(const char name[]) const =
+    Header::*findTypedAttribute_CppString_const)(const char name[]) const =
     &Header::findTypedAttribute<Imf::TypedAttribute<std::string>>;
 
 // ------------ TypedAttribute<Imf::KeyCode> ---------------------
