@@ -64,6 +64,8 @@ pub use flat_image_level::{
 };
 pub mod flat_image_channel;
 pub use flat_image_channel::{FlatChannelF16, FlatChannelF32, FlatChannelU32};
+pub mod version;
+pub use version::{VersionFlags, Version};
 pub mod flat_image_io;
 
 pub mod cppstd;
