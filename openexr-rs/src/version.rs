@@ -1,5 +1,4 @@
 use openexr_sys as sys;
-// use std::ops::{BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign};
 use std::os::raw::{c_char, c_int};
 
 bitflags::bitflags! {
@@ -7,20 +6,26 @@ bitflags::bitflags! {
     ///
     pub struct VersionFlags: i32 {
         /// File is tiled
+        ///
         const TILED = 0x00000200;
         /// File contains long attribute or channel names
+        ///
         const LONG_NAMES = 0x00000400;
         /// File has at least one part which is not a regular scanline image or regular tiled image (that is, it is a deep format)
+        ///
         const NON_IMAGE = 0x00000800;
         /// File has multiple parts
+        ///
         const MULTI_PART_FILE = 0x00001000;
-        /// Bitwise OR of all known flags.
+        /// Bitwise OR of all known flags
+        ///
         const ALL = Self::TILED.bits | Self::LONG_NAMES.bits | Self::NON_IMAGE.bits | Self::MULTI_PART_FILE.bits;
     }
 }
 
 impl VersionFlags {
     /// The flag object is supported by the bound OpenEXR library.
+    ///
     pub fn supports_flags(&self) -> bool {
         let mut result: bool = false;
 
@@ -48,6 +53,7 @@ impl Version {
     /// # Panics
     ///
     /// The version number must be between 0 and 255, otherwise this will panic.
+    ///
     pub fn new(version: i32, flags: VersionFlags) -> Self {
         assert!(
             version <= 0x000000ff && version >= 0,
@@ -59,11 +65,13 @@ impl Version {
     }
 
     /// Create a version from the wrapped OpenEXR API.
+    ///
     pub fn from_c_int(version: c_int) -> Self {
         Self { inner: version }
     }
 
     /// File is tiled
+    ///
     pub fn is_tiled(&self) -> bool {
         let mut result = false;
 
@@ -75,6 +83,7 @@ impl Version {
     }
 
     /// File has multiple parts
+    ///
     pub fn is_multi_part(&self) -> bool {
         let mut result = false;
 
@@ -86,6 +95,7 @@ impl Version {
     }
 
     /// File has at least one part which is not a regular scanline image or regular tiled image (that is, it is a deep format)
+    ///
     pub fn is_non_image(&self) -> bool {
         let mut result = false;
 
@@ -97,6 +107,7 @@ impl Version {
     }
 
     /// Return the version as a tiled version
+    ///
     pub fn make_tiled(&self) -> Self {
         let mut result: c_int = 0;
 
@@ -108,6 +119,7 @@ impl Version {
     }
 
     /// Return the version as a non-tiled version
+    ///
     pub fn make_non_tiled(&self) -> Self {
         let mut result: c_int = 0;
 
@@ -119,6 +131,7 @@ impl Version {
     }
 
     /// Get the version number portion of encoded version.
+    ///
     pub fn version(&self) -> i32 {
         let mut result: c_int = 0;
 
@@ -130,6 +143,7 @@ impl Version {
     }
 
     /// Get the flags portion of encoded version.
+    ///
     pub fn flags(&self) -> VersionFlags {
         let mut result: c_int = 0;
 
@@ -141,7 +155,8 @@ impl Version {
     }
 }
 
-// Return if the byte array represents the OpenEXR magic number.
+/// Return if the byte array represents the OpenEXR magic number.
+///
 pub fn is_imf_magic(bytes: &[c_char; 4]) -> bool {
     let mut result: bool = false;
 
