@@ -29,8 +29,8 @@ public:
 
     ChannelList() CPPMM_RENAME(ctor);
     ~ChannelList();
-    ChannelList(const Imf::ChannelList& rhs);
-    ChannelList(Imf::ChannelList&& rhs);
+    ChannelList(const Imf::ChannelList& rhs) CPPMM_RENAME(copy);
+    ChannelList(Imf::ChannelList&& rhs) CPPMM_IGNORE;
 
     IMF_EXPORT
     void insert(const char name[], const Imf::Channel& channel);
