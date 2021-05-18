@@ -18,6 +18,8 @@ pub enum Error {
     InvalidArgument(String),
     #[error("I/O: {0}")]
     Io(String),
+    #[error("No preview image: {0}")]
+    NoPreviewImage(String),
 }
 
 impl From<sys::Error> for Error {
@@ -31,6 +33,7 @@ impl From<sys::Error> for Error {
             E::IexInvalidType(s) => Error::InvalidType(s),
             E::IexInvalidArgument(s) => Error::InvalidArgument(s),
             E::IexIo(s) => Error::Io(s),
+            E::IexNoPreviewImage(s) => Error::NoPreviewImage(s),
         }
     }
 }
