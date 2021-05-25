@@ -1,6 +1,5 @@
 use openexr_sys as sys;
 
-use crate::imath::{Box2, Matrix33, Matrix44, Vec2, Vec3};
 use crate::{
     cppstd::{
         CppString, CppVectorFloat, CppVectorFloatRef, CppVectorFloatRefMut,
@@ -11,6 +10,7 @@ use crate::{
     Compression, DeepImageState, Envmap, LineOrder, PreviewImage,
     PreviewImageRef, PreviewImageRefMut, TileDescription,
 };
+use imath_traits::{Bound2, Matrix33, Matrix44, Vec2, Vec3};
 
 use std::ffi::CStr;
 
@@ -38,7 +38,7 @@ impl Box2iAttribute {
     /// Create a new attribute wrapping the given value
     pub fn from_value<T>(value: &T) -> Box2iAttribute
     where
-        T: Box2<i32>,
+        T: Bound2<i32>,
     {
         let mut inner = std::ptr::null_mut();
         unsafe {
@@ -56,7 +56,7 @@ impl Box2iAttribute {
     /// Access to the contained value
     pub fn value<T>(&self) -> &T
     where
-        T: Box2<i32>,
+        T: Bound2<i32>,
     {
         let mut ptr = std::ptr::null();
         unsafe {
@@ -70,7 +70,7 @@ impl Box2iAttribute {
     /// Mutable access to the contained value
     pub fn value_mut<T>(&mut self) -> &mut T
     where
-        T: Box2<i32>,
+        T: Bound2<i32>,
     {
         let mut ptr = std::ptr::null_mut();
         unsafe {
@@ -119,7 +119,7 @@ impl Box2fAttribute {
     /// Create a new attribute wrapping the given value
     pub fn from_value<T>(value: &T) -> Box2fAttribute
     where
-        T: Box2<f32>,
+        T: Bound2<f32>,
     {
         let mut inner = std::ptr::null_mut();
         unsafe {
@@ -137,7 +137,7 @@ impl Box2fAttribute {
     /// Access to the contained value
     pub fn value<T>(&self) -> &T
     where
-        T: Box2<f32>,
+        T: Bound2<f32>,
     {
         let mut ptr = std::ptr::null();
         unsafe {
@@ -151,7 +151,7 @@ impl Box2fAttribute {
     /// Mutable access to the contained value
     pub fn value_mut<T>(&mut self) -> &mut T
     where
-        T: Box2<f32>,
+        T: Bound2<f32>,
     {
         let mut ptr = std::ptr::null_mut();
         unsafe {

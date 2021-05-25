@@ -2,11 +2,12 @@ use openexr_sys as sys;
 
 use crate::{
     cppstd::CppString,
-    imath::Box2,
     refptr::{Ref, RefMut},
     Channel, Error, FlatImageLevelRef, FlatImageLevelRefMut, LevelMode,
     LevelRoundingMode,
 };
+
+use imath_traits::Bound2;
 
 type Result<T, E = Error> = std::result::Result<T, E>;
 
@@ -72,7 +73,7 @@ impl FlatImage {
     ///
     /// # Errors
     /// * [`Error::Base`] - if any error occurs
-    pub fn new<B: Box2<i32>>(
+    pub fn new<B: Bound2<i32>>(
         data_window: B,
         level_mode: LevelMode,
         level_rounding_mode: LevelRoundingMode,
@@ -175,7 +176,7 @@ impl FlatImage {
     ///
     /// Equivalent to `data_window_for_level(0, 0)`.
     ///
-    pub fn data_window<B: Box2<i32>>(&self) -> &B {
+    pub fn data_window<B: Bound2<i32>>(&self) -> &B {
         let mut ptr = std::ptr::null();
         unsafe {
             sys::Imf_FlatImage_dataWindow(self.0, &mut ptr);
@@ -189,13 +190,13 @@ impl FlatImage {
     /// (lx, ly) has allocated pixel storage.
     ///
     ///	# Returns
-    ///	A reference to a `Box2<i32>` with min value (dataWindow().min.x, dataWindow().min.y) and max value (dataWindow().min.x + levelWidth(lx) - 1, dataWindow().min.y + levelHeight(ly) - 1)
+    ///	A reference to a `Bound2<i32>` with min value (dataWindow().min.x, dataWindow().min.y) and max value (dataWindow().min.x + levelWidth(lx) - 1, dataWindow().min.y + levelHeight(ly) - 1)
     ///
     /// # Errors
     /// * [`Error::InvalidArgument`] - if `(lx, ly)` does not correspond to a
     /// valid image level.
     ///
-    pub fn data_window_for_level<B: Box2<i32>>(
+    pub fn data_window_for_level<B: Bound2<i32>>(
         &self,
         lx: i32,
         ly: i32,
@@ -256,7 +257,7 @@ impl FlatImage {
     /// *[`Error::Base`] - if any error occurs. The image will be set to empty
     /// in this case.
     ///
-    pub fn resize<B: Box2<i32>>(
+    pub fn resize<B: Bound2<i32>>(
         &mut self,
         dw: B,
         lm: LevelMode,

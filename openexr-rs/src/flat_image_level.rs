@@ -1,4 +1,3 @@
-use crate::imath::Box2;
 use crate::{
     cppstd::CppString,
     flat_image_channel::{
@@ -9,6 +8,7 @@ use crate::{
     Error, FlatImageRef, FlatImageRefMut,
 };
 
+use imath_traits::Bound2;
 use openexr_sys as sys;
 
 type Result<T, E = Error> = std::result::Result<T, E>;
@@ -47,7 +47,7 @@ impl FlatImageLevel {
 
     /// Get the data window for this levels
     ///
-    pub fn data_window<B: Box2<i32>>(&self) -> &B {
+    pub fn data_window<B: Bound2<i32>>(&self) -> &B {
         let mut ptr = std::ptr::null();
         unsafe {
             sys::Imf_FlatImageLevel_dataWindow(self.0, &mut ptr);

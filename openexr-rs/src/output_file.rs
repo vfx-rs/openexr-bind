@@ -365,7 +365,6 @@ fn write_outputfile2() {
         &channel_names,
         pixels,
         *header.data_window::<[i32; 4]>(),
-        *header.display_window::<[i32; 4]>(),
     )
     .unwrap();
 

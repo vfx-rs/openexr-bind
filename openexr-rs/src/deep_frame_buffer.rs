@@ -1,8 +1,8 @@
 use openexr_sys as sys;
 
-pub use crate::imath::{Box2, Vec2};
 pub use crate::refptr::{Ref, RefMut};
 pub use crate::{frame_buffer::SliceRef, Error, Frame, PixelType, Slice};
+pub use imath_traits::{Bound2, Vec2};
 use std::marker::PhantomData;
 
 use std::ffi::{CStr, CString};
@@ -393,7 +393,7 @@ pub trait DeepSample {
     const STRIDE: usize = std::mem::size_of::<Self::Type>();
 }
 
-impl DeepSample for crate::imath::f16 {
+impl DeepSample for half::f16 {
     type Type = Self;
     const CHANNEL_TYPE: PixelType = PixelType::Half;
 }
@@ -422,7 +422,7 @@ pub struct DeepFrame<'a> {
 
 use std::alloc::{GlobalAlloc, Layout, System};
 impl<'a> DeepFrame<'a> {
-    pub fn new<T: DeepSample, B: Box2<i32>>(
+    pub fn new<T: DeepSample, B: Bound2<i32>>(
         channel_name: &str,
         data_window: B,
         display_window: B,

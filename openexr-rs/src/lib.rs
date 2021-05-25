@@ -17,7 +17,9 @@ pub use openexr_sys::LineOrder;
 pub use openexr_sys::PixelType;
 
 pub mod frame_buffer;
-pub use frame_buffer::{Frame, FrameBuffer, FrameBufferRef, Slice};
+pub use frame_buffer::{
+    Frame, FrameBuffer, FrameBufferRef, FrameHandle, Slice,
+};
 pub mod header;
 pub use header::{Header, HeaderRef, HeaderSlice};
 pub mod attribute;
@@ -65,12 +67,10 @@ pub use flat_image_level::{
 pub mod flat_image_channel;
 pub use flat_image_channel::{FlatChannelF16, FlatChannelF32, FlatChannelU32};
 pub mod version;
-pub use version::{VersionFlags, Version};
+pub use version::{Version, VersionFlags};
 pub mod flat_image_io;
 
 pub mod cppstd;
-
-pub mod imath;
 
 #[cfg(test)]
 mod tests {
@@ -325,6 +325,7 @@ mod tests {
 
     #[test]
     fn read_rgba1() {
+        use imath_traits::Zero;
         let path = PathBuf::from(
             std::env::var("CARGO_MANIFEST_DIR")
                 .expect("CARGO_MANIFEST_DIR not set"),

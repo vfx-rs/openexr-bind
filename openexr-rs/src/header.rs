@@ -1,4 +1,3 @@
-use crate::imath::{Box2, Vec2};
 use crate::{
     channel_list::{ChannelListRef, ChannelListRefMut},
     cppstd::CppString,
@@ -7,6 +6,8 @@ use crate::{
     TypedAttribute,
 };
 use openexr_sys as sys;
+
+use imath_traits::{Bound2, Vec2};
 
 type Result<T, E = Error> = std::result::Result<T, E>;
 
@@ -99,7 +100,7 @@ impl Header {
         compression: Compression,
     ) -> Result<Header>
     where
-        B: Box2<i32>,
+        B: Bound2<i32>,
         V: Vec2<f32>,
     {
         unsafe {
@@ -361,7 +362,7 @@ impl Header {
     ///
     pub fn display_window<B>(&self) -> &B
     where
-        B: Box2<i32>,
+        B: Bound2<i32>,
     {
         unsafe {
             let mut ptr = std::ptr::null();
@@ -387,7 +388,7 @@ impl Header {
     ///
     pub fn display_window_mut<B>(&mut self) -> &mut B
     where
-        B: Box2<i32>,
+        B: Bound2<i32>,
     {
         unsafe {
             let mut ptr = std::ptr::null_mut();
@@ -412,7 +413,7 @@ impl Header {
     ///
     pub fn data_window<B>(&self) -> &B
     where
-        B: Box2<i32>,
+        B: Bound2<i32>,
     {
         unsafe {
             let mut ptr = std::ptr::null();
@@ -438,7 +439,7 @@ impl Header {
     ///
     pub fn data_window_mut<B>(&mut self) -> &mut B
     where
-        B: Box2<i32>,
+        B: Bound2<i32>,
     {
         unsafe {
             let mut ptr = std::ptr::null_mut();
@@ -512,7 +513,7 @@ impl Header {
     ///
     pub fn screen_window_center<B>(&self) -> &B
     where
-        B: Box2<i32>,
+        B: Bound2<i32>,
     {
         unsafe {
             let mut ptr = std::ptr::null();
@@ -535,7 +536,7 @@ impl Header {
     ///
     pub fn screen_window_center_mut<B>(&mut self) -> &mut B
     where
-        B: Box2<i32>,
+        B: Bound2<i32>,
     {
         unsafe {
             let mut ptr = std::ptr::null_mut();

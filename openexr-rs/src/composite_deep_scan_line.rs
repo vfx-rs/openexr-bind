@@ -1,7 +1,5 @@
-use crate::{
-    imath::Box2, DeepScanLineInputFile, DeepScanLineInputPart, Error,
-    FrameBuffer,
-};
+use crate::{DeepScanLineInputFile, DeepScanLineInputPart, Error, FrameBuffer};
+use imath_traits::Bound2;
 use openexr_sys as sys;
 
 type Result<T, E = Error> = std::result::Result<T, E>;
@@ -124,7 +122,7 @@ impl<'a> CompositeDeepScanLine<'a> {
     ///
     pub fn data_window<B>(&self) -> &B
     where
-        B: Box2<i32>,
+        B: Bound2<i32>,
     {
         let mut ptr = std::ptr::null();
         unsafe {

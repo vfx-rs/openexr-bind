@@ -1,9 +1,9 @@
-use crate::imath::f16;
 use crate::{
     refptr::{Ref, RefMut},
     Channel, Error, FlatImageLevelRef, FlatImageLevelRefMut, Slice,
     CHANNEL_HALF,
 };
+use half::f16;
 use openexr_sys as sys;
 
 type Result<T, E = Error> = std::result::Result<T, E>;

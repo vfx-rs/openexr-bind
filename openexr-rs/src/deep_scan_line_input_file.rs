@@ -173,7 +173,8 @@ impl DeepScanLineInputFile {
 #[cfg(test)]
 #[test]
 fn read_deep1() {
-    use crate::{imath::f16, DeepSlice, Frame};
+    use crate::{DeepSlice, Frame};
+    use half::f16;
     use itertools::izip;
     use std::alloc::{GlobalAlloc, Layout, System};
     use std::path::PathBuf;
@@ -224,8 +225,7 @@ fn read_deep1() {
     let mut frame_buffer = DeepFrameBuffer::new();
 
     let sample_count_frame =
-        Frame::new::<u32, _>("sampleCounts", data_window, display_window)
-            .unwrap();
+        Frame::new::<u32, _, _>(&["sampleCounts"], data_window).unwrap();
 
     frame_buffer
         .set_sample_count_frame(&sample_count_frame)

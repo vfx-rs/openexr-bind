@@ -1,7 +1,8 @@
 use crate::{
-    cppstd::CppString, imath::Vec2, Compression, Error, Header, HeaderRef,
-    LineOrder, Rgba, RgbaChannels,
+    cppstd::CppString, Compression, Error, Header, HeaderRef, LineOrder, Rgba,
+    RgbaChannels,
 };
+use imath_traits::Vec2;
 use openexr_sys as sys;
 use std::ffi::CString;
 use std::path::Path;
