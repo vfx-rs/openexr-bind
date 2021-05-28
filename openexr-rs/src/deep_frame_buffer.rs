@@ -1,18 +1,21 @@
 use openexr_sys as sys;
 
-pub use crate::imath::{Box2, Vec2};
-pub use crate::refptr::{Ref, RefMut};
+pub use crate::refptr::{OpaquePtr, Ref, RefMut};
 pub use crate::{frame_buffer::SliceRef, Error, Frame, PixelType, Slice};
+pub use imath_traits::{Bound2, Vec2};
 use std::marker::PhantomData;
 
 use std::ffi::{CStr, CString};
 
 type Result<T, E = Error> = std::result::Result<T, E>;
 
-#[repr(transparent)]
-pub struct DeepFrameBuffer(pub(crate) *mut sys::Imf_DeepFrameBuffer_t);
+pub struct DeepFrameBuffer {
+    pub(crate) ptr: *mut sys::Imf_DeepFrameBuffer_t,
+    pub(crate) sample_count_frame: Option<Frame>,
+    pub(crate) frames: Option<Vec<DeepFrame>>,
+}
 
-unsafe impl crate::refptr::OpaquePtr for DeepFrameBuffer {
+unsafe impl OpaquePtr for DeepFrameBuffer {
     type SysPointee = sys::Imf_DeepFrameBuffer_t;
     type Pointee = DeepFrameBuffer;
 }
@@ -26,7 +29,11 @@ impl DeepFrameBuffer {
         unsafe {
             sys::Imf_DeepFrameBuffer_ctor(&mut ptr);
         }
-        DeepFrameBuffer(ptr)
+        DeepFrameBuffer {
+            ptr,
+            sample_count_frame: None,
+            frames: Some(Vec::new()),
+        }
     }
 
     /// Insert a [`DeepSlice`] into the `DeepFrameBuffer`.
@@ -39,8 +46,12 @@ impl DeepFrameBuffer {
             CString::new(name).expect("Internal null bytes in filename");
 
         unsafe {
-            sys::Imf_DeepFrameBuffer_insert(self.0, c_name.as_ptr(), &slice.0)
-                .into_result()?;
+            sys::Imf_DeepFrameBuffer_insert(
+                self.ptr,
+                c_name.as_ptr(),
+                &slice.0,
+            )
+            .into_result()?;
         }
 
         Ok(())
@@ -59,7 +70,7 @@ impl DeepFrameBuffer {
         let mut ptr = std::ptr::null();
         unsafe {
             sys::Imf_DeepFrameBuffer_findSlice_const(
-                self.0,
+                self.ptr,
                 &mut ptr,
                 c_name.as_ptr(),
             );
@@ -89,7 +100,7 @@ impl DeepFrameBuffer {
         let mut ptr = std::ptr::null_mut();
         unsafe {
             sys::Imf_DeepFrameBuffer_findSlice(
-                self.0,
+                self.ptr,
                 &mut ptr,
                 c_name.as_ptr(),
             );
@@ -107,13 +118,13 @@ impl DeepFrameBuffer {
     pub fn iter(&self) -> DeepFrameBufferIter {
         unsafe {
             let mut ptr = sys::Imf_DeepFrameBuffer_ConstIterator_t::default();
-            sys::Imf_DeepFrameBuffer_begin_const(self.0, &mut ptr)
+            sys::Imf_DeepFrameBuffer_begin_const(self.ptr, &mut ptr)
                 .into_result()
                 .unwrap();
             let ptr = DeepFrameBufferConstIterator(ptr);
 
             let mut end = sys::Imf_DeepFrameBuffer_ConstIterator_t::default();
-            sys::Imf_DeepFrameBuffer_end_const(self.0, &mut end)
+            sys::Imf_DeepFrameBuffer_end_const(self.ptr, &mut end)
                 .into_result()
                 .unwrap();
             let end = DeepFrameBufferConstIterator(end);
@@ -139,7 +150,7 @@ impl DeepFrameBuffer {
     ) -> Result<()> {
         unsafe {
             sys::Imf_DeepFrameBuffer_insertSampleCountSlice(
-                self.0,
+                self.ptr,
                 &sample_count_slice.0,
             )
             .into_result()?;
@@ -148,9 +159,10 @@ impl DeepFrameBuffer {
         Ok(())
     }
 
+    /// Set a [`Frame`](crate::frame_buffer::Frame) into which to read the
+    /// per-pixel sample counts
     ///
-    ///
-    pub fn set_sample_count_frame(&mut self, frame: &Frame) -> Result<()> {
+    pub fn set_sample_count_frame(&mut self, frame: Frame) -> Result<()> {
         let w = frame.data_window[2] - frame.data_window[0] + 1;
         let ystride = w as usize * frame.stride;
         self.set_sample_count_slice(
@@ -164,7 +176,13 @@ impl DeepFrameBuffer {
             .build()?,
         )?;
 
+        self.sample_count_frame = Some(frame);
+
         Ok(())
+    }
+
+    pub fn sample_count_frame(&self) -> Option<&Frame> {
+        self.sample_count_frame.as_ref()
     }
 
     /// Get the sample count slice
@@ -172,17 +190,49 @@ impl DeepFrameBuffer {
     pub fn sample_count_slice<'a>(&'a self) -> SliceRef<'a> {
         let mut ptr = std::ptr::null();
         unsafe {
-            sys::Imf_DeepFrameBuffer_getSampleCountSlice(self.0, &mut ptr);
+            sys::Imf_DeepFrameBuffer_getSampleCountSlice(self.ptr, &mut ptr);
         }
 
         SliceRef::new(ptr)
+    }
+
+    pub fn insert_deep_frame(&mut self, frame: DeepFrame) -> Result<()> {
+        let ptr = frame.ptr;
+        let data_window = frame.data_window;
+        let data_width = data_window[2] - data_window[0] + 1;
+        let offset = (-data_window[0] - data_window[1] * data_width) as isize;
+
+        unsafe {
+            self.insert(
+                &frame.channel_name,
+                &DeepSlice::new(
+                    frame.channel_type,
+                    ptr.offset(offset) as *mut i8,
+                )
+                .x_stride(std::mem::size_of::<*const u8>())
+                .y_stride(
+                    std::mem::size_of::<*const u8>() * data_width as usize,
+                )
+                .sample_stride(frame.stride)
+                .build()?,
+            )?;
+        }
+
+        match &mut self.frames {
+            Some(v) => {
+                v.push(frame);
+            }
+            _ => unreachable!(),
+        }
+
+        Ok(())
     }
 }
 
 impl Drop for DeepFrameBuffer {
     fn drop(&mut self) {
         unsafe {
-            sys::Imf_DeepFrameBuffer_dtor(self.0);
+            sys::Imf_DeepFrameBuffer_dtor(self.ptr);
         }
     }
 }
@@ -280,7 +330,7 @@ pub struct DeepSlice(pub(crate) sys::Imf_DeepSlice_t);
 pub type DeepSliceRef<'a, P = DeepSlice> = Ref<'a, P>;
 pub type DeepSliceRefMut<'a, P = DeepSlice> = RefMut<'a, P>;
 
-unsafe impl crate::refptr::OpaquePtr for DeepSlice {
+unsafe impl OpaquePtr for DeepSlice {
     type SysPointee = sys::Imf_DeepSlice_t;
     type Pointee = DeepSlice;
 }
@@ -393,7 +443,7 @@ pub trait DeepSample {
     const STRIDE: usize = std::mem::size_of::<Self::Type>();
 }
 
-impl DeepSample for crate::imath::f16 {
+impl DeepSample for half::f16 {
     type Type = Self;
     const CHANNEL_TYPE: PixelType = PixelType::Half;
 }
@@ -408,46 +458,91 @@ impl DeepSample for u32 {
     const CHANNEL_TYPE: PixelType = PixelType::Uint;
 }
 
-pub struct DeepFrame<'a> {
+pub struct DeepFrame {
     pub(crate) channel_type: PixelType,
     pub(crate) data_window: [i32; 4],
-    pub(crate) display_window: [i32; 4],
     pub(crate) channel_name: String,
     pub(crate) stride: usize,
-    pub(crate) ptr: *mut u8,
+    pub(crate) ptr: *mut *mut u8,
+    pub(crate) len: usize,
     pub(crate) byte_len: usize,
     pub(crate) align: usize,
-    pub(crate) sample_count_frame: &'a Frame,
+    allocated: bool,
 }
 
 use std::alloc::{GlobalAlloc, Layout, System};
-impl<'a> DeepFrame<'a> {
-    pub fn new<T: DeepSample, B: Box2<i32>>(
+impl DeepFrame {
+    pub fn new<T: DeepSample, B: Bound2<i32>>(
         channel_name: &str,
         data_window: B,
-        display_window: B,
-        sample_count_frame: &'a Frame,
-    ) -> Result<DeepFrame<'a>> {
+    ) -> Result<DeepFrame> {
         let data_window = *data_window.as_slice();
-        let display_window = *display_window.as_slice();
         let w = data_window[2] - data_window[0] + 1;
         let h = data_window[3] - data_window[1] + 1;
         let len = (w * h) as usize;
 
         let ptr = unsafe {
-            System.alloc(Layout::array::<*mut T>(len).unwrap()) as *mut u8
+            // FIXME: this needs to be MaybeUninit
+            System.alloc(Layout::array::<*mut u8>(len).unwrap()) as *mut *mut u8
         };
 
         Ok(DeepFrame {
             channel_type: T::CHANNEL_TYPE,
             data_window,
-            display_window,
             channel_name: channel_name.to_string(),
             stride: T::STRIDE,
             ptr,
+            len,
             byte_len: len * std::mem::size_of::<*mut T>(),
             align: std::mem::align_of::<*mut T>(),
-            sample_count_frame,
+            allocated: false,
         })
+    }
+
+    pub(crate) unsafe fn allocate_pixel_storage(
+        &mut self,
+        x: i32,
+        y: i32,
+        count: u32,
+    ) {
+        // if we're out of bounds, just ignore it. We expect to be called in a
+        // loop over the union of all windows
+        if x < self.data_window[0]
+            || x >= self.data_window[2]
+            || y < self.data_window[1]
+            || y >= self.data_window[3]
+        {
+            return;
+        }
+
+        let w = self.data_window[2] - self.data_window[0] + 1;
+        let h = self.data_window[3] - self.data_window[1] + 1;
+
+        // offset index back to data window corner
+        let x = x - self.data_window[0];
+        let y = y - self.data_window[2];
+
+        // allocate the storage
+        let ptr = System
+            .alloc(Layout::array::<u8>(count as usize * self.stride).unwrap());
+
+        // set the sample pointer at the pixel location
+        let offset = (y * w + x) as isize;
+        *self.ptr.offset(offset) = ptr;
+    }
+}
+
+impl Drop for DeepFrame {
+    fn drop(&mut self) {
+        unsafe {
+            if self.allocated {
+                // TODO:
+            }
+
+            System.dealloc(
+                self.ptr as *mut u8,
+                Layout::array::<*mut u8>(self.len).unwrap(),
+            );
+        }
     }
 }

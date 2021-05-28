@@ -1,4 +1,5 @@
-use crate::imath::f16;
+use half::f16;
+use imath_traits::Zero;
 use openexr_sys as sys;
 pub use sys::RgbaChannels;
 
@@ -19,8 +20,15 @@ impl Rgba {
             a: f16::from_f32(a),
         }
     }
+}
 
-    pub fn zero() -> Rgba {
-        Rgba::from_f32(0.0f32, 0.0f32, 0.0f32, 0.0f32)
+impl Zero for Rgba {
+    fn zero() -> Self {
+        Rgba {
+            r: f16::ZERO,
+            g: f16::ZERO,
+            b: f16::ZERO,
+            a: f16::ZERO,
+        }
     }
 }

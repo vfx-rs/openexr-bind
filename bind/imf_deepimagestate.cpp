@@ -8,7 +8,7 @@ namespace OPENEXR_IMF_INTERNAL_NAMESPACE {
 
 namespace Imf = ::OPENEXR_IMF_INTERNAL_NAMESPACE;
 
-enum DeepImageState {};
+enum DeepImageState {} CPPMM_RUSTIFY_ENUM CPPMM_ENUM_PREFIX(DIS_);
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 

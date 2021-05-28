@@ -157,13 +157,13 @@ template class TypedAttribute<Imf::Envmap>;
 using EnvmapAttribute = Imf::TypedAttribute<Imf::Envmap>;
 
 template class TypedAttribute<std::vector<float>>;
-using FloatVectorAttribute = Imf::TypedAttribute<std::vector<float>>;
+using CppVectorFloatAttribute = Imf::TypedAttribute<std::vector<float>>;
 
 template class TypedAttribute<std::vector<std::string>>;
-using StringVectorAttribute = Imf::TypedAttribute<std::vector<std::string>>;
+using CppVectorStringAttribute = Imf::TypedAttribute<std::vector<std::string>>;
 
 template class TypedAttribute<std::string>;
-using StringAttribute = Imf::TypedAttribute<std::string>;
+using CppStringAttribute = Imf::TypedAttribute<std::string>;
 
 template class TypedAttribute<Imf::KeyCode>;
 using KeyCodeAttribute = Imf::TypedAttribute<Imf::KeyCode>;

@@ -45,14 +45,14 @@ struct OutputFile {
     IMF_EXPORT
     void copyPixels(Imf::InputFile& in) CPPMM_RENAME(copyPixels_from_file)
         CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
-            CPPMM_THROWS(Iex::LogicExc, IEX_LOGIC);
+            CPPMM_THROWS(Iex::LogicExc, IEX_LOGIC_ERROR);
 
     IMF_EXPORT
     void copyPixels(Imf::InputPart& in) CPPMM_RENAME(copyPixels_from_part);
 
     IMF_EXPORT
     void updatePreviewImage(const Imf::PreviewRgba newPixels[])
-        CPPMM_THROWS(Iex::LogicExc, IEX_LOGIC)
+        CPPMM_THROWS(Iex::LogicExc, IEX_LOGIC_ERROR)
             CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT

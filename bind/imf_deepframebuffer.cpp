@@ -42,7 +42,7 @@ struct DeepFrameBuffer {
 
     DeepFrameBuffer() CPPMM_RENAME(ctor);
 
-    DeepFrameBuffer(const Imf::DeepFrameBuffer& rhs);
+    DeepFrameBuffer(const Imf::DeepFrameBuffer& rhs) CPPMM_RENAME(copy);
     DeepFrameBuffer(Imf::DeepFrameBuffer&& rhs) CPPMM_IGNORE;
 
     ~DeepFrameBuffer();

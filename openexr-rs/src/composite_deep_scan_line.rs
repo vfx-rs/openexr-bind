@@ -1,7 +1,5 @@
-use crate::{
-    imath::Box2, DeepScanLineInputFile, DeepScanLineInputPart, Error,
-    FrameBuffer,
-};
+use crate::{DeepScanLineInputFile, DeepScanLineInputPart, Error, FrameBuffer};
+use imath_traits::Bound2;
 use openexr_sys as sys;
 
 type Result<T, E = Error> = std::result::Result<T, E>;
@@ -98,7 +96,8 @@ impl<'a> CompositeDeepScanLine<'a> {
             Err(Error::OutOfRange)
         } else {
             unsafe {
-                sys::Imf_CompositeDeepScanLine_readPixels(self.ptr, start, end);
+                sys::Imf_CompositeDeepScanLine_readPixels(self.ptr, start, end)
+                    .into_result()?;
             }
 
             Ok(())
@@ -124,7 +123,7 @@ impl<'a> CompositeDeepScanLine<'a> {
     ///
     pub fn data_window<B>(&self) -> &B
     where
-        B: Box2<i32>,
+        B: Bound2<i32>,
     {
         let mut ptr = std::ptr::null();
         unsafe {
@@ -150,4 +149,79 @@ impl<'a> Default for CompositeDeepScanLine<'a> {
             }
         }
     }
+}
+
+#[cfg(test)]
+#[test]
+fn composite_deep1() -> Result<()> {
+    use crate::{Frame, Header, OutputFile, Rgba, CHANNEL_FLOAT, CHANNEL_HALF};
+    use std::path::PathBuf;
+
+    let path_plane = PathBuf::from(
+        std::env::var("CARGO_MANIFEST_DIR")
+            .expect("CARGO_MANIFEST_DIR not set"),
+    )
+    .join("images")
+    .join("deep_plane.exr");
+
+    let path_cyl = PathBuf::from(
+        std::env::var("CARGO_MANIFEST_DIR")
+            .expect("CARGO_MANIFEST_DIR not set"),
+    )
+    .join("images")
+    .join("deep_cyl.exr");
+
+    let file_plane = DeepScanLineInputFile::new(&path_plane, 4)?;
+    let header_plane = file_plane.header();
+    let data_window_plane = *header_plane.data_window::<[i32; 4]>();
+
+    let file_cyl = DeepScanLineInputFile::new(&path_cyl, 4)?;
+    let header_cyl = file_cyl.header();
+    let data_window_cyl = *header_cyl.data_window::<[i32; 4]>();
+
+    let data_window = [
+        data_window_plane[0].min(data_window_cyl[0]),
+        data_window_plane[1].min(data_window_cyl[1]),
+        data_window_plane[2].max(data_window_cyl[2]),
+        data_window_plane[3].max(data_window_cyl[3]),
+    ];
+
+    let mut frame_buffer = FrameBuffer::new();
+
+    frame_buffer.insert_frame(Frame::new::<Rgba, _, _>(
+        &["R", "G", "B", "A"],
+        data_window,
+    )?)?;
+
+    frame_buffer.insert_frame(Frame::new::<f32, _, _>(&["Z"], data_window)?)?;
+
+    let mut cds = CompositeDeepScanLine::new();
+    cds.add_source_file(&file_plane)?;
+    cds.add_source_file(&file_cyl)?;
+    cds.set_frame_buffer(&frame_buffer);
+    cds.read_pixels(data_window[1], data_window[3])?;
+
+    let mut header = Header::new(
+        data_window,
+        *header_plane.display_window(),
+        1.0,
+        [0.0f32; 2],
+        1.0,
+        sys::LineOrder::IncreasingY,
+        sys::Compression::Zips,
+    )?;
+
+    for c in &["R", "G", "B", "A"] {
+        header.channels_mut().insert(c, &CHANNEL_HALF);
+    }
+    header.channels_mut().insert("Z", &CHANNEL_FLOAT);
+
+    let mut file = OutputFile::new("composite_deep1.exr", &header, 6).unwrap();
+    file.set_frame_buffer(&frame_buffer).unwrap();
+    unsafe {
+        file.write_pixels(data_window[3] - data_window[1] + 1)
+            .unwrap()
+    };
+
+    Ok(())
 }

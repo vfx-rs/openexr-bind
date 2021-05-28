@@ -8,9 +8,17 @@ edition = "2018"
 
 [dependencies]
 openexr-sys = {path="../build/openexr-sys"}
-half = "1.7.1"
-thiserror = "1.0.24"
+imath-traits = "^0.1"
+cgmath = {version = "^0.18", optional = true}
+half = "^1.7"
+thiserror = "^1.0"
+paste = "^1.0"
+bitflags = "1.2.1"
 
 [dev-dependencies]
 png = "0.16.8"
 itertools = "0.10.0"
+
+[features]
+default = []
+imath_cgmath = ["imath-traits/cgmath", "cgmath"]

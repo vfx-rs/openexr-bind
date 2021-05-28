@@ -1,7 +1,8 @@
 use crate::{
-    imath::Vec2, Compression, Error, Header, HeaderRef, LineOrder, Rgba,
+    cppstd::CppString, Compression, Error, Header, HeaderRef, LineOrder, Rgba,
     RgbaChannels,
 };
+use imath_traits::Vec2;
 use openexr_sys as sys;
 use std::ffi::CString;
 use std::path::Path;
@@ -9,6 +10,26 @@ use std::path::Path;
 type Result<T, E = Error> = std::result::Result<T, E>;
 
 /// A simplified interface for writing an RGBA EXR file
+/// ```no_run
+/// # let pixels = vec![];
+/// # let width = 1;
+/// # let height = 1;
+/// use openexr::{Header, RgbaOutputFile, RgbaChannels};
+///
+/// let header = Header::from_dimensions(width, height);
+///
+/// let mut file = RgbaOutputFile::new(
+///     "write_rgba1.exr",
+///     &header,
+///     RgbaChannels::WriteRgba,
+///     1,
+/// )
+/// .unwrap();
+///
+/// file.set_frame_buffer(&pixels, 1, width as usize).unwrap();
+/// file.write_pixels(height).unwrap();
+/// ```
+///
 #[repr(transparent)]
 pub struct RgbaOutputFile(pub(crate) *mut sys::Imf_RgbaOutputFile_t);
 
@@ -22,7 +43,7 @@ impl RgbaOutputFile {
     /// * `num_threads` - The number of threads to use to write the image
     ///
     /// ## Errors
-    /// * [`Iex::BaseExc`] - If an error occurs
+    /// * [`Error::Base`] - If an error occurs
     ///
     pub fn new<P: AsRef<Path>>(
         filename: P,
@@ -71,7 +92,7 @@ impl RgbaOutputFile {
     /// * `num_threads` - The number of threads to use to write the image
     ///
     /// ## Errors
-    /// * [`Iex::BaseExc`] - If an error occurs
+    /// * [`Error::Base`] - If an error occurs
     ///
     pub fn with_dimensions<P: AsRef<Path>, V>(
         filename: P,
@@ -127,7 +148,7 @@ impl RgbaOutputFile {
     /// Pixel (x, y) is at offset x * x_stride + y * y_stride
     ///
     /// ## Errors
-    /// * [`Iex::BaseExc`] - If an error occurs
+    /// * [`Error::Base`] - If an error occurs
     ///
     pub fn set_frame_buffer(
         &mut self,
@@ -153,14 +174,14 @@ impl RgbaOutputFile {
     /// Retrieves the next n scan lines worth of data from
     /// the current frame buffer, starting with the scan line indicated by
     /// [`RgbaOutputFile::current_scan_line`], and stores the data in the output file, and
-    /// progressing in the direction indicated by [`RgbaOutputFile::line_order`].
+    /// progressing in the direction indicated by [`Header::line_order`].
     ///
     /// To produce a complete and correct file, exactly `m` scan lines must
     /// be written, where `m` is equal to
     /// data_window().max.y - data_window().min.y + 1.
     ///
     /// ## Errors
-    /// * [`Iex::BaseExc`] - If an error occurs
+    /// * [`Error::Base`] - If an error occurs
     ///
     pub fn write_pixels(&mut self, num_scan_lines: i32) -> Result<()> {
         unsafe {
@@ -215,10 +236,9 @@ impl RgbaOutputFile {
     /// If the output file contains luminance and chroma channels (WriteYc
     /// or WriteYca), then the the significands of the luminance and
     /// chroma values are rounded to `round_y` and `round_c` bits respectively
-    /// (see function [`imath::half::round()`].  Rounding improves compression
-    /// with minimal image degradation, usually much less than the degradation
-    /// caused by chroma subsampling.  By default, `round_y` is 7, and `round_c`
-    /// is 5.
+    /// Rounding improves compression with minimal image degradation, usually
+    /// much less than the degradation caused by chroma subsampling.  By default,
+    /// `round_y` is 7, and `round_c` is 5.
     ///
     /// If the output file contains RGB channels or a luminance channel,
     /// without chroma, then no rounding is performed.
@@ -287,7 +307,7 @@ impl RgbaInputFile {
     /// reading.
     ///
     /// ## Errors
-    /// * [`Iex::BaseExc`] - If an error occurs
+    /// * [`Error::Base`] - If an error occurs
     ///
     pub fn new<P: AsRef<Path>>(
         filename: P,
@@ -320,7 +340,7 @@ impl RgbaInputFile {
     /// Pixel (x, y) is at offset x * x_stride + y * y_stride
     ///
     /// ## Errors
-    /// * [`Iex::InvalidArgument`] - If the frame buffer's data type can not be
+    /// * [`Error::InvalidArgument`] - If the frame buffer's data type can not be
     /// determined
     ///
     pub fn set_frame_buffer(
@@ -352,25 +372,8 @@ impl RgbaInputFile {
     /// call to [`RgbaInputFile::set_frame_buffer`] before reading.
     pub fn set_layer_name(&mut self, name: &str) {
         unsafe {
-            let cname = CString::new(name).expect("Inner NUL bytes in name");
-            // FIXME:
-            // this is quite the dance we have to do for std::string
-            // the issue is that all the overloads of std::string() that take
-            // a const char* also take an implicit allocator, which we don't
-            // want to bind.
-            // We can get around this by implementing ignored parameters in
-            // cppmm
-            let mut s = std::ptr::null_mut();
-            sys::std_string_ctor(&mut s);
-            let mut dummy = std::ptr::null_mut();
-            sys::std_string_assign(
-                s,
-                &mut dummy,
-                cname.as_ptr(),
-                cname.as_bytes().len() as u64,
-            );
-            sys::Imf_RgbaInputFile_setLayerName(self.0, s);
-            sys::std_string_dtor(s);
+            let s = CppString::new(name);
+            sys::Imf_RgbaInputFile_setLayerName(self.0, s.0);
         }
     }
 
@@ -389,7 +392,7 @@ impl RgbaInputFile {
     /// order in which they were written to the file.
     ///
     /// ## Errors
-    /// * [`Iex::BaseExc`] - If an error occurs
+    /// * [`Error::Base`] - If an error occurs
     ///
     pub fn read_pixels(
         &mut self,
@@ -424,6 +427,7 @@ impl RgbaInputFile {
     /// present in the input file, or false if any pixels are missing.
     /// (Another program may still be busy writing the file, or file
     /// writing may have been aborted prematurely.)
+    ///
     pub fn is_complete(&self) -> bool {
         let mut result = false;
         unsafe { sys::Imf_RgbaInputFile_isComplete(self.0, &mut result) };

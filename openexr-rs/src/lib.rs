@@ -1,27 +1,40 @@
+#![allow(dead_code)]
+
 pub mod rgba_file;
 pub use rgba_file::{RgbaInputFile, RgbaOutputFile};
 pub mod rgba;
 pub use rgba::{Rgba, RgbaChannels};
 
 pub use openexr_sys::Compression;
+pub use openexr_sys::CubeMapFace;
+pub use openexr_sys::DataWindowSource;
+pub use openexr_sys::DeepImageState;
+pub use openexr_sys::Envmap;
 pub use openexr_sys::Imf_Chromaticities_t as Chromaticities;
+pub use openexr_sys::LevelMode;
+pub use openexr_sys::LevelRoundingMode;
 pub use openexr_sys::LineOrder;
 pub use openexr_sys::PixelType;
 
 pub mod frame_buffer;
-pub use frame_buffer::{Frame, FrameBuffer, FrameBufferRef, Slice};
+pub use frame_buffer::{
+    Frame, FrameBuffer, FrameBufferRef, FrameHandle, Slice,
+};
 pub mod header;
 pub use header::{Header, HeaderRef, HeaderSlice};
 pub mod attribute;
 pub use attribute::{Attribute, Box2iAttribute, TypedAttribute};
 pub mod channel_list;
 pub use channel_list::{
-    Channel, ChannelList, CHANNEL_FLOAT, CHANNEL_HALF, CHANNEL_UINT,
+    Channel, ChannelList, ChannelListRef, ChannelListRefMut, CHANNEL_FLOAT,
+    CHANNEL_HALF, CHANNEL_UINT,
 };
 pub mod tile_description;
 pub use tile_description::TileDescription;
 pub mod preview_image;
-pub use preview_image::{PreviewImage, PreviewRgba};
+pub use preview_image::{
+    PreviewImage, PreviewImageRef, PreviewImageRefMut, PreviewRgba,
+};
 pub mod input_file;
 pub use input_file::InputFile;
 pub mod output_file;
@@ -45,8 +58,33 @@ pub mod multi_part_output_file;
 pub use multi_part_output_file::MultiPartOutputFile;
 pub mod deep_frame_buffer;
 pub use deep_frame_buffer::{DeepFrameBuffer, DeepSlice};
+pub mod flat_image;
+pub use flat_image::{FlatImage, FlatImageRef, FlatImageRefMut};
+pub mod flat_image_level;
+pub use flat_image_level::{
+    FlatImageLevel, FlatImageLevelRef, FlatImageLevelRefMut,
+};
+pub mod flat_image_channel;
+pub use flat_image_channel::{FlatChannelF16, FlatChannelF32, FlatChannelU32};
 
-pub mod imath;
+pub mod deep_image;
+pub use deep_image::{DeepImage, DeepImageRef, DeepImageRefMut};
+pub mod deep_image_channel;
+pub use deep_image_channel::{DeepChannelF16, DeepChannelF32, DeepChannelU32};
+pub mod deep_image_level;
+pub use deep_image_level::{
+    DeepImageLevel, DeepImageLevelRef, DeepImageLevelRefMut,
+};
+pub mod sample_count_channel;
+pub use sample_count_channel::{
+    SampleCountChannel, SampleCountChannelRef, SampleCountChannelRefMut,
+};
+
+pub mod version;
+pub use version::{Version, VersionFlags};
+pub mod flat_image_io;
+
+pub mod cppstd;
 
 #[cfg(test)]
 mod tests {
@@ -85,6 +123,23 @@ mod tests {
             .collect();
 
         (pixels, info.width as i32, info.height as i32)
+    }
+
+    type Result<T, E = Error> = std::result::Result<T, E>;
+
+    fn write_rgba(
+        filename: &str,
+        pixels: &[Rgba],
+        width: i32,
+        height: i32,
+    ) -> Result<()> {
+        let header = Header::from_dimensions(width, height);
+        let mut file =
+            RgbaOutputFile::new(filename, &header, RgbaChannels::WriteRgba, 4)?;
+        file.set_frame_buffer(&pixels, 1, width as usize)?;
+        file.write_pixels(height)?;
+
+        Ok(())
     }
 
     #[test]
@@ -284,6 +339,7 @@ mod tests {
 
     #[test]
     fn read_rgba1() {
+        use imath_traits::Zero;
         let path = PathBuf::from(
             std::env::var("CARGO_MANIFEST_DIR")
                 .expect("CARGO_MANIFEST_DIR not set"),
