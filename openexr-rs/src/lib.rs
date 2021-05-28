@@ -66,6 +66,20 @@ pub use flat_image_level::{
 };
 pub mod flat_image_channel;
 pub use flat_image_channel::{FlatChannelF16, FlatChannelF32, FlatChannelU32};
+
+pub mod deep_image;
+pub use deep_image::{DeepImage, DeepImageRef, DeepImageRefMut};
+pub mod deep_image_channel;
+pub use deep_image_channel::{DeepChannelF16, DeepChannelF32, DeepChannelU32};
+pub mod deep_image_level;
+pub use deep_image_level::{
+    DeepImageLevel, DeepImageLevelRef, DeepImageLevelRefMut,
+};
+pub mod sample_count_channel;
+pub use sample_count_channel::{
+    SampleCountChannel, SampleCountChannelRef, SampleCountChannelRefMut,
+};
+
 pub mod version;
 pub use version::{Version, VersionFlags};
 pub mod flat_image_io;

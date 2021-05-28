@@ -56,10 +56,11 @@ struct DeepImage {
     IMFUTIL_EXPORT
     void insertChannel(const std::string& name, Imf::PixelType type,
                        int xSamplingt, int ySampling, bool pLinear)
-        CPPMM_RENAME(insertChannel_with);
+        CPPMM_RENAME(insertChannel) CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMFUTIL_EXPORT
-    void insertChannel(const std::string& name, const Imf::Channel& channel);
+    void insertChannel(const std::string& name,
+                       const Imf::Channel& channel) CPPMM_IGNORE;
 
     IMFUTIL_EXPORT
     void eraseChannel(const std::string& name);
