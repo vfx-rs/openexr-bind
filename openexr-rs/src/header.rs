@@ -687,17 +687,18 @@ impl Header {
     /// Names must be unique, that is no two parts in the same file may share
     /// the same name.
     ///
-    pub fn name(&self) -> String {
+    pub fn name(&self) -> Result<String> {
         unsafe {
             let mut s = std::ptr::null();
             sys::Imf_Header_name_const(self.0.as_ref(), &mut s)
                 .into_result()
-                .unwrap();
+                .map(|_| {
+                    let mut cptr = std::ptr::null();
+                    sys::std_string_c_str(s, &mut cptr).into_result().unwrap();
 
-            let mut cptr = std::ptr::null();
-            sys::std_string_c_str(s, &mut cptr).into_result().unwrap();
-
-            CStr::from_ptr(cptr).to_string_lossy().to_string()
+                    CStr::from_ptr(cptr).to_string_lossy().to_string()
+                })
+                .map_err(Error::from)
         }
     }
 
@@ -713,6 +714,15 @@ impl Header {
         }
     }
 
+    /// Does the file/part have a name?
+    pub fn has_name(&self) -> bool {
+        unsafe {
+            let mut v = false;
+            sys::Imf_Header_hasName(self.0.as_ref(), &mut v);
+            v
+        }
+    }
+
     /// Get the image type of this part from the header
     ///
     /// This must be one of:
@@ -723,14 +733,17 @@ impl Header {
     ///
     /// FIXME: Make this return an enum instead of a string
     ///
-    pub fn image_type(&self) -> String {
+    pub fn image_type(&self) -> Result<String> {
         unsafe {
             let mut s = std::ptr::null();
-            sys::Imf_Header_type_const(self.0.as_ref(), &mut s);
-
-            let mut cptr = std::ptr::null();
-            sys::std_string_c_str(s, &mut cptr);
-            CStr::from_ptr(cptr).to_string_lossy().to_string()
+            sys::Imf_Header_type_const(self.0.as_ref(), &mut s)
+                .into_result()
+                .map(|_| {
+                    let mut cptr = std::ptr::null();
+                    sys::std_string_c_str(s, &mut cptr);
+                    CStr::from_ptr(cptr).to_string_lossy().to_string()
+                })
+                .map_err(Error::from)
         }
     }
 
@@ -751,13 +764,24 @@ impl Header {
         }
     }
 
+    /// Does the file/part have a type?
+    pub fn has_image_type(&self) -> bool {
+        unsafe {
+            let mut v = false;
+            sys::Imf_Header_hasType(self.0.as_ref(), &mut v);
+            v
+        }
+    }
+
     /// Get the version of the file
     ///
-    pub fn version(&self) -> i32 {
+    pub fn version(&self) -> Result<i32> {
         unsafe {
             let mut v = std::ptr::null();
-            sys::Imf_Header_version_const(self.0.as_ref(), &mut v);
-            *v
+            sys::Imf_Header_version_const(self.0.as_ref(), &mut v)
+                .into_result()
+                .map(|_| *v)
+                .map_err(Error::from)
         }
     }
 
@@ -795,11 +819,13 @@ impl Header {
 
     /// Get the chunk_count of the file
     ///
-    pub fn chunk_count(&self) -> i32 {
+    pub fn chunk_count(&self) -> Result<i32> {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_Header_chunkCount_const(self.0.as_ref(), &mut ptr);
-            *ptr
+            sys::Imf_Header_chunkCount_const(self.0.as_ref(), &mut ptr)
+                .into_result()
+                .map(|_| *ptr)
+                .map_err(Error::from)
         }
     }
 }
@@ -813,13 +839,17 @@ impl Header {
 
     /// Get the view of this part from the header
     ///
-    pub fn view(&self) -> String {
+    pub fn view(&self) -> Result<String> {
         unsafe {
             let mut s = std::ptr::null();
-            sys::Imf_Header_view_const(self.0.as_ref(), &mut s);
-            let mut cptr = std::ptr::null();
-            sys::std_string_c_str(s, &mut cptr);
-            CStr::from_ptr(cptr).to_string_lossy().to_string()
+            sys::Imf_Header_view_const(self.0.as_ref(), &mut s)
+                .into_result()
+                .map(|_| {
+                    let mut cptr = std::ptr::null();
+                    sys::std_string_c_str(s, &mut cptr);
+                    CStr::from_ptr(cptr).to_string_lossy().to_string()
+                })
+                .map_err(Error::from)
         }
     }
 
@@ -851,11 +881,13 @@ impl Header {
 
     /// Get the tile description from the header
     ///
-    pub fn tile_description(&self) -> &TileDescription {
+    pub fn tile_description(&self) -> Result<TileDescription> {
         let mut ptr = std::ptr::null();
         unsafe {
-            sys::Imf_Header_tileDescription_const(self.0.as_ref(), &mut ptr);
-            &*ptr
+            sys::Imf_Header_tileDescription_const(self.0.as_ref(), &mut ptr)
+                .into_result()
+                .map(|_| (*ptr).clone())
+                .map_err(Error::from)
         }
     }
 
@@ -889,11 +921,13 @@ impl Header {
 
     /// Get the preview image from the header
     ///
-    pub fn preview_image(&self) -> &PreviewImage {
+    pub fn preview_image(&self) -> Result<&PreviewImage> {
         let mut ptr = std::ptr::null();
         unsafe {
-            sys::Imf_Header_previewImage_const(self.0.as_ref(), &mut ptr);
-            &*(ptr as *const PreviewImage)
+            sys::Imf_Header_previewImage_const(self.0.as_ref(), &mut ptr)
+                .into_result()
+                .map(|_| &*(ptr as *const PreviewImage))
+                .map_err(Error::from)
         }
     }
 
@@ -1256,6 +1290,12 @@ fn header_rtrip1() -> Result<()> {
             .value(),
         "lorem ipsum",
     );
+
+    assert!(file.header().version().is_err());
+    assert!(file.header().image_type().is_err());
+    assert!(file.header().preview_image().is_err());
+    assert!(file.header().name().is_err());
+    assert!(file.header().view().is_err());
 
     Ok(())
 }
