@@ -28,8 +28,10 @@ public:
 template class vector<std::string>;
 template class vector<float>;
 
-using vector_string = std::vector<std::string>;
-using vector_float = std::vector<float>;
+using vector_string
+    CPPMM_FORCE_NAME("std::vector<std::string>") = std::vector<std::string>;
+using vector_float
+    CPPMM_FORCE_NAME("std::vector<float>") = std::vector<float>;
 
 } // namespace std
 

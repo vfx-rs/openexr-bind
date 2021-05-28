@@ -27,7 +27,8 @@ public:
 // explicit instantiation
 template class map<std::string, std::string>;
 
-using map_string_string = std::map<std::string, std::string>;
+using map_string_string
+    CPPMM_FORCE_NAME("std::map<std::string, std::string>") = std::map<std::string, std::string>;
 
 } // namespace std
 

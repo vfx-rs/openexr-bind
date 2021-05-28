@@ -27,7 +27,7 @@ public:
 
 } CPPMM_OPAQUEPTR CPPMM_IGNORE_UNBOUND;
 
-using string = ::std::string;
+using string CPPMM_FORCE_NAME("std::string") = ::std::string;
 
 } // namespace std
 
