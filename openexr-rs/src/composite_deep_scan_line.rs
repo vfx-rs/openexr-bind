@@ -6,6 +6,50 @@ type Result<T, E = Error> = std::result::Result<T, E>;
 
 /// Allows to composite multiple deep parts/files together into a single
 /// frame_buffer
+///
+/// ```no_run
+/// # fn cds() -> Result<(), openexr::Error> {
+/// use openexr::{Frame, Header, OutputFile, Rgba, CHANNEL_FLOAT, CHANNEL_HALF,
+/// CompositeDeepScanLine, DeepScanLineInputFile, FrameBuffer};
+///
+/// // Open the two input deeps we want to composite
+/// let file_a = DeepScanLineInputFile::new("a.exr", 4)?;
+/// let data_window_a = *file_a.header().data_window::<[i32; 4]>();
+///
+/// let file_b = DeepScanLineInputFile::new("b.exr", 4)?;
+/// let data_window_b = *file_b.header().data_window::<[i32; 4]>();
+///
+/// // Get the union of their data windows
+/// let data_window = [
+///     data_window_a[0].min(data_window_b[0]),
+///     data_window_a[1].min(data_window_b[1]),
+///     data_window_a[2].max(data_window_b[2]),
+///     data_window_a[3].max(data_window_b[3]),
+/// ];
+///
+/// // Create a frame buffer to hold the composited image
+/// let mut frame_buffer = FrameBuffer::new();
+///
+/// frame_buffer.insert_frame(Frame::new::<Rgba, _, _>(
+///     &["R", "G", "B", "A"],
+///     data_window,
+/// )?)?;
+///
+/// frame_buffer.insert_frame(Frame::new::<f32, _, _>(&["Z"], data_window)?)?;
+///
+/// // Create the CompositeDeepScanLine, add the files, set the output
+/// // frame buffer and read the pixels to perform the compositing.
+/// let mut cds = CompositeDeepScanLine::new();
+/// cds.add_source_file(&file_a)?;
+/// cds.add_source_file(&file_b)?;
+/// cds.set_frame_buffer(&frame_buffer);
+///
+/// // If this call completes successfully, `frame_buffer` will hold the
+/// // composited R, G, B, A channels.
+/// cds.read_pixels(data_window[1], data_window[3])?;
+/// # Ok(())
+/// # }
+/// ```
 pub struct CompositeDeepScanLine<'a> {
     pub(crate) ptr: *mut sys::Imf_CompositeDeepScanLine_t,
     parts: Vec<&'a DeepScanLineInputPart>,

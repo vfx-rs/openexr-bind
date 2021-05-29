@@ -159,8 +159,8 @@ impl DeepFrameBuffer {
         Ok(())
     }
 
-    /// Set a [`Frame`](crate::frame_buffer::Frame) into which to read the
-    /// per-pixel sample counts
+    /// Set a [`Frame`](crate::frame_buffer::Frame) to hold the per-pixel sample
+    /// counts
     ///
     pub fn set_sample_count_frame(&mut self, frame: Frame) -> Result<()> {
         let w = frame.data_window[2] - frame.data_window[0] + 1;

@@ -174,9 +174,12 @@ struct Header {
     void setName(const std::string& name);
 
     IMF_EXPORT
-    std::string& name();
+    std::string& name() CPPMM_THROWS(Iex::TypeExc, IEX_INVALID_TYPE)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
     IMF_EXPORT
-    const std::string& name() const CPPMM_RENAME(name_const);
+    const std::string& name() const CPPMM_RENAME(name_const)
+        CPPMM_THROWS(Iex::TypeExc, IEX_INVALID_TYPE)
+            CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     IMF_EXPORT
     bool hasName() const;
@@ -185,9 +188,12 @@ struct Header {
     void setType(const std::string& Type);
 
     IMF_EXPORT
-    std::string& type();
+    std::string& type() CPPMM_THROWS(Iex::TypeExc, IEX_INVALID_TYPE)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
     IMF_EXPORT
-    const std::string& type() const CPPMM_RENAME(type_const);
+    const std::string& type() const CPPMM_RENAME(type_const)
+        CPPMM_THROWS(Iex::TypeExc, IEX_INVALID_TYPE)
+            CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     IMF_EXPORT
     bool hasType() const;
@@ -196,9 +202,12 @@ struct Header {
     void setVersion(const int version);
 
     IMF_EXPORT
-    int& version();
+    int& version() CPPMM_THROWS(Iex::TypeExc, IEX_INVALID_TYPE)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
     IMF_EXPORT
-    const int& version() const CPPMM_RENAME(version_const);
+    const int& version() const CPPMM_RENAME(version_const)
+        CPPMM_THROWS(Iex::TypeExc, IEX_INVALID_TYPE)
+            CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     IMF_EXPORT
     bool hasVersion() const;
@@ -208,27 +217,38 @@ struct Header {
     IMF_EXPORT
     bool hasChunkCount() const;
     IMF_EXPORT
-    const int& chunkCount() const CPPMM_RENAME(chunkCount_const);
+    const int& chunkCount() const CPPMM_RENAME(chunkCount_const)
+        CPPMM_THROWS(Iex::TypeExc, IEX_INVALID_TYPE)
+            CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
     IMF_EXPORT
-    int& chunkCount();
+    int& chunkCount() CPPMM_IGNORE;
 
     IMF_EXPORT
     void setView(const std::string& view);
     IMF_EXPORT
     bool hasView() const;
     IMF_EXPORT
-    std::string& view();
+    std::string& view() CPPMM_THROWS(Iex::TypeExc, IEX_INVALID_TYPE)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
+
     IMF_EXPORT
-    const std::string& view() const CPPMM_RENAME(view_const);
+    const std::string& view() const CPPMM_RENAME(view_const)
+        CPPMM_THROWS(Iex::TypeExc, IEX_INVALID_TYPE)
+            CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     IMF_EXPORT
     void setTileDescription(const Imf::TileDescription& td);
 
     IMF_EXPORT
-    Imf::TileDescription& tileDescription();
+    Imf::TileDescription& tileDescription()
+        CPPMM_THROWS(Iex::TypeExc, IEX_INVALID_TYPE)
+            CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
+
     IMF_EXPORT
     const Imf::TileDescription& tileDescription() const
-        CPPMM_RENAME(tileDescription_const);
+        CPPMM_RENAME(tileDescription_const)
+            CPPMM_THROWS(Iex::TypeExc, IEX_INVALID_TYPE)
+                CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     IMF_EXPORT
     bool hasTileDescription() const;
@@ -237,10 +257,15 @@ struct Header {
     void setPreviewImage(const Imf::PreviewImage& p);
 
     IMF_EXPORT
-    Imf::PreviewImage& previewImage();
+    Imf::PreviewImage& previewImage()
+        CPPMM_THROWS(Iex::TypeExc, IEX_INVALID_TYPE)
+            CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
+
     IMF_EXPORT
     const Imf::PreviewImage& previewImage() const
-        CPPMM_RENAME(previewImage_const);
+        CPPMM_RENAME(previewImage_const)
+            CPPMM_THROWS(Iex::TypeExc, IEX_INVALID_TYPE)
+                CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     IMF_EXPORT
     bool hasPreviewImage() const;
