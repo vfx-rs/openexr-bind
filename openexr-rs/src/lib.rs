@@ -83,6 +83,8 @@ pub use sample_count_channel::{
 pub mod version;
 pub use version::{Version, VersionFlags};
 pub mod flat_image_io;
+pub mod tiledinputfile;
+pub use tiledinputfile::{RawTileData, TiledInputFile};
 
 pub mod cppstd;
 
