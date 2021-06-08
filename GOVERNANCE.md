@@ -1,6 +1,6 @@
 # OpenEXR Project Roles and Responsibilities
 
-The OpenEXR Rust bindings project is a product of the Rust Working Group,
+The openexr-bind project is a product of the Rust Working Group,
 which is a working group that is part of the Academy Software Foundation
 and relies on the ASWF governance policies, supported by the Linux Foundation.
 
@@ -35,7 +35,7 @@ project, beyond the legal forms.
 
 ## Committers
 
-Project Committers have merge access on the OpenEXR Bindings GitHub repository
+Project Committers have merge access on the openexr-bind GitHub repository
 and are responsible for approving submissions by Contributors.
 
 ### Committer Responsibilities
@@ -62,7 +62,7 @@ Typical activities of a Committer include:
 ### How to Become a Committer
 
 Any existing Committer can nominate an individual making significant
-and valuable contributions to the OpenEXR Bindings project to become a new
+and valuable contributions to the openexr-bind project to become a new
 Committer.  New committers are approved by vote of the TSC.
 
 If you are interested in becomming a Committer, contact the TSC at
