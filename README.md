@@ -2,7 +2,7 @@
 cppmm bindings for OpenEXR 3.0.x
 
 # Generating bindings
-First you must have `astgen` and `asttoc` in your PATH. 
+First you must have `astgen` and `asttoc` in your PATH.
 
 run `bind.sh`, passing the path to your OpenEXR and Imath installations as environment variables:
 ```bash
@@ -13,3 +13,7 @@ The resulting bindings will be create in `build/openexr-c` and `build/openexr-sy
 
 # Versions
 There is a branch for each supported minor version of the target library. Other versions may or may not bind successfully.
+
+# Contributing
+
+Please see [the contributions document](CONTRIBUTING.md) for more information.
