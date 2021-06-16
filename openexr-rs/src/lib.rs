@@ -85,6 +85,7 @@ pub use version::{Version, VersionFlags};
 pub mod flat_image_io;
 
 pub mod envmap;
+pub mod frames_per_second;
 pub mod keycode;
 pub mod rational;
 
