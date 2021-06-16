@@ -84,6 +84,9 @@ pub mod version;
 pub use version::{Version, VersionFlags};
 pub mod flat_image_io;
 
+pub mod envmap;
+pub mod keycode;
+
 pub mod cppstd;
 
 #[cfg(test)]
