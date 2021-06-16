@@ -87,6 +87,7 @@ pub mod flat_image_io;
 pub mod envmap;
 pub mod frames_per_second;
 pub mod keycode;
+pub mod multi_view;
 pub mod rational;
 pub mod test_file;
 
