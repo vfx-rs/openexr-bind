@@ -88,6 +88,7 @@ pub mod envmap;
 pub mod frames_per_second;
 pub mod keycode;
 pub mod rational;
+pub mod test_file;
 
 pub mod cppstd;
 
