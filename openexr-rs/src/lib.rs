@@ -86,6 +86,7 @@ pub mod flat_image_io;
 
 pub mod envmap;
 pub mod keycode;
+pub mod rational;
 
 pub mod cppstd;
 
