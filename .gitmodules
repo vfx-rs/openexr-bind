@@ -1,0 +1,3 @@
+[submodule "thirdparty/openexr"]
+	path = thirdparty/openexr
+	url = https://github.com/AcademySoftwareFoundation/openexr.git
