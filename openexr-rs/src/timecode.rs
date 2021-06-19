@@ -300,8 +300,7 @@ impl TimeCode {
     /// Set the hours of the time code.
     ///
     /// # Errors
-    ///
-    /// Setting the hours less than 0 or greater than 23 will return an error.
+    /// * [`Error::InvalidArgument`] if `hours` is less than 0 or greater than 23
     ///
     pub fn set_hours(&mut self, hours: i32) -> Result<()> {
         unsafe {
@@ -328,8 +327,7 @@ impl TimeCode {
     /// Set the minutes of the time code.
     ///
     /// # Errors
-    ///
-    /// Setting the minutes less than 0 or greater than 59 will return an error.
+    /// * [`Error::InvalidArgument`] if `minutes` is less than 0 or greater than 59
     ///
     pub fn set_minutes(&mut self, minutes: i32) -> Result<()> {
         unsafe {
@@ -356,8 +354,7 @@ impl TimeCode {
     /// Set the seconds of the time code.
     ///
     /// # Errors
-    ///
-    /// Setting the seconds less than 0 or greater than 59 will return an error.
+    /// * [`Error::InvalidArgument`] if `seconds` is less than 0 or greater than 59
     ///
     pub fn set_seconds(&mut self, seconds: i32) -> Result<()> {
         unsafe {
@@ -384,8 +381,7 @@ impl TimeCode {
     /// Set the frame of the time code.
     ///
     /// # Errors
-    ///
-    /// Setting the frame less than 0 or greater than 29 will return an error.
+    /// * [`Error::InvalidArgument`] if `frame` is less than 0 or greater than 29
     ///
     pub fn set_frame(&mut self, frame: i32) -> Result<()> {
         unsafe {
@@ -525,8 +521,7 @@ impl TimeCode {
     /// Return the value for the binary group.
     ///
     /// # Errors
-    ///
-    /// Returns an error if the group is not between 1 and 8.
+    /// * [`Error::InvalidArgument`] if `group` is not between 1 and 8.
     ///
     pub fn binary_group(&self, group: i32) -> Result<i32> {
         let mut result: c_int = 0;
@@ -548,8 +543,9 @@ impl TimeCode {
     ///
     /// # Errors
     ///
-    /// Returns an error if the group is not between 1 and 8, or the value is
-    /// not between 0 and 15.
+    /// # Errors
+    /// * [`Error::InvalidArgument`] if `group` is not between 1 and 8 or `value`
+    /// is not between 1 and 15.
     ///
     pub fn set_binary_group(&mut self, group: i32, value: i32) -> Result<()> {
         if value < 0 || value > 15 {
