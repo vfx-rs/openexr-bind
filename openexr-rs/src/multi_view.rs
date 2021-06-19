@@ -1,5 +1,3 @@
-use openexr_sys as sys;
-
 use crate::channel_list::ChannelList;
 
 /// Return the name of the default view given a multi-view slice of strings.
