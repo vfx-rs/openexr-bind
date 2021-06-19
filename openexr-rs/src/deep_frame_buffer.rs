@@ -516,7 +516,6 @@ impl DeepFrame {
         }
 
         let w = self.data_window[2] - self.data_window[0] + 1;
-        let h = self.data_window[3] - self.data_window[1] + 1;
 
         // offset index back to data window corner
         let x = x - self.data_window[0];
