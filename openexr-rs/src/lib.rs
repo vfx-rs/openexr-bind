@@ -72,6 +72,7 @@ pub use flat_image_channel::{FlatChannelF16, FlatChannelF32, FlatChannelU32};
 pub mod deep_image;
 pub use deep_image::{DeepImage, DeepImageRef, DeepImageRefMut};
 pub mod deep_image_channel;
+pub mod deep_image_io;
 pub use deep_image_channel::{DeepChannelF16, DeepChannelF32, DeepChannelU32};
 pub mod deep_image_level;
 pub use deep_image_level::{
