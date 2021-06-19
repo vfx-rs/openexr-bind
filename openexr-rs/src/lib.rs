@@ -50,6 +50,8 @@ pub mod deep_scan_line_input_part;
 pub use deep_scan_line_input_part::DeepScanLineInputPart;
 pub mod deep_scan_line_input_file;
 pub use deep_scan_line_input_file::DeepScanLineInputFile;
+pub mod deep_scan_line_output_file;
+pub mod deep_scan_line_output_part;
 pub mod error;
 pub use error::Error;
 pub mod multi_part_input_file;
