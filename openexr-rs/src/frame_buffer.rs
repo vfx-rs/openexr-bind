@@ -6,7 +6,7 @@ use std::marker::PhantomData;
 
 use std::ffi::{CStr, CString};
 
-use imath_traits::{Bound2, Vec2, Vec3, Vec4, Zero};
+use imath_traits::{Bound2, Vec2, Zero};
 
 type Result<T, E = Error> = std::result::Result<T, E>;
 

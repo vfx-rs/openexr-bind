@@ -181,6 +181,7 @@ impl DeepScanLineInputFile {
 
         let mut frame_buffer = DeepFrameBuffer::new();
 
+        // insert the sample count and all user-provided frames
         frame_buffer
             .set_sample_count_frame(sample_count_frame)
             .unwrap();
@@ -189,21 +190,21 @@ impl DeepScanLineInputFile {
             frame_buffer.insert_deep_frame(f)?;
         }
 
+        // read the sample counts and get a slice to them
         self.read_pixel_sample_counts(data_window[0], data_window[2])?;
 
-        // Now allocate sample storage for each frame's pixels
-        // let counts: &[u32] = frame_buffer
-        //     .sample_count_frame()
-        //     .expect("could not get sample count frame")
-        //     .as_slice();
-        let sample_count_frame =
-            frame_buffer.sample_count_frame.take().unwrap();
-        let counts = sample_count_frame.as_slice();
+        let DeepFrameBuffer {
+            ref sample_count_frame,
+            ref mut frames,
+            ..
+        } = frame_buffer;
+        let counts = sample_count_frame.as_ref().unwrap().as_slice();
 
+        // Now allocate sample storage for each frame's pixels
         let mut i = 0;
         for y in data_window[1]..=data_window[3] {
             for x in data_window[0]..=data_window[2] {
-                let v = frame_buffer.frames.as_mut().unwrap();
+                let v = frames.as_mut().unwrap();
                 for f in v {
                     let count = counts[i];
                     unsafe { f.allocate_pixel_storage(x, y, count) };
