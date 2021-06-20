@@ -98,6 +98,9 @@ pub mod test_file;
 
 pub mod cppstd;
 
+pub mod doc;
+pub mod standard_attributes;
+
 #[cfg(test)]
 mod tests {
     use crate::*;
