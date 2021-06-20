@@ -312,6 +312,8 @@ For a point sample, $\alpha_i(z)$ and $c_i(z)$ are step functions:
 \\begin{matrix} 0, & z \< \\ S\_{i}(Z) \\\\ S\_{i}(c), & z \\geq \\
 S\_{i}(Z) \\\\ \\end{matrix} \\right.\\ \$\$
 
+![Point sample][point_sample]
+
 For a volume sample, we define a helper function $x(z)$ that consists of two constant segments and a linear ramp:
 
 \$\$x(z) = \\left\\{ \\begin{matrix}
@@ -319,6 +321,8 @@ For a volume sample, we define a helper function $x(z)$ that consists of two con
 \\text{ZBack} \\right) - S\_{i}(Z)}, & S\_{i}(Z) \< z \< S\_{i}(ZBack)
 \\\\ 1, & z \\geq S\_{i}\\left( \\text{ZBack} \\right) \\\\
 \\end{matrix} \\right.\\ \$\$
+
+![Volume sample][volume_sample]
 
 With this helper function, $\alpha_i(z)$ and $c_i(z)$  are defined as follows:
 
@@ -342,6 +346,8 @@ increase
 gradually between $Z$
 and $ZBack$, and then
 remain constant.
+
+![Alpha and colour][alpha_and_colour]
 
 ## Whole Pixel
 
@@ -402,6 +408,8 @@ $Z$ and $ZBack$ and then remain
 constant. Sample number
 $i + 1$, whose $Z$ and $ZBack$ are equal, is a point
 sample where alpha and color discontinuously jump to a new value.
+
+![Whole pixel][whole_pixel]
 
 # Basic Deep Image Operations
 
@@ -545,12 +553,24 @@ tidy in three steps:
     $j$ at $S_i(ZBack)$.
     Repeat this until there are no more partially overlapping samples.
 
+    In this example, horizontal lines are volume samples, vertical lines are point samples, and the numbers next to the lines are sample indices:
+
+    ![Before splitting][tidy1a]
+
+    After splitting:
+
+    ![After splitting][tidy1b]
+
 2.  Merge overlapping samples: if there are indices $i$ and $j$ such that samples
     $i$ and $j$ overlap perfectly,
     then merge those two samples as shown in [Merging Overlapping Samples](#merging-overlapping-samples), above. Repeat this until there are no more perfectly
     overlapping samples.
 
+    ![Merge overlapping][tidy2a]
+
 3.  Sort the samples according to $Z$ and $ZBack$ (see [Sorted, Non-Overlapping and Tidy Images](#sorted-non-overlapping-and-tidy-images)).
+
+    ![Sort][tidy3]
 
 Note that this procedure can be made more efficient by first sorting the
 samples, and then splitting and merging overlapping samples in a single
@@ -649,6 +669,8 @@ dense fog and a gray brick. For a sample that extends from $Z$ to $ZBack$, the f
 for any $z > Z$. Any object within
 this layer would be completely hidden, no matter how close it was to the
 front of the layer.
+
+![Opaque volume samples][opaque_volume_samples]
 
 Application software that writes deep images should avoid generating
 very deep volume samples. If the program is about to generate a sample
