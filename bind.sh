@@ -28,6 +28,7 @@ asttoc build/ast -o build -p openexr \
 # openexr-sys so that it comes bundled with openexr-sys.
 mkdir -p build/openexr-sys/thirdparty
 cp -r thirdparty/openexr build/openexr-sys/thirdparty/
+cp -r thirdparty/Imath build/openexr-sys/thirdparty/
 
 # Copy the tests over
 cp test.rs build/openexr-sys/src
