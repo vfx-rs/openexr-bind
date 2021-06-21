@@ -29,7 +29,6 @@ asttoc build/ast -o build -p openexr \
 mkdir -p build/openexr-sys/thirdparty
 cp -r thirdparty/openexr build/openexr-sys/thirdparty/
 cp -r thirdparty/Imath build/openexr-sys/thirdparty/
-cp scripts/CMakeLists.txt build/openexr-sys/openexr-c/
 cp scripts/build.rs build/openexr-sys/
 
 # Copy the tests over
