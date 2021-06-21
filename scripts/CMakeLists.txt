@@ -84,7 +84,7 @@ openexr-errors.cpp
 )
 target_include_directories(${LIBNAME} PRIVATE .)
 target_include_directories(${LIBNAME} PRIVATE ${OPENEXR_ROOT}/include)
-target_include_directories(${LIBNAME} PRIVATE ${OPENEXR_ROOT}/include/Imath)
+target_include_directories(${LIBNAME} PRIVATE ${IMATH_ROOT}/include/Imath)
 target_include_directories(${LIBNAME} PRIVATE ${OPENEXR_ROOT}/include/OpenEXR)
 find_library ( LIB_OPENEXR-3_0 NAMES OpenEXR-3_0 PATHS ${OPENEXR_ROOT}/lib)
 target_link_libraries (${LIBNAME} ${LIB_OPENEXR-3_0})

@@ -14,14 +14,11 @@ fn build_imath() -> std::string::String {
     }
 }
 
-fn build_openexr() -> std::string::String {
+fn build_openexr(imath_root: &str) -> std::string::String {
     if let Ok(openexr_root) = std::env::var("OPENEXR_ROOT") {
         openexr_root
     } else {
         println!("OPENEXR_ROOT is not set, building bundled version.");
-
-        // Build imath if we can't find it.
-        let imath_root = build_imath();
 
         // We need to set this to Release or else the openexr symlinks will be incorrect.
         // Fixed by
@@ -35,13 +32,18 @@ fn build_openexr() -> std::string::String {
 }
 
 fn main() {
-    let openexr_root = build_openexr();
+    let imath_root = build_imath();
+    let openexr_root = build_openexr(&imath_root);
 
     // Build openexr-c
     let dst = cmake::Config::new("openexr-c")
         .define(
             "OPENEXR_ROOT",
             &openexr_root,
+        )
+        .define(
+            "IMATH_ROOT",
+            &imath_root,
         )
         .build();
 
