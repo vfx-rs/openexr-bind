@@ -15,7 +15,23 @@ run `bind.sh`, passing the path to your OpenEXR and Imath installations as envir
 env OPENEXR_ROOT=/path/to/openexr IMATH_ROOT=/path/to/imath ./bind.sh
 ```
 
-The resulting bindings will be create in `build/openexr-c` and `build/openexr-sys` for the C and Rust bindings, respectively
+The resulting bindings will be created in `build/openexr-sys` and `build/openexr-sys/openexr-c` for the Rust and C bindings, respectively.
+
+# Building the bindings
+The rust bindings can be built from openexr-rs.
+
+```bash
+cd openexr-sys
+cargo build
+```
+
+This builds openexr-sys, openexr-c and openexr and imath.
+Specify OPENEXR_ROOT and IMATH_ROOT environment variables to build against
+a system install.
+```
+cd openexr-sys
+env OPENEXR_ROOT=/path/to/openexr IMATH_ROOT=/path/to/imath cargo build
+```
 
 # Versions
 There is a branch for each supported minor version of the target library. Other versions may or may not bind successfully.
