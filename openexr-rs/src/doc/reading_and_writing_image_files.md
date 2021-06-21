@@ -3,8 +3,7 @@
 -   [Document Purpose and Audience](#document-purpose-and-audience)
 -   [Scan Line Based and Tiled OpenEXR
     files](#scan-line-based-and-tiled-openexr-files)
-    -   [Multi-Part and Deep Data (New in
-        2.0)](#multi-part-and-deep-data-new-in-20)
+    -   [Multi-Part and Deep Data](#multi-part-and-deep-data)
 -   [Using the RGBA-only Interface for Scan Line Based
     Files](#using-the-rgba-only-interface-for-scan-line-based-files)
     -   [Writing an RGBA Image File](#writing-an-rgba-image-file)
@@ -82,30 +81,28 @@ the IlmImf library supports two reading and writing interfaces:
 
 1.  The first, fully general, interface allows access to arbitrary
     channels, and supports many different in-memory pixel data layouts.
-2.  The second interface is easier to use, but limits access to 16-bit
-    (*HALF*) RGBA (red, green, blue, alpha) channels, and provides fewer
+2.  The second interface is easier to use, but limits access to f16 RGBA channels, and provides fewer
     options for laying out pixels in memory.
 
 The interfaces for reading and writing OpenEXR files are implemented in
-the following eight C++ classes:
+the following eight structs:
 
-  -------------------- ----------------------- ------------------ ----------------------
-                       tiles                   scan lines         scan lines and tiles
-  arbitrary channels   *TiledInputFile*                           *InputFile*
-                       *TiledOutputFile*       *OutputFile*       
-  RGBA only            *TiledRgbaInputFile*                       *RgbaInputFile*
-                       *TiledRgbaOutputFile*   *RgbaOutputFile*   
-  -------------------- ----------------------- ------------------ ----------------------
+|                    | Tiles                                                                | Scan lines                                           | Scan lines and tiles                               |
+|--------------------|----------------------------------------------------------------------|------------------------------------------------------|----------------------------------------------------|
+| Arbitrary channels | [`TiledInputFile`](crate::tiled_input_file::TiledInputFile)          |                                                      | [`InputFile`](crate::input_file::InputFile)        |
+|                    | [`TiledOutputFile`](crate::tiled_output_file::TiledOutputFile)       | [`OutputFile`](crate::output_file::OutputFile)       |                                                    |
+| RGBA only          | [`TiledRgbaInputFile`](crate::tiled_rgba_file::TiledRgbaInputFile)   |                                                      | [`RgbaInputFile`](crate::rgba_file::RgbaInputFile) |
+|                    | [`TiledRgbaOutputFile`](crate::tiled_rgba_file::TiledRgbaOutputFile) | [`RgbaOutputFile`](crate::rgba_file::RgbaOutputFile) |                                                    |
 
-The classes for reading scan line based images (*InputFile* and
-*RgbaInputFile*) can also be used to read tiled image files. This way,
+The classes for reading scan line based images ([`InputFile`](crate::input_file::InputFile) and
+[`RgbaInputFile`](crate::rgba_file::RgbaInputFile)) can also be used to read tiled image files. This way,
 programs that do not need support for tiled or multi-resolution images
 can always use the rather straightforward scan line interfaces, without
 worrying about complications related to tiling and multiple resolutions.
 When a multi-resolution file is read via a scan line interface, only the
 highest-resolution version of the image is accessible.
 
-## Multi-Part and Deep Data (New in 2.0) {#multi-part-and-deep-data-new-in-20}
+## Multi-Part and Deep Data 
 
 The procedure for writing multi-part and deep data files is similar to
 writing scan line and tile. Though there is no simplified interface,
@@ -153,117 +150,80 @@ data files.
 
 Writing a simple RGBA image file is fairly straightforward:
 
-void
+```no_run
+use openexr::{Rgba, RgbaOutputFile, Header, RgbaChannels};
 
-writeRgba1 (const char fileName\[\],
+fn write_rgba1(filename: &str, pixels: &[Rgba], width: i32, height: i32) 
+-> Result<(), Box<dyn std::error::Error>> {
+    let header = Header::from_dimensions(width, height);
+    let mut file = RgbaOutputFile::new(
+        filename,
+        &header,
+        RgbaChannels::WriteRgba,
+        1,
+    )?;
 
-const Rgba \*pixels,
+    file.set_frame_buffer(&pixels, 1, width as usize)?;
+    file.write_pixels(height)?;
 
-int width,
-
-int height)
-
-{
-
-RgbaOutputFile file (fileName, width, height, WRITE_RGBA); // 1
-
-file.setFrameBuffer (pixels, 1, width); // 2
-
-file.writePixels (height); // 3
-
+    Ok(())
 }
+```
+[`RgbaOutputFile`]: crate::rgba_file::RgbaOutputFile
+[`Rgba`]: crate::rgba::Rgba
 
-Construction of an RgbaOutputFile object, in line 1, creates an OpenEXR
+Construction of an [`RgbaOutputFile`] object, in line 1, creates an OpenEXR
 header, sets the header\'s attributes, opens the file with the specified
 name, and stores the header in the file. The header\'s display window
-and data window are both set to *(0, 0) - (width-1, height-1)*. The
-channel list contains four channels, R, G, B, and A, of type *HALF*.
+and data window are both set to `(0, 0) - (width-1, height-1)`. The
+channel list contains four channels, R, G, B, and A, of type HALF (`f16`).
 
 Line 2 specifies how the pixel data are laid out in memory. In our
-example, the *pixels* pointer is assumed to point to the beginning of an
-array of *width\*height* pixels. The pixels are represented as *Rgba*
-structs, which are defined like this:
+example, `pixels` is a slice of [`Rgba`] of length `width * height`.
 
-struct Rgba
+The elements of our slice are arranged so that the pixels of each scan
+line are contiguous in memory. The  [`set_frame_buffer()`](crate::rgba_file::RgbaOutputFile::set_frame_buffer) method takes
+three arguments, `pixels`, `x_stride`, and `y_stride`. To find the address
+of pixel `(x, y)`, the [`RgbaOutputFile`] object computes
 
-{
+```ignore
+pixels[x * x_stride + y * y_sride]
+```
 
-half r; // red
+In this case, `x_stride` and `y_stride` are set to `1` and `width`, respectively, indicating that pixel `(x, y)` can be found at index
 
-half g; // green
+```ignore
+pixels[1 * x + width * y]
+```
 
-half b; // blue
-
-half a; // alpha (opacity)
-
-};
-
-The elements of our array are arranged so that the pixels of each scan
-line are contiguous in memory. The\* setFrameBuffer()\* function takes
-three arguments, *base*, *xStride*, and *ystride*. To find the address
-of pixel *(x,y)*, the *RgbaOutputFile* object computes
-
-base + x \* xStride + y \* yStride.
-
-In this case, *base*, *xStride* and *yStride* are set to *pixels*, *1*,
-and *width*, respectively, indicating that pixel *(x,y)* can be found at
-memory address
-
-pixels + 1 \* x + width \* y.
-
-The call to *writePixels(),* in line 3, copies the image\'s pixels from
-memory to the file. The argument to *writePixels()*, *height*, specifies
+The call to [`write_pixels()`](crate::rgba_file::RgbaOutputFile::write_pixels) in line 3, copies the image\'s pixels from
+memory to the file. The argument to [`write_pixels()`](crate::rgba_file::RgbaOutputFile::write_pixels), `height`, specifies
 how many scan lines worth of data are copied.
 
-Finally, returning from function *writeRgba1()* destroys the local
-*RgbaOutputFile* object, thereby closing the file.
+Finally, returning from function `write_rgba1()` drops the local [`RgbaOutputFile`] object, thereby closing the file.
 
-Why do we have to tell the *writePixels()* function how many scan lines
-we want to write? Shouldn\'t the *RgbaOutputFile* object be able to
-derive the number of scan lines from the data window? The IlmImf library
-doesn\'t require writing all scan lines with a single *writePixels()*
+Why do we have to tell the [`write_pixels()`](crate::rgba_file::RgbaOutputFile::write_pixels) function how many scan lines
+we want to write? Shouldn\'t the [`RgbaOutputFile`] object be able to
+derive the number of scan lines from the data window? OpenEXR
+doesn\'t require writing all scan lines with a single [`write_pixels()`](crate::rgba_file::RgbaOutputFile::write_pixels)
 call. Many programs want to write scan lines individually, or in small
 blocks. For example, rendering computer-generated images can take a
 significant amount of time, and many rendering programs want to store
 each scan line in the image file as soon as all of the pixels for that
 scan line are available. This way, users can look at a partial image
-before rendering is finished. The IlmImf library allows writing the scan
+before rendering is finished. The OpenEXR crate allows writing the scan
 lines in top-to-bottom or bottom-to-top direction. The direction is
-defined by the file header\'s line order attribute (*INCREASING_Y* or
-*DECREASING_Y*). By default, scan lines are written top to bottom
-(*INCREASING_Y*).
-
-You may have noticed that in the example above, there are no explicit
-checks to verify that writing the file actually succeeded. If the IlmImf
-library detects an error, it throws a C++ exception instead of returning
-a C-style error code. With exceptions, error handling tends to be easier
-to get right than with error return values. For instance, a program that
-calls our *writeRgba1()* function can handle all possible error
-conditions with a single try/catch block:
-
-try
-
-{
-
-writeRgba1 (fileName, pixels, width, height);
-
-}
-
-catch (const std::exception &exc)
-
-{
-
-std::cerr \<\< exc.what() \<\< std::endl;
-
-}
+defined by the file header\'s line order attribute ([`LineOrder::IncreasingY`](crate::LineOrder) or
+[`LineOrder::DecreasingY`](crate::LineOrder)). By default, scan lines are written top to bottom
+([`LineOrder::IncreasingY`](crate::LineOrder)).
 
 ## Writing a Cropped RGBA Image
 
 Now we are going to store a cropped image in a file. For this example,
 we assume that we have a frame buffer that is large enough to hold an
-image with *width* by *height* pixels, but only part of the frame buffer
+image with `width` by `height` pixels, but only part of the frame buffer
 contains valid data. In the file\'s header, the size of the whole image
-is indicated by the display window, *(0, 0) - (width-1, height-1)*, and
+is indicated by the display window, `(0, 0) - (width-1, height-1)`, and
 the data window specifies the region for which valid pixel data exist.
 Only the pixels in the data window are stored in the file.
 
@@ -291,19 +251,17 @@ file.writePixels (dataWindow.max.y - dataWindow.min.y + 1);
 
 }
 
-The code above is similar to that in *[Writing an RGBA Image
-File](#Writing%20an%20RGBA%20Image%20File)* on page
-[4](#Writing%20an%20RGBA%20Image%20File), where the whole image was
+The code above is similar to that in [Writing an RGBA Image
+File](#writing-an-rgba-image-file), where the whole image was
 stored in the file. Two things are different, however: When the
-*RgbaOutputFile* object is created, the data window and the display
+[`RgbaOutputFile`] object is created, the data window and the display
 window are explicitly specified rather than being derived from the
 image\'s width and height. The number of scan lines stored in the file
-by *writePixels()* is equal to the height of the data window instead of
+by [`write_pixels()`](crate::rgba_file::RgbaOutputFile::write_pixels) is equal to the height of the data window instead of
 the height of the whole image. Since we are using the default
-*INCREASING_Y* direction for storing the scan lines in the file,
-*writePixels()* starts at the top of the data window, at y coordinate
-*dataWindow.min.y*, and proceeds toward the bottom, at y coordinate
-*dataWindow.max.y*.
+[`LineOrder::IncreasingY`](crate::LineOrder) direction for storing the scan lines in the file,
+[`write_pixels()`](crate::rgba_file::RgbaOutputFile::write_pixels) starts at the top of the data window, at y coordinate
+`data_window.min.y`, and proceeds toward the bottom, at y coordinate `data_window.max.y`.
 
 Even though we are storing only part of the image in the file, the frame
 buffer is still large enough to hold the whole image. In order to save
@@ -352,53 +310,49 @@ respectively.
 ## Storing Custom Attributes
 
 We will now to store an image in a file, and we will add two extra
-attributes to the image file header: a string, called \"comments\", and
-a 4×4 matrix, called \"cameraTransform\".
+attributes to the image file header: a string, called `"comments"`, and
+a 4×4 matrix, called `"cameraTransform"`.
 
-void
+```no_run
+use openexr::{
+    RgbaChannels, 
+    attribute::{CppStringAttribute, M44fAttribute}
+    rgba_file::RgbaOutputFile, 
+    header::Header, 
+    rgba::Rgba, 
+};
 
-writeRgba3 (const char fileName\[\],
+fn write_rgba3(
+    pixels: &[Rgba], 
+    width: i32, 
+    height: i32, 
+    comments: &str, 
+    xform: &[f32; 16]
+) -> Result<(), Box<dyn std::error::Error>> {
+    let mut header = Header::from_dimensions(width, height);
+    header.insert("comments", &CppStringAttribute::from_value(comments))?;
+    header.insert("cameraTransform", &M44fAttribute::from_value(xform))?;
 
-const Rgba \*pixels,
+    let mut file = RgbaOutputFile::new(
+        "write_rgba1.exr",
+        &header,
+        RgbaChannels::WriteRgba,
+        1,
+    )?;
 
-int width,
+    file.set_frame_buffer(&pixels, 1, width as usize)?;
+    file.write_pixels(height)?;
 
-int height,
-
-const char comments\[\],
-
-const M44f &cameraTransform)
-
-{
-
-Header header (width, height);
-
-header.insert (\"comments\", StringAttribute (comments));
-
-header.insert (\"cameraTransform\", M44fAttribute (cameraTransform));
-
-RgbaOutputFile file (fileName, header, WRITE_RGBA);
-
-file.setFrameBuffer (pixels, 1, width);
-
-file.writePixels (height);
-
+    Ok(())
 }
-
-The *setFrameBuffer()* and *writePixels()* calls are the same as in the
-previous examples, but construction of the *RgbaOutputFile* object is
-different. The constructors in the previous examples automatically
-created a header on the fly, and immediately stored it in the file. Here
-we explicitly create a header and add our own attributes to it. When we
-create the *RgbaOutputFile* object, we tell the constructor to use our
-header instead of creating its own.
+```
 
 In order to make it easier to exchange data between programs written by
 different people, the IlmImf library defines a set of standard
 attributes for commonly used data, such as colorimetric information,
 time and place where an image was recorded, or the owner of an image
 file\'s content. For the current list of standard attributes, see the
-header file *ImfStandardAttributes.h*. The list is expected to grow over
+[`standard_attributes`](crate::standard_attributes) module. The list is expected to grow over
 time as OpenEXR users identify new types of data they would like to
 represent in a standard format. If you need to store some piece of
 information in an OpenEXR file header, it is probably a good idea to
@@ -409,68 +363,55 @@ attribute.
 
 Reading an RGBA image is almost as easy as writing one:
 
-void
+```no_run
+use openexr::{Rgba, RgbaInputFile};
+fn read_rgba1(path: &str) -> Result<(), Box<dyn std::error::Error>> {
+    use imath_traits::Zero;
 
-readRgba1 (const char fileName\[\],
+    let mut file = RgbaInputFile::new(path, 1).unwrap();
+    let data_window = file.header().data_window::<[i32; 4]>().clone();
+    let width = data_window[2] - data_window[0] + 1;
+    let height = data_window[3] - data_window[1] + 1;
 
-Array2D\<Rgba> &pixels,
+    let mut pixels = vec![Rgba::zero(); (width * height) as usize];
+    file.set_frame_buffer(&mut pixels, 1, width as usize)?;
+    file.read_pixels(0, height - 1)?;
 
-int &width,
-
-int &height)
-
-{
-
-RgbaInputFile file (fileName);
-
-Box2i dw = file.dataWindow();
-
-width = dw.max.x - dw.min.x + 1;
-
-height = dw.max.y - dw.min.y + 1;
-
-pixels.resizeErase (height, width);
-
-file.setFrameBuffer (&pixels\[0\]\[0\] - dw.min.x - dw.min.y \* width,
-1, width);
-
-file.readPixels (dw.min.y, dw.max.y);
-
+    Ok(())
 }
+```
+[`RgbaInputFile`]: crate::rgba_file::RgbaInputFile
 
-Constructing an *RgbaInputFile* object, passing the name of the file to
+Constructing an [`RgbaInputFile`] object, passing the name of the file to
 the constructor, opens the file and reads the file\'s header.
 
-After asking the *RgbaInputFile* object for the file\'s data window, we
-allocate a buffer for the pixels. For convenience, we use the IlmImf
-library\'s *Array2D* class template (the call to *resizeErase()* does
-the actual allocation). The number of scan lines in the buffer is equal
+After asking the [`RgbaInputFile`] object for the file\'s data window, we
+allocate a buffer for the pixels. The number of scan lines in the buffer is equal
 to the height of the data window, and the number of pixels per scan line
 is equal to the width of the data window. The pixels are represented as
-*Rgba* structs.
+[`Rgba`] structs.
 
 Note that we ignore the display window in this example; in a program
 that wanted to place the pixels in the data window correctly in an
 overall image, the display window would have to be taken into account.
 
-Just as for writing a file, calling *setFrameBuffer()* tells the
-*RgbaInputFile* object how to access individual pixels in the buffer.
-(See also *[Writing a Cropped RGBA
-Image](#Writing%20a%20Cropped%20Image)*, on page
-[5](#Writing%20a%20Cropped%20Image).)
+Just as for writing a file, calling [`RgbaInputFile`](crate::rgba_file::RgbaInputFile::set_frame_buffer) tells the
+[`RgbaInputFile`] object how to access individual pixels in the buffer.
+(See also [Writing a Cropped RGBA
+Image](#writing-a-cropped-rgba-image).
 
-Calling *readPixels()* copies the pixel data from the file into the
+Calling [`read_pixels()`](crate::rgba_file::RgbaInputFile::read_pixels) copies the pixel data from the file into the
 buffer. If one or more of the R, G, B, and A channels are missing in the
 file, the corresponding field in the pixels is filled with an
 appropriate default value. The default value for R, G and B is 0.0, or
 black; the default value for A is 1.0, or opaque.
 
-Finally, returning from function *readRgba1()* destroys the local
-*RgbaInputFile* object, thereby closing the file.
+Finally, returning from function `read_rgba1()` drops the local
+[`RgbaInputFile`] object, thereby closing the file.
 
-Unlike the *RgbaOutputFile*\'s *writePixels()* method, *readPixels()*
-has two arguments. Calling *readPixels(y1,y2)* copies the pixels for all
-scan lines with y coordinates from *y1* to *y2* into the frame buffer.
+Unlike the [`RgbaOutputFile`]'s [`write_pixels()`](crate::rgba_file::RgbaOutputFile::write_pixels) method, [`read_pixels()`](crate::rgba_file::RgbaInputFile::read_pixels)
+has two arguments. Calling `read_pixels(y1, y2)` copies the pixels for all
+scan lines with y coordinates from `y1` to `y2` into the frame buffer.
 This allows access to the the scan lines in any order. The image can be
 read all at once, one scan line at a time, or in small blocks of a few
 scan lines. It is also possible to skip parts of the image.
@@ -478,11 +419,10 @@ scan lines. It is also possible to skip parts of the image.
 Note that even though random access is possible, reading the scan lines
 in the same order as they were written, is more efficient. Random access
 to the file requires seek operations, which tend to be slow. Calling the
-RgbaInputFile\'s *lineOrder()* method returns the order in which the
-scan lines in the file were written (*INCREASING_Y* or *DECREASING_Y*).
-If successive calls to *readPixels()* access the scan lines in the right
-order, the IlmImf library reads the file as fast as possible, without
-seek operations.
+[`RgbaInputFile`]'s [`line_order`](crate::rgba_file::RgbaInputFile::line_order) method returns the order in which the
+scan lines in the file were written ([`LineOrder::IncreasingY`](crate::LineOrder) or [`LineOrder::DecreasingY`](crate::LineOrder)).
+If successive calls to [`read_pixels()`](crate::rgba_file::RgbaInputFile::read_pixels) access the scan lines in the right
+order, the OpenEXR reads the file as fast as possible, without seek operations.
 
 ## Reading an RGBA Image File in Chunks
 

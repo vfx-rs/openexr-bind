@@ -23,6 +23,7 @@ thiserror = "^1.0"
 paste = "^1.0"
 bitflags = "1.2.1"
 embed-doc-image = {version = "0.1.4", optional=true}
+cfg-if = "1.0.0"
 
 [dev-dependencies]
 png = "0.16.8"

@@ -158,7 +158,7 @@ mod tests {
     }
 
     #[test]
-    fn write_rgba1() {
+    fn write_rgba1() -> Result<(), Box<dyn std::error::Error>> {
         let (pixels, width, height) = load_ferris();
 
         let header = Header::from_dimensions(width, height);
@@ -168,11 +168,36 @@ mod tests {
             &header,
             RgbaChannels::WriteRgba,
             1,
-        )
-        .unwrap();
+        )?;
 
-        file.set_frame_buffer(&pixels, 1, width as usize).unwrap();
-        file.write_pixels(height).unwrap();
+        file.set_frame_buffer(&pixels, 1, width as usize)?;
+        file.write_pixels(height)?;
+
+        Ok(())
+    }
+
+    #[test]
+    fn write_rgba3() -> Result<(), Box<dyn std::error::Error>> {
+        use crate::attribute::{CppStringAttribute, M44fAttribute};
+        let (pixels, width, height) = load_ferris();
+
+        let comments = "this is an awesome image of Ferris";
+        let xform = [0.0f32; 16];
+        let mut header = Header::from_dimensions(width, height);
+        header.insert("comments", &CppStringAttribute::from_value(comments))?;
+        header.insert("cameraTransform", &M44fAttribute::from_value(&xform))?;
+
+        let mut file = RgbaOutputFile::new(
+            "write_rgba1.exr",
+            &header,
+            RgbaChannels::WriteRgba,
+            1,
+        )?;
+
+        file.set_frame_buffer(&pixels, 1, width as usize)?;
+        file.write_pixels(height)?;
+
+        Ok(())
     }
 
     #[test]
