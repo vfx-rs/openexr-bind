@@ -316,7 +316,7 @@ a 4×4 matrix, called `"cameraTransform"`.
 ```no_run
 use openexr::{
     RgbaChannels, 
-    attribute::{CppStringAttribute, M44fAttribute}
+    attribute::{CppStringAttribute, M44fAttribute},
     rgba_file::RgbaOutputFile, 
     header::Header, 
     rgba::Rgba, 
@@ -424,6 +424,7 @@ scan lines in the file were written ([`LineOrder::IncreasingY`](crate::LineOrder
 If successive calls to [`read_pixels()`](crate::rgba_file::RgbaInputFile::read_pixels) access the scan lines in the right
 order, the OpenEXR reads the file as fast as possible, without seek operations.
 
+<!---
 ## Reading an RGBA Image File in Chunks
 
 The following shows how to read an RGBA image in blocks of a few scan
@@ -481,94 +482,43 @@ order to associate memory address *&pixels\[0\]\[0\]* first with pixel
 coordinates *(dw.min.x, dw.min.y)*, then with *(dw.min.x, dw.min.y+10)*,
 *(dw.min.x, dw.min.y+20)* and so on.
 
+-->
+
 ## Reading Custom Attributes
 
-In *[Storing Custom Attributes](#Storing%20Custom%20Attributes)* on page
-[6](#Storing%20Custom%20Attributes), we showed how to store custom
+In [Storing Custom Attributes](#storing-custom-attributes), we showed how to store custom
 attributes in the image file header. Here we show how to test whether a
 given file\'s header contains particular attributes, and how to read
 those attributes\' values.
 
-void
+```no_run
+use openexr::rgba_file::RgbaInputFile;
 
-readHeader (const char fileName\[\])
+fn read_header(filename: &str) -> Result<(), Box<dyn std::error::Error>> {
+    let file = RgbaInputFile::new(filename, 1)?;
 
-{
+    if let Some(attr) = file.header().find_typed_attribute_string("comments") {
+        println!("comments: {}", attr.value())
+    }
 
-RgbaInputFile file (fileName);
+    if let Some(attr) = file.header().find_typed_attribute_m44f("cameraTransform") {
+        println!("cameraTransform: {:?}", attr.value::<f32>())
+    }
 
-const StringAttribute \*comments =
-
-file.header().findTypedAttribute \<StringAttribute> (\"comments\");
-
-const M44fAttribute \*cameraTransform =
-
-file.header().findTypedAttribute \<M44fAttribute> (\"cameraTransform\");
-
-if (comments)
-
-cout \<\< \"comments\\n \" \<\< comments-\>value() \<\< endl;
-
-if (cameraTransform)
-
-cout \<\< \"cameraTransform\\n\" \<\< cameraTransform-\>value() \<\<
-flush;
-
+    Ok(())
 }
+```
 
-As usual, we open the file by constructing an RgbaInputFile object.
-Calling *findTypedAttribute\<T>(n)* searches the header for an attribute
-with type *T* and name *n*. If a matching attribute is found,
-*findTypedAttribute()* returns a pointer to the attribute. If the header
-contains no attribute with name *n*, or if the header contains an
-attribute with name *n*, but the attribute\'s type is not *T*,
-*findAttribute()* returns *0*. Once we have pointers to the attributes
+As usual, we open the file by constructing an [`RgbaInputFile`] object.
+Calling [`find_typed_attribute_X(n)`](crate::header::Header::find_typed_attribute_string) searches the header for an attribute
+with type `X` and name `n`. If a matching attribute is found,
+[`find_typed_attribute_X(n)`](crate::header::Header::find_typed_attribute_string) returns [`Some`] containing a reference to the attribute. If the header
+contains no attribute with name `n`, or if the header contains an
+attribute with name `n`, but the attribute\'s type is not `X`,
+[`find_typed_attribute_X(n)`](crate::header::Header::find_typed_attribute_string) returns [`None`]. Once we have references to the attributes
 we were looking for, we can access their values by calling the
-attributes\' *value()* methods.
+attributes\' [`value()`](crate::attribute::CppStringAttribute::value) methods.
 
-In this example, we handle the possibility that the attributes we want
-may not exist by explicitly checking for *0* pointers. Sometimes it is
-more convenient to rely on exceptions instead. Function
-*typedAttribute()*, a variation of *findTypedAttribute()*, also searches
-the header for an attribute with a given name and type, but if the
-attribute in question does not exist, *typedAttribute()* throws an
-exception rather than returning *0*.
-
-Note that the pointers returned by *findTypedAttribute()* point to data
-that are part of the *RgbaInputFile* object. The pointers become invalid
-as soon as the *RgbaInputFile* object is destroyed. Therefore, the
-following will not work:
-
-void
-
-readComments (const char fileName\[\], StringAttribute \*&comments)
-
-{
-
-// error: comments pointer is invalid after this function returns
-
-RgbaInputFile file (fileName);
-
-comments = file.header().findTypedAttribute \<StringAttribute>
-(\"comments\");
-
-}
-
-*readComments()* must copy the attribute\'s value before it returns; for
-example, like this:
-
-void
-
-readComments (const char fileName\[\], string &comments)
-
-{
-
-RgbaInputFile file (fileName);
-
-comments =
-file.header().typedAttribute\<StringAttribute>(\"comments\").value();
-
-}
 
 ## Luminance/Chroma and Gray-Scale Images
 
@@ -580,7 +530,7 @@ bandwidth are limited, and we would like to reduce the size of our image
 files. It is often acceptable if the numbers in the pixels change
 slightly as long as the image still looks just like the original.
 
-The RGBA interface in the IlmImf library supports storing RGB data in
+The RGBA interface supports storing RGB data in
 luminance/chroma format. The R, G, and B channels are converted into a
 luminance channel, Y, and two chroma channels, RY and BY. The Y channel
 represents a pixel\'s brightness, and the two chroma channels represent
@@ -594,23 +544,29 @@ one RY value, and one BY value, instead of four R, four G, and four B
 values.)
 
 When opening a file for writing, a program can select how it wants the
-pixels to be stored. The constructors for class *RgbaOutputFile* have an
-*rgbaChannels* argument, which determines the set of channels in the
+pixels to be stored. The constructors for [`RgbaOutputFile`] have an
+`rgba_channels` argument, which determines the set of channels in the
 file:
 
-  -------------- --------------------------
-  *WRITE_RGBA*   red, green, blue, alpha
-  *WRITE_YC*     luminance, chroma
-  *WRITE_YCA*    luminance, chroma, alpha
-  *WRITE_Y*      luminance only
-  *WRITE_YA*     luminance, alpha
-  -------------- --------------------------
+|    Value                    | Channels written          |
+|-----------------------------|---------------------------|
+| [`RgbaChannels::WriteRgba`] |  red, green, blue, alpha  |
+| [`RgbaChannels::WriteYc`]   |  luminance, chroma        |
+| [`RgbaChannels::WriteYca`]  |  luminance, chroma, alpha |
+| [`RgbaChannels::WriteY`]    |  luminance only           |
+| [`RgbaChannels::WriteYa`]   |  luminance, alpha         |
 
-*WRITE_Y* and *WRITE_YA* provide an efficient way to store gray-scale
+[`RgbaChannels::WriteRgba`]: crate::rgba_channels::RgbaChannels::WriteRgba
+[`RgbaChannels::WriteYc`]: crate::rgba_channels::RgbaChannels::Yc
+[`RgbaChannels::WriteYca`]: crate::rgba_channels::RgbaChannels::Yca
+[`RgbaChannels::WriteY`]: crate::rgba_channels::RgbaChannels::Y
+[`RgbaChannels::WriteYa`]: crate::rgba_channels::RgbaChannels::Ya
+
+[`RgbaChannels::WriteY`] and [`RgbaChannels::WriteYa`] provide an efficient way to store gray-scale
 images. The chroma channels for a gray-scale image contain only zeroes,
 so they can be omitted from the file.
 
-When an image file is opened for reading, class *RgbaInputFile*
+When an image file is opened for reading, class [`RgbaInputFile`]
 automatically detects luminance/chroma images and converts the pixels
 back to RGB format.
 

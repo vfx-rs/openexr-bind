@@ -375,3 +375,27 @@ fn write_outputfile2() {
     file.set_frame_buffer(&frame_buffer).unwrap();
     unsafe { file.write_pixels(height).unwrap() };
 }
+
+#[cfg(test)]
+#[test]
+fn write_gz1() -> Result<(), Box<dyn std::error::Error>> {
+    use crate::{Frame, CHANNEL_FLOAT, CHANNEL_HALF};
+    use half::f16;
+
+    let g: Vec<f16> = [0.0f32, 0.2, 0.4, 0.6, 0.8, 1.0]
+        .into_iter()
+        .map(|f| f16::from_f32(*f))
+        .collect();
+    let z = [1.0f32, 0.8, 0.6, 0.4, 0.2, 0.0];
+
+    let width = 6;
+    let height = 1;
+
+    // let mut header = Header::from_dimensions(width, height);
+    // header.channels_mut().insert("G", &CHANNEL_HALF);
+    // header.channels_mut().insert("Z", &CHANNEL_FLOAT);
+
+    // let mut frame_
+
+    Ok(())
+}

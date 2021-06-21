@@ -188,7 +188,7 @@ mod tests {
         header.insert("cameraTransform", &M44fAttribute::from_value(&xform))?;
 
         let mut file = RgbaOutputFile::new(
-            "write_rgba1.exr",
+            "write_rgba3.exr",
             &header,
             RgbaChannels::WriteRgba,
             1,
@@ -201,7 +201,7 @@ mod tests {
     }
 
     #[test]
-    fn read_rgba1() {
+    fn read_rgba1() -> Result<(), Box<dyn std::error::Error>> {
         use imath_traits::Zero;
         let path = PathBuf::from(
             std::env::var("CARGO_MANIFEST_DIR")
@@ -210,15 +210,14 @@ mod tests {
         .join("images")
         .join("ferris.exr");
 
-        let mut file = RgbaInputFile::new(&path, 1).unwrap();
+        let mut file = RgbaInputFile::new(&path, 1)?;
         let data_window = file.header().data_window::<[i32; 4]>().clone();
         let width = data_window[2] - data_window[0] + 1;
         let height = data_window[3] - data_window[1] + 1;
 
         let mut pixels = vec![Rgba::zero(); (width * height) as usize];
-        file.set_frame_buffer(&mut pixels, 1, width as usize)
-            .unwrap();
-        file.read_pixels(0, height - 1).unwrap();
+        file.set_frame_buffer(&mut pixels, 1, width as usize)?;
+        file.read_pixels(0, height - 1)?;
 
         let mut ofile = RgbaOutputFile::with_dimensions(
             "read_rgba1.exr",
@@ -231,10 +230,46 @@ mod tests {
             LineOrder::IncreasingY,
             Compression::Piz,
             1,
-        )
-        .unwrap();
+        )?;
 
-        ofile.set_frame_buffer(&pixels, 1, width as usize).unwrap();
-        ofile.write_pixels(height).unwrap();
+        ofile.set_frame_buffer(&pixels, 1, width as usize)?;
+        ofile.write_pixels(height)?;
+
+        Ok(())
+    }
+
+    #[test]
+    fn read_header() -> Result<(), Box<dyn std::error::Error>> {
+        let path = PathBuf::from(
+            std::env::var("CARGO_MANIFEST_DIR")
+                .expect("CARGO_MANIFEST_DIR not set"),
+        )
+        .join("images")
+        .join("custom_attributes.exr");
+
+        let file = RgbaInputFile::new(&path, 1)?;
+
+        if let Some(attr) =
+            file.header().find_typed_attribute_string("comments")
+        {
+            assert_eq!(attr.value(), "this is an awesome image of Ferris");
+        } else {
+        }
+
+        match file.header().find_typed_attribute_string("comments") {
+            Some(attr)
+                if attr.value() == "this is an awesome image of Ferris" =>
+            {
+                ()
+            }
+            _ => panic!("bad string attr"),
+        };
+
+        match file.header().find_typed_attribute_m44f("cameraTransform") {
+            Some(_) => (),
+            _ => panic!("bad matrix attr"),
+        };
+
+        Ok(())
     }
 }
