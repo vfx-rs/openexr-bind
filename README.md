@@ -1,6 +1,12 @@
 # openexr-bind
 cppmm bindings for OpenEXR 3.0.x
 
+# Checkout
+After cloning this module run the following command to clone the openexr and imath submodules.
+```bash
+git submodule update --init
+```
+
 # Generating bindings
 First you must have `astgen` and `asttoc` in your PATH. 
 
