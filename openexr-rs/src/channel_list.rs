@@ -294,6 +294,15 @@ pub struct ChannelListIter<'a> {
     _p: PhantomData<&'a ChannelList>,
 }
 
+impl<'a> IntoIterator for &'a ChannelList {
+    type Item = (&'a str, &'a Channel);
+    type IntoIter = ChannelListIter<'a>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.iter()
+    }
+}
+
 impl<'a> Iterator for ChannelListIter<'a> {
     type Item = (&'a str, &'a Channel);
 
@@ -380,6 +389,28 @@ fn iter1() {
         list.iter().map(|(name, _)| { name }).collect::<Vec<&str>>(),
         ["A", "B", "G", "R"]
     )
+}
+
+#[cfg(test)]
+#[test]
+fn iter2() {
+    use crate::PixelType;
+    let mut list = ChannelList::new();
+    let channel = Channel {
+        type_: PixelType::Half.into(),
+        x_sampling: 1,
+        y_sampling: 1,
+        p_linear: true,
+    };
+
+    list.insert("R", &channel);
+    list.insert("G", &channel);
+    list.insert("B", &channel);
+    list.insert("A", &channel);
+
+    for (name, channel) in &list {
+        // ...
+    }
 }
 
 #[cfg(test)]

@@ -49,9 +49,11 @@
     -   [Multithreaded I/O](#multithreaded-io)
     -   [Multithreaded I/O, Multithreaded Application
         Program](#multithreaded-io-multithreaded-application-program)
+<!---
 -   [Low-Level I/O](#low-level-io)
     -   [Custom Low-Level File I/O](#custom-low-level-file-io)
     -   [Memory-Mapped I/O](#memory-mapped-io)
+-->
 -   [Miscellaneous](#miscellaneous)
     -   [Is this an OpenEXR File?](#is-this-an-openexr-file)
     -   [Is this File Complete?](#is-this-file-complete)
@@ -169,6 +171,7 @@ fn write_rgba1(filename: &str, pixels: &[Rgba], width: i32, height: i32)
     Ok(())
 }
 ```
+
 [`RgbaOutputFile`]: crate::rgba_file::RgbaOutputFile
 [`Rgba`]: crate::rgba::Rgba
 
@@ -227,50 +230,36 @@ is indicated by the display window, `(0, 0) - (width-1, height-1)`, and
 the data window specifies the region for which valid pixel data exist.
 Only the pixels in the data window are stored in the file.
 
-void
+```no_run
+use openexr::{Rgba, RgbaOutputFile, Header, RgbaChannels};
 
-writeRgba2 (const char fileName\[\],
+fn write_rgba2(
+    filename: &str, 
+    pixels: &[Rgba], 
+    width: i32, 
+    height: i32,
+    data_window: &[i32; 4],
+) -> Result<(), Box<dyn std::error::Error>> {
+    let mut header = Header::from_dimensions(width, height);
+    *header.data_window_mut() = *data_window;
 
-const Rgba \*pixels,
+    let mut file = RgbaOutputFile::new(
+        filename,
+        &header,
+        RgbaChannels::WriteRgba,
+        1,
+    )?;
 
-int width,
+    file.set_frame_buffer(&pixels, 1, width as usize)?;
+    file.write_pixels(data_window[3] - data_window[1] + 1)?;
 
-int height,
-
-const Box2i &dataWindow)
-
-{
-
-Box2i displayWindow (V2i (0, 0), V2i (width - 1, height - 1));
-
-RgbaOutputFile file (fileName, displayWindow, dataWindow, WRITE_RGBA);
-
-file.setFrameBuffer (pixels, 1, width);
-
-file.writePixels (dataWindow.max.y - dataWindow.min.y + 1);
-
+    Ok(())
 }
+```
 
-The code above is similar to that in [Writing an RGBA Image
-File](#writing-an-rgba-image-file), where the whole image was
-stored in the file. Two things are different, however: When the
-[`RgbaOutputFile`] object is created, the data window and the display
-window are explicitly specified rather than being derived from the
-image\'s width and height. The number of scan lines stored in the file
-by [`write_pixels()`](crate::rgba_file::RgbaOutputFile::write_pixels) is equal to the height of the data window instead of
-the height of the whole image. Since we are using the default
-[`LineOrder::IncreasingY`](crate::LineOrder) direction for storing the scan lines in the file,
-[`write_pixels()`](crate::rgba_file::RgbaOutputFile::write_pixels) starts at the top of the data window, at y coordinate
-`data_window.min.y`, and proceeds toward the bottom, at y coordinate `data_window.max.y`.
+The code above is similar to that in [Writing an RGBA Image File](#writing-an-rgba-image-file), where the whole image was stored in the file. Two things are different, however: When the [`RgbaOutputFile`] object is created, the data window and the display window are explicitly specified rather than being derived from the image's width and height. The number of scan lines stored in the file by [`write_pixels()`](crate::rgba_file::RgbaOutputFile::write_pixels) is equal to the height of the data window instead of the height of the whole image. Since we are using the default [`LineOrder::IncreasingY`](crate::LineOrder) direction for storing the scan lines in the file, [`write_pixels()`](crate::rgba_file::RgbaOutputFile::write_pixels) starts at the top of the data window, at y coordinate `data_window.min.y`, and proceeds toward the bottom, at y coordinate `data_window.max.y`.
 
-Even though we are storing only part of the image in the file, the frame
-buffer is still large enough to hold the whole image. In order to save
-memory, a smaller frame buffer could have been allocated, just big
-enough to hold the contents of the data window. Assuming that the pixels
-were still stored in contiguous scan lines, with the *pixels* pointer
-pointing to the pixel at the upper left corner of the data window, at
-coordinates *(dataWindow.min.x, dataWindow.min.y)*, the arguments to the
-*setFrameBuffer()* call would have to be to be changed as follows:
+Even though we are storing only part of the image in the file, the frame buffer is still large enough to hold the whole image. In order to save memory, a smaller frame buffer could have been allocated, just big enough to hold the contents of the data window. Assuming that the pixels were still stored in contiguous scan lines, with the *pixels* pointer pointing to the pixel at the upper left corner of the data window, at coordinates *(dataWindow.min.x, dataWindow.min.y)*, the arguments to the *setFrameBuffer()* call would have to be to be changed as follows:
 
 int dwWidth = dataWindow.max.x - dataWindow.min.x + 1;
 
@@ -502,7 +491,7 @@ fn read_header(filename: &str) -> Result<(), Box<dyn std::error::Error>> {
     }
 
     if let Some(attr) = file.header().find_typed_attribute_m44f("cameraTransform") {
-        println!("cameraTransform: {:?}", attr.value::<f32>())
+        println!("cameraTransform: {:?}", attr.value::<[f32; 16]>())
     }
 
     Ok(())
@@ -575,196 +564,183 @@ back to RGB format.
 ## Writing an Image File
 
 This example demonstrates how to write an OpenEXR image file with two
-channels: one channel, of type *HALF*, is called G, and the other, of
-type *FLOAT*, is called Z. The size of the image is *width* by *height*
+channels: one channel, of type [`PixelType::Half`], is called G, and the other, of
+type [`PixelType::Float`], is called Z. The size of the image is `width` by `height`
 pixels. The data for the two channels are supplied in two separate
-buffers, *gPixels* and *zPixels*. Within each buffer, the pixels of each
+buffers, `g` and `z`. Within each buffer, the pixels of each
 scan line are contiguous in memory.
 
-void
+[`PixelType`]: crate::PixelType
+[`PixelType::Half`]: crate::PixelType::Half
+[`PixelType::Float`]: crate::PixelType::Float
 
-writeGZ1 (const char fileName\[\],
+```no_run
+use openexr::{
+    channel_list::{CHANNEL_FLOAT, CHANNEL_HALF},
+    frame_buffer::{Frame, Slice, FrameBuffer}, 
+    output_file::OutputFile,
+    header::Header,
+    PixelType, 
+};
+use half::f16;
 
-const half \*gPixels,
+fn write_gz1(
+    filename: &str,
+    g: &[f16],
+    z: &[f32],
+    width: i32,
+    height: i32,
+) -> Result<(), Box<dyn std::error::Error>> {
 
-const float \*zPixels,
+    let mut header = Header::from_dimensions(width, height);
+    header.channels_mut().insert("G", &CHANNEL_HALF);
+    header.channels_mut().insert("Z", &CHANNEL_FLOAT);
 
-int width,
+    let mut frame_buffer = FrameBuffer::new();
 
-int height)
+    frame_buffer.insert(
+        "G",
+        &Slice::new(
+            PixelType::Half,
+            g.as_ptr() as *const u8,
+            width as i64,
+            height as i64,
+        )
+        .x_stride(std::mem::size_of::<f16>())
+        .build()?
+    )?;
 
-{
+    frame_buffer.insert(
+        "Z",
+        &Slice::new(
+            PixelType::Float,
+            z.as_ptr() as *const u8,
+            width as i64,
+            height as i64,
+        )
+        .x_stride(std::mem::size_of::<f32>())
+        .build()?
+    )?;
 
-Header header (width, height); // 1
+    let mut file = OutputFile::new("write_gz1.exr", &header, 1).unwrap();
+    file.set_frame_buffer(&frame_buffer).unwrap();
+    unsafe { file.write_pixels(height).unwrap() };
 
-header.channels().insert (\"G\", Channel (HALF)); // 2
-
-header.channels().insert (\"Z\", Channel (FLOAT)); // 3
-
-OutputFile file (fileName, header); // 4
-
-FrameBuffer frameBuffer; // 5
-
-frameBuffer.insert (\"G\", // name // 6
-
-Slice (HALF, // type // 7
-
-(char \*) gPixels, // base // 8
-
-sizeof (\*gPixels) \* 1, // xStride// 9
-
-sizeof (\*gPixels) \* width)); // yStride// 10
-
-frameBuffer.insert (\"Z\", // name // 11
-
-Slice (FLOAT, // type // 12
-
-(char \*) zPixels, // base // 13
-
-sizeof (\*zPixels) \* 1, // xStride// 14
-
-sizeof (\*zPixels) \* width)); // yStride// 15
-
-file.setFrameBuffer (frameBuffer); // 16
-
-file.writePixels (height); // 17
-
+    Ok(())
 }
+```
 
-In line 1, an OpenEXR header is created, and the header\'s display
-window and data window are both set to *(0, 0) - (width-1, height-1)*.
+First, an OpenEXR header is created, and the header\'s display
+window and data window are both set to `(0, 0) - (width-1, height-1)` by the [`with_dimensions`](crate::header::Header::with_dimensions) constructor.
 
-Lines 2 and 3 specify the names and types of the image channels that
-will be stored in the file.
+Next the names and types of the channels that are to be stored are specified on the header.
 
-Constructing an *OutputFile* object in line 4 opens the file with the
+[`FrameBuffer`]: crate::frame_buffer::FrameBuffer
+[`Slice`]: crate::frame_buffer::Slice
+[`SliceBuilder`]: crate::frame_buffer::SliceBuilder
+[`OutputFile`]: crate::output_file::OutputFile
+
+Then a [`FrameBuffer`] is constructed and two [`Slice`]s are added to it. [`Slice`] describes the memory layout of a single channel. The constructor takes as arguments the [`PixelType`] of the [`Slice`], a pointer to the start of the [`Slice`]'s data window, and the width and height of the [`Slice`]. No further arguments are required in this example so the [`Slice`] is built immediately.
+
+Note that unlike the C++ API, the strides of the pixels are automatically computed from the pixel type. You only need to specify the [`x_stride`](crate::frame_buffer::SliceBuilder::x_stride) and/or [`y_stride`](crate::frame_buffer::SliceBuilder::y_stride) if your pixels are not densely packed elements of the specified type (e.g. you are passing an RGBA slice and ony want to write out the R channel).
+
+Next, constructing an [`OutputFile`] object opens the file with the
 specified name, and stores the header in the file.
 
-Lines 5 through 16 tell the *OutputFile* object how the pixel data for
-the image channels are laid out in memory. After constructing a
-*FrameBuffer* object, a *Slice* is added for each of the image file\'s
-channels. A *Slice* describes the memory layout of one channel. The
-constructor for the *Slice* object takes four arguments, *type*, *base*,
-*xStride*, and *yStride*. *type* specifies the pixel data type (*HALF*,
-*FLOAT*, or *UINT*); the other three arguments define the memory address
-of pixel *(x,y)* as
-
-base + x \* xStride + y \* yStride.
-
-**Note:** *base* is of type *char\**, and that offsets from *base* are
-not implicitly multiplied by the size of an individual pixel, as in the
-RGBA-only interface. *xStride* and *yStride* must explictly take the
-size of the pixels into account.
-
-With the values specified in our example, the IlmImf library computes
-the address of the G channel of pixel *(x,y)* like this:
-
-(half\*)((char\*)gPixels + x \* sizeof(half) \* 1 + y \* sizeof(half) \*
-width)
-
-= (half\*)((char\*)gPixels + x \* 2 + y \* 2 \* width),
-
-The address of the Z channel of pixel *(x,y)* is
-
-(float\*)((char\*)zPixels + x \* sizeof(float) \* 1 + y \* sizeof(float)
-\* width)
-
-= (float\*)((char\*)zPixels + x \* 4 + y \* 4 \* width).
-
-The *writePixels()* call in line 17 copies the image\'s pixels from
+The [`write_pixels()`](crate::output_file::OutputFile::write_pixels) call copies the image's pixels from
 memory into the file. As in the RGBA-only interface, the argument to
-*writePixels()* specifies how many scan lines are copied into the file.
-(See *[Writing an RGBA Image
-File](#Writing%20an%20RGBA%20Image%20File)*, on page
-[4](#Writing%20an%20RGBA%20Image%20File).)
+[`write_pixels()`](crate::output_file::OutputFile::write_pixels) specifies how many scan lines are copied into the file.
+(See [Writing an RGBA Image File](#writing-and-rgba-image-file))
 
-If the image file contains a channel for which the *FrameBuffer* object
-has no corresponding *Slice*, then the pixels for that channel in the
-file are filled with zeroes. If the *FrameBuffer* object contains a
-*Slice* for which the file has no channel, then the *Slice* is ignored.
+If the image file contains a channel for which the [`FrameBuffer`] object
+has no corresponding [`Slice`], then the pixels for that channel in the
+file are filled with zeroes. If the [`FrameBuffer`] object contains a
+[`Slice`] for which the file has no channel, then the [`Slice`] is ignored.
 
-Returning from function *writeGZ1()* destroys the local *OutputFile*
+Returning from function `write_gz1()` destroys the local [`OutputFile`]
 object and closes the file.
 
 ## Writing a Cropped Image
 
 Writing a cropped image using the general interface is analogous to
 writing a cropped image using the RGBA-only interface, as shown in
-*[Writing a Cropped RGBA Image](#Writing%20a%20Cropped%20Image)* on page
-[5](#Writing%20a%20Cropped%20Image). In the file\'s header the data
+[Writing a Cropped RGBA Image](#writing-a-cropped-rgba-image). In the file's header the data
 window is set explicitly instead of being generated automatically from
-the image\'s width and height. The number of scan lines that are stored
+the image's width and height. The number of scan lines that are stored
 in the file is equal to the height of the data window, instead of the
-height of the entire image. As in *[Writing a Cropped RGBA
-Image](#Writing%20a%20Cropped%20Image)*, the example code below assumes
-that the memory buffers for the pixels are large enough to hold *width*
-by *height* pixels, but only the region that corresponds to the data
+height of the entire image. As in [Writing a Cropped RGBA Image](#writing-a-cropped-rgba-image), the example code below assumes
+that the memory buffers for the pixels are large enough to hold `width`
+by `height` pixels, but only the region that corresponds to the data
 window will be stored in the file. For smaller memory buffers with room
-only for the pixels in the data window, the *base*, *xStride* and
-*yStride* arguments for the *FrameBuffer* object\'s slices would have to
-be adjusted accordingly. (Again, see *[Writing a Cropped RGBA
-Image](#Writing%20a%20Cropped%20Image)*, on page
-[5](#Writing%20a%20Cropped%20Image).)
+only for the pixels in the data window, the `base`, `x_stride()` and
+`y_stride()` arguments for the [`FrameBuffer`] object's [`Slice`]s would have to
+be adjusted accordingly. (Again, see [Writing a Cropped RGBA Image](#writing-a-cropped-rgba-image).
 
-void
+```no_run
+use openexr::{
+    channel_list::{CHANNEL_FLOAT, CHANNEL_HALF},
+    frame_buffer::{Frame, Slice, FrameBuffer}, 
+    header::Header,
+    output_file::OutputFile,
+    PixelType, 
+};
+use half::f16;
 
-writeGZ2 (const char fileName\[\],
+fn write_gz2(
+    filename: &str,
+    g: &[f16],
+    z: &[f32],
+    width: i32,
+    height: i32,
+    data_window: &[i32; 4],
+) -> Result<(), Box<dyn std::error::Error>> {
 
-const half \*gPixels,
+    let mut header = Header::from_dimensions(width, height);
+    header.channels_mut().insert("G", &CHANNEL_HALF);
+    header.channels_mut().insert("Z", &CHANNEL_FLOAT);
+    *header.data_window_mut() = *data_window;
 
-const float \*zPixels,
+    let mut frame_buffer = FrameBuffer::new();
 
-int width,
+    frame_buffer.insert(
+        "G",
+        &Slice::new(
+            PixelType::Half,
+            g.as_ptr() as *const u8,
+            width as i64,
+            height as i64,
+        )
+        .x_stride(std::mem::size_of::<f16>())
+        .build()?
+    )?;
 
-int height,
+    frame_buffer.insert(
+        "Z",
+        &Slice::new(
+            PixelType::Float,
+            z.as_ptr() as *const u8,
+            width as i64,
+            height as i64,
+        )
+        .x_stride(std::mem::size_of::<f32>())
+        .build()?
+    )?;
 
-const Box2i &dataWindow)
+    let mut file = OutputFile::new("write_gz1.exr", &header, 1).unwrap();
+    file.set_frame_buffer(&frame_buffer).unwrap();
+    unsafe { file.write_pixels(data_window[3] - data_window[1] + 1).unwrap() };
 
-{
-
-Header header (width, height);
-
-header.dataWindow() = dataWindow;
-
-header.channels().insert (\"G\", Channel (HALF));
-
-header.channels().insert (\"Z\", Channel (FLOAT));
-
-OutputFile file (fileName, header);
-
-FrameBuffer frameBuffer;
-
-frameBuffer.insert (\"G\", // name
-
-Slice (HALF, // type
-
-(char \*) gPixels, // base
-
-sizeof (\*gPixels) \* 1, // xStride
-
-sizeof (\*gPixels) \* width)); // yStride
-
-frameBuffer.insert (\"Z\", // name
-
-Slice (FLOAT, // type
-
-(char \*) zPixels, // base
-
-sizeof (\*zPixels) \* 1, // xStride
-
-sizeof (\*zPixels) \* width)); // yStride
-
-file.setFrameBuffer (frameBuffer);
-
-file.writePixels (dataWindow.max.y - dataWindow.min.y + 1);
-
+    Ok(())
 }
+
+```
 
 ## Reading an Image File
 
-In this example, we read an OpenEXR image file using the IlmImf
-library\'s general interface. We assume that the file contains two
-channels, R, and G, of type *HALF*, and one channel, Z, of type *FLOAT*.
+[`InputFile`]: crate::input_file::InputFile
+
+In this example, we read an OpenEXR image file using the [`InputFile`] general interface. We assume that the file contains two
+channels, R, and G, of type [`PixelType::Half`], and one channel, Z, of type [`PixelType::Float`].
 If one of those channels is not present in the image file, the
 corresponding memory buffer for the pixels will be filled with an
 appropriate default value.
@@ -1000,7 +976,7 @@ file.readPixels (dw.min.y, dw.max.y);
 
 ## Which Channels are in a File?
 
-In functions *readGZ1()* and *readGZ2()*, above, we simply assumed that
+In functions `read_gz1()` and `read_gz2()`, above, we simply assumed that
 the files we were trying to read contained a certain set of channels. We
 relied on the IlmImf library to do \"something reasonable\" in case our
 assumption was not true. Sometimes we want to know exactly what channels
@@ -1011,96 +987,91 @@ The file\'s header contains the file\'s channel list. Using iterators
 similar to those in the C++ Standard Template Library, we can iterate
 over the channels:
 
-const ChannelList &channels = file.header().channels();
+```no_run
+use std::path::PathBuf;
+use openexr::input_file::InputFile;
 
-for (ChannelList::ConstIterator i = channels.begin(); i !=
-channels.end(); ++i)
+// Open the `InputFile` and read the header
+let file = InputFile::new("image.exr", 4).unwrap();
 
-{
-
-const Channel &channel = i.channel();
-
-// \...
-
+for (name, channel) in file.header().channels().iter() {
+    println!("{}", name);
 }
 
-Channels can also be accessed by name, either with the *\[\]* operator,
-or with the f*indChannel()* function:
+```
 
-const ChannelList &channels = file.header().channels();
+Channels can also be accessed by name with the [`ChannelList::get()`](crate::channel_list::ChannelList::get) method, which returns an [`Option`] indiciating if the channel is present in the header or not.
 
-const Channel &channel = channelList\[\"G\"\];
+```no_run
+use std::path::PathBuf;
+use openexr::input_file::InputFile;
 
-const Channel \*channelPtr = channelList.findChannel(\"G\");
+// Open the `InputFile` and read the header
+let file = InputFile::new("image.exr", 4).unwrap();
 
-The difference between the *\[\]* operator and *findChannel()* function
-is how errors are handled. If the channel in question is not present,
-*findChannel()* returns *0*; the *\[\]* operator throws an exception.
+if let Some(channel) = file.header().channels().get("R") {
+    println!("R channel type is {:?}", channel.type_);
+}
+
+```
 
 ## Layers
 
 In an image file with many channels it is sometimes useful to group the
 channels into *layers*, that is, into sets of channels that logically
 belong together. Grouping channels into layers is done using a naming
-convention: channel C in layer L is called L.C.
+convention: channel `C` in layer `L` is called `L.C`.
 
 For example, a computer-generated picture of a 3D scene may contain a
 separate set of R, G and B channels for the light that originated at
 each one of the light sources in the scene. Every set of R, G, and B
-channels is in its own layer. If the layers are called light1, light2,
-light3, etc., then the full names of the channels in this image are
-light1.R, light1.G, light1.B, light2.R, light2.G, light2.B, light3.R,
+channels is in its own layer. If the layers are called `light1`, `light2`,
+`light3`, etc., then the full names of the channels in this image are
+`light1.R`, `light1.G`, `light1.B`, `light2.R`, `light2.G`, `light2.B`, `light3.R`,
 and so on.
 
-Layers can be nested; for instance, light1.specular.R refers to the R
-channel in the specular sub-layer of layer light1.
+Layers can be nested; for instance, `light1.specular.R` refers to the R
+channel in the specular sub-layer of layer `light1`.
 
-Channel names that do not contain a \".\", or that contain a \".\" only
+Channel names that do not contain a `.`, or that contain a `.` only
 at the beginning or at the end are not considered to be part of any
 layer.
 
-Class *ChannelList* has two member functions that support per-layer
-access to channels: *layers()* returns the names of all layers in a
-*ChannelList*, and *channelsInLayer()* converts a layer name into a pair
-of iterators that allows iterating over the channels in the
+[`ChannelList`]: crate::channel_list::ChannelList
+
+Class [`ChannelList`] has two member functions that support per-layer
+access to channels: [`layers()`](crate::channel_list::ChannelList::layers) returns the names of all layers in a
+[`ChannelList`], and [`channels_in_layer()`](crate::channel_list::ChannelList::channels_in_layer) returns an iterator over the channels in the
 corresponding layer.
 
-The following sample code prints the layers in a *ChannelList* and the
-channels in each layer:
+The following code shows how to iterate over all the channels in a particular layer:
 
-const ChannelList &channels = \... ;
+```no_run
+use openexr::{channel_list::{Channel, ChannelList}, PixelType};
 
-set\<string> layerNames;
+let mut list = ChannelList::new();
+let channel = Channel {
+    type_: PixelType::Half.into(),
+    x_sampling: 1,
+    y_sampling: 1,
+    p_linear: true,
+};
 
-channels.layers (layerNames);
+list.insert("diffuse.R", &channel);
+list.insert("diffuse.G", &channel);
+list.insert("diffuse.B", &channel);
 
-for (set\<string>::const_iterator i = layerNames.begin();
+list.insert("specular.R", &channel);
+list.insert("specular.G", &channel);
+list.insert("specular.B", &channel);
 
-i != layerNames.end();
-
-++i)
-
-{
-
-cout \<\< \"layer \" \<\< \*i \<\< endl;
-
-ChannelList::ConstIterator layerBegin, layerEnd;
-
-channels.channelsInLayer (\*i, layerBegin, layerEnd);
-
-for (ChannelList::ConstIterator j = layerBegin;
-
-j != layerEnd;
-
-++j)
-
-{
-
-cout \<\< \"\\tchannel \" \<\< j.name() \<\< endl;
-
-}
-
-}
+assert_eq!(
+    list.channels_in_layer("diffuse")
+        .map(|(name, _)| { name })
+        .collect::<Vec<&str>>(),
+    ["diffuse.B", "diffuse.G", "diffuse.R"]
+)
+```
 
 # Tiles, Levels and Level Modes
 
@@ -1109,12 +1080,13 @@ with a different resolution. Each version is called a *level*. A tiled
 file\'s *level mode* defines how many levels are stored in the file.
 There are three different level modes:
 
-  ----------------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  *MIPMAP_LEVELS*   The file contains multiple levels. The first level holds the image at full resolution. Each successive level is half the resolution of the previous level in x and y direction. The last level contains only a single pixel. *MIPMAP_LEVELS* files are used for texture-mapping and similar applications.
-  *RIPMAP_LEVELS*   Like *MIPMAP_LEVELS*, but with more levels. The levels include all combinations of reducing the resolution of the image by powers of two independently in x and y direction. Used for texture mapping, like *MIPMAP_LEVELS*. The additional levels in a *RIPMAP_LEVELS* file can help to accelerate anisotropic filtering during texture lookups.
-  ----------------- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| Mode | Explanation |
+| --- | --- |
+| [`LevelMode::OneLevel`](crate::LevelMode::OneLevel) | The file contains a single level. |
+| [`LevelMode::MipmapLevels`](crate::LevelMode::MipmapLevels) |   The file contains multiple levels. The first level holds the image at full resolution. Each successive level is half the resolution of the previous level in x and y direction. The last level contains only a single pixel. `MipmapLevels` files are used for texture-mapping and similar applications. |
+| [`LevelMode::RipmapLevels`](crate::LevelMode::RipmapLevels) |  Like `MipmapLevels`, but with more levels. The levels include all combinations of reducing the resolution of the image by powers of two independently in x and y direction. Used for texture mapping, like `MipmapLevels`. The additional levels in a `RipmapLevels` file can help to accelerate anisotropic filtering during texture lookups. |
 
-In *MIPMAP_LEVELS* and *RIPMAP_LEVELS* mode, the size (width or height)
+In `MipmapLevels` and `RipmapLevels` mode, the size (width or height)
 of each level is computed by halving the size of the level with the next
 higher resolution. If the size of the higher-resolution level is odd,
 then the size of the lower-resolution level must be rounded up or down
@@ -1130,47 +1102,29 @@ tiles.
 
 An OpenEXR file\'s level mode and rounding mode, and the size of the
 tiles are stored in an attribute in the file header. The value of this
-attribute is a *TileDescription* object:
+attribute is a [`TileDescription`](crate::TileDescription) object:
 
-enum LevelMode
+```
+pub struct TileDescription {
+    pub x_size: c_uint,
+    pub y_size: c_uint,
+    pub mode: LevelMode,
+    pub rounding_mode: LevelRoundingMode,
+}
 
-{
+pub enum LevelMode {
+    OneLevel = 0,
+    MipmapLevels = 1,
+    RipmapLevels = 2,
+    NumLevelmodes = 3,
+}
 
-ONE_LEVEL,
-
-MIPMAP_LEVELS,
-
-RIPMAP_LEVELS
-
-};
-
-enum LevelRoundingMode
-
-{
-
-ROUND_DOWN,
-
-ROUND_UP
-
-};
-
-class TileDescription
-
-{
-
-public:
-
-unsigned int xSize; // size of a tile in the x dimension
-
-unsigned int ySize; // size of a tile in the y dimension
-
-LevelMode mode;
-
-LevelRoundingMode roundingMode;
-
-\... // (methods omitted)
-
-};
+pub enum LevelRoundingMode {
+    RoundDown = 0,
+    RoundUp = 1,
+    NumRoundingmodes = 2,
+}
+```
 
 # Using the RGBA-only Interface for Tiled Files
 
@@ -2444,6 +2398,7 @@ scanlines in a random order and wishes to avoid caching an entire
 uncompressed image. For more details, refer to the inline comments in
 ImfDeepScanLineInputFile.h
 
+<!---
 # Low-Level I/O
 
 ## Custom Low-Level File I/O
@@ -2859,6 +2814,8 @@ example, the program can reserve several address ranges, each one large
 enough to hold the largest file that the program expects to read. The
 program can then explicitly map each new file into one of the reserved
 ranges, keeping track of which ranges are currently in use.
+
+-->
 
 # Miscellaneous
 

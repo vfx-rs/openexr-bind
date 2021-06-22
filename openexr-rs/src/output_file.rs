@@ -379,7 +379,10 @@ fn write_outputfile2() {
 #[cfg(test)]
 #[test]
 fn write_gz1() -> Result<(), Box<dyn std::error::Error>> {
-    use crate::{Frame, CHANNEL_FLOAT, CHANNEL_HALF};
+    use crate::{
+        channel_list::{CHANNEL_FLOAT, CHANNEL_HALF},
+        Frame, PixelType, Slice,
+    };
     use half::f16;
 
     let g: Vec<f16> = [0.0f32, 0.2, 0.4, 0.6, 0.8, 1.0]
@@ -390,12 +393,102 @@ fn write_gz1() -> Result<(), Box<dyn std::error::Error>> {
 
     let width = 6;
     let height = 1;
+    let filename = "write_gz1.exr";
 
-    // let mut header = Header::from_dimensions(width, height);
-    // header.channels_mut().insert("G", &CHANNEL_HALF);
-    // header.channels_mut().insert("Z", &CHANNEL_FLOAT);
+    let mut header = Header::from_dimensions(width, height);
+    header.channels_mut().insert("G", &CHANNEL_HALF);
+    header.channels_mut().insert("Z", &CHANNEL_FLOAT);
 
-    // let mut frame_
+    let mut frame_buffer = FrameBuffer::new();
+
+    frame_buffer.insert(
+        "G",
+        &Slice::new(
+            PixelType::Half,
+            g.as_ptr() as *const u8,
+            width as i64,
+            height as i64,
+        )
+        .build()
+        .unwrap(),
+    )?;
+
+    frame_buffer.insert(
+        "Z",
+        &Slice::new(
+            PixelType::Float,
+            z.as_ptr() as *const u8,
+            width as i64,
+            height as i64,
+        )
+        .build()
+        .unwrap(),
+    )?;
+
+    let mut file = OutputFile::new("write_gz1.exr", &header, 1).unwrap();
+    file.set_frame_buffer(&frame_buffer).unwrap();
+    unsafe { file.write_pixels(height).unwrap() };
+
+    Ok(())
+}
+
+#[cfg(test)]
+#[test]
+fn write_gz2() -> Result<(), Box<dyn std::error::Error>> {
+    use crate::{
+        channel_list::{CHANNEL_FLOAT, CHANNEL_HALF},
+        Frame, PixelType, Slice,
+    };
+    use half::f16;
+
+    let g: Vec<f16> = [0.0f32, 0.2, 0.4, 0.6, 0.8, 1.0]
+        .into_iter()
+        .map(|f| f16::from_f32(*f))
+        .collect();
+    let z = [1.0f32, 0.8, 0.6, 0.4, 0.2, 0.0];
+
+    let width = 6;
+    let height = 1;
+    let filename = "write_gz1.exr";
+    let data_window = [2, 0, 4, 0];
+
+    let mut header = Header::from_dimensions(width, height);
+    header.channels_mut().insert("G", &CHANNEL_HALF);
+    header.channels_mut().insert("Z", &CHANNEL_FLOAT);
+    *header.data_window_mut() = data_window;
+
+    let mut frame_buffer = FrameBuffer::new();
+
+    frame_buffer.insert(
+        "G",
+        &Slice::new(
+            PixelType::Half,
+            g.as_ptr() as *const u8,
+            width as i64,
+            height as i64,
+        )
+        .build()
+        .unwrap(),
+    )?;
+
+    frame_buffer.insert(
+        "Z",
+        &Slice::new(
+            PixelType::Float,
+            z.as_ptr() as *const u8,
+            width as i64,
+            height as i64,
+        )
+        .build()
+        .unwrap(),
+    )?;
+
+    let mut file = OutputFile::new("write_gz2.exr", &header, 1).unwrap();
+    file.set_frame_buffer(&frame_buffer).unwrap();
+    unsafe {
+        file.write_pixels(data_window[3] - data_window[1] + 1)
+            .unwrap()
+    };
 
     Ok(())
 }
