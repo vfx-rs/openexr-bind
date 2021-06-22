@@ -1,2 +1,7 @@
 /build
 .gdb_history
+
+# vscode
+.vscode
+.devcontainer
+*.code-workspace
