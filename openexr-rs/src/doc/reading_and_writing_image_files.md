@@ -1106,8 +1106,8 @@ attribute is a [`TileDescription`](crate::TileDescription) object:
 
 ```
 pub struct TileDescription {
-    pub x_size: c_uint,
-    pub y_size: c_uint,
+    pub x_size: u32,
+    pub y_size: u32,
     pub mode: LevelMode,
     pub rounding_mode: LevelRoundingMode,
 }
@@ -1132,67 +1132,65 @@ pub enum LevelRoundingMode {
 
 Writing a tiled RGBA image with a single level is easy:
 
-void
+```no_run
+use openexr::{
+    header::Header,
+    tiled_rgba_file::TiledRgbaOutputFile,
+    LevelMode, LevelRoundingMode,
+    rgba::{Rgba, RgbaChannels},
+};
 
-writeTiledRgbaONE1 (const char fileName\[\],
+fn write_tiled_rgba1(
+    filename: &str,
+    pixels: &[Rgba],
+    width: i32,
+    height: i32,
+    tile_width: i32,
+    tile_height: i32,
+) -> Result<(), Box<dyn std::error::Error>> {
+    let header = Header::from_dimensions(width, height);
 
-const Rgba \*pixels,
+    let mut file = TiledRgbaOutputFile::new(
+        filename,
+        &header,
+        RgbaChannels::WriteRgba,
+        tile_width,
+        tile_height,
+        LevelMode::OneLevel,
+        LevelRoundingMode::RoundDown,
+        1,
+    )?;
 
-int width, int height,
-
-int tileWidth, int tileHeight)
-
-{
-
-TiledRgbaOutputFile out (fileName,
-
-width, height, // image size
-
-tileWidth, tileHeight, // tile size
-
-ONE_LEVEL, // level mode
-
-ROUND_DOWN, // rounding mode
-
-WRITE_RGBA); // channels in file // 1
-
-out.setFrameBuffer (pixels, 1, width); // 2
-
-out.writeTiles (0, out.numXTiles() - 1, 0, out.numYTiles() - 1);// 3
-
+    file.set_frame_buffer(&pixels, 1, width as usize)?;
+    file.write_tiles(
+        0,
+        file.num_x_tiles(0) - 1,
+        0,
+        file.num_y_tiles(0) - 1,
+        0,
+        0,
+    )?;
+    
+    Ok(())
 }
+```
+[`TiledRgbaOutputFile`]: crate::tiled_rgba_file::TiledRgbaOutputFile;
 
 Opening the file and defining the pixel data layout in memory are done
 in almost the same way as for scan line based files:
 
-Construction of the *TiledRgbaOutputFile* object, in line 1, creates an
-OpenEXR header, sets the header\'s attributes, opens the file with the
-specified name, and stores the header in the file. The header\'s display
-window and data window are both set to *(0, 0) - (width-1, height-1)*.
-The size of each tile in the file will be *tileWidth* by *tileHeight*
+Construction of the [`TiledRgbaOutputFile`] object, with `TiledRgbaOutputFile::new()` creates an OpenEXR header, sets the header's attributes, opens the file with the
+specified name, and stores the header in the file. The header's display
+window and data window are both set to `(0, 0) - (width-1, height-1)`.
+The size of each tile in the file will be `tile_width` by `tile_height`
 pixels. The channel list contains four channels, R, G, B, and A, of type
-*HALF*.
+[`PixelType::Half`].
 
-Line 2 specifies how the pixel data are laid out in memory. The
-arithmetic involved in calculating the memory address of a specific
-pixel is the same as for the scan line based interface. (See *[Writing
-an RGBA Image File](#Writing%20an%20RGBA%20Image%20File)*, on page
-[4](#Writing%20an%20RGBA%20Image%20File).) We assume that the *pixels*
-pointer points to an array of *width\*height* pixels, which contains the
-entire image.
+[`set_frame_buffer()`](crate::tiled_rgba_file::TiledRgbaOutputFile::set_frame_buffer) sets the `pixels` slice as the source for the image data, specifying the `x_stride` as 1 and `y_stride` as the width of the image, since the slice is denssely packed.
 
-Line 3 copies the pixels into the file. The *TiledRgbaOutputFile*\'s
-*writeTiles() *method takes four arguments,* dxMin*,\* dyMin\*,\* dxMax
-*and* dyMax\*; *writeTiles()* writes all tiles that have tile
-coordinates *(dx,dy)*, where *dxMin* **≤** *dx* **≤** *dxMax* and
-*dyMin* **≤** *dy* **≤** *dyMax*. The *numXTiles()* method returns the
-number of tiles in the x direction, and similarly, the *numYTiles()*
-method returns the number of tiles in the y direction. Thus,
+[`write_tiles()`](crate::tiled_rgba_file::TiledRgbaOutputFile::write_tiles) copies the pixels into the file. The first four arguments specify the x and y ranges of tiles to write, and we can use [`TiledRgbaOutputFile`]'s [`num_x_tiles()`](crate::tiled_rgba_file::TiledRgbaOutputFile::num_x_tiles) and [`num_y_tiles()`](crate::tiled_rgba_file::TiledRgbaOutputFile::num_y_tiles) to specify the full set of tiles in the image.
 
-out.writeTiles (0, out.numXTiles() - 1, 0, out.numYTiles() - 1);
-
-writes the entire image.
-
+<!---
 This simple method works well when enough memory is available to
 allocate a frame buffer for the entire image. When allocating a frame
 buffer for the whole image is not desirable, for example because the
@@ -1496,59 +1494,58 @@ As for *ONE_LEVEL* and *MIPMAP_LEVELS* files, the frame buffer doesn\'t
 have to be large enough to hold a whole level. Any frame buffer big
 enough to hold at least a single tile will work.
 
+-->
+
 ## Reading a Tiled RGBA Image File
 
 Reading a tiled RGBA image file is done similarly to writing one:
 
-void
+```no_run
+use imath_traits::Zero;
+use openexr::{
+    tiled_rgba_file::TiledRgbaInputFile,
+    rgba::Rgba,
+};
 
-readTiledRgba1 (const char fileName\[\],
+fn read_tiled_rgba1(
+    filename: &str,
+) -> Result<Vec<Rgba>, Box<dyn std::error::Error>> {
+    let mut file = TiledRgbaInputFile::new(filename, 1)?;
+    let data_window = file.header().data_window::<[i32; 4]>().clone();
+    let width = data_window[2] - data_window[0] + 1;
+    let height = data_window[3] - data_window[1] + 1;
 
-Array2D\<Rgba> &pixels,
+    let mut pixels = vec![Rgba::zero(); (width * height) as usize];
+    file.set_frame_buffer(&mut pixels, 1, width as usize)?;
 
-int &width,
+    file.read_tiles(
+        0,
+        file.num_x_tiles(0) - 1,
+        0,
+        file.num_y_tiles(0) - 1,
+        0,
+        0,
+    )?;
 
-int &height)
-
-{
-
-TiledRgbaInputFile in (fileName);
-
-Box2i dw = in.dataWindow();
-
-width = dw.max.x - dw.min.x + 1;
-
-height = dw.max.y - dw.min.y + 1;
-
-int dx = dw.min.x;
-
-int dy = dw.min.y;
-
-pixels.resizeErase (height, width);
-
-in.setFrameBuffer (&pixels\[-dy\]\[-dx\], 1, width);
-
-in.readTiles (0, in.numXTiles() - 1, 0, in.numYTiles() - 1);
-
+    Ok(pixels)
 }
+```
 
-First we need to create a *TiledRgbaInputFile* object for the given file
+[`TiledRgbaInputFile`]: crate::tiled_rgba_file::TiledRgbaInputFile
+
+First we need to create a [`TiledRgbaInputFile`] object for the given file
 name. We then retrieve information about the data window in order to
 create an appropriately sized frame buffer, in this case large enough to
-hold the whole image at level *(0,0)*. After we set the frame buffer, we
+hold the whole image at level `(0,0)`. After we set the frame buffer, we
 read the tiles from the file.
 
 This example only reads the highest-resolution level of the image. It
 can be extended to read all levels, for multi-resolution images, by also
 iterating over all levels within the image, analogous to the examples in
-*[Writing a Tiled RGBA Image File with Mipmap
-Levels](#Writing%20a%20Tiled%20RGBA%20Image%20File%20with%20Mipmap%20Levels)*,
-on page
-[18](#Writing%20a%20Tiled%20RGBA%20Image%20File%20with%20Mipmap%20Levels),
-and *[Writing a Tiled RGBA Image File with Ripmap
-Levels](#Writing%20a%20Tiled%20RGBA%20Image%20File%20with%20Ripmap%20Levels)*,
-on page
-[20](#Writing%20a%20Tiled%20RGBA%20Image%20File%20with%20Ripmap%20Levels).
+[Writing a Tiled RGBA Image File with Mipmap
+Levels](#writing-a-tiled-rgba-image-file-with-mipmap-levels)
+and [Writing a Tiled RGBA Image File with Ripmap
+Levels](#writing-a-tiled-rgba-image-file-with-ripmap-levels).
 
 # Using the General Interface for Tiled Files
 
@@ -1844,7 +1841,7 @@ non-deep slices. The first two strides are used for the pointers in the
 array. Because the memory space for *Array2D* is contiguous, we can get
 the strides easily. The third stride is used for pixel samples. Because
 the data type is float (and we are not interleaving), the stride should
-be ***sizeof** (**float**)*. If we name the stride for deep data samples
+be sizeof(float). If we name the stride for deep data samples
 *sampleStride*, then the memory address of the i-th sample of this
 channel in pixel (x, y) is
 
@@ -2266,6 +2263,7 @@ Also we support postponed memory allocation.
 In this example, entries in dataZ and dataA have been allocated by the
 \'new\' calls must be deleted after use.
 
+<!---
 # Threads
 
 ## Library Thread-Safety
@@ -2398,7 +2396,6 @@ scanlines in a random order and wishes to avoid caching an entire
 uncompressed image. For more details, refer to the inline comments in
 ImfDeepScanLineInputFile.h
 
-<!---
 # Low-Level I/O
 
 ## Custom Low-Level File I/O
@@ -3154,40 +3151,20 @@ illuminated by their surroundings. Environment maps with enough dynamic
 range to represent even the brightest light sources in the environment
 are sometimes called \"light probe images.\"
 
+[`Envmap`]: crate::Envmap
+
 In an OpenEXR file, an environment map is stored as a rectangular pixel
 array, just like any other image, but an attribute in the file header
 indicates that the image is an environment map. The attribute\'s value,
-which is of type *Envmap*, specifies the relation between 2D pixel
-locations and 3D directions. *Envmap* is an enumeration type. Two values
+which is of type [`Envmap`], specifies the relation between 2D pixel
+locations and 3D directions. [`Envmap`] is an enumeration type. Two values
 are possible:
 
-```{=html}
-<table>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
-<tbody>
-<tr class="odd odd">
-<td><em>ENVMAP_LATLONG</em></td>
-<td><p><strong>Latitude-Longitude Map.</strong> The environment is projected onto the image using polar coordinates (latitude and longitude). A pixel's x coordinate corresponds to its longitude, and the y coordinate corresponds to its latitude. The pixel in the upper left corner of the data window has latitude +π/2 and longitude +π; the pixel in the lower right corner has latitude -π/2 and longitude -π .</p>
-<p>In 3D space, latitudes -π/2 and +π/2 correspond to the negative and positive y direction. Latitude 0, longitude 0 points in the positive z direction; latitude 0, longitude π/2 points in the positive x direction.</p></td>
-</tr>
-<tr class="even even">
-<td></td>
-<td><img src="Pictures/1000000000000769000003235842D1E5.png" width="407" height="172" />For a latitude-longitude map, the size of the data window should be 2×N by N pixels (width by height), where N can be any integer greater than 0.</td>
-</tr>
-<tr class="odd odd">
-<td><em>ENVMAP_CUBE</em></td>
-<td><strong>Cube Map.</strong> The environment is projected onto the six faces of an axis-aligned cube. The cube's faces are then arranged in a 2D image as shown below.</td>
-</tr>
-<tr class="even even">
-<td></td>
-<td><img src="Pictures/1000000000000663000005B58E740B28.png" width="351" height="312" />For a cube map, the size of the data window should be N by 6×N pixels (width by height), where N can be any integer greater than 0.</td>
-</tr>
-</tbody>
-</table>
-```
+| | |
+|---|---|
+| [`Envmap::Latlong`](crate::Envmap::Latlong) | <p>The environment is projected onto the image using polar coordinates (latitude and longitude). A pixel's x coordinate corresponds to its longitude, and the y coordinate corresponds to its latitude. The pixel in the upper left corner of the data window has latitude +π/2 and longitude +π; the pixel in the lower right corner has latitude -π/2 and longitude -π.</p><p> In 3D space, latitudes -π/2 and +π/2 correspond to the negative and positive y direction. Latitude 0, longitude 0 points in the positive z direction; latitude 0, longitude π/2 points in the positive x direction.</p><p>  ![Latlong map][env_latlong] </p> <p> For a latitude-longitude map, the size of the data window should be 2×N by N pixels (width by height), where N can be any integer greater than 0.</p>|
+| [`Envmap::Cube`](crate::Envmap::Cube) | <p>The environment is projected onto the six faces of an axis-aligned cube. The cube's faces are then arranged in a 2D image as shown below.</p><p> ![Cube map][env_cubemap] </p><p> For a cube map, the size of the data window should be N by 6×N pixels (width by height), where N can be any integer greater than 0. </p> | 
+
 **Note:** Both kinds of environment maps contain redundant pixels: In a
 latitude-longitude map, the top row and the bottom row of pixels
 correspond to the map\'s north pole and south pole (latitudes +π/2 and
@@ -3202,20 +3179,26 @@ face is repeated in the corresponding corners of the two adjacent faces.
 The following code fragment tests if an OpenEXR file contains an
 environment map, and if it does, which kind:
 
-RgbaInputFile file (fileName);
+```no_run
+use openexr::{rgba_file::RgbaInputFile, Envmap};
 
-if (hasEnvmap (file.header()))
+pub fn test_envmap(filename: &str) -> Result<(), Box<dyn std::error::Error>> {
+    let file = RgbaInputFile::new(filename, 1)?;
 
-{
+    if let Some(e) = file.header().find_typed_attribute_envmap("envmap") {
+        match e.value() {
+            Envmap::Latlong => println!("latlong"),
+            Envmap::Cube => println!("cubemap"),
+            _ => unreachable!(),
+        }
+    }
 
-Envmap type = envmap (file.header());
-
-\...
-
+    Ok(())
 }
+```
 
-For each kind of environment map, the IlmImf library provides a set of
+For each kind of environment map, openexr provides a set of
 routines that convert from 3D directions to 2D floating-point pixel
 locations and back. Those routines are useful in application programs
 that create environment maps and in programs that perform map lookups.
-For details, see the header file *ImfEnvmap.h*.
+For details, see the documentation for the [`envmap`](crate::envmap) module.

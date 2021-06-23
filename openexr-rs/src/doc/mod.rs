@@ -4,6 +4,8 @@ use embed_doc_image::embed_doc_image;
 cfg_if::cfg_if! {
 if #[cfg(feature = "long-form-docs")] {
     #[doc = include_str!("reading_and_writing_image_files.md")]
+    #[embed_doc_image("env_latlong", "src/doc/images/rawif_env_latlong.png")]
+    #[embed_doc_image("env_cubemap", "src/doc/images/rawif_env_cubemap.png")]
     pub mod reading_and_writing_image_files {}
 
     pub mod technical_introduction {}
