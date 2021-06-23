@@ -16,14 +16,14 @@ struct TiledRgbaOutputFile {
                         Imf::RgbaChannels rgbaChannels, int tileXSize,
                         int tileYSize, Imf::LevelMode mode,
                         Imf::LevelRoundingMode rmode, int numThreads)
-        CPPMM_RENAME(with_header);
+        CPPMM_RENAME(ctor) CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
     TiledRgbaOutputFile(Imf::OStream& os, const Imf::Header& header,
                         Imf::RgbaChannels rgbaChannels, int tileXSize,
                         int tileYSize, Imf::LevelMode mode,
                         Imf::LevelRoundingMode rmode, int numThreads)
-        CPPMM_RENAME(from_stream_with_header);
+        CPPMM_RENAME(from_stream) CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
     TiledRgbaOutputFile(const char name[], int tileXSize, int tileYSize,
@@ -33,7 +33,8 @@ struct TiledRgbaOutputFile {
                         Imf::RgbaChannels rgbaChannels, float pixelAspectRatio,
                         const IMATH_NAMESPACE::V2f screenWindowCenter,
                         float screenWindowWidth, Imf::LineOrder lineOrder,
-                        Imf::Compression compression, int numThreads);
+                        Imf::Compression compression, int numThreads)
+        CPPMM_RENAME(with_windows) CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
     TiledRgbaOutputFile(const char name[], int width, int height, int tileXSize,
@@ -42,8 +43,8 @@ struct TiledRgbaOutputFile {
                         Imf::RgbaChannels rgbaChannel, float pixelAspectRatio,
                         const Imath::V2f screenWindowCenter,
                         float screenWindowWidth, Imf::LineOrder lineOrder,
-                        Imf::Compression compression,
-                        int numThreads) CPPMM_IGNORE;
+                        Imf::Compression compression, int numThreads)
+        CPPMM_RENAME(with_dimensions) CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
     virtual ~TiledRgbaOutputFile();
@@ -82,7 +83,7 @@ struct TiledRgbaOutputFile {
     Imf::LevelRoundingMode levelRoundingMode() const;
 
     IMF_EXPORT
-    int numLevels() const;
+    int numLevels() const CPPMM_THROWS(Iex::LogicExc, IEX_LOGIC_ERROR);
     IMF_EXPORT
     int numXLevels() const;
     IMF_EXPORT
@@ -116,46 +117,73 @@ struct TiledRgbaOutputFile {
     IMF_EXPORT
     void writeTile(int dx, int dy, int l = 0) CPPMM_IGNORE;
     IMF_EXPORT
-    void writeTile(int dx, int dy, int lx, int ly);
+    void writeTile(int dx, int dy, int lx, int ly)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+            CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
-    void writeTiles(int dxMin, int dxMax, int dyMin, int dyMax, int lx, int ly);
+    void writeTiles(int dxMin, int dxMax, int dyMin, int dyMax, int lx, int ly)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+            CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
     void writeTiles(int dxMin, int dxMax, int dyMin, int dyMax,
                     int l = 0) CPPMM_IGNORE;
 
+    //------------------------------------------------------------------
+    // Shortcut to copy all pixels from an InputFile into this file,
+    // without uncompressing and then recompressing the pixel data.
+    // This file's header must be compatible with the InputFile's
+    // header:  The two header's "dataWindow", "compression",
+    // "lineOrder", "channels", and "tiles" attributes must be the same.
+    //
+    // To use this function, the InputFile must be tiled.
+    //------------------------------------------------------------------
+
     IMF_EXPORT
-    void updatePreviewImage(const Imf::PreviewRgba newPixels[]);
+    void copyPixels(InputFile& in) CPPMM_RENAME(copyPixels_from_file)
+        CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
+    IMF_EXPORT
+    void copyPixels(InputPart& in) CPPMM_RENAME(copyPixels_from_part)
+        CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
+
+    IMF_EXPORT
+    void updatePreviewImage(const Imf::PreviewRgba newPixels[])
+        CPPMM_THROWS(Iex::LogicExc, IEX_LOGIC_ERROR)
+            CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
     void breakTile(int dx, int dy, int lx, int ly, int offset, int length,
-                   char c);
+                   char c) CPPMM_IGNORE;
 } CPPMM_OPAQUEPTR;
 
 struct TiledRgbaInputFile {
     using BoundType = Imf::TiledRgbaInputFile;
 
     IMF_EXPORT
-    TiledRgbaInputFile(const char name[], int numThreads);
+    TiledRgbaInputFile(const char name[], int numThreads)
+        CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
     TiledRgbaInputFile(Imf::IStream& is, int numThreads)
-        CPPMM_RENAME(from_stream);
+        CPPMM_RENAME(from_stream) CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
     TiledRgbaInputFile(const char name[], const std::string& layerName,
-                       int numThreads) CPPMM_RENAME(with_layer);
+                       int numThreads) CPPMM_RENAME(with_layer)
+        CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
     TiledRgbaInputFile(Imf::IStream& is, const std::string& layerName,
-                       int numThreads) CPPMM_RENAME(from_stream_with_layer);
+                       int numThreads) CPPMM_RENAME(from_stream_with_layer)
+        CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
     virtual ~TiledRgbaInputFile();
 
     IMF_EXPORT
-    void setFrameBuffer(Imf::Rgba* base, size_t xStride, size_t yStride);
+    void setFrameBuffer(Imf::Rgba* base, size_t xStride, size_t yStride)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     IMF_EXPORT
     void setLayerName(const std::string& layerName);

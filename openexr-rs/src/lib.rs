@@ -96,6 +96,8 @@ pub mod multi_view;
 pub mod rational;
 pub mod test_file;
 
+pub mod tiled_rgba_file;
+
 pub mod cppstd;
 
 pub mod doc;
