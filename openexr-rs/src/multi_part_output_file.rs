@@ -129,7 +129,7 @@ fn write_multipartoutputfile1() {
         header.channels_mut().insert("B", &channel);
         header.channels_mut().insert("A", &channel);
 
-        header.set_image_type("scanlineimage");
+        header.set_image_type(ImageType::Scanline);
 
         header.set_dimensions(width, height);
 
