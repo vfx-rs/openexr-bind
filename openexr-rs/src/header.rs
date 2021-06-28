@@ -886,7 +886,7 @@ impl Header {
         unsafe {
             sys::Imf_Header_tileDescription_const(self.0.as_ref(), &mut ptr)
                 .into_result()
-                .map(|_| (*ptr).clone())
+                .map(|_| (*ptr).clone().into())
                 .map_err(Error::from)
         }
     }
@@ -895,7 +895,8 @@ impl Header {
     ///
     pub fn set_tile_description(&mut self, td: &TileDescription) {
         unsafe {
-            sys::Imf_Header_setTileDescription(self.0.as_mut(), td);
+            let td = (*td).into();
+            sys::Imf_Header_setTileDescription(self.0.as_mut(), &td);
         }
     }
 

@@ -1446,9 +1446,12 @@ impl TileDescriptionAttribute {
     pub fn from_value(value: &TileDescription) -> TileDescriptionAttribute {
         let mut inner = std::ptr::null_mut();
         unsafe {
-            sys::Imf_TileDescriptionAttribute_from_value(&mut inner, value)
-                .into_result()
-                .unwrap();
+            sys::Imf_TileDescriptionAttribute_from_value(
+                &mut inner,
+                &(*value).into(),
+            )
+            .into_result()
+            .unwrap();
         }
 
         TileDescriptionAttribute(inner)
