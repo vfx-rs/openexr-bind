@@ -417,9 +417,27 @@ impl DeepSlice {
         DeepSliceBuilder {
             pixel_type,
             data,
-            x_stride: 0,
+            x_stride: std::mem::size_of::<*mut i8>(),
             y_stride: 0,
             sample_stride: 0,
+            x_sampling: 1,
+            y_sampling: 1,
+            fill_value: 0.0,
+            x_tile_coords: false,
+            y_tile_coords: false,
+        }
+    }
+
+    pub fn from_sample_ptr<S: DeepSample>(
+        data: *mut *mut S,
+        width: i32,
+    ) -> DeepSliceBuilder {
+        DeepSliceBuilder {
+            pixel_type: S::CHANNEL_TYPE,
+            data: data as *mut i8,
+            x_stride: std::mem::size_of::<*mut i8>(),
+            y_stride: std::mem::size_of::<*mut i8>() * width as usize,
+            sample_stride: std::mem::size_of::<S>(),
             x_sampling: 1,
             y_sampling: 1,
             fill_value: 0.0,
