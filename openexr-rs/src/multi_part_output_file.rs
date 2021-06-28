@@ -3,7 +3,10 @@ use openexr_sys as sys;
 use std::ffi::CString;
 use std::path::Path;
 
-use crate::{Error, HeaderRef, HeaderSlice};
+use crate::{
+    header::{HeaderRef, HeaderSlice, ImageType},
+    Error,
+};
 
 type Result<T, E = Error> = std::result::Result<T, E>;
 
