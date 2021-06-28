@@ -276,3 +276,71 @@ impl Drop for DeepScanLineOutputFile {
         }
     }
 }
+
+#[cfg(test)]
+#[test]
+fn test_write_deep1() -> Result<()> {
+    use crate::{
+        channel_list::{CHANNEL_FLOAT, CHANNEL_HALF},
+        deep_frame_buffer::{DeepFrameBuffer, DeepSlice},
+        frame_buffer::Frame,
+        header::ImageType,
+        Compression, LineOrder, PixelType,
+    };
+    use half::f16;
+    use imath_traits::Bound2;
+    use std::alloc::{GlobalAlloc, Layout, System};
+
+    let width = 256;
+    let height = 256;
+    let num_pixels = (width * height) as usize;
+
+    let data_window = [0, 0, width - 1, height - 1];
+
+    let mut header = Header::with_dimensions(
+        width,
+        height,
+        1.0,
+        [0.0f32, 0.0],
+        1.0,
+        LineOrder::IncreasingY,
+        Compression::No,
+    )?;
+
+    header.set_image_type(ImageType::DeepScanline);
+    header.channels_mut().insert("Z", &CHANNEL_FLOAT);
+    header.channels_mut().insert("A", &CHANNEL_HALF);
+
+    let mut frame_buffer = DeepFrameBuffer::new();
+    let sample_counts = vec![1u32; num_pixels];
+    let sample_count_frame =
+        Frame::with_vec(&["sampleCounts"], sample_counts, data_window)?;
+    frame_buffer.set_sample_count_frame(sample_count_frame)?;
+
+    let (mut z_pixels, mut a_pixels): (Vec<Vec<f32>>, Vec<Vec<f16>>) =
+        crate::tests::deep_testpattern(width, height);
+
+    let mut z_ptrs: Vec<*mut f32> =
+        z_pixels.iter_mut().map(|v| v.as_mut_ptr()).collect();
+    let mut a_ptrs: Vec<*mut f16> =
+        a_pixels.iter_mut().map(|v| v.as_mut_ptr()).collect();
+
+    // set slices
+    frame_buffer.insert(
+        "Z",
+        &DeepSlice::from_sample_ptr(z_ptrs.as_mut_ptr(), width).build()?,
+    )?;
+
+    frame_buffer.insert(
+        "A",
+        &DeepSlice::from_sample_ptr(a_ptrs.as_mut_ptr(), width).build()?,
+    )?;
+
+    let mut file = DeepScanLineOutputFile::new("write_deep1.exr", &header, 4)?;
+    file.set_frame_buffer(&frame_buffer)?;
+    unsafe {
+        file.write_pixels(height)?;
+    }
+
+    Ok(())
+}

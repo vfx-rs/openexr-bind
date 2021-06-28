@@ -105,6 +105,33 @@ mod tests {
     use crate::*;
     use std::path::PathBuf;
 
+    use half::f16;
+
+    pub(crate) fn deep_testpattern(
+        width: i32,
+        height: i32,
+    ) -> (Vec<Vec<f32>>, Vec<Vec<f16>>) {
+        let mut z_pixels = Vec::<Vec<f32>>::new();
+        let mut a_pixels = Vec::<Vec<f16>>::new();
+
+        for y in 0..height {
+            let v = y as f32 / height as f32 * 8.0;
+            for x in 0..width {
+                let u = (x as f32) / (width as f32) * 8.0;
+
+                let idx = (y * width + x) as usize;
+
+                let z_v = vec![((u.sin() * v.sin()) + 1.0)];
+                let a_v = vec![f16::from_f32(1.0f32)];
+
+                z_pixels.push(z_v);
+                a_pixels.push(a_v);
+            }
+        }
+
+        (z_pixels, a_pixels)
+    }
+
     pub(crate) fn load_ferris() -> (Vec<Rgba>, i32, i32) {
         let path = PathBuf::from(
             std::env::var("CARGO_MANIFEST_DIR")
