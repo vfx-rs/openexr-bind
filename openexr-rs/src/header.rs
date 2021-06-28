@@ -733,7 +733,7 @@ impl Header {
     ///
     /// FIXME: Make this return an enum instead of a string
     ///
-    pub fn image_type(&self) -> Result<String> {
+    pub fn image_type(&self) -> Result<ImageType> {
         unsafe {
             let mut s = std::ptr::null();
             sys::Imf_Header_type_const(self.0.as_ref(), &mut s)
@@ -741,7 +741,13 @@ impl Header {
                 .map(|_| {
                     let mut cptr = std::ptr::null();
                     sys::std_string_c_str(s, &mut cptr);
-                    CStr::from_ptr(cptr).to_string_lossy().to_string()
+                    match CStr::from_ptr(cptr).to_str().unwrap() {
+                        "scanlineimage" => ImageType::Scanline,
+                        "tiledimage" => ImageType::Tiled,
+                        "deepscanline" => ImageType::DeepScanline,
+                        "deeptile" => ImageType::DeepTiled,
+                        _ => panic!("bad value for image type"),
+                    }
                 })
                 .map_err(Error::from)
         }
@@ -757,9 +763,14 @@ impl Header {
     ///
     /// FIXME: Make this take an enum instead of a string
     ///
-    pub fn set_image_type(&mut self, image_type: &str) {
+    pub fn set_image_type(&mut self, image_type: ImageType) {
         unsafe {
-            let s = CppString::new(image_type);
+            let s = match image_type {
+                ImageType::Scanline => CppString::new("scanline"),
+                ImageType::Tiled => CppString::new("tiledimage"),
+                ImageType::DeepScanline => CppString::new("deepscanline"),
+                ImageType::DeepTiled => CppString::new("deeptile"),
+            };
             sys::Imf_Header_setType(self.0.as_mut(), s.0);
         }
     }
@@ -1150,6 +1161,15 @@ impl<'s> Iterator for HeaderSliceIterMut<'s> {
             Some(HeaderRefMut::new(ptr))
         }
     }
+}
+
+/// Used to set (or inspect) the type of an image in the header
+///
+pub enum ImageType {
+    Scanline,
+    Tiled,
+    DeepScanline,
+    DeepTiled,
 }
 
 #[cfg(test)]
