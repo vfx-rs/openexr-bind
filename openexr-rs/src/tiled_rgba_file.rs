@@ -427,18 +427,33 @@ impl TiledRgbaOutputFile {
 
     /// Returns a 2-dimensional region of valid pixel coordinates for a level with level number `(lx, ly)`
     ///
-    pub fn data_window_for_level<B: Bound2<i32>>(&self, lx: i32, ly: i32) -> B {
+    /// # Errors
+    /// *[`Error::Base`] - if any error occurs
+    ///
+    pub fn data_window_for_level<B: Bound2<i32>>(
+        &self,
+        lx: i32,
+        ly: i32,
+    ) -> Result<B> {
         let mut dw = [0i32; 4];
         unsafe {
-            sys::Imf_TiledRgbaOutputFile_dataWindowForLevel(self.0, dw.as_mut_ptr() as *mut sys::Imath_Box2i_t, lx, ly)
-                .into_result()
-                .expect("Unexpected exception from Imf_TiledRgbaOutputFile_dataWindowForLevel");
+            sys::Imf_TiledRgbaOutputFile_dataWindowForLevel(
+                self.0,
+                dw.as_mut_ptr() as *mut sys::Imath_Box2i_t,
+                lx,
+                ly,
+            )
+            .into_result()?
         }
 
-        B::from_slice(&dw)
+        Ok(B::from_slice(&dw))
     }
 
     /// Returns a 2-dimensional region of valid pixel coordinates for a level with  tile coordinates `(dx, dy)` and level number `(lx, ly)`
+    ///
+    /// # Errors
+    /// * [`Error::InvalidArgument`] - if the passed tile coordinates are invalid
+    /// * [`Error::Base`] - if any other error occurs
     ///
     pub fn data_window_for_tile<B: Bound2<i32>>(
         &self,
@@ -446,15 +461,21 @@ impl TiledRgbaOutputFile {
         dy: i32,
         lx: i32,
         ly: i32,
-    ) -> B {
+    ) -> Result<B> {
         let mut dw = [0i32; 4];
         unsafe {
-            sys::Imf_TiledRgbaOutputFile_dataWindowForTile(self.0, dw.as_mut_ptr() as *mut sys::Imath_Box2i_t, dx, dy, lx, ly)
-                .into_result()
-                .expect("Unexpected exception from Imf_TiledRgbaOutputFile_dataWindowForTile");
+            sys::Imf_TiledRgbaOutputFile_dataWindowForTile(
+                self.0,
+                dw.as_mut_ptr() as *mut sys::Imath_Box2i_t,
+                dx,
+                dy,
+                lx,
+                ly,
+            )
+            .into_result()?
         }
 
-        B::from_slice(&dw)
+        Ok(B::from_slice(&dw))
     }
 
     /// Writes the tile with tile
@@ -1020,18 +1041,33 @@ impl TiledRgbaInputFile {
 
     /// Returns a 2-dimensional region of valid pixel coordinates for a level with level number `(lx, ly)`
     ///
-    pub fn data_window_for_level<B: Bound2<i32>>(&self, lx: i32, ly: i32) -> B {
+    /// # Errors
+    /// *[`Error::Base`] - if any error occurs
+    ///
+    pub fn data_window_for_level<B: Bound2<i32>>(
+        &self,
+        lx: i32,
+        ly: i32,
+    ) -> Result<B> {
         let mut dw = [0i32; 4];
         unsafe {
-            sys::Imf_TiledRgbaInputFile_dataWindowForLevel(self.0, dw.as_mut_ptr() as *mut sys::Imath_Box2i_t, lx, ly)
-                .into_result()
-                .expect("Unexpected exception from Imf_TiledRgbaInputFile_dataWindowForLevel");
+            sys::Imf_TiledRgbaInputFile_dataWindowForLevel(
+                self.0,
+                dw.as_mut_ptr() as *mut sys::Imath_Box2i_t,
+                lx,
+                ly,
+            )
+            .into_result()?;
         }
 
-        B::from_slice(&dw)
+        Ok(B::from_slice(&dw))
     }
 
     /// Returns a 2-dimensional region of valid pixel coordinates for a level with  tile coordinates `(dx, dy)` and level number `(lx, ly)`
+    ///
+    /// # Errors
+    /// * [`Error::InvalidArgument`] - if the passed tile coordinates are invalid
+    /// * [`Error::Base`] - if any other error occurs
     ///
     pub fn data_window_for_tile<B: Bound2<i32>>(
         &self,
@@ -1039,15 +1075,21 @@ impl TiledRgbaInputFile {
         dy: i32,
         lx: i32,
         ly: i32,
-    ) -> B {
+    ) -> Result<B> {
         let mut dw = [0i32; 4];
         unsafe {
-            sys::Imf_TiledRgbaInputFile_dataWindowForTile(self.0, dw.as_mut_ptr() as *mut sys::Imath_Box2i_t, dx, dy, lx, ly)
-                .into_result()
-                .expect("Unexpected exception from Imf_TiledRgbaInputFile_dataWindowForTile");
+            sys::Imf_TiledRgbaInputFile_dataWindowForTile(
+                self.0,
+                dw.as_mut_ptr() as *mut sys::Imath_Box2i_t,
+                dx,
+                dy,
+                lx,
+                ly,
+            )
+            .into_result()?;
         }
 
-        B::from_slice(&dw)
+        Ok(B::from_slice(&dw))
     }
 
     /// Reads the tile with tile coordinates `(dx, dy)`, and level number `(lx, ly)`,
