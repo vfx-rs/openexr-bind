@@ -1,3 +1,69 @@
+//! # OpenEXR
+//!
+//! The openexr crate provides high-level bindings for the [ASWF OpenEXR library](https://github.com/AcademySoftwareFoundation/openexr),
+//! which allows reading and writing files in the OpenEXR format (EXR standing
+//! for **EX**tended **R**ange). The OpenEXR format is the de-facto standard
+//! image storage format of the motion-picture industry.
+//!
+//! The purpose of EXR format is to accurately and efficiently represent high-dynamic-range scene-linear image data and associated metadata, with strong support for multi-part, multi-channel use cases.
+//!
+//! OpenEXR is widely used in host application software where accuracy is critical, such as photorealistic rendering, texture access, image compositing, deep compositing, and DI.
+//! OpenEXR is a project of the [Academy Software Foundation](https://www.aswf.io/). The format and library were originally developed by Industrial Light & Magic and first released in 2003. Weta Digital, Walt Disney Animation Studios, Sony Pictures Imageworks, Pixar Animation Studios, DreamWorks, and other studios, companies, and individuals have made contributions to the code base.
+//!
+//! OpenEXR is included in the [VFX Reference Platform](https://vfxplatform.com/).
+//!
+//! The openexr crate is maintained by [the vfx-rs project](https://github.com/vfx-rs).
+//!
+//!
+//! # Features
+//! * High dynamic range and color precision.
+//! * Support for 16-bit floating-point, 32-bit floating-point, and 32-bit integer pixels.
+//! * Multiple image compression algorithms, both lossless and lossy. Some of the included codecs can achieve 2:1 lossless compression ratios on images with film grain. The lossy codecs have been tuned for visual quality and decoding performance.
+//! * Extensibility. New image attributes (strings, vectors, integers, etc.) can be added to OpenEXR image headers without affecting backward compatibility with existing OpenEXR applications.
+//! * Support for stereoscopic image workflows and a generalization to multi-views.
+//! * Flexible support for deep data: pixels can store a variable-length list of samples and, thus, it is possible to store multiple values at different depths for each pixel. Hard surfaces and volumetric data representations are accommodated.
+//! * Multipart: ability to encode separate, but related, images in one file. This allows for access to individual parts without the need to read other parts in the file.
+//!
+//!
+//! # Building OpenEXR
+//!
+//! By default, the openexr crate will build the C++ OpenEXR and Imath libraries from a submodule.
+//! If you have existing installations of OpenEXR and Imath you would like to use instead, you can
+//! provide their paths to cargo with environment variables, e.g.:
+//! ```bash
+//! IMATH_ROOT=/path/to/imath OPENEXR_ROOT=/path/to/openexr cargo build
+//! ```
+//! Note that when you are doing this, *you* are responsible for ensuring that your C++ library
+//! versions are compatible with the crate version.
+//!
+//!
+//! # Crate/Library Version Compatibility
+//!
+//! Correctly versioning a binding crate against an underlying C++ library is tricky. We need to be
+//! able to evolve the API (particularly so we can add layers of safety on top of the C++
+//! interface), and we are also bound to respect the versioning of the underlying crate.
+//!
+//! We have chosen to make a slight abuse of semver here and both in the library and crate API
+//! versions into a single version for the crate:
+//!
+//! ```c
+//!                  OpenEXR Major Version
+//!                  │
+//!                  │  OpenEXR Minor Version
+//!                  │  │
+//!                  │  │  OpenEXR Patch Version
+//!                  │  │  │
+//!                  ▼  ▼  ▼
+//! Crate Version:   30.01.50
+//!                   ▲  ▲  ▲
+//!                   │  │  │
+//!                   │  │  Binding Patch Version
+//!                   │  │
+//!                   │  Binding Minor Version
+//!                   │
+//!                   Binding Major Version
+//! ```
+
 #![allow(dead_code)]
 
 pub mod rgba_file;
