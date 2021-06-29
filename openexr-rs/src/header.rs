@@ -766,12 +766,14 @@ impl Header {
     pub fn set_image_type(&mut self, image_type: ImageType) {
         unsafe {
             let s = match image_type {
-                ImageType::Scanline => CppString::new("scanline"),
+                ImageType::Scanline => CppString::new("scanlineimage"),
                 ImageType::Tiled => CppString::new("tiledimage"),
                 ImageType::DeepScanline => CppString::new("deepscanline"),
                 ImageType::DeepTiled => CppString::new("deeptile"),
             };
-            sys::Imf_Header_setType(self.0.as_mut(), s.0);
+            sys::Imf_Header_setType(self.0.as_mut(), s.0)
+                .into_result()
+                .expect("Unexpected exception from Imf_Header_setType");
         }
     }
 
