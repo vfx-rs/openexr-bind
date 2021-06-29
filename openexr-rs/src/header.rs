@@ -731,8 +731,6 @@ impl Header {
     /// * `deepscanline` - Deep, scanline-based.
     /// * `deeptile` - Deep, tiled.
     ///
-    /// FIXME: Make this return an enum instead of a string
-    ///
     pub fn image_type(&self) -> Result<ImageType> {
         unsafe {
             let mut s = std::ptr::null();
@@ -760,8 +758,6 @@ impl Header {
     /// * `tiledimage` - Flat, tiled.
     /// * `deepscanline` - Deep, scanline-based.
     /// * `deeptile` - Deep, tiled.
-    ///
-    /// FIXME: Make this take an enum instead of a string
     ///
     pub fn set_image_type(&mut self, image_type: ImageType) {
         unsafe {
