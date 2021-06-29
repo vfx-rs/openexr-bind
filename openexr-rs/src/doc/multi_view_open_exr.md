@@ -124,7 +124,7 @@ part of the `right` view.
 
 A multi-view OpenEXR file is identified by the presence of an attribute
 called `multiView` in the file header. The value of the attribute is of
-type "array of strings" [CppVectorString](crate::attribute::CppVectorString). The attribute contains a list of view
+type "array of strings" [CppVectorString](crate::cppstd::CppVectorString). The attribute contains a list of view
 names, one per array element. View names are arbitrary, except that
 periods and spaces are not permitted within a name. The first listed
 view (array element 0) is always the default view. Other view names may

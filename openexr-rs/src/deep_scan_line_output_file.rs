@@ -91,12 +91,13 @@ impl DeepScanLineOutputFile {
     ///
     /// The current frame buffer is the source of the pixel
     /// data written to the file.  The current frame buffer
-    /// must be set at least once before [`OutputFile::write_pixels`] is
+    /// must be set at least once before [`write_pixels()`](DeepScanLineOutputFile::write_pixels) is
     /// called.  The current frame buffer can be changed
-    /// after each call to [`OutputFile::write_pixels`].
+    /// after each call to [`write_pixels()`](DeepScanLineOutputFile::write_pixels).
     ///
     /// ## Errors
-    /// * [`Iex::ArgExc`] - If the pixel type of the [`Channel`]s in the [`Header`]
+    /// * [`Error::InvalidArgument`] - If the pixel type of the
+    /// [`Channel`](crate::channel_list::Channel)s in the [`Header`]
     /// do not match the types in the frame buffer, or if the sampling rates do
     /// not match.
     ///
@@ -135,7 +136,7 @@ impl DeepScanLineOutputFile {
     ///
     /// Retrieves the next `num_scan_lines` worth of data from
     /// the current frame buffer, starting with the scan line indicated by
-    /// [`OutputFile::current_scan_line`] and stores the data in the output file, and
+    /// [`current_scan_line()`](DeepScanLineOutputFile::current_scan_line) and stores the data in the output file, and
     /// progressing in the direction indicated by `header().line_order()`.
     ///
     /// To produce a complete and correct file, exactly m scan lines must
@@ -151,10 +152,8 @@ impl DeepScanLineOutputFile {
     /// # Safety
     /// This method is wildly unsafe as on the C++ side it's reading from
     /// pointers offset from the base pointers supplied by the
-    /// [`crate::frame_buffer::Slice`] in
-    /// the [`FrameBuffer`]. In particular, by setting an
-    /// [`crate::frame_buffer::SliceBuilder::origin`] you can cause `write_pixels`
-    /// to read from arbitrary memory locations.
+    /// [`DeepSlice`](crate::deep_frame_buffer::DeepSlice) in
+    /// the [`DeepFrameBuffer`].
     ///
     pub unsafe fn write_pixels(&self, num_scan_lines: i32) -> Result<()> {
         sys::Imf_DeepScanLineOutputFile_writePixels(self.0, num_scan_lines)
@@ -166,17 +165,18 @@ impl DeepScanLineOutputFile {
     ///
     /// Returns the y coordinate of the first scan line
     /// that will be read from the current frame buffer during the next
-    /// call to [`OutputFile::write_pixels`].
+    /// call to [`write_pixels()`](DeepScanLineOutputFile::write_pixels).
     ///
-    /// If `line_order() == INCREASING_Y`:
+    /// If `line_order() == LineOrder::IncreasingY`:
     ///
     /// The current scan line before the first call to write_pixels()
     /// is header().data_window().min.y.  After writing each scan line,
     /// the current scan line is incremented by 1.
     ///
-    /// If `line_order() == DECREASING_Y`:
+    /// If `line_order() == LineOrder::DecreasingY`:
     ///
-    /// The current scan line before the first call to write_pixels()
+    /// The current scan line before the first call to
+    /// [`write_pixels()`](DeepScanLineOutputFile::write_pixels)
     /// is header().data_window().max.y.  After writing each scan line,
     /// the current scan line is decremented by 1.
     ///
@@ -197,7 +197,7 @@ impl DeepScanLineOutputFile {
     ///
     /// # Errors
     /// * [`Error::InvalidArgument`] - If the headers do not match
-    /// * [`Error::Logic`] - If scan lines have already been written to this file.
+    /// * [`Error::LogicError`] - If scan lines have already been written to this file.
     ///
     pub fn copy_pixels_from_file(
         &mut self,
@@ -221,7 +221,7 @@ impl DeepScanLineOutputFile {
     ///
     /// # Errors
     /// * [`Error::InvalidArgument`] - If the headers do not match
-    /// * [`Error::Logic`] - If scan lines have already been written to this file.
+    /// * [`Error::LogicError`] - If scan lines have already been written to this file.
     ///
     pub fn copy_pixels_from_part(
         &mut self,
@@ -251,7 +251,7 @@ impl DeepScanLineOutputFile {
     /// the last scan line of the main image.
     ///
     /// # Errors
-    /// * [`Error::Logic`] - If the header does not contain a preview image
+    /// * [`Error::LogicError`] - If the header does not contain a preview image
     /// * [`Error::Base`] - If any other error occurs
     ///
     pub fn update_preview_image(

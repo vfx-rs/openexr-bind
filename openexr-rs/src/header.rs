@@ -884,7 +884,8 @@ impl Header {
 impl Header {
     //! # Tile Description
     //!
-    //! The tile description is a [`TileDescriptionAttribute`] whose name is
+    //! The tile description is a
+    //! [`TileDescriptionAttribute`](crate::attribute::TileDescriptionAttribute) whose name is
     //! `"tiles"`. It is mandatory for tiled files. The [`TileDescription`]
     //! describes various properties of the tiles that make up the image file.
 
@@ -923,11 +924,11 @@ impl Header {
 impl Header {
     //! # Preview Image
     //!
-    //! The preview image ias a [`PreviewImageAttribute`] whose name is
+    //! The preview image ias a [`PreviewImageAttribute`](crate::attribute::PreviewImageAttribute) whose name is
     //! `"preview"`.
     //! This attribute is special -- while an image file is being written,
     //! the pixels of the preview image can be changed repeatedly by calling
-    //! [`OutputFile::update_preview_image()`]
+    //! [`update_preview_image()`](crate::output_file::OutputFile::update_preview_image)
 
     /// Get the preview image from the header
     ///

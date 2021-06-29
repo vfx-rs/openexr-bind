@@ -49,7 +49,7 @@ type Result<T, E = Error> = std::result::Result<T, E>;
 /// channels.
 ///
 /// An image channel has a name (e.g. "R", "Z", or "xVelocity"), a type
-/// ([`CHANNEL_HALF`], [`CHANNEL_FLOAT`] or [`CHANNEL_UINT`]) and x and y sampling
+/// ([`CHANNEL_HALF`](crate::channel_list::CHANNEL_HALF), [`CHANNEL_FLOAT`](crate::channel_list::CHANNEL_FLOAT) or [`CHANNEL_UINT`](crate::channel_list::CHANNEL_UINT)) and x and y sampling
 /// rates. A channel stores samples for a pixel if the pixel is inside the data
 /// window of the level to which the channel belongs, and the x and y coordinates
 /// of the pixel are divisible by the x and y sampling rates of the channel.
@@ -114,13 +114,13 @@ impl DeepImage {
     /// Get the number of levels in the image.
     ///
     /// This is a convenience function for use with mipmaps, in which case this
-    /// function is equivalent to [`num_x_levels()`].
+    /// function is equivalent to [`num_x_levels()`](DeepImage::num_x_levels).
     ///
-    /// If this image's level mode is [`LevelMode::Ripmap`], you must call
-    /// [`num_x_levels()`] or [`num_y_levels`] instead.
+    /// If this image's level mode is [`LevelMode::RipmapLevels`], you must call
+    /// [`num_x_levels()`](DeepImage::num_x_levels) or [`num_y_levels`](DeepImage::num_y_levels) instead.
     ///
     /// # Errors
-    /// * [`Error::Logic`] - if this image's level mode is [`LevelMode::Ripmap`]
+    /// * [`Error::LogicError`] - if this image's level mode is [`LevelMode::RipmapLevels`]
     ///
     pub fn num_levels(&self) -> Result<i32> {
         let mut v = 0;
@@ -133,16 +133,15 @@ impl DeepImage {
     /// Returns the image's number of levels in the x direction.
     ///
     /// # Returns
-    /// * `1` if [`level_mode()`] is [`LevelMode::OneLevel`]
-    /// * `rfunc(log(max(w, h)) / log(2)) + 1` if [`level_mode()`] is [`LevelMode::MipmapLevels`]
-    /// * `rfunc(log(w) / log(2)) + 1` if [`level_mode()`] is [`LevelMode::RipmapLevels`]
+    /// * `1` if [`level_mode()`](DeepImage::level_mode) is [`LevelMode::OneLevel`]
+    /// * `rfunc(log(max(w, h)) / log(2)) + 1` if [`level_mode()`](DeepImage::level_mode) is [`LevelMode::MipmapLevels`]
+    /// * `rfunc(log(w) / log(2)) + 1` if [`level_mode()`](DeepImage::level_mode) is [`LevelMode::RipmapLevels`]
     ///
     /// Where:
     /// * `w` is the width of the image's data window,  max.x - min.x + 1,
     /// * `h` is the height of the image's data window, max.y - min.y + 1,
-    /// * and `rfunc(x)` is either `floor(x)`, or `ceil(x)`, depending on
-    /// * whether [`level_rounding_mode()`] returns [`LevelRoundingMode::RoundDown`] or
-    /// [`LevelRoundingMode::RoundUp`].
+    /// * and `rfunc` is either `floor()` or `ceil()` depending on whether
+    /// [`level_rounding_mode()`](DeepImage::level_rounding_mode()) is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
     ///
     pub fn num_x_levels(&self) -> i32 {
         let mut v = 0;
@@ -155,14 +154,13 @@ impl DeepImage {
     /// Returns the image's number of levels in the y direction.
     ///
     /// # Returns
-    /// * Same as [`num_x_levels()`] if [`level_mode()`] is [`LevelMode::OneLevel`] or [`LevelMode::MipmapLevels`]
-    /// * `rfunc(log(h) / log(2)) + 1` if [`level_mode()`] is [`LevelMode::RipmapLevels`]
+    /// * Same as [`num_x_levels()`](DeepImage::num_x_levels) if [`level_mode()`](DeepImage::level_mode) is [`LevelMode::OneLevel`] or [`LevelMode::MipmapLevels`]
+    /// * `rfunc(log(h) / log(2)) + 1` if [`level_mode()`](DeepImage::level_mode) is [`LevelMode::RipmapLevels`]
     ///
     /// Where:
     /// * `h` is the height of the image's data window, max.y - min.y + 1,
-    /// * and `rfunc(x)` is either `floor(x)`, or `ceil(x)`, depending on
-    /// * whether [`level_rounding_mode()`] returns [`LevelRoundingMode::RoundDown`] or
-    /// [`LevelRoundingMode::RoundUp`].
+    /// * and `rfunc` is either `floor()` or `ceil()` depending on whether
+    /// [`level_rounding_mode()`](DeepImage::level_rounding_mode()) is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
     ///
     pub fn num_y_levels(&self) -> i32 {
         let mut v = 0;
@@ -296,7 +294,7 @@ impl DeepImage {
     /// Insert a new channel into the image.
     ///
     /// The arguments to this function are the same as for adding a
-    /// a channel to a [`Header`]: channel name, x and y sampling
+    /// a channel to a [`Header`](crate::header::Header): channel name, x and y sampling
     /// rates, and a "perceptually approximately linear" flag.
     ///
     /// If the image already contains a channel with the same name
@@ -401,8 +399,8 @@ impl DeepImage {
 }
 
 impl Default for DeepImage {
-    /// Constructs a `DeepImage` with an empty data window, [`LevelMode::One`] level and
-    /// [`LevelRounLevelRoundingMode::RoundDown`]
+    /// Constructs a `DeepImage` with an empty data window, [`LevelMode::OneLevel`] level and
+    /// [`LevelRoundingMode::RoundDown`]
     ///
     fn default() -> DeepImage {
         let mut ptr = std::ptr::null_mut();

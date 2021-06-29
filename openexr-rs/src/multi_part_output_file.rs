@@ -12,8 +12,8 @@ type Result<T, E = Error> = std::result::Result<T, E>;
 
 /// Manages writing multi-part images.
 ///
-/// Multi-part images are essentially just containers around multiple
-/// [`OutputImage`]s.
+/// Multi-part files are essentially just containers around multiple
+/// [`OutputFile`](crate::output_file::OutputFile)s
 ///
 /// Certain attributes are shared between all parts:
 /// * `displayWindow`
@@ -77,10 +77,10 @@ impl MultiPartOutputFile {
         v
     }
 
-    /// Return a [`Header`] for part `n`.
+    /// Return a [`Header`](crate::header::Header) for part `n`.
     ///
     /// Due to enforcing attribute sharing, the attributes of the returned
-    /// [`Header`] may be different from the matching one passed in to the
+    /// [`Header`](crate::header::Header) may be different from the matching one passed in to the
     /// constructor.
     ///
     /// # Errors

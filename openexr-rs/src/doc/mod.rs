@@ -1,3 +1,18 @@
+//! # Documentation
+//!
+//! This module contains markdown conversions of the long-form PDF documentation
+//! available on <https://www.openexr.com>.
+//!
+//! * [Reading and Writing Image Files](crate::doc::reading_and_writing_image_files) - A
+//! tutorial-style guide to the main image reading and writing interfaces.
+//! * [Technical Introduction](crate::doc::technical_introduction) - A technical overview of the
+//! OpenEXR format and its related concepts.
+//! * [Interpreting Deep Pixels](crate::doc::interpreting_deep_pixels) - An in-depth look at how
+//! deep pixels are stored and how to manipulate their samples.
+//! * [Multi-View OpenEXR](crate::doc::multi_view_open_exr) - Representation of multi-view images
+//! in OpenEXR files.
+//!
+
 #[cfg(feature = "long-form-docs")]
 use embed_doc_image::embed_doc_image;
 
@@ -8,6 +23,11 @@ if #[cfg(feature = "long-form-docs")] {
     #[embed_doc_image("env_cubemap", "src/doc/images/rawif_env_cubemap.png")]
     pub mod reading_and_writing_image_files {}
 
+    #[doc = include_str!("technical_introduction.md")]
+    #[embed_doc_image("ti_windows", "src/doc/images/ti_windows.png")]
+    #[embed_doc_image("ti_windows2", "src/doc/images/ti_windows2.png")]
+    #[embed_doc_image("ti_image3", "src/doc/images/ti_image3.png")]
+    #[embed_doc_image("ti_image4", "src/doc/images/ti_image4.png")]
     pub mod technical_introduction {}
 
     pub mod open_exr_file_layout {}

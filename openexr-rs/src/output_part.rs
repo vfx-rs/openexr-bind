@@ -41,7 +41,7 @@ impl OutputPart {
         }
     }
 
-    /// Access to the file [`Header`]
+    /// Access to the file [`Header`](crate::header::Header)
     ///
     pub fn header(&self) -> HeaderRef {
         unsafe {
@@ -65,7 +65,8 @@ impl OutputPart {
     /// after each call to [`OutputPart::write_pixels`].
     ///
     /// ## Errors
-    /// * [`Iex::ArgExc`] - If the pixel type of the [`Channel`]s in the [`Header`]
+    /// * [`Error::InvalidArgument`] - If the pixel type of the
+    /// [`Channel`](crate::channel_list::Channel)s in the [`Header`](crate::header::Header)
     /// do not match the types in the frame buffer, or if the sampling rates do
     /// not match.
     ///
@@ -163,7 +164,7 @@ impl OutputPart {
     ///
     /// # Errors
     /// * [`Error::InvalidArgument`] - If the headers do not match
-    /// * [`Error::Logic`] - If scan lines have already been written to this file.
+    /// * [`Error::LogicError`] - If scan lines have already been written to this file.
     ///
     pub fn copy_pixels_from_file(&mut self, file: &InputFile) -> Result<()> {
         unsafe {
@@ -182,7 +183,7 @@ impl OutputPart {
     ///
     /// # Errors
     /// * [`Error::InvalidArgument`] - If the headers do not match
-    /// * [`Error::Logic`] - If scan lines have already been written to this file.
+    /// * [`Error::LogicError`] - If scan lines have already been written to this file.
     ///
     pub fn copy_pixels_from_part(
         &mut self,
@@ -209,7 +210,7 @@ impl OutputPart {
     /// the last scan line of the main image.
     ///
     /// # Errors
-    /// * [`Error::Logic`] - If the header does not contain a preview image
+    /// * [`Error::LogicError`] - If the header does not contain a preview image
     /// * [`Error::Base`] - If any other error occurs
     ///
     pub fn update_preview_image(

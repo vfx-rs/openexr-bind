@@ -90,7 +90,8 @@ impl OutputFile {
     /// after each call to [`OutputFile::write_pixels`].
     ///
     /// ## Errors
-    /// * [`Iex::ArgExc`] - If the pixel type of the [`Channel`]s in the [`Header`]
+    /// * [`Error::InvalidArgument`] - If the pixel type of the
+    /// [`Channel`](crate::channel_list::Channel)s in the [`Header`]
     /// do not match the types in the frame buffer, or if the sampling rates do
     /// not match.
     ///
@@ -188,7 +189,7 @@ impl OutputFile {
     ///
     /// # Errors
     /// * [`Error::InvalidArgument`] - If the headers do not match
-    /// * [`Error::Logic`] - If scan lines have already been written to this file.
+    /// * [`Error::LogicError`] - If scan lines have already been written to this file.
     ///
     pub fn copy_pixels_from_file(&mut self, file: &InputFile) -> Result<()> {
         unsafe {
@@ -207,7 +208,7 @@ impl OutputFile {
     ///
     /// # Errors
     /// * [`Error::InvalidArgument`] - If the headers do not match
-    /// * [`Error::Logic`] - If scan lines have already been written to this file.
+    /// * [`Error::LogicError`] - If scan lines have already been written to this file.
     ///
     pub fn copy_pixels_from_part(
         &mut self,
@@ -234,7 +235,7 @@ impl OutputFile {
     /// the last scan line of the main image.
     ///
     /// # Errors
-    /// * [`Error::Logic`] - If the header does not contain a preview image
+    /// * [`Error::LogicError`] - If the header does not contain a preview image
     /// * [`Error::Base`] - If any other error occurs
     ///
     pub fn update_preview_image(
@@ -381,7 +382,7 @@ fn write_outputfile2() {
 fn write_gz1() -> Result<(), Box<dyn std::error::Error>> {
     use crate::{
         channel_list::{CHANNEL_FLOAT, CHANNEL_HALF},
-        Frame, PixelType, Slice,
+        PixelType, Slice,
     };
     use half::f16;
 
@@ -403,7 +404,7 @@ fn write_gz1() -> Result<(), Box<dyn std::error::Error>> {
 
     frame_buffer.insert(
         "G",
-        &Slice::new(
+        &Slice::builder(
             PixelType::Half,
             g.as_ptr() as *const u8,
             width as i64,
@@ -415,7 +416,7 @@ fn write_gz1() -> Result<(), Box<dyn std::error::Error>> {
 
     frame_buffer.insert(
         "Z",
-        &Slice::new(
+        &Slice::builder(
             PixelType::Float,
             z.as_ptr() as *const u8,
             width as i64,
@@ -437,7 +438,7 @@ fn write_gz1() -> Result<(), Box<dyn std::error::Error>> {
 fn write_gz2() -> Result<(), Box<dyn std::error::Error>> {
     use crate::{
         channel_list::{CHANNEL_FLOAT, CHANNEL_HALF},
-        Frame, PixelType, Slice,
+        PixelType, Slice,
     };
     use half::f16;
 
@@ -461,7 +462,7 @@ fn write_gz2() -> Result<(), Box<dyn std::error::Error>> {
 
     frame_buffer.insert(
         "G",
-        &Slice::new(
+        &Slice::builder(
             PixelType::Half,
             g.as_ptr() as *const u8,
             width as i64,
@@ -473,7 +474,7 @@ fn write_gz2() -> Result<(), Box<dyn std::error::Error>> {
 
     frame_buffer.insert(
         "Z",
-        &Slice::new(
+        &Slice::builder(
             PixelType::Float,
             z.as_ptr() as *const u8,
             width as i64,

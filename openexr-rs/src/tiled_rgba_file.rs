@@ -227,7 +227,7 @@ impl TiledRgbaOutputFile {
         }
     }
 
-    /// Get the [`FrameBuffer`]
+    /// Get the [`FrameBuffer`](crate::frame_buffer::FrameBuffer)
     ///
     pub fn frame_buffer(&self) -> FrameBufferRef {
         unsafe {
@@ -300,13 +300,13 @@ impl TiledRgbaOutputFile {
     /// Get the number of levels in the file
     ///
     /// # Returns
-    /// * `Ok(1)` if [`TiledRgbaOutputFile::level_mode()`] == [`LevelMode::OneLevel`]
-    /// * `Ok(rfunc (log (max (w, h)) / log (2)) + 1)` if [`TiledRgbaOutputFile::level_mode()`] == [`LevelMode::MipmapLevels`]
+    /// * `Ok(1)` if [`level_mode()`](TiledRgbaOutputFile::level_mode()) == [`LevelMode::OneLevel`]
+    /// * `Ok(rfunc (log (max (w, h)) / log (2)) + 1)` if [`level_mode()`](TiledRgbaOutputFile::level_mode()) == [`LevelMode::MipmapLevels`]
 
-    /// * `Err(Error::Logic)` if [`TiledRgbaOutputFile::level_mode()`] == [`LevelMode::RipmapLevels`]
+    /// * `Err(Error::LogicError)` if [`level_mode()`](TiledRgbaOutputFile::level_mode()) == [`LevelMode::RipmapLevels`]
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
-    /// [`TiledRgbaOutputFile::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
+    /// [`level_rounding_mode()`](TiledRgbaOutputFile::level_rounding_mode()) is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
     ///
     pub fn num_levels(&self) -> Result<i32> {
         let mut v = 0;
@@ -321,13 +321,13 @@ impl TiledRgbaOutputFile {
     /// Get the number of levels in the file in the x axis
     ///
     /// # Returns
-    /// * `1` if [`TiledRgbaOutputFile::mode()`] == [`LevelMode::OneLevel`]
-    /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`TiledRgbaOutputFile::mode()`] == [`LevelMode::MipmapLevels`]
+    /// * `1` if [`level_mode()`](TiledRgbaOutputFile::level_mode) == [`LevelMode::OneLevel`]
+    /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`level_mode()`](TiledRgbaOutputFile::level_mode) == [`LevelMode::MipmapLevels`]
 
-    /// * `rfunc (log (w) / log (2)) + 1` if [`TiledRgbaOutputFile::mode()`] == [`LevelMode::RipmapLevels`]
+    /// * `rfunc (log (w) / log (2)) + 1` if [`level_mode()`](TiledRgbaOutputFile::level_mode) == [`LevelMode::RipmapLevels`]
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
-    /// [`TiledRgbaOutputFile::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
+    /// [`level_rounding_mode()`](TiledRgbaOutputFile::level_rounding_mode()) is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
     ///
     pub fn num_x_levels(&self) -> i32 {
         let mut v = 0;
@@ -337,16 +337,16 @@ impl TiledRgbaOutputFile {
         v
     }
 
-    /// Get the number of levels in the file in the x axis
+    /// Get the number of levels in the file in the y axis
     ///
     /// # Returns
-    /// * `1` if [`TiledRgbaOutputFile::mode()`] == [`LevelMode::OneLevel`]
-    /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`TiledRgbaOutputFile::mode()`] == [`LevelMode::MipmapLevels`]
+    /// * `1` if [`level_mode()`](TiledRgbaOutputFile::level_mode) == [`LevelMode::OneLevel`]
+    /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`level_mode()`](TiledRgbaOutputFile::level_mode)`TiledRgbaOutputFile::mode()`] == [`LevelMode::MipmapLevels`]
 
-    /// * `rfunc (log (h) / log (2)) + 1` if [`TiledRgbaOutputFile::mode()`] == [`LevelMode::RipmapLevels`]
+    /// * `rfunc (log (h) / log (2)) + 1` if [`level_mode()`](TiledRgbaOutputFile::level_mode) == [`LevelMode::RipmapLevels`]
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
-    /// [`TiledRgbaOutputFile::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
+    /// [`level_rounding_mode()`](TiledRgbaOutputFile::level_rounding_mode()) is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
     ///
     pub fn num_y_levels(&self) -> i32 {
         let mut v = 0;
@@ -373,7 +373,7 @@ impl TiledRgbaOutputFile {
     /// * `max (1, rfunc (w / pow (2, lx)))`
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
-    /// [`TiledRgbaOutputFile::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
+    /// [`level_rounding_mode()`](TiledRgbaOutputFile::level_rounding_mode()) is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
     ///
     pub fn level_width(&self, lx: i32) -> i32 {
         let mut v = 0;
@@ -389,7 +389,7 @@ impl TiledRgbaOutputFile {
     /// * `max (1, rfunc (h / pow (2, ly)))`
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
-    /// [`TiledRgbaOutputFile::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
+    /// [`level_rounding_mode()`](TiledRgbaOutputFile::level_rounding_mode()) is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
     ///
     pub fn level_height(&self, ly: i32) -> i32 {
         let mut v = 0;
@@ -653,7 +653,7 @@ impl TiledRgbaOutputFile {
     /// last tile of the main image.
     ///
     /// # Errors
-    /// * [`Error::Logic`] - If the image header does not contain a preview image
+    /// * [`Error::LogicError`] - If the image header does not contain a preview image
     /// * [`Error::Base`] - If any other error occurs
     ///
     pub fn update_preview_image(
@@ -841,7 +841,7 @@ impl TiledRgbaInputFile {
         }
     }
 
-    /// Get the [`FrameBuffer`]
+    /// Get the [`FrameBuffer`](crate::frame_buffer::FrameBuffer)
     ///
     pub fn frame_buffer(&self) -> FrameBufferRef {
         unsafe {
@@ -914,13 +914,13 @@ impl TiledRgbaInputFile {
     /// Get the number of levels in the file
     ///
     /// # Returns
-    /// * `Ok(1)` if [`TiledRgbaInputFile::level_mode()`] == [`LevelMode::OneLevel`]
-    /// * `Ok(rfunc (log (max (w, h)) / log (2)) + 1)` if [`TiledRgbaInputFile::level_mode()`] == [`LevelMode::MipmapLevels`]
+    /// * `Ok(1)` if [`level_mode()`](TiledRgbaInputFile::level_mode()) == [`LevelMode::OneLevel`]
+    /// * `Ok(rfunc (log (max (w, h)) / log (2)) + 1)` if [`level_mode()`](TiledRgbaInputFile::level_mode()) == [`LevelMode::MipmapLevels`]
 
-    /// * `Err(Error::Logic)` if [`TiledRgbaInputFile::level_mode()`] == [`LevelMode::RipmapLevels`]
+    /// * `Err(Error::LogicError)` if [`level_mode()`](TiledRgbaInputFile::level_mode()) == [`LevelMode::RipmapLevels`]
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
-    /// [`TiledRgbaInputFile::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
+    /// [`level_rounding_mode()`](TiledRgbaInputFile::level_rounding_mode()) is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
     ///
     pub fn num_levels(&self) -> Result<i32> {
         let mut v = 0;
@@ -935,13 +935,13 @@ impl TiledRgbaInputFile {
     /// Get the number of levels in the file in the x axis
     ///
     /// # Returns
-    /// * `1` if [`TiledRgbaInputFile::mode()`] == [`LevelMode::OneLevel`]
-    /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`TiledRgbaInputFile::mode()`] == [`LevelMode::MipmapLevels`]
+    /// * `1` if [`level_mode()`](TiledRgbaInputFile::level_mode) == [`LevelMode::OneLevel`]
+    /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`level_mode()`](TiledRgbaInputFile::level_mode) == [`LevelMode::MipmapLevels`]
 
-    /// * `rfunc (log (w) / log (2)) + 1` if [`TiledRgbaInputFile::mode()`] == [`LevelMode::RipmapLevels`]
+    /// * `rfunc (log (w) / log (2)) + 1` if [`level_mode()`](TiledRgbaInputFile::level_mode) == [`LevelMode::RipmapLevels`]
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
-    /// [`TiledRgbaInputFile::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
+    /// [`level_rounding_mode()`](TiledRgbaInputFile::level_rounding_mode()) is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
     ///
     pub fn num_x_levels(&self) -> i32 {
         let mut v = 0;
@@ -951,16 +951,16 @@ impl TiledRgbaInputFile {
         v
     }
 
-    /// Get the number of levels in the file in the x axis
+    /// Get the number of levels in the file in the y axis
     ///
     /// # Returns
-    /// * `1` if [`TiledRgbaInputFile::mode()`] == [`LevelMode::OneLevel`]
-    /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`TiledRgbaInputFile::mode()`] == [`LevelMode::MipmapLevels`]
+    /// * `1` if [`level_mode()`](TiledRgbaInputFile::level_mode) == [`LevelMode::OneLevel`]
+    /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`level_mode()`](TiledRgbaInputFile::level_mode)`TiledRgbaInputFile::mode()`] == [`LevelMode::MipmapLevels`]
 
-    /// * `rfunc (log (h) / log (2)) + 1` if [`TiledRgbaInputFile::mode()`] == [`LevelMode::RipmapLevels`]
+    /// * `rfunc (log (h) / log (2)) + 1` if [`level_mode()`](TiledRgbaInputFile::level_mode) == [`LevelMode::RipmapLevels`]
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
-    /// [`TiledRgbaInputFile::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
+    /// [`level_rounding_mode()`](TiledRgbaInputFile::level_rounding_mode()) is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
     ///
     pub fn num_y_levels(&self) -> i32 {
         let mut v = 0;
@@ -987,7 +987,7 @@ impl TiledRgbaInputFile {
     /// * `max (1, rfunc (w / pow (2, lx)))`
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
-    /// [`TiledRgbaInputFile::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
+    /// [`level_rounding_mode()`](TiledRgbaInputFile::level_rounding_mode()) is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
     ///
     pub fn level_width(&self, lx: i32) -> i32 {
         let mut v = 0;
@@ -1003,7 +1003,7 @@ impl TiledRgbaInputFile {
     /// * `max (1, rfunc (h / pow (2, ly)))`
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
-    /// [`TiledRgbaInputFile::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
+    /// [`level_rounding_mode()`](TiledRgbaInputFile::level_rounding_mode()) is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
     ///
     pub fn level_height(&self, ly: i32) -> i32 {
         let mut v = 0;

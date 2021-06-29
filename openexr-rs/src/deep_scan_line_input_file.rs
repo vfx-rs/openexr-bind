@@ -48,7 +48,7 @@ impl DeepScanLineInputFile {
         Ok(DeepScanLineInputFile(ptr))
     }
 
-    /// Access to the file [`Header`]
+    /// Access to the file [`Header`](crate::header::Header)
     ///
     pub fn header(&self) -> HeaderRef {
         unsafe {
@@ -290,7 +290,7 @@ fn read_deep1() {
         frame_buffer
             .insert(
                 "Z",
-                &DeepSlice::new(
+                &DeepSlice::builder(
                     sys::PixelType::Float,
                     data_z.as_mut_ptr().offset(offset) as *mut i8,
                 )
@@ -307,7 +307,7 @@ fn read_deep1() {
         frame_buffer
             .insert(
                 "ZBack",
-                &DeepSlice::new(
+                &DeepSlice::builder(
                     sys::PixelType::Float,
                     data_zback.as_mut_ptr().offset(offset) as *mut i8,
                 )
@@ -324,7 +324,7 @@ fn read_deep1() {
         frame_buffer
             .insert(
                 "R",
-                &DeepSlice::new(
+                &DeepSlice::builder(
                     sys::PixelType::Half,
                     data_r.as_mut_ptr().offset(offset) as *mut i8,
                 )
@@ -341,7 +341,7 @@ fn read_deep1() {
         frame_buffer
             .insert(
                 "G",
-                &DeepSlice::new(
+                &DeepSlice::builder(
                     sys::PixelType::Half,
                     data_g.as_mut_ptr().offset(offset) as *mut i8,
                 )
@@ -358,7 +358,7 @@ fn read_deep1() {
         frame_buffer
             .insert(
                 "B",
-                &DeepSlice::new(
+                &DeepSlice::builder(
                     sys::PixelType::Half,
                     data_b.as_mut_ptr().offset(offset) as *mut i8,
                 )
@@ -375,7 +375,7 @@ fn read_deep1() {
         frame_buffer
             .insert(
                 "A",
-                &DeepSlice::new(
+                &DeepSlice::builder(
                     sys::PixelType::Half,
                     data_a.as_mut_ptr().offset(offset) as *mut i8,
                 )

@@ -63,6 +63,24 @@
 //!                   │
 //!                   Binding Major Version
 //! ```
+//!
+//!
+//! # Long-Form Documentation
+//!
+//! The following documents give a more in-depth view of different parts of the
+//! openexr crate:
+//!
+//! * [Reading and Writing Image Files](crate::doc::reading_and_writing_image_files) - A
+//! tutorial-style guide to the main image reading and writing interfaces.
+//! * [Technical Introduction](crate::doc::technical_introduction) - A technical overview of the
+//! OpenEXR format and its related concepts.
+//! * [Interpreting Deep Pixels](crate::doc::interpreting_deep_pixels) - An in-depth look at how
+//! deep pixels are stored and how to manipulate their samples.
+//! * [Multi-View OpenEXR](crate::doc::multi_view_open_exr) - Representation of multi-view images
+//! in OpenEXR files.
+//!
+//!
+//!
 
 #![allow(dead_code)]
 

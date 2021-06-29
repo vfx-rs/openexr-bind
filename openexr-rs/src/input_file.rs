@@ -37,7 +37,7 @@ impl InputFile {
         Ok(InputFile(ptr))
     }
 
-    /// Access to the file [`Header`]
+    /// Access to the file [`Header`](crate::header::Header)
     ///
     pub fn header(&self) -> HeaderRef {
         unsafe {
@@ -156,9 +156,9 @@ impl InputFile {
     ///
     /// The [`InputFileReader`] provides a safe API for reading data from the
     /// file into memory, by taking ownership of the memory and handling calculating
-    /// [`Slice`](frame_buffer::Slice) offsets internally.
+    /// [`Slice`](crate::frame_buffer::Slice) offsets internally.
     ///
-    /// `frames` is a `Vec` of [`Frame`](frame_buffer::Frame) objects, which
+    /// `frames` is a `Vec` of [`Frame`](crate::frame_buffer::Frame) objects, which
     /// describe the channels to load from the image, and how they are to be
     /// stored in memory.
     ///

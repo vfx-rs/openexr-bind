@@ -50,7 +50,7 @@ impl DeepScanLineOutputPart {
         }
     }
 
-    /// Access to the file [`Header`]
+    /// Access to the file [`Header`](crate::header::Header)
     ///
     pub fn header(&self) -> HeaderRef {
         unsafe {
@@ -74,7 +74,7 @@ impl DeepScanLineOutputPart {
     /// after each call to [`DeepScanLineOutputPart::write_pixels`].
     ///
     /// ## Errors
-    /// * [`Iex::ArgExc`] - If the pixel type of the [`Channel`](crate::channel_list::Channel)s in the [`Header`](crate::header::Header)
+    /// * [`Error::InvalidArgument`] - If the pixel type of the [`Channel`](crate::channel_list::Channel)s in the [`Header`](crate::header::Header)
     /// do not match the types in the frame buffer, or if the sampling rates do
     /// not match.
     ///
@@ -113,7 +113,7 @@ impl DeepScanLineOutputPart {
     ///
     /// Retrieves the next `num_scan_lines` worth of data from
     /// the current frame buffer, starting with the scan line indicated by
-    /// [`OutputPart::current_scan_line`] and stores the data in the output file, and
+    /// [`current_scan_line()`](DeepScanLineOutputPart::current_scan_line) and stores the data in the output file, and
     /// progressing in the direction indicated by `header().line_order()`.
     ///
     /// To produce a complete and correct file, exactly m scan lines must
@@ -129,10 +129,8 @@ impl DeepScanLineOutputPart {
     /// # Safety
     /// This method is wildly unsafe as on the C++ side it's reading from
     /// pointers offset from the base pointers supplied by the
-    /// [`crate::frame_buffer::Slice`] in
-    /// the [`FrameBuffer`]. In particular, by setting an
-    /// [`crate::frame_buffer::SliceBuilder::origin`] you can cause `write_pixels`
-    /// to read from arbitrary memory locations.
+    /// [`DeepSlice`](crate::deep_frame_buffer::DeepSlice) in
+    /// the [`DeepFrameBuffer`].
     ///
     pub unsafe fn write_pixels(&mut self, num_scan_lines: i32) -> Result<()> {
         sys::Imf_DeepScanLineOutputPart_writePixels(
@@ -147,17 +145,18 @@ impl DeepScanLineOutputPart {
     ///
     /// Returns the y coordinate of the first scan line
     /// that will be read from the current frame buffer during the next
-    /// call to [`DeepScanLineOutputPart::write_pixels`].
+    /// call to [`write_pixels()`](DeepScanLineOutputPart::write_pixels).
     ///
-    /// If `line_order() == INCREASING_Y`:
+    /// If `line_order() == LineOrder::IncreasingY`:
     ///
-    /// The current scan line before the first call to write_pixels()
+    /// The current scan line before the first call to [`write_pixels()`](DeepScanLineOutputPart::write_pixels)
     /// is header().data_window().min.y.  After writing each scan line,
     /// the current scan line is incremented by 1.
     ///
-    /// If `line_order() == DECREASING_Y`:
+    /// If `line_order() == LineOrder::DecreasingY`:
     ///
-    /// The current scan line before the first call to write_pixels()
+    /// The current scan line before the first call to
+    /// [`write_pixels()`](DeepScanLineOutputPart::write_pixels)
     /// is header().data_window().max.y.  After writing each scan line,
     /// the current scan line is decremented by 1.
     ///
@@ -169,16 +168,16 @@ impl DeepScanLineOutputPart {
         v
     }
 
-    /// Shortcut to copy all pixels from an [`InputFile`] into this file,
+    /// Shortcut to copy all pixels from a [`DeepScanLineInputFile`] into this file,
     /// without uncompressing and then recompressing the pixel data.
     ///
-    /// This file's header must be compatible with the [`InputFile`]'s
+    /// This file's header must be compatible with the [`DeepScanLineInputFile`]'s
     /// header:  The two header's "dataWindow", "compression",
     /// "lineOrder" and "channels" attributes must be the same.
     ///
     /// # Errors
     /// * [`Error::InvalidArgument`] - If the headers do not match
-    /// * [`Error::Logic`] - If scan lines have already been written to this file.
+    /// * [`Error::LogicError`] - If scan lines have already been written to this file.
     ///
     pub fn copy_pixels_from_file(
         &mut self,
@@ -203,7 +202,7 @@ impl DeepScanLineOutputPart {
     ///
     /// # Errors
     /// * [`Error::InvalidArgument`] - If the headers do not match
-    /// * [`Error::Logic`] - If scan lines have already been written to this file.
+    /// * [`Error::LogicError`] - If scan lines have already been written to this file.
     ///
     pub fn copy_pixels_from_part(
         &mut self,
@@ -233,7 +232,7 @@ impl DeepScanLineOutputPart {
     /// the last scan line of the main image.
     ///
     /// # Errors
-    /// * [`Error::Logic`] - If the header does not contain a preview image
+    /// * [`Error::LogicError`] - If the header does not contain a preview image
     /// * [`Error::Base`] - If any other error occurs
     ///
     pub fn update_preview_image(
