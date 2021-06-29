@@ -14,6 +14,42 @@
 //!
 //! The openexr crate is maintained by [the vfx-rs project](https://github.com/vfx-rs).
 //!
+//! # Quick Start
+//!
+//! ```no_run
+//! use openexr::{Rgba, RgbaInputFile, RgbaOutputFile, Header, RgbaChannels};
+//!
+//! fn write_rgba1(filename: &str, pixels: &[Rgba], width: i32, height: i32)
+//! -> Result<(), Box<dyn std::error::Error>> {
+//!     let header = Header::from_dimensions(width, height);
+//!     let mut file = RgbaOutputFile::new(
+//!         filename,
+//!         &header,
+//!         RgbaChannels::WriteRgba,
+//!         1,
+//!     )?;
+//!
+//!     file.set_frame_buffer(&pixels, 1, width as usize)?;
+//!     file.write_pixels(height)?;
+//!
+//!     Ok(())
+//! }
+//!
+//! fn read_rgba1(path: &str) -> Result<(), Box<dyn std::error::Error>> {
+//!     use imath_traits::Zero;
+//!
+//!     let mut file = RgbaInputFile::new(path, 1).unwrap();
+//!     let data_window = file.header().data_window::<[i32; 4]>().clone();
+//!     let width = data_window[2] - data_window[0] + 1;
+//!     let height = data_window[3] - data_window[1] + 1;
+//!
+//!     let mut pixels = vec![Rgba::zero(); (width * height) as usize];
+//!     file.set_frame_buffer(&mut pixels, 1, width as usize)?;
+//!     file.read_pixels(0, height - 1)?;
+//!
+//!     Ok(())
+//! }
+//! ```
 //!
 //! # Features
 //! * High dynamic range and color precision.
