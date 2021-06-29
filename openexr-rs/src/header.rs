@@ -1165,6 +1165,7 @@ impl<'s> Iterator for HeaderSliceIterMut<'s> {
 
 /// Used to set (or inspect) the type of an image in the header
 ///
+#[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum ImageType {
     Scanline,
     Tiled,
