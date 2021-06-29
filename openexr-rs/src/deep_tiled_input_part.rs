@@ -38,7 +38,7 @@ impl DeepTiledInputPart {
 
     /// Access to the file [`Header`]
     ///
-    pub fn header<'a>(&'a self) -> HeaderRef<'a> {
+    pub fn header(&self) -> HeaderRef {
         unsafe {
             let mut ptr = std::ptr::null();
             sys::Imf_DeepTiledInputPart_header(&self.0, &mut ptr);
@@ -92,7 +92,7 @@ impl DeepTiledInputPart {
 
     /// Access to the current frame buffer
     ///
-    pub fn frame_buffer<'a>(&'a self) -> DeepFrameBufferRef<'a> {
+    pub fn frame_buffer(&self) -> DeepFrameBufferRef {
         let mut ptr = std::ptr::null();
         unsafe {
             sys::Imf_DeepTiledInputPart_frameBuffer(&self.0, &mut ptr);
@@ -171,10 +171,10 @@ impl DeepTiledInputPart {
     /// Get the number of levels in the file
     ///
     /// # Returns
-    ///	* `Ok(1)` if [`DeepTiledInputPart::level_mode()`] == [`LevelMode::OneLevel`]
+    /// * `Ok(1)` if [`DeepTiledInputPart::level_mode()`] == [`LevelMode::OneLevel`]
     /// * `Ok(rfunc (log (max (w, h)) / log (2)) + 1)` if [`DeepTiledInputPart::level_mode()`] == [`LevelMode::MipmapLevels`]
 
-    ///	* `Err(Error::Logic)` if [`DeepTiledInputPart::level_mode()`] == [`LevelMode::RipmapLevels`]
+    /// * `Err(Error::Logic)` if [`DeepTiledInputPart::level_mode()`] == [`LevelMode::RipmapLevels`]
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
     /// [`DeepTiledInputPart::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
@@ -192,10 +192,10 @@ impl DeepTiledInputPart {
     /// Get the number of levels in the file in the x axis
     ///
     /// # Returns
-    ///	* `1` if [`DeepTiledInputPart::mode()`] == [`LevelMode::OneLevel`]
+    /// * `1` if [`DeepTiledInputPart::mode()`] == [`LevelMode::OneLevel`]
     /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`DeepTiledInputPart::mode()`] == [`LevelMode::MipmapLevels`]
 
-    ///	* `rfunc (log (w) / log (2)) + 1` if [`DeepTiledInputPart::mode()`] == [`LevelMode::RipmapLevels`]
+    /// * `rfunc (log (w) / log (2)) + 1` if [`DeepTiledInputPart::mode()`] == [`LevelMode::RipmapLevels`]
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
     /// [`DeepTiledInputPart::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
@@ -211,10 +211,10 @@ impl DeepTiledInputPart {
     /// Get the number of levels in the file in the x axis
     ///
     /// # Returns
-    ///	* `1` if [`DeepTiledInputPart::mode()`] == [`LevelMode::OneLevel`]
+    /// * `1` if [`DeepTiledInputPart::mode()`] == [`LevelMode::OneLevel`]
     /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`DeepTiledInputPart::mode()`] == [`LevelMode::MipmapLevels`]
 
-    ///	* `rfunc (log (h) / log (2)) + 1` if [`DeepTiledInputPart::mode()`] == [`LevelMode::RipmapLevels`]
+    /// * `rfunc (log (h) / log (2)) + 1` if [`DeepTiledInputPart::mode()`] == [`LevelMode::RipmapLevels`]
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
     /// [`DeepTiledInputPart::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]

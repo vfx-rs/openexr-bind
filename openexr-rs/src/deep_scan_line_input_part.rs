@@ -35,7 +35,7 @@ impl DeepScanLineInputPart {
 
     /// Access to the file [`Header`]
     ///
-    pub fn header<'a>(&'a self) -> HeaderRef<'a> {
+    pub fn header(&self) -> HeaderRef {
         unsafe {
             let mut ptr = std::ptr::null();
             sys::Imf_DeepScanLineInputPart_header(&self.0, &mut ptr);
@@ -87,7 +87,7 @@ impl DeepScanLineInputPart {
 
     /// Access to the current frame buffer
     ///
-    pub fn frame_buffer<'a>(&'a self) -> DeepFrameBufferRef<'a> {
+    pub fn frame_buffer(&self) -> DeepFrameBufferRef {
         let mut ptr = std::ptr::null();
         unsafe {
             sys::Imf_DeepScanLineInputPart_frameBuffer(&self.0, &mut ptr);

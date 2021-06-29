@@ -187,7 +187,7 @@ impl DeepFrameBuffer {
 
     /// Get the sample count slice
     ///
-    pub fn sample_count_slice<'a>(&'a self) -> SliceRef<'a> {
+    pub fn sample_count_slice(&self) -> SliceRef {
         let mut ptr = std::ptr::null();
         unsafe {
             sys::Imf_DeepFrameBuffer_getSampleCountSlice(self.ptr, &mut ptr);
@@ -205,7 +205,7 @@ impl DeepFrameBuffer {
         unsafe {
             self.insert(
                 &frame.channel_name,
-                &DeepSlice::new(
+                &DeepSlice::builder(
                     frame.channel_type,
                     ptr.offset(offset) as *mut i8,
                 )
@@ -234,6 +234,12 @@ impl Drop for DeepFrameBuffer {
         unsafe {
             sys::Imf_DeepFrameBuffer_dtor(self.ptr);
         }
+    }
+}
+
+impl Default for DeepFrameBuffer {
+    fn default() -> Self {
+        DeepFrameBuffer::new()
     }
 }
 
@@ -413,7 +419,7 @@ impl DeepSliceBuilder {
 }
 
 impl DeepSlice {
-    pub fn new(pixel_type: PixelType, data: *mut i8) -> DeepSliceBuilder {
+    pub fn builder(pixel_type: PixelType, data: *mut i8) -> DeepSliceBuilder {
         DeepSliceBuilder {
             pixel_type,
             data,

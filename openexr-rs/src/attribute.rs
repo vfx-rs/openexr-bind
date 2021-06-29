@@ -716,7 +716,7 @@ impl ChannelListAttribute {
     }
 
     /// Access to the contained value
-    pub fn value<'a>(&'a self) -> ChannelListRef<'a> {
+    pub fn value(&self) -> ChannelListRef {
         let mut ptr = std::ptr::null();
         unsafe {
             sys::Imf_ChannelListAttribute_value_const(self.0, &mut ptr)
@@ -727,7 +727,7 @@ impl ChannelListAttribute {
     }
 
     /// Mutable access to the contained value
-    pub fn value_mut<'a>(&'a mut self) -> ChannelListRefMut<'a> {
+    pub fn value_mut(&mut self) -> ChannelListRefMut {
         let mut ptr = std::ptr::null_mut();
         unsafe {
             sys::Imf_ChannelListAttribute_value(self.0, &mut ptr)
@@ -789,7 +789,7 @@ impl CppVectorFloatAttribute {
     }
 
     /// Access to the contained value
-    pub fn value<'a>(&'a self) -> CppVectorFloatRef<'a> {
+    pub fn value(&self) -> CppVectorFloatRef {
         let mut ptr = std::ptr::null();
         unsafe {
             sys::Imf_CppVectorFloatAttribute_value_const(self.0, &mut ptr)
@@ -800,7 +800,7 @@ impl CppVectorFloatAttribute {
     }
 
     /// Mutable access to the contained value
-    pub fn value_mut<'a>(&'a mut self) -> CppVectorFloatRefMut<'a> {
+    pub fn value_mut(&mut self) -> CppVectorFloatRefMut {
         let mut ptr = std::ptr::null_mut();
         unsafe {
             sys::Imf_CppVectorFloatAttribute_value(self.0, &mut ptr)
@@ -862,7 +862,7 @@ impl CppVectorStringAttribute {
     }
 
     /// Access to the contained value
-    pub fn value<'a>(&'a self) -> CppVectorStringRef<'a> {
+    pub fn value(&self) -> CppVectorStringRef {
         let mut ptr = std::ptr::null();
         unsafe {
             sys::Imf_CppVectorStringAttribute_value_const(self.0, &mut ptr)
@@ -873,7 +873,7 @@ impl CppVectorStringAttribute {
     }
 
     /// Mutable access to the contained value
-    pub fn value_mut<'a>(&'a mut self) -> CppVectorStringRefMut<'a> {
+    pub fn value_mut(&mut self) -> CppVectorStringRefMut {
         let mut ptr = std::ptr::null_mut();
         unsafe {
             sys::Imf_CppVectorStringAttribute_value(self.0, &mut ptr)
@@ -933,7 +933,7 @@ impl CppStringAttribute {
     }
 
     /// Access to the contained value
-    pub fn value<'a>(&'a self) -> &str {
+    pub fn value(&self) -> &str {
         let mut ptr = std::ptr::null();
         unsafe {
             sys::Imf_CppStringAttribute_value_const(self.0, &mut ptr)
@@ -1382,7 +1382,7 @@ impl PreviewImageAttribute {
     }
 
     /// Access to the contained value
-    pub fn value<'a>(&'a self) -> PreviewImageRef<'a> {
+    pub fn value(&self) -> PreviewImageRef {
         let mut ptr = std::ptr::null();
         unsafe {
             sys::Imf_PreviewImageAttribute_value_const(self.0, &mut ptr)
@@ -1393,7 +1393,7 @@ impl PreviewImageAttribute {
     }
 
     /// Mutable access to the contained value
-    pub fn value_mut<'a>(&'a mut self) -> PreviewImageRefMut<'a> {
+    pub fn value_mut(&mut self) -> PreviewImageRefMut {
         let mut ptr = std::ptr::null_mut();
         unsafe {
             sys::Imf_PreviewImageAttribute_value(self.0, &mut ptr)

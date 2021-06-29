@@ -138,7 +138,7 @@ impl<'a> CompositeDeepScanLine<'a> {
     /// of the data window.
     ///
     pub fn read_pixels(&mut self, start: i32, end: i32) -> Result<()> {
-        let dw = self.data_window::<[i32; 4]>().clone();
+        let dw = *self.data_window::<[i32; 4]>();
         if start < dw[1] || end > dw[3] {
             Err(Error::OutOfRange)
         } else {

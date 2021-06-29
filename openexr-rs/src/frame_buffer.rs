@@ -145,7 +145,7 @@ impl FrameBuffer {
                 .build()?,
             )?;
 
-            ptr = unsafe { ptr.offset(frame.channel_stride as isize) };
+            ptr = unsafe { ptr.add(frame.channel_stride) };
         }
 
         let handle = match &mut self.frames {
@@ -166,6 +166,12 @@ impl Drop for FrameBuffer {
         unsafe {
             sys::Imf_FrameBuffer_dtor(self.ptr);
         }
+    }
+}
+
+impl Default for FrameBuffer {
+    fn default() -> Self {
+        FrameBuffer::new()
     }
 }
 
@@ -349,7 +355,7 @@ impl SliceBuilder {
 }
 
 impl Slice {
-    pub fn new(
+    pub fn builder(
         pixel_type: PixelType,
         data: *const u8,
         w: i64,

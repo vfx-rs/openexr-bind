@@ -62,7 +62,7 @@ impl DeepTiledOutputPart {
 
     /// Access to the file [`Header`]
     ///
-    pub fn header<'a>(&'a self) -> HeaderRef<'a> {
+    pub fn header(&self) -> HeaderRef {
         unsafe {
             let mut ptr = std::ptr::null();
             sys::Imf_DeepTiledOutputPart_header(&self.0, &mut ptr);
@@ -76,7 +76,7 @@ impl DeepTiledOutputPart {
 
     /// Get the [`FrameBuffer`]
     ///
-    pub fn frame_buffer<'a>(&'a self) -> DeepFrameBufferRef<'a> {
+    pub fn frame_buffer(&self) -> DeepFrameBufferRef {
         unsafe {
             let mut ptr = std::ptr::null();
             sys::Imf_DeepTiledOutputPart_frameBuffer(&self.0, &mut ptr);
@@ -147,10 +147,10 @@ impl DeepTiledOutputPart {
     /// Get the number of levels in the file
     ///
     /// # Returns
-    ///	* `Ok(1)` if [`DeepTiledOutputPart::level_mode()`] == [`LevelMode::OneLevel`]
+    /// * `Ok(1)` if [`DeepTiledOutputPart::level_mode()`] == [`LevelMode::OneLevel`]
     /// * `Ok(rfunc (log (max (w, h)) / log (2)) + 1)` if [`DeepTiledOutputPart::level_mode()`] == [`LevelMode::MipmapLevels`]
 
-    ///	* `Err(Error::Logic)` if [`DeepTiledOutputPart::level_mode()`] == [`LevelMode::RipmapLevels`]
+    /// * `Err(Error::Logic)` if [`DeepTiledOutputPart::level_mode()`] == [`LevelMode::RipmapLevels`]
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
     /// [`DeepTiledOutputPart::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
@@ -168,10 +168,10 @@ impl DeepTiledOutputPart {
     /// Get the number of levels in the file in the x axis
     ///
     /// # Returns
-    ///	* `1` if [`DeepTiledOutputPart::mode()`] == [`LevelMode::OneLevel`]
+    /// * `1` if [`DeepTiledOutputPart::mode()`] == [`LevelMode::OneLevel`]
     /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`DeepTiledOutputPart::mode()`] == [`LevelMode::MipmapLevels`]
 
-    ///	* `rfunc (log (w) / log (2)) + 1` if [`DeepTiledOutputPart::mode()`] == [`LevelMode::RipmapLevels`]
+    /// * `rfunc (log (w) / log (2)) + 1` if [`DeepTiledOutputPart::mode()`] == [`LevelMode::RipmapLevels`]
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
     /// [`DeepTiledOutputPart::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
@@ -187,10 +187,10 @@ impl DeepTiledOutputPart {
     /// Get the number of levels in the file in the x axis
     ///
     /// # Returns
-    ///	* `1` if [`DeepTiledOutputPart::mode()`] == [`LevelMode::OneLevel`]
+    /// * `1` if [`DeepTiledOutputPart::mode()`] == [`LevelMode::OneLevel`]
     /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`DeepTiledOutputPart::mode()`] == [`LevelMode::MipmapLevels`]
 
-    ///	* `rfunc (log (h) / log (2)) + 1` if [`DeepTiledOutputPart::mode()`] == [`LevelMode::RipmapLevels`]
+    /// * `rfunc (log (h) / log (2)) + 1` if [`DeepTiledOutputPart::mode()`] == [`LevelMode::RipmapLevels`]
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
     /// [`DeepTiledOutputPart::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
@@ -348,8 +348,8 @@ impl DeepTiledOutputPart {
     /// The file's line order attribute determines the order of the tiles
     /// in the file:
     ///
-    ///	## [`LineOrder::IncreasingY`]
-    ///	In the file, the tiles for each level are stored
+    /// ## [`LineOrder::IncreasingY`]
+    /// In the file, the tiles for each level are stored
     /// in a contiguous block.  The levels are ordered
     /// like this:
     /// ```c
@@ -374,24 +374,24 @@ impl DeepTiledOutputPart {
     /// where tx = [`num_x_tiles(lx)`](DeepTiledOutputPart::num_x_tiles),
     /// and   ty = [`num_y_tiles(ly)`](DeepTiledOutputPart::num_y_tiles).
     ///
-    ///	## [`LineOrder::DecreasingY`]
-    ///	As for [`LineOrder::IncreasingY`], the tiles
-    ///	for each level are stored in a contiguous block.  The levels
+    /// ## [`LineOrder::DecreasingY`]
+    /// As for [`LineOrder::IncreasingY`], the tiles
+    /// for each level are stored in a contiguous block.  The levels
     /// are ordered the same way as for [`LineOrder::IncreasingY`],
     /// but within an individual level, the tiles
     /// are stored in this order:
     ///
     /// ```c
-    ///	(0,ty-1) (1,ty-1) ... (tx-1,ty-1)
-    ///	 ...
-    ///	(0, 1)   (1, 1)   ... (tx-1, 1)
-    ///	(0, 0)   (1, 0)   ... (tx-1, 0)
-    ///	```
+    /// (0,ty-1) (1,ty-1) ... (tx-1,ty-1)
+    ///  ...
+    /// (0, 1)   (1, 1)   ... (tx-1, 1)
+    /// (0, 0)   (1, 0)   ... (tx-1, 0)
+    /// ```
     ///
     ///
-    ///	## [`LineOrder::RandomY`]
-    ///	The order of the calls to `write_tile()` determines
-    ///	the order of the tiles in the file.
+    /// ## [`LineOrder::RandomY`]
+    /// The order of the calls to `write_tile()` determines
+    /// the order of the tiles in the file.
     ///
     pub fn write_tile(
         &mut self,
@@ -402,7 +402,7 @@ impl DeepTiledOutputPart {
     ) -> Result<()> {
         unsafe {
             sys::Imf_DeepTiledOutputPart_writeTile(&mut self.0, dx, dy, lx, ly)
-                .into_result()?;
+                .into_result()?
         }
 
         Ok(())
@@ -425,8 +425,8 @@ impl DeepTiledOutputPart {
     /// The file's line order attribute determines the order of the tiles
     /// in the file:
     ///
-    ///	## [`LineOrder::IncreasingY`]
-    ///	In the file, the tiles for each level are stored
+    /// ## [`LineOrder::IncreasingY`]
+    /// In the file, the tiles for each level are stored
     /// in a contiguous block.  The levels are ordered
     /// like this:
     /// ```c
@@ -451,24 +451,24 @@ impl DeepTiledOutputPart {
     /// where tx = [`num_x_tiles(lx)`](DeepTiledOutputPart::num_x_tiles),
     /// and   ty = [`num_y_tiles(ly)`](DeepTiledOutputPart::num_y_tiles).
     ///
-    ///	## [`LineOrder::DecreasingY`]
-    ///	As for [`LineOrder::IncreasingY`], the tiles
-    ///	for each level are stored in a contiguous block.  The levels
+    /// ## [`LineOrder::DecreasingY`]
+    /// As for [`LineOrder::IncreasingY`], the tiles
+    /// for each level are stored in a contiguous block.  The levels
     /// are ordered the same way as for [`LineOrder::IncreasingY`],
     /// but within an individual level, the tiles
     /// are stored in this order:
     ///
     /// ```c
-    ///	(0,ty-1) (1,ty-1) ... (tx-1,ty-1)
-    ///	 ...
-    ///	(0, 1)   (1, 1)   ... (tx-1, 1)
-    ///	(0, 0)   (1, 0)   ... (tx-1, 0)
-    ///	```
+    /// (0,ty-1) (1,ty-1) ... (tx-1,ty-1)
+    ///  ...
+    /// (0, 1)   (1, 1)   ... (tx-1, 1)
+    /// (0, 0)   (1, 0)   ... (tx-1, 0)
+    /// ```
     ///
     ///
-    ///	## [`LineOrder::RandomY`]
-    ///	The order of the calls to `write_tile()` determines
-    ///	the order of the tiles in the file.
+    /// ## [`LineOrder::RandomY`]
+    /// The order of the calls to `write_tile()` determines
+    /// the order of the tiles in the file.
     ///
     pub fn write_tiles(
         &mut self,

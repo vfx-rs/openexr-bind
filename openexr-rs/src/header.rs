@@ -588,7 +588,7 @@ impl Header {
     }
 
     /// Get a reference to the list of channels in the header
-    pub fn channels<'a>(&'a self) -> ChannelListRef<'a> {
+    pub fn channels(&self) -> ChannelListRef {
         unsafe {
             let mut ptr = std::ptr::null();
             sys::Imf_Header_channels_const(self.0.as_ref(), &mut ptr)
@@ -599,7 +599,7 @@ impl Header {
     }
 
     /// Get a mutable reference to the list of channels in the header
-    pub fn channels_mut<'a>(&'a mut self) -> ChannelListRefMut<'a> {
+    pub fn channels_mut(&mut self) -> ChannelListRefMut {
         unsafe {
             let mut ptr = std::ptr::null_mut();
             sys::Imf_Header_channels(self.0.as_mut(), &mut ptr)

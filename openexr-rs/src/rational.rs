@@ -1,12 +1,12 @@
 use openexr_sys as sys;
 
-///	A rational number is represented as pair of integers, n and d.
+/// A rational number is represented as pair of integers, n and d.
 ///
-///	The value of of the rational number is:
-///	* `n/d  for d > 0`
-///	* `+inf	for n > 0, d == 0`
-///	* `-inf	for n < 0, d == 0`
-///	* `NaN	for n == 0, d == 0`
+/// The value of of the rational number is:
+/// * `n/d  for d > 0`
+/// * `+inf for n > 0, d == 0`
+/// * `-inf for n < 0, d == 0`
+/// * `NaN  for n == 0, d == 0`
 ///
 #[repr(C)]
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Copy, Clone, Hash)]
