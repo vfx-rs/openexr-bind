@@ -71,6 +71,7 @@ impl TiledRgbaOutputFile {
     /// ## Errors
     /// * [`Error::Base`] - If an error occurs
     ///
+    #[allow(clippy::too_many_arguments)]
     pub fn new<P: AsRef<Path>>(
         filename: P,
         header: &Header,
@@ -128,6 +129,7 @@ impl TiledRgbaOutputFile {
     /// ## Errors
     /// * [`Error::Base`] - If an error occurs
     ///
+    #[allow(clippy::too_many_arguments)]
     pub fn with_dimensions<P: AsRef<Path>, V>(
         filename: P,
         width: i32,
@@ -213,7 +215,7 @@ impl TiledRgbaOutputFile {
 
     /// Access to the file [`Header`]
     ///
-    pub fn header<'a>(&'a self) -> HeaderRef<'a> {
+    pub fn header(&self) -> HeaderRef {
         unsafe {
             let mut ptr = std::ptr::null();
             sys::Imf_TiledRgbaOutputFile_header(self.0, &mut ptr);
@@ -227,7 +229,7 @@ impl TiledRgbaOutputFile {
 
     /// Get the [`FrameBuffer`]
     ///
-    pub fn frame_buffer<'a>(&'a self) -> FrameBufferRef<'a> {
+    pub fn frame_buffer(&self) -> FrameBufferRef {
         unsafe {
             let mut ptr = std::ptr::null();
             sys::Imf_TiledRgbaOutputFile_frameBuffer(self.0, &mut ptr);
@@ -298,10 +300,10 @@ impl TiledRgbaOutputFile {
     /// Get the number of levels in the file
     ///
     /// # Returns
-    ///	* `Ok(1)` if [`TiledRgbaOutputFile::level_mode()`] == [`LevelMode::OneLevel`]
+    /// * `Ok(1)` if [`TiledRgbaOutputFile::level_mode()`] == [`LevelMode::OneLevel`]
     /// * `Ok(rfunc (log (max (w, h)) / log (2)) + 1)` if [`TiledRgbaOutputFile::level_mode()`] == [`LevelMode::MipmapLevels`]
 
-    ///	* `Err(Error::Logic)` if [`TiledRgbaOutputFile::level_mode()`] == [`LevelMode::RipmapLevels`]
+    /// * `Err(Error::Logic)` if [`TiledRgbaOutputFile::level_mode()`] == [`LevelMode::RipmapLevels`]
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
     /// [`TiledRgbaOutputFile::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
@@ -319,10 +321,10 @@ impl TiledRgbaOutputFile {
     /// Get the number of levels in the file in the x axis
     ///
     /// # Returns
-    ///	* `1` if [`TiledRgbaOutputFile::mode()`] == [`LevelMode::OneLevel`]
+    /// * `1` if [`TiledRgbaOutputFile::mode()`] == [`LevelMode::OneLevel`]
     /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`TiledRgbaOutputFile::mode()`] == [`LevelMode::MipmapLevels`]
 
-    ///	* `rfunc (log (w) / log (2)) + 1` if [`TiledRgbaOutputFile::mode()`] == [`LevelMode::RipmapLevels`]
+    /// * `rfunc (log (w) / log (2)) + 1` if [`TiledRgbaOutputFile::mode()`] == [`LevelMode::RipmapLevels`]
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
     /// [`TiledRgbaOutputFile::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
@@ -338,10 +340,10 @@ impl TiledRgbaOutputFile {
     /// Get the number of levels in the file in the x axis
     ///
     /// # Returns
-    ///	* `1` if [`TiledRgbaOutputFile::mode()`] == [`LevelMode::OneLevel`]
+    /// * `1` if [`TiledRgbaOutputFile::mode()`] == [`LevelMode::OneLevel`]
     /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`TiledRgbaOutputFile::mode()`] == [`LevelMode::MipmapLevels`]
 
-    ///	* `rfunc (log (h) / log (2)) + 1` if [`TiledRgbaOutputFile::mode()`] == [`LevelMode::RipmapLevels`]
+    /// * `rfunc (log (h) / log (2)) + 1` if [`TiledRgbaOutputFile::mode()`] == [`LevelMode::RipmapLevels`]
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
     /// [`TiledRgbaOutputFile::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
@@ -427,18 +429,33 @@ impl TiledRgbaOutputFile {
 
     /// Returns a 2-dimensional region of valid pixel coordinates for a level with level number `(lx, ly)`
     ///
-    pub fn data_window_for_level<B: Bound2<i32>>(&self, lx: i32, ly: i32) -> B {
+    /// # Errors
+    /// *[`Error::Base`] - if any error occurs
+    ///
+    pub fn data_window_for_level<B: Bound2<i32>>(
+        &self,
+        lx: i32,
+        ly: i32,
+    ) -> Result<B> {
         let mut dw = [0i32; 4];
         unsafe {
-            sys::Imf_TiledRgbaOutputFile_dataWindowForLevel(self.0, dw.as_mut_ptr() as *mut sys::Imath_Box2i_t, lx, ly)
-                .into_result()
-                .expect("Unexpected exception from Imf_TiledRgbaOutputFile_dataWindowForLevel");
+            sys::Imf_TiledRgbaOutputFile_dataWindowForLevel(
+                self.0,
+                dw.as_mut_ptr() as *mut sys::Imath_Box2i_t,
+                lx,
+                ly,
+            )
+            .into_result()?
         }
 
-        B::from_slice(&dw)
+        Ok(B::from_slice(&dw))
     }
 
     /// Returns a 2-dimensional region of valid pixel coordinates for a level with  tile coordinates `(dx, dy)` and level number `(lx, ly)`
+    ///
+    /// # Errors
+    /// * [`Error::InvalidArgument`] - if the passed tile coordinates are invalid
+    /// * [`Error::Base`] - if any other error occurs
     ///
     pub fn data_window_for_tile<B: Bound2<i32>>(
         &self,
@@ -446,15 +463,21 @@ impl TiledRgbaOutputFile {
         dy: i32,
         lx: i32,
         ly: i32,
-    ) -> B {
+    ) -> Result<B> {
         let mut dw = [0i32; 4];
         unsafe {
-            sys::Imf_TiledRgbaOutputFile_dataWindowForTile(self.0, dw.as_mut_ptr() as *mut sys::Imath_Box2i_t, dx, dy, lx, ly)
-                .into_result()
-                .expect("Unexpected exception from Imf_TiledRgbaOutputFile_dataWindowForTile");
+            sys::Imf_TiledRgbaOutputFile_dataWindowForTile(
+                self.0,
+                dw.as_mut_ptr() as *mut sys::Imath_Box2i_t,
+                dx,
+                dy,
+                lx,
+                ly,
+            )
+            .into_result()?
         }
 
-        B::from_slice(&dw)
+        Ok(B::from_slice(&dw))
     }
 
     /// Writes the tile with tile
@@ -478,8 +501,8 @@ impl TiledRgbaOutputFile {
     /// The file's line order attribute determines the order of the tiles
     /// in the file:
     ///
-    ///	## [`LineOrder::IncreasingY`]
-    ///	In the file, the tiles for each level are stored
+    /// ## [`LineOrder::IncreasingY`]
+    /// In the file, the tiles for each level are stored
     /// in a contiguous block.  The levels are ordered
     /// like this:
     /// ```c
@@ -504,24 +527,24 @@ impl TiledRgbaOutputFile {
     /// where tx = [`num_x_tiles(lx)`](TiledRgbaOutputFile::num_x_tiles),
     /// and   ty = [`num_y_tiles(ly)`](TiledRgbaOutputFile::num_y_tiles).
     ///
-    ///	## [`LineOrder::DecreasingY`]
-    ///	As for [`LineOrder::IncreasingY`], the tiles
-    ///	for each level are stored in a contiguous block.  The levels
+    /// ## [`LineOrder::DecreasingY`]
+    /// As for [`LineOrder::IncreasingY`], the tiles
+    /// for each level are stored in a contiguous block.  The levels
     /// are ordered the same way as for [`LineOrder::IncreasingY`],
     /// but within an individual level, the tiles
     /// are stored in this order:
     ///
     /// ```c
-    ///	(0,ty-1) (1,ty-1) ... (tx-1,ty-1)
-    ///	 ...
-    ///	(0, 1)   (1, 1)   ... (tx-1, 1)
-    ///	(0, 0)   (1, 0)   ... (tx-1, 0)
-    ///	```
+    /// (0,ty-1) (1,ty-1) ... (tx-1,ty-1)
+    ///  ...
+    /// (0, 1)   (1, 1)   ... (tx-1, 1)
+    /// (0, 0)   (1, 0)   ... (tx-1, 0)
+    /// ```
     ///
     ///
-    ///	## [`LineOrder::RandomY`]
-    ///	The order of the calls to `write_tile()` determines
-    ///	the order of the tiles in the file.
+    /// ## [`LineOrder::RandomY`]
+    /// The order of the calls to `write_tile()` determines
+    /// the order of the tiles in the file.
     ///
     pub fn write_tile(
         &mut self,
@@ -555,8 +578,8 @@ impl TiledRgbaOutputFile {
     /// The file's line order attribute determines the order of the tiles
     /// in the file:
     ///
-    ///	## [`LineOrder::IncreasingY`]
-    ///	In the file, the tiles for each level are stored
+    /// ## [`LineOrder::IncreasingY`]
+    /// In the file, the tiles for each level are stored
     /// in a contiguous block.  The levels are ordered
     /// like this:
     /// ```c
@@ -581,24 +604,24 @@ impl TiledRgbaOutputFile {
     /// where tx = [`num_x_tiles(lx)`](TiledRgbaOutputFile::num_x_tiles),
     /// and   ty = [`num_y_tiles(ly)`](TiledRgbaOutputFile::num_y_tiles).
     ///
-    ///	## [`LineOrder::DecreasingY`]
-    ///	As for [`LineOrder::IncreasingY`], the tiles
-    ///	for each level are stored in a contiguous block.  The levels
+    /// ## [`LineOrder::DecreasingY`]
+    /// As for [`LineOrder::IncreasingY`], the tiles
+    /// for each level are stored in a contiguous block.  The levels
     /// are ordered the same way as for [`LineOrder::IncreasingY`],
     /// but within an individual level, the tiles
     /// are stored in this order:
     ///
     /// ```c
-    ///	(0,ty-1) (1,ty-1) ... (tx-1,ty-1)
-    ///	 ...
-    ///	(0, 1)   (1, 1)   ... (tx-1, 1)
-    ///	(0, 0)   (1, 0)   ... (tx-1, 0)
-    ///	```
+    /// (0,ty-1) (1,ty-1) ... (tx-1,ty-1)
+    ///  ...
+    /// (0, 1)   (1, 1)   ... (tx-1, 1)
+    /// (0, 0)   (1, 0)   ... (tx-1, 0)
+    /// ```
     ///
     ///
-    ///	## [`LineOrder::RandomY`]
-    ///	The order of the calls to `write_tile()` determines
-    ///	the order of the tiles in the file.
+    /// ## [`LineOrder::RandomY`]
+    /// The order of the calls to `write_tile()` determines
+    /// the order of the tiles in the file.
     ///
     pub fn write_tiles(
         &mut self,
@@ -804,7 +827,7 @@ impl TiledRgbaInputFile {
 
     /// Access to the file [`Header`]
     ///
-    pub fn header<'a>(&'a self) -> HeaderRef<'a> {
+    pub fn header(&self) -> HeaderRef {
         unsafe {
             let mut ptr = std::ptr::null();
             sys::Imf_TiledRgbaInputFile_header(self.0, &mut ptr);
@@ -820,7 +843,7 @@ impl TiledRgbaInputFile {
 
     /// Get the [`FrameBuffer`]
     ///
-    pub fn frame_buffer<'a>(&'a self) -> FrameBufferRef<'a> {
+    pub fn frame_buffer(&self) -> FrameBufferRef {
         unsafe {
             let mut ptr = std::ptr::null();
             sys::Imf_TiledRgbaInputFile_frameBuffer(self.0, &mut ptr);
@@ -891,10 +914,10 @@ impl TiledRgbaInputFile {
     /// Get the number of levels in the file
     ///
     /// # Returns
-    ///	* `Ok(1)` if [`TiledRgbaInputFile::level_mode()`] == [`LevelMode::OneLevel`]
+    /// * `Ok(1)` if [`TiledRgbaInputFile::level_mode()`] == [`LevelMode::OneLevel`]
     /// * `Ok(rfunc (log (max (w, h)) / log (2)) + 1)` if [`TiledRgbaInputFile::level_mode()`] == [`LevelMode::MipmapLevels`]
 
-    ///	* `Err(Error::Logic)` if [`TiledRgbaInputFile::level_mode()`] == [`LevelMode::RipmapLevels`]
+    /// * `Err(Error::Logic)` if [`TiledRgbaInputFile::level_mode()`] == [`LevelMode::RipmapLevels`]
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
     /// [`TiledRgbaInputFile::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
@@ -912,10 +935,10 @@ impl TiledRgbaInputFile {
     /// Get the number of levels in the file in the x axis
     ///
     /// # Returns
-    ///	* `1` if [`TiledRgbaInputFile::mode()`] == [`LevelMode::OneLevel`]
+    /// * `1` if [`TiledRgbaInputFile::mode()`] == [`LevelMode::OneLevel`]
     /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`TiledRgbaInputFile::mode()`] == [`LevelMode::MipmapLevels`]
 
-    ///	* `rfunc (log (w) / log (2)) + 1` if [`TiledRgbaInputFile::mode()`] == [`LevelMode::RipmapLevels`]
+    /// * `rfunc (log (w) / log (2)) + 1` if [`TiledRgbaInputFile::mode()`] == [`LevelMode::RipmapLevels`]
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
     /// [`TiledRgbaInputFile::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
@@ -931,10 +954,10 @@ impl TiledRgbaInputFile {
     /// Get the number of levels in the file in the x axis
     ///
     /// # Returns
-    ///	* `1` if [`TiledRgbaInputFile::mode()`] == [`LevelMode::OneLevel`]
+    /// * `1` if [`TiledRgbaInputFile::mode()`] == [`LevelMode::OneLevel`]
     /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`TiledRgbaInputFile::mode()`] == [`LevelMode::MipmapLevels`]
 
-    ///	* `rfunc (log (h) / log (2)) + 1` if [`TiledRgbaInputFile::mode()`] == [`LevelMode::RipmapLevels`]
+    /// * `rfunc (log (h) / log (2)) + 1` if [`TiledRgbaInputFile::mode()`] == [`LevelMode::RipmapLevels`]
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
     /// [`TiledRgbaInputFile::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
@@ -1020,18 +1043,33 @@ impl TiledRgbaInputFile {
 
     /// Returns a 2-dimensional region of valid pixel coordinates for a level with level number `(lx, ly)`
     ///
-    pub fn data_window_for_level<B: Bound2<i32>>(&self, lx: i32, ly: i32) -> B {
+    /// # Errors
+    /// *[`Error::Base`] - if any error occurs
+    ///
+    pub fn data_window_for_level<B: Bound2<i32>>(
+        &self,
+        lx: i32,
+        ly: i32,
+    ) -> Result<B> {
         let mut dw = [0i32; 4];
         unsafe {
-            sys::Imf_TiledRgbaInputFile_dataWindowForLevel(self.0, dw.as_mut_ptr() as *mut sys::Imath_Box2i_t, lx, ly)
-                .into_result()
-                .expect("Unexpected exception from Imf_TiledRgbaInputFile_dataWindowForLevel");
+            sys::Imf_TiledRgbaInputFile_dataWindowForLevel(
+                self.0,
+                dw.as_mut_ptr() as *mut sys::Imath_Box2i_t,
+                lx,
+                ly,
+            )
+            .into_result()?;
         }
 
-        B::from_slice(&dw)
+        Ok(B::from_slice(&dw))
     }
 
     /// Returns a 2-dimensional region of valid pixel coordinates for a level with  tile coordinates `(dx, dy)` and level number `(lx, ly)`
+    ///
+    /// # Errors
+    /// * [`Error::InvalidArgument`] - if the passed tile coordinates are invalid
+    /// * [`Error::Base`] - if any other error occurs
     ///
     pub fn data_window_for_tile<B: Bound2<i32>>(
         &self,
@@ -1039,15 +1077,21 @@ impl TiledRgbaInputFile {
         dy: i32,
         lx: i32,
         ly: i32,
-    ) -> B {
+    ) -> Result<B> {
         let mut dw = [0i32; 4];
         unsafe {
-            sys::Imf_TiledRgbaInputFile_dataWindowForTile(self.0, dw.as_mut_ptr() as *mut sys::Imath_Box2i_t, dx, dy, lx, ly)
-                .into_result()
-                .expect("Unexpected exception from Imf_TiledRgbaInputFile_dataWindowForTile");
+            sys::Imf_TiledRgbaInputFile_dataWindowForTile(
+                self.0,
+                dw.as_mut_ptr() as *mut sys::Imath_Box2i_t,
+                dx,
+                dy,
+                lx,
+                ly,
+            )
+            .into_result()?;
         }
 
-        B::from_slice(&dw)
+        Ok(B::from_slice(&dw))
     }
 
     /// Reads the tile with tile coordinates `(dx, dy)`, and level number `(lx, ly)`,

@@ -40,8 +40,7 @@ pub fn is_openexr_file<P: AsRef<Path>>(filename: P) -> Option<FileInfo> {
     }
 }
 
-// FIXME: re-enable this when we can figure out why it randomly fails. Some
-// kind of race in the tests...
+// FIXME: re-enable this when we figure out why it's failing
 /*
 #[cfg(test)]
 #[test]

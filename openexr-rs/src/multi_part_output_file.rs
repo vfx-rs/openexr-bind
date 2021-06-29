@@ -3,7 +3,10 @@ use openexr_sys as sys;
 use std::ffi::CString;
 use std::path::Path;
 
-use crate::{Error, HeaderRef, HeaderSlice};
+use crate::{
+    header::{HeaderRef, HeaderSlice},
+    Error,
+};
 
 type Result<T, E = Error> = std::result::Result<T, E>;
 
@@ -84,7 +87,7 @@ impl MultiPartOutputFile {
     /// * [`Error::InvalidArgument`] - if `n` does not correspond to a part in
     /// the file.
     ///
-    pub fn header<'a>(&'a self, n: i32) -> Result<HeaderRef<'a>> {
+    pub fn header(&self, n: i32) -> Result<HeaderRef> {
         let mut ptr = std::ptr::null();
         unsafe {
             sys::Imf_MultiPartOutputFile_header(self.0, &mut ptr, n)
@@ -105,6 +108,7 @@ impl Drop for MultiPartOutputFile {
 #[cfg(test)]
 #[test]
 fn write_multipartoutputfile1() {
+    use crate::header::ImageType;
     use crate::*;
 
     let (pixels, width, height) = super::tests::load_ferris();
@@ -126,7 +130,7 @@ fn write_multipartoutputfile1() {
         header.channels_mut().insert("B", &channel);
         header.channels_mut().insert("A", &channel);
 
-        header.set_image_type("scanlineimage");
+        header.set_image_type(ImageType::Scanline);
 
         header.set_dimensions(width, height);
 
@@ -143,7 +147,7 @@ fn write_multipartoutputfile1() {
     frame_buffer_left
         .insert(
             "R",
-            &Slice::new(
+            &Slice::builder(
                 PixelType::Half,
                 &pixels[0].r as *const _ as *const u8,
                 width as i64,
@@ -158,7 +162,7 @@ fn write_multipartoutputfile1() {
     frame_buffer_left
         .insert(
             "G",
-            &Slice::new(
+            &Slice::builder(
                 PixelType::Half,
                 &pixels[0].g as *const _ as *const u8,
                 width as i64,
@@ -173,7 +177,7 @@ fn write_multipartoutputfile1() {
     frame_buffer_left
         .insert(
             "B",
-            &Slice::new(
+            &Slice::builder(
                 PixelType::Half,
                 &pixels[0].b as *const _ as *const u8,
                 width as i64,
@@ -188,7 +192,7 @@ fn write_multipartoutputfile1() {
     frame_buffer_left
         .insert(
             "A",
-            &Slice::new(
+            &Slice::builder(
                 PixelType::Half,
                 &pixels[0].a as *const _ as *const u8,
                 width as i64,
@@ -205,7 +209,7 @@ fn write_multipartoutputfile1() {
     frame_buffer_right
         .insert(
             "B",
-            &Slice::new(
+            &Slice::builder(
                 PixelType::Half,
                 &pixels[0].r as *const _ as *const u8,
                 width as i64,
@@ -220,7 +224,7 @@ fn write_multipartoutputfile1() {
     frame_buffer_right
         .insert(
             "G",
-            &Slice::new(
+            &Slice::builder(
                 PixelType::Half,
                 &pixels[0].g as *const _ as *const u8,
                 width as i64,
@@ -235,7 +239,7 @@ fn write_multipartoutputfile1() {
     frame_buffer_right
         .insert(
             "R",
-            &Slice::new(
+            &Slice::builder(
                 PixelType::Half,
                 &pixels[0].b as *const _ as *const u8,
                 width as i64,
@@ -250,7 +254,7 @@ fn write_multipartoutputfile1() {
     frame_buffer_right
         .insert(
             "A",
-            &Slice::new(
+            &Slice::builder(
                 PixelType::Half,
                 &pixels[0].a as *const _ as *const u8,
                 width as i64,

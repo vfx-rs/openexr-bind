@@ -180,17 +180,6 @@ impl PartialEq for TimeCode {
 
         result
     }
-
-    fn ne(&self, other: &Self) -> bool {
-        let mut result = false;
-
-        unsafe {
-            // Function does not raise errors, so skipping error checking.
-            sys::Imf_TimeCode__ne(&self.inner, &mut result, &other.inner);
-        }
-
-        result
-    }
 }
 
 impl Eq for TimeCode {}
@@ -207,6 +196,7 @@ impl TimeCode {
     /// - Setting seconds outside of the range of 0 - 59
     /// - Setting frame outside of the range of 0 - 29
     ///
+    #[allow(clippy::too_many_arguments)]
     pub fn new(
         hours: i32,
         minutes: i32,
@@ -548,7 +538,7 @@ impl TimeCode {
     /// is not between 1 and 15.
     ///
     pub fn set_binary_group(&mut self, group: i32, value: i32) -> Result<()> {
-        if value < 0 || value > 15 {
+        if !(0..=15).contains(&value) {
             return Err(Error::InvalidArgument(
                 "Binary group value must be between 0 and 15.".into(),
             ));

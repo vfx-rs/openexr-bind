@@ -133,7 +133,7 @@ impl DeepChannelF16 {
 
     /// Get the level which this channel is a part of
     ///
-    pub fn deep_level<'a>(&'a self) -> DeepImageLevelRef<'a> {
+    pub fn deep_level(&self) -> DeepImageLevelRef {
         let mut ptr = std::ptr::null();
         unsafe {
             sys::Imf_DeepHalfChannel_deepLevel_const(self.0, &mut ptr);
@@ -143,7 +143,7 @@ impl DeepChannelF16 {
 
     /// Get the level which this channel is a part of
     ///
-    pub fn deep_level_mut<'a>(&'a mut self) -> DeepImageLevelRefMut<'a> {
+    pub fn deep_level_mut(&mut self) -> DeepImageLevelRefMut {
         let mut ptr = std::ptr::null_mut();
         unsafe {
             sys::Imf_DeepHalfChannel_deepLevel(self.0, &mut ptr);
@@ -304,7 +304,7 @@ impl DeepChannelF32 {
 
     /// Get the level which this channel is a part of
     ///
-    pub fn deep_level<'a>(&'a self) -> DeepImageLevelRef<'a> {
+    pub fn deep_level(&self) -> DeepImageLevelRef {
         let mut ptr = std::ptr::null();
         unsafe {
             sys::Imf_DeepFloatChannel_deepLevel_const(self.0, &mut ptr);
@@ -314,7 +314,7 @@ impl DeepChannelF32 {
 
     /// Get the level which this channel is a part of
     ///
-    pub fn deep_level_mut<'a>(&'a mut self) -> DeepImageLevelRefMut<'a> {
+    pub fn deep_level_mut(&mut self) -> DeepImageLevelRefMut {
         let mut ptr = std::ptr::null_mut();
         unsafe {
             sys::Imf_DeepFloatChannel_deepLevel(self.0, &mut ptr);
@@ -474,7 +474,7 @@ impl DeepChannelU32 {
 
     /// Get the level which this channel is a part of
     ///
-    pub fn deep_level<'a>(&'a self) -> DeepImageLevelRef<'a> {
+    pub fn deep_level(&self) -> DeepImageLevelRef {
         let mut ptr = std::ptr::null();
         unsafe {
             sys::Imf_DeepUIntChannel_deepLevel_const(self.0, &mut ptr);
@@ -484,7 +484,7 @@ impl DeepChannelU32 {
 
     /// Get the level which this channel is a part of
     ///
-    pub fn deep_level_mut<'a>(&'a mut self) -> DeepImageLevelRefMut<'a> {
+    pub fn deep_level_mut(&mut self) -> DeepImageLevelRefMut {
         let mut ptr = std::ptr::null_mut();
         unsafe {
             sys::Imf_DeepUIntChannel_deepLevel(self.0, &mut ptr);

@@ -137,8 +137,8 @@ impl DeepImage {
     /// * `rfunc(log(max(w, h)) / log(2)) + 1` if [`level_mode()`] is [`LevelMode::MipmapLevels`]
     /// * `rfunc(log(w) / log(2)) + 1` if [`level_mode()`] is [`LevelMode::RipmapLevels`]
     ///
-    ///	Where:
-    ///	* `w` is the width of the image's data window,  max.x - min.x + 1,
+    /// Where:
+    /// * `w` is the width of the image's data window,  max.x - min.x + 1,
     /// * `h` is the height of the image's data window, max.y - min.y + 1,
     /// * and `rfunc(x)` is either `floor(x)`, or `ceil(x)`, depending on
     /// * whether [`level_rounding_mode()`] returns [`LevelRoundingMode::RoundDown`] or
@@ -158,7 +158,7 @@ impl DeepImage {
     /// * Same as [`num_x_levels()`] if [`level_mode()`] is [`LevelMode::OneLevel`] or [`LevelMode::MipmapLevels`]
     /// * `rfunc(log(h) / log(2)) + 1` if [`level_mode()`] is [`LevelMode::RipmapLevels`]
     ///
-    ///	Where:
+    /// Where:
     /// * `h` is the height of the image's data window, max.y - min.y + 1,
     /// * and `rfunc(x)` is either `floor(x)`, or `ceil(x)`, depending on
     /// * whether [`level_rounding_mode()`] returns [`LevelRoundingMode::RoundDown`] or
@@ -189,8 +189,8 @@ impl DeepImage {
     /// That is, the window for which the image level with level number
     /// (lx, ly) has allocated pixel storage.
     ///
-    ///	# Returns
-    ///	A reference to a `Bound2<i32>` with min value (dataWindow().min.x, dataWindow().min.y) and max value (dataWindow().min.x + levelWidth(lx) - 1, dataWindow().min.y + levelHeight(ly) - 1)
+    /// # Returns
+    /// A reference to a `Bound2<i32>` with min value (dataWindow().min.x, dataWindow().min.y) and max value (dataWindow().min.x + levelWidth(lx) - 1, dataWindow().min.y + levelHeight(ly) - 1)
     ///
     /// # Errors
     /// * [`Error::InvalidArgument`] - if `(lx, ly)` does not correspond to a
@@ -212,7 +212,7 @@ impl DeepImage {
 
     /// Returns the width of a level with level number (lx, *), where * is any number.
     ///
-    ///	# Returns
+    /// # Returns
     /// `max (1, rfunc (w / pow (2, lx)))`
     ///
     /// # Errors
@@ -228,7 +228,7 @@ impl DeepImage {
 
     /// Returns the height of a level with level number (*, ly), where * is any number.
     ///
-    ///	# Returns
+    /// # Returns
     /// `max (1, rfunc (y / pow (2, ly)))`
     ///
     /// # Errors
@@ -377,11 +377,7 @@ impl DeepImage {
     /// # Errors
     /// * [`Error::InvalidArgument`] - if `(lx, ly`) does not refer to a valid image level.
     ///
-    pub fn level<'a>(
-        &'a self,
-        lx: i32,
-        ly: i32,
-    ) -> Result<DeepImageLevelRef<'a>> {
+    pub fn level(&self, lx: i32, ly: i32) -> Result<DeepImageLevelRef> {
         let mut ptr = std::ptr::null();
         unsafe {
             sys::Imf_DeepImage_level_const(self.0, &mut ptr, lx, ly)
@@ -395,11 +391,7 @@ impl DeepImage {
     /// # Errors
     /// * [`Error::InvalidArgument`] - if `(lx, ly`) does not refer to a valid image level.
     ///
-    pub fn level_mut<'a>(
-        &'a self,
-        lx: i32,
-        ly: i32,
-    ) -> Result<DeepImageLevelRefMut<'a>> {
+    pub fn level_mut(&self, lx: i32, ly: i32) -> Result<DeepImageLevelRefMut> {
         let mut ptr = std::ptr::null_mut();
         unsafe {
             sys::Imf_DeepImage_level(self.0, &mut ptr, lx, ly).into_result()?;

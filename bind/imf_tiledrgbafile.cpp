@@ -104,7 +104,8 @@ struct TiledRgbaOutputFile {
     IMF_EXPORT
     IMATH_NAMESPACE::Box2i dataWindowForLevel(int l = 0) const CPPMM_IGNORE;
     IMF_EXPORT
-    IMATH_NAMESPACE::Box2i dataWindowForLevel(int lx, int ly) const;
+    IMATH_NAMESPACE::Box2i dataWindowForLevel(int lx, int ly) const
+        CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
     IMATH_NAMESPACE::Box2i dataWindowForTile(int dx, int dy,
@@ -112,7 +113,9 @@ struct TiledRgbaOutputFile {
 
     IMF_EXPORT
     IMATH_NAMESPACE::Box2i dataWindowForTile(int dx, int dy, int lx,
-                                             int ly) const;
+                                             int ly) const
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+            CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
     void writeTile(int dx, int dy, int l = 0) CPPMM_IGNORE;
@@ -129,23 +132,6 @@ struct TiledRgbaOutputFile {
     IMF_EXPORT
     void writeTiles(int dxMin, int dxMax, int dyMin, int dyMax,
                     int l = 0) CPPMM_IGNORE;
-
-    //------------------------------------------------------------------
-    // Shortcut to copy all pixels from an InputFile into this file,
-    // without uncompressing and then recompressing the pixel data.
-    // This file's header must be compatible with the InputFile's
-    // header:  The two header's "dataWindow", "compression",
-    // "lineOrder", "channels", and "tiles" attributes must be the same.
-    //
-    // To use this function, the InputFile must be tiled.
-    //------------------------------------------------------------------
-
-    IMF_EXPORT
-    void copyPixels(InputFile& in) CPPMM_RENAME(copyPixels_from_file)
-        CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
-    IMF_EXPORT
-    void copyPixels(InputPart& in) CPPMM_RENAME(copyPixels_from_part)
-        CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
     void updatePreviewImage(const Imf::PreviewRgba newPixels[])
@@ -247,7 +233,8 @@ struct TiledRgbaInputFile {
     IMF_EXPORT
     IMATH_NAMESPACE::Box2i dataWindowForLevel(int l = 0) const CPPMM_IGNORE;
     IMF_EXPORT
-    IMATH_NAMESPACE::Box2i dataWindowForLevel(int lx, int ly) const;
+    IMATH_NAMESPACE::Box2i dataWindowForLevel(int lx, int ly) const
+        CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
     IMATH_NAMESPACE::Box2i dataWindowForTile(int dx, int dy,
@@ -255,7 +242,9 @@ struct TiledRgbaInputFile {
 
     IMF_EXPORT
     IMATH_NAMESPACE::Box2i dataWindowForTile(int dx, int dy, int lx,
-                                             int ly) const;
+                                             int ly) const
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+            CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
     void readTile(int dx, int dy, int l = 0) CPPMM_IGNORE;

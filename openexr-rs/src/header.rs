@@ -588,7 +588,7 @@ impl Header {
     }
 
     /// Get a reference to the list of channels in the header
-    pub fn channels<'a>(&'a self) -> ChannelListRef<'a> {
+    pub fn channels(&self) -> ChannelListRef {
         unsafe {
             let mut ptr = std::ptr::null();
             sys::Imf_Header_channels_const(self.0.as_ref(), &mut ptr)
@@ -599,7 +599,7 @@ impl Header {
     }
 
     /// Get a mutable reference to the list of channels in the header
-    pub fn channels_mut<'a>(&'a mut self) -> ChannelListRefMut<'a> {
+    pub fn channels_mut(&mut self) -> ChannelListRefMut {
         unsafe {
             let mut ptr = std::ptr::null_mut();
             sys::Imf_Header_channels(self.0.as_mut(), &mut ptr)
@@ -733,7 +733,7 @@ impl Header {
     ///
     /// FIXME: Make this return an enum instead of a string
     ///
-    pub fn image_type(&self) -> Result<String> {
+    pub fn image_type(&self) -> Result<ImageType> {
         unsafe {
             let mut s = std::ptr::null();
             sys::Imf_Header_type_const(self.0.as_ref(), &mut s)
@@ -741,7 +741,13 @@ impl Header {
                 .map(|_| {
                     let mut cptr = std::ptr::null();
                     sys::std_string_c_str(s, &mut cptr);
-                    CStr::from_ptr(cptr).to_string_lossy().to_string()
+                    match CStr::from_ptr(cptr).to_str().unwrap() {
+                        "scanlineimage" => ImageType::Scanline,
+                        "tiledimage" => ImageType::Tiled,
+                        "deepscanline" => ImageType::DeepScanline,
+                        "deeptile" => ImageType::DeepTiled,
+                        _ => panic!("bad value for image type"),
+                    }
                 })
                 .map_err(Error::from)
         }
@@ -757,10 +763,17 @@ impl Header {
     ///
     /// FIXME: Make this take an enum instead of a string
     ///
-    pub fn set_image_type(&mut self, image_type: &str) {
+    pub fn set_image_type(&mut self, image_type: ImageType) {
         unsafe {
-            let s = CppString::new(image_type);
-            sys::Imf_Header_setType(self.0.as_mut(), s.0);
+            let s = match image_type {
+                ImageType::Scanline => CppString::new("scanlineimage"),
+                ImageType::Tiled => CppString::new("tiledimage"),
+                ImageType::DeepScanline => CppString::new("deepscanline"),
+                ImageType::DeepTiled => CppString::new("deeptile"),
+            };
+            sys::Imf_Header_setType(self.0.as_mut(), s.0)
+                .into_result()
+                .expect("Unexpected exception from Imf_Header_setType");
         }
     }
 
@@ -886,7 +899,7 @@ impl Header {
         unsafe {
             sys::Imf_Header_tileDescription_const(self.0.as_ref(), &mut ptr)
                 .into_result()
-                .map(|_| (*ptr).clone())
+                .map(|_| (*ptr).clone().into())
                 .map_err(Error::from)
         }
     }
@@ -895,7 +908,8 @@ impl Header {
     ///
     pub fn set_tile_description(&mut self, td: &TileDescription) {
         unsafe {
-            sys::Imf_Header_setTileDescription(self.0.as_mut(), td);
+            let td = (*td).into();
+            sys::Imf_Header_setTileDescription(self.0.as_mut(), &td);
         }
     }
 
@@ -1149,6 +1163,16 @@ impl<'s> Iterator for HeaderSliceIterMut<'s> {
             Some(HeaderRefMut::new(ptr))
         }
     }
+}
+
+/// Used to set (or inspect) the type of an image in the header
+///
+#[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub enum ImageType {
+    Scanline,
+    Tiled,
+    DeepScanline,
+    DeepTiled,
 }
 
 #[cfg(test)]

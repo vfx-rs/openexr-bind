@@ -43,7 +43,7 @@ impl OutputPart {
 
     /// Access to the file [`Header`]
     ///
-    pub fn header<'a>(&'a self) -> HeaderRef<'a> {
+    pub fn header(&self) -> HeaderRef {
         unsafe {
             let mut ptr = std::ptr::null();
             sys::Imf_OutputPart_header(&self.0, &mut ptr);
@@ -83,7 +83,7 @@ impl OutputPart {
 
     /// Get a reference to the frame buffer.
     ///
-    pub fn frame_buffer<'a>(&'a self) -> FrameBufferRef<'a> {
+    pub fn frame_buffer(&self) -> FrameBufferRef {
         unsafe {
             let mut ptr = std::ptr::null();
             sys::Imf_OutputPart_frameBuffer(&self.0, &mut ptr);
@@ -136,13 +136,13 @@ impl OutputPart {
     ///
     /// If `line_order() == INCREASING_Y`:
     ///
-    ///	The current scan line before the first call to write_pixels()
+    /// The current scan line before the first call to write_pixels()
     /// is header().data_window().min.y.  After writing each scan line,
     /// the current scan line is incremented by 1.
     ///
     /// If `line_order() == DECREASING_Y`:
     ///
-    ///	The current scan line before the first call to write_pixels()
+    /// The current scan line before the first call to write_pixels()
     /// is header().data_window().max.y.  After writing each scan line,
     /// the current scan line is decremented by 1.
     ///

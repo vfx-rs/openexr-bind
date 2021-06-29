@@ -104,7 +104,7 @@ impl SampleCountChannel {
 
     /// Get the level which this channel is a part of
     ///
-    pub fn deep_level<'a>(&'a self) -> DeepImageLevelRef<'a> {
+    pub fn deep_level(&self) -> DeepImageLevelRef {
         let mut ptr = std::ptr::null();
         unsafe {
             sys::Imf_SampleCountChannel_deepLevel_const(self.0, &mut ptr);
@@ -114,7 +114,7 @@ impl SampleCountChannel {
 
     /// Get the level which this channel is a part of
     ///
-    pub fn deep_level_mut<'a>(&'a mut self) -> DeepImageLevelRefMut<'a> {
+    pub fn deep_level_mut(&mut self) -> DeepImageLevelRefMut {
         let mut ptr = std::ptr::null_mut();
         unsafe {
             sys::Imf_SampleCountChannel_deepLevel(self.0, &mut ptr);
