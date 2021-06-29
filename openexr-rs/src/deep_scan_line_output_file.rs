@@ -229,7 +229,8 @@ impl DeepScanLineOutputFile {
     ) -> Result<()> {
         unsafe {
             sys::Imf_DeepScanLineOutputFile_copyPixels_from_part(
-                self.0, file.0,
+                self.0,
+                &mut file.0,
             )
             .into_result()?;
         }

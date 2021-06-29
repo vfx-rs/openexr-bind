@@ -212,7 +212,7 @@ impl DeepScanLineOutputPart {
         unsafe {
             sys::Imf_DeepScanLineOutputPart_copyPixels_from_part(
                 &mut self.0,
-                file.0,
+                &mut file.0,
             )
             .into_result()?;
         }

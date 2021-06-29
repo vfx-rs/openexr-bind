@@ -72,11 +72,14 @@ impl<'a> CompositeDeepScanLine<'a> {
     ///
     pub fn add_source_part(
         &mut self,
-        part: &'a DeepScanLineInputPart,
+        part: &'a mut DeepScanLineInputPart,
     ) -> Result<()> {
         unsafe {
-            sys::Imf_CompositeDeepScanLine_addSource_part(self.ptr, part.0)
-                .into_result()?;
+            sys::Imf_CompositeDeepScanLine_addSource_part(
+                self.ptr,
+                &mut part.0,
+            )
+            .into_result()?;
         }
         // keep a reference to enforce that the part must live at least as long
         // as we do

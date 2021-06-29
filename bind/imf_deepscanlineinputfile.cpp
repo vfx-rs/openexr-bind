@@ -58,7 +58,9 @@ struct DeepScanLineInputFile {
     void readPixels(const char* rawPixelData,
                     const Imf::DeepFrameBuffer& frameBuffer, int scanLine1,
                     int scanLine2) const
-        CPPMM_RENAME(readPixels_from_frame_buffer);
+        CPPMM_RENAME(readPixels_from_frame_buffer)
+            CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+                CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
     void rawPixelData(int firstScanLine, char* pixelData,
@@ -79,7 +81,8 @@ struct DeepScanLineInputFile {
     void readPixelSampleCounts(const char* rawdata,
                                const Imf::DeepFrameBuffer& frameBuffer,
                                int scanLine1, int scanLine2) const
-        CPPMM_RENAME(readPixelSampleCounts_into_frame_buffer);
+        CPPMM_RENAME(readPixelSampleCounts_into_frame_buffer)
+            CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
 } CPPMM_OPAQUEPTR;
 
