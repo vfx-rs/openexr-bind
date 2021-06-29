@@ -602,11 +602,9 @@ fn test_write_deep_tiled1() -> Result<()> {
         frame_buffer::Frame,
         header::ImageType,
         tile_description::TileDescription,
-        Compression, LineOrder, PixelType,
+        Compression, LineOrder,
     };
     use half::f16;
-    use imath_traits::Bound2;
-    use std::alloc::{GlobalAlloc, Layout, System};
 
     let width = 256;
     let height = 256;

@@ -189,8 +189,6 @@ mod tests {
             for x in 0..width {
                 let u = (x as f32) / (width as f32) * 8.0;
 
-                let idx = (y * width + x) as usize;
-
                 let z_v = vec![((u.sin() * v.sin()) + 1.0)];
                 let a_v = vec![f16::from_f32(1.0f32)];
 

@@ -286,11 +286,9 @@ fn test_write_deep1() -> Result<()> {
         deep_frame_buffer::{DeepFrameBuffer, DeepSlice},
         frame_buffer::Frame,
         header::ImageType,
-        Compression, LineOrder, PixelType,
+        Compression, LineOrder,
     };
     use half::f16;
-    use imath_traits::Bound2;
-    use std::alloc::{GlobalAlloc, Layout, System};
 
     let width = 256;
     let height = 256;

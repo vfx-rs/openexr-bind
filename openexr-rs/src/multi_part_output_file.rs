@@ -4,7 +4,7 @@ use std::ffi::CString;
 use std::path::Path;
 
 use crate::{
-    header::{HeaderRef, HeaderSlice, ImageType},
+    header::{HeaderRef, HeaderSlice},
     Error,
 };
 
@@ -108,6 +108,7 @@ impl Drop for MultiPartOutputFile {
 #[cfg(test)]
 #[test]
 fn write_multipartoutputfile1() {
+    use crate::header::ImageType;
     use crate::*;
 
     let (pixels, width, height) = super::tests::load_ferris();

@@ -1,9 +1,8 @@
 use openexr_sys as sys;
 
 use crate::{
-    deep_frame_buffer::{DeepFrame, DeepFrameBuffer, DeepFrameBufferRef},
+    deep_frame_buffer::{DeepFrameBuffer, DeepFrameBufferRef},
     error::Error,
-    frame_buffer::Frame,
     header::HeaderRef,
     LevelMode, LevelRoundingMode,
 };
