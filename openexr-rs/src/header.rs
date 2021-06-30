@@ -232,6 +232,19 @@ impl Header {
         header
     }
 
+    /// Shortcut to construct a new [`Header`] with just the data and display
+    /// windows and everything else Default
+    ///
+    pub fn from_windows<B: Bound2<i32>>(
+        data_window: B,
+        display_window: B,
+    ) -> Header {
+        let mut header = Header::default();
+        *header.data_window_mut() = data_window;
+        *header.display_window_mut() = display_window;
+        header
+    }
+
     /// Examines the header and returns an error if it finds something wrong
     /// with the attributes (e.g. empty display window, negative pixel aspect
     /// ratio etc.)
