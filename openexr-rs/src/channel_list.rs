@@ -408,7 +408,7 @@ fn iter2() {
     list.insert("B", &channel);
     list.insert("A", &channel);
 
-    for (name, channel) in &list {
+    for (_name, _channel) in &list {
         // ...
     }
 }
