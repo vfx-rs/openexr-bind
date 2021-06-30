@@ -231,17 +231,18 @@ the data window specifies the region for which valid pixel data exist.
 Only the pixels in the data window are stored in the file.
 
 ```no_run
-use openexr::{Rgba, RgbaOutputFile, Header, RgbaChannels};
+use openexr::{Rgba, RgbaOutputFile, Header, RgbaChannels, LineOrder, Compression};
 
 fn write_rgba2(
     filename: &str, 
     pixels: &[Rgba], 
-    width: i32, 
-    height: i32,
     data_window: &[i32; 4],
+    display_window: &[i32; 4],
 ) -> Result<(), Box<dyn std::error::Error>> {
-    let mut header = Header::from_dimensions(width, height);
-    *header.data_window_mut() = *data_window;
+    let mut header = Header::from_windows(
+        data_window,    
+        display_window,
+    );
 
     let mut file = RgbaOutputFile::new(
         filename,
@@ -250,7 +251,7 @@ fn write_rgba2(
         1,
     )?;
 
-    file.set_frame_buffer(&pixels, 1, width as usize)?;
+    file.set_frame_buffer(&pixels, 1, (data_window[2] - data_window[0] + 1) as usize)?;
     file.write_pixels(data_window[3] - data_window[1] + 1)?;
 
     Ok(())
@@ -1067,7 +1068,7 @@ list.insert("specular.B", &channel);
 
 assert_eq!(
     list.channels_in_layer("diffuse")
-        .map(|(name, _)| { name })
+        .map(|(name, _)| name )
         .collect::<Vec<&str>>(),
     ["diffuse.B", "diffuse.G", "diffuse.R"]
 )
