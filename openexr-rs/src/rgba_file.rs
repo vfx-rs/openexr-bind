@@ -1,6 +1,6 @@
 use crate::{
-    cppstd::CppString, Compression, Error, Header, HeaderRef, LineOrder, Rgba,
-    RgbaChannels,
+    cppstd::CppString, preview_image::PreviewRgba, Compression, Error, Header,
+    HeaderRef, LineOrder, Rgba, RgbaChannels,
 };
 use imath_traits::Vec2;
 use openexr_sys as sys;
@@ -247,6 +247,38 @@ impl RgbaOutputFile {
         unsafe {
             sys::Imf_RgbaOutputFile_setYCRounding(self.0, round_y, round_c);
         }
+    }
+
+    /// Updating the preview image:
+    ///
+    /// Supplies a new set of pixels for the
+    /// preview image attribute in the file's header.
+    ///
+    /// This is necessary because images are
+    /// often stored in a file incrementally, a few scan lines at a
+    /// time, while the image is being generated.  Since the preview
+    /// image is an attribute in the file's header, it gets stored in
+    /// the file as soon as the file is opened, but we may not know
+    /// what the preview image should look like until we have written
+    /// the last scan line of the main image.
+    ///
+    /// # Errors
+    /// * [`Error::Logic`] - If the header does not contain a preview image
+    /// * [`Error::Base`] - If any other error occurs
+    ///
+    pub fn update_preview_image(
+        &mut self,
+        new_pixels: &[PreviewRgba],
+    ) -> Result<()> {
+        unsafe {
+            sys::Imf_RgbaOutputFile_updatePreviewImage(
+                self.0,
+                new_pixels.as_ptr() as *const sys::Imf_PreviewRgba_t,
+            )
+            .into_result()?;
+        }
+
+        Ok(())
     }
 
     /*

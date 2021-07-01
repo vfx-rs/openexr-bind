@@ -50,6 +50,8 @@ pub mod deep_scan_line_input_part;
 pub use deep_scan_line_input_part::DeepScanLineInputPart;
 pub mod deep_scan_line_input_file;
 pub use deep_scan_line_input_file::DeepScanLineInputFile;
+pub mod deep_scan_line_output_file;
+pub mod deep_scan_line_output_part;
 pub mod error;
 pub use error::Error;
 pub mod multi_part_input_file;
@@ -87,6 +89,15 @@ pub mod tiledinputfile;
 pub use tiledinputfile::{RawTileData, TiledInputFile};
 pub mod tiledinputpart;
 pub use tiledinputpart::TiledInputPart;
+pub mod timecode;
+pub use timecode::{TimeCode, TimeCodePacking};
+
+pub mod envmap;
+pub mod frames_per_second;
+pub mod keycode;
+pub mod multi_view;
+pub mod rational;
+pub mod test_file;
 
 pub mod cppstd;
 
