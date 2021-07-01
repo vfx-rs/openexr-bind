@@ -695,8 +695,6 @@ mod tests {
         super::TiledInputFile::new(&path, 1).unwrap();
     }
 
-    // pub fn file_name
-
     #[test]
     fn test_tiledinputfile_file_name_success() {
         let tiled_input_file = get_tiled_input_file();
