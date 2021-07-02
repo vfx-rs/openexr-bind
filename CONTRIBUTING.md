@@ -5,6 +5,12 @@ Hello, and welcome to the openexr-bind project. We are happy that you are
 interested in participating in the project, and we hope that we can get you up
 and running quickly.
 
+Also, this is a project from the Academy Software Foundation (ASWF) Rust Working
+Group. The project is designed to have its ownership transferred to the OpenEXR
+project once it has reached a mature stage. As such, the contribution
+requirements may become more strict in the future (including code sign off,
+filling out CLAs, etc).
+
 Goals
 -----
 
