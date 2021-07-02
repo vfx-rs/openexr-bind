@@ -67,7 +67,7 @@ struct TiledInputPart {
     IMF_EXPORT
     void readTiles(int dx1, int dx2, int dy1, int dy2, int lx, int ly);
     IMF_EXPORT
-    void readTiles(int dx1, int dx2, int dy1, int dy2, int l = 0);
+    void readTiles(int dx1, int dx2, int dy1, int dy2, int l = 0) CPPMM_IGNORE;
     IMF_EXPORT
     void rawTileData(int& dx, int& dy, int& lx, int& ly, const char*& pixelData,
                      int& pixelDataSize);
