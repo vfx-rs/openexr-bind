@@ -14,10 +14,15 @@ use imath_traits::Bound2;
 
 type Result<T, E = Error> = std::result::Result<T, E>;
 
-#[repr(transparent)]
-pub struct DeepTiledOutputPart(pub(crate) sys::Imf_DeepTiledOutputPart_t);
+use std::marker::PhantomData;
 
-impl DeepTiledOutputPart {
+#[repr(transparent)]
+pub struct DeepTiledOutputPart<'a> {
+    pub(crate) inner: sys::Imf_DeepTiledOutputPart_t,
+    phantom: std::marker::PhantomData<&'a MultiPartOutputFile>,
+}
+
+impl<'a> DeepTiledOutputPart<'a> {
     /// Get an interface to the part `part_number` of the [`MultiPartOutputFile`]
     /// `multi_part_file`.
     ///
@@ -35,7 +40,10 @@ impl DeepTiledOutputPart {
             .into_result()?;
         }
 
-        Ok(DeepTiledOutputPart(part))
+        Ok(DeepTiledOutputPart {
+            inner: part,
+            phantom: PhantomData,
+        })
     }
 
     /// Define a frame buffer as the pixel data source.
@@ -51,7 +59,7 @@ impl DeepTiledOutputPart {
     ) -> Result<()> {
         unsafe {
             sys::Imf_DeepTiledOutputPart_setFrameBuffer(
-                &mut self.0,
+                &mut self.inner,
                 frame_buffer.ptr,
             )
             .into_result()?;
@@ -65,7 +73,7 @@ impl DeepTiledOutputPart {
     pub fn header(&self) -> HeaderRef {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_DeepTiledOutputPart_header(&self.0, &mut ptr);
+            sys::Imf_DeepTiledOutputPart_header(&self.inner, &mut ptr);
             if ptr.is_null() {
                 panic!("Received null ptr from sys::Imf_DeepTiledOutputPart_header");
             }
@@ -79,7 +87,7 @@ impl DeepTiledOutputPart {
     pub fn frame_buffer(&self) -> DeepFrameBufferRef {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_DeepTiledOutputPart_frameBuffer(&self.0, &mut ptr);
+            sys::Imf_DeepTiledOutputPart_frameBuffer(&self.inner, &mut ptr);
             if ptr.is_null() {
                 panic!("Received null ptr from sys::Imf_DeepTiledOutputPart_frameBuffer");
             }
@@ -93,7 +101,7 @@ impl DeepTiledOutputPart {
     pub fn tile_x_size(&self) -> u32 {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepTiledOutputPart_tileXSize(&self.0, &mut v).into_result().expect("Unexpected exception from Imf_DeepTiledOutputPart_tileXSize");
+            sys::Imf_DeepTiledOutputPart_tileXSize(&self.inner, &mut v).into_result().expect("Unexpected exception from Imf_DeepTiledOutputPart_tileXSize");
         }
         v
     }
@@ -103,7 +111,7 @@ impl DeepTiledOutputPart {
     pub fn tile_y_size(&self) -> u32 {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepTiledOutputPart_tileYSize(&self.0, &mut v).into_result().expect("Unexpected exception from Imf_DeepTiledOutputPart_tileYSize");
+            sys::Imf_DeepTiledOutputPart_tileYSize(&self.inner, &mut v).into_result().expect("Unexpected exception from Imf_DeepTiledOutputPart_tileYSize");
         }
         v
     }
@@ -114,7 +122,7 @@ impl DeepTiledOutputPart {
         let mut v = sys::Imf_LevelMode(0);
         unsafe {
             sys::Imf_DeepTiledOutputPart_levelMode(
-                &self.0,
+                &self.inner,
                 &mut v,
             )
             .into_result()
@@ -132,7 +140,7 @@ impl DeepTiledOutputPart {
         let mut v = sys::Imf_LevelRoundingMode(0);
         unsafe {
             sys::Imf_DeepTiledOutputPart_levelRoundingMode(
-                &self.0,
+                &self.inner,
                 &mut v,
             )
             .into_result()
@@ -158,7 +166,7 @@ impl DeepTiledOutputPart {
     pub fn num_levels(&self) -> Result<i32> {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepTiledOutputPart_numLevels(&self.0, &mut v)
+            sys::Imf_DeepTiledOutputPart_numLevels(&self.inner, &mut v)
                 .into_result()?;
         }
 
@@ -179,7 +187,7 @@ impl DeepTiledOutputPart {
     pub fn num_x_levels(&self) -> i32 {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepTiledOutputPart_numXLevels(&self.0, &mut v).into_result().expect("Unexpected exception from Imf_DeepTiledOutputPart_numXLevels");
+            sys::Imf_DeepTiledOutputPart_numXLevels(&self.inner, &mut v).into_result().expect("Unexpected exception from Imf_DeepTiledOutputPart_numXLevels");
         }
         v
     }
@@ -198,7 +206,7 @@ impl DeepTiledOutputPart {
     pub fn num_y_levels(&self) -> i32 {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepTiledOutputPart_numYLevels(&self.0, &mut v).into_result().expect("Unexpected exception from Imf_DeepTiledOutputPart_numYLevels");
+            sys::Imf_DeepTiledOutputPart_numYLevels(&self.inner, &mut v).into_result().expect("Unexpected exception from Imf_DeepTiledOutputPart_numYLevels");
         }
         v
     }
@@ -209,7 +217,7 @@ impl DeepTiledOutputPart {
     pub fn is_valid_level(&self, lx: i32, ly: i32) -> bool {
         let mut v = false;
         unsafe {
-            sys::Imf_DeepTiledOutputPart_isValidLevel(&self.0, &mut v, lx, ly).into_result().expect("Unexpected exception from Imf_DeepTiledOutputPart_isValidLevel");
+            sys::Imf_DeepTiledOutputPart_isValidLevel(&self.inner, &mut v, lx, ly).into_result().expect("Unexpected exception from Imf_DeepTiledOutputPart_isValidLevel");
         }
         v
     }
@@ -228,7 +236,7 @@ impl DeepTiledOutputPart {
     pub fn level_width(&self, lx: i32) -> Result<i32> {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepTiledOutputPart_levelWidth(&self.0, &mut v, lx)
+            sys::Imf_DeepTiledOutputPart_levelWidth(&self.inner, &mut v, lx)
                 .into_result()?;
         }
         Ok(v)
@@ -248,7 +256,7 @@ impl DeepTiledOutputPart {
     pub fn level_height(&self, ly: i32) -> Result<i32> {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepTiledOutputPart_levelHeight(&self.0, &mut v, ly)
+            sys::Imf_DeepTiledOutputPart_levelHeight(&self.inner, &mut v, ly)
                 .into_result()?;
         }
         Ok(v)
@@ -266,7 +274,7 @@ impl DeepTiledOutputPart {
     pub fn num_x_tiles(&self, lx: i32) -> Result<i32> {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepTiledOutputPart_numXTiles(&self.0, &mut v, lx)
+            sys::Imf_DeepTiledOutputPart_numXTiles(&self.inner, &mut v, lx)
                 .into_result()?;
         }
         Ok(v)
@@ -284,7 +292,7 @@ impl DeepTiledOutputPart {
     pub fn num_y_tiles(&self, ly: i32) -> Result<i32> {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepTiledOutputPart_numYTiles(&self.0, &mut v, ly)
+            sys::Imf_DeepTiledOutputPart_numYTiles(&self.inner, &mut v, ly)
                 .into_result()?;
         }
         Ok(v)
@@ -303,7 +311,7 @@ impl DeepTiledOutputPart {
         let mut dw = [0i32; 4];
         unsafe {
             sys::Imf_DeepTiledOutputPart_dataWindowForLevel(
-                &self.0,
+                &self.inner,
                 dw.as_mut_ptr() as *mut sys::Imath_Box2i_t,
                 lx,
                 ly,
@@ -330,7 +338,7 @@ impl DeepTiledOutputPart {
         let mut dw = [0i32; 4];
         unsafe {
             sys::Imf_DeepTiledOutputPart_dataWindowForTile(
-                &self.0,
+                &self.inner,
                 dw.as_mut_ptr() as *mut sys::Imath_Box2i_t,
                 dx,
                 dy,
@@ -417,8 +425,14 @@ impl DeepTiledOutputPart {
         ly: i32,
     ) -> Result<()> {
         unsafe {
-            sys::Imf_DeepTiledOutputPart_writeTile(&mut self.0, dx, dy, lx, ly)
-                .into_result()?
+            sys::Imf_DeepTiledOutputPart_writeTile(
+                &mut self.inner,
+                dx,
+                dy,
+                lx,
+                ly,
+            )
+            .into_result()?
         }
 
         Ok(())
@@ -497,7 +511,7 @@ impl DeepTiledOutputPart {
     ) -> Result<()> {
         unsafe {
             sys::Imf_DeepTiledOutputPart_writeTiles(
-                &mut self.0,
+                &mut self.inner,
                 dx1,
                 dx2,
                 dy1,
@@ -531,7 +545,7 @@ impl DeepTiledOutputPart {
     ) -> Result<()> {
         unsafe {
             sys::Imf_DeepTiledOutputPart_updatePreviewImage(
-                &mut self.0,
+                &mut self.inner,
                 new_pixels.as_ptr() as *const sys::Imf_PreviewRgba_t,
             )
             .into_result()?;
@@ -558,7 +572,7 @@ impl DeepTiledOutputPart {
     ) -> Result<()> {
         unsafe {
             sys::Imf_DeepTiledOutputPart_copyPixels_from_file(
-                &mut self.0,
+                &mut self.inner,
                 file.0,
             )
             .into_result()?;
@@ -584,8 +598,8 @@ impl DeepTiledOutputPart {
     ) -> Result<()> {
         unsafe {
             sys::Imf_DeepTiledOutputPart_copyPixels_from_part(
-                &mut self.0,
-                &mut file.0,
+                &mut self.inner,
+                &mut file.inner,
             )
             .into_result()?;
         }

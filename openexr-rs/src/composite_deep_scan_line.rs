@@ -50,17 +50,17 @@ type Result<T, E = Error> = std::result::Result<T, E>;
 /// # Ok(())
 /// # }
 /// ```
-pub struct CompositeDeepScanLine<'a> {
+pub struct CompositeDeepScanLine<'a, 'p> {
     pub(crate) ptr: *mut sys::Imf_CompositeDeepScanLine_t,
-    parts: Vec<&'a DeepScanLineInputPart>,
+    parts: Vec<&'a DeepScanLineInputPart<'p>>,
     files: Vec<&'a DeepScanLineInputFile>,
     frame_buffer: Option<&'a FrameBuffer>,
 }
 
-impl<'a> CompositeDeepScanLine<'a> {
+impl<'a, 'p> CompositeDeepScanLine<'a, 'p> {
     /// Creates a Default CompositeDeepScanLine
     ///
-    pub fn new() -> CompositeDeepScanLine<'a> {
+    pub fn new() -> CompositeDeepScanLine<'a, 'p> {
         CompositeDeepScanLine::default()
     }
 
@@ -72,12 +72,12 @@ impl<'a> CompositeDeepScanLine<'a> {
     ///
     pub fn add_source_part(
         &mut self,
-        part: &'a mut DeepScanLineInputPart,
+        part: &'a mut DeepScanLineInputPart<'p>,
     ) -> Result<()> {
         unsafe {
             sys::Imf_CompositeDeepScanLine_addSource_part(
                 self.ptr,
-                &mut part.0,
+                &mut part.inner,
             )
             .into_result()?;
         }
@@ -182,8 +182,8 @@ impl<'a> CompositeDeepScanLine<'a> {
     // TODO: implement set_compositing()
 }
 
-impl<'a> Default for CompositeDeepScanLine<'a> {
-    fn default() -> CompositeDeepScanLine<'a> {
+impl<'a, 'p> Default for CompositeDeepScanLine<'a, 'p> {
+    fn default() -> CompositeDeepScanLine<'a, 'p> {
         unsafe {
             let mut ptr = std::ptr::null_mut();
             sys::Imf_CompositeDeepScanLine_ctor(&mut ptr);

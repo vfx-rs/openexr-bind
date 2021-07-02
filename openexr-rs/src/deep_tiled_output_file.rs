@@ -591,7 +591,7 @@ impl DeepTiledOutputFile {
         unsafe {
             sys::Imf_DeepTiledOutputFile_copyPixels_from_part(
                 self.0,
-                &mut file.0,
+                &mut file.inner,
             )
             .into_result()?;
         }

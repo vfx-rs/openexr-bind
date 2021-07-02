@@ -7,10 +7,15 @@ use crate::{
 
 type Result<T, E = Error> = std::result::Result<T, E>;
 
-#[repr(transparent)]
-pub struct OutputPart(pub(crate) sys::Imf_OutputPart_t);
+use std::marker::PhantomData;
 
-impl OutputPart {
+#[repr(transparent)]
+pub struct OutputPart<'a> {
+    pub(crate) inner: sys::Imf_OutputPart_t,
+    phantom: std::marker::PhantomData<&'a MultiPartOutputFile>,
+}
+
+impl<'a> OutputPart<'a> {
     /// Get an interface to the part `part_number` of the [`MultiPartOutputFile`]
     /// `multi_part_file`.
     ///
@@ -24,7 +29,10 @@ impl OutputPart {
                 .into_result()?;
         }
 
-        Ok(OutputPart(part))
+        Ok(OutputPart {
+            inner: part,
+            phantom: PhantomData,
+        })
     }
 
     /// Get the filename this file is writing to.
@@ -32,7 +40,7 @@ impl OutputPart {
     pub fn file_name(&self) -> &str {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_OutputPart_fileName(&self.0, &mut ptr)
+            sys::Imf_OutputPart_fileName(&self.inner, &mut ptr)
                 .into_result()
                 .unwrap();
             std::ffi::CStr::from_ptr(ptr)
@@ -46,7 +54,7 @@ impl OutputPart {
     pub fn header(&self) -> HeaderRef {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_OutputPart_header(&self.0, &mut ptr);
+            sys::Imf_OutputPart_header(&self.inner, &mut ptr);
             if ptr.is_null() {
                 panic!("Received null ptr from sys::Imf_OutputPart_header");
             }
@@ -74,8 +82,11 @@ impl OutputPart {
         frame_buffer: &FrameBuffer,
     ) -> Result<()> {
         unsafe {
-            sys::Imf_OutputPart_setFrameBuffer(&mut self.0, frame_buffer.ptr)
-                .into_result()?;
+            sys::Imf_OutputPart_setFrameBuffer(
+                &mut self.inner,
+                frame_buffer.ptr,
+            )
+            .into_result()?;
         }
 
         Ok(())
@@ -86,7 +97,7 @@ impl OutputPart {
     pub fn frame_buffer(&self) -> FrameBufferRef {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_OutputPart_frameBuffer(&self.0, &mut ptr);
+            sys::Imf_OutputPart_frameBuffer(&self.inner, &mut ptr);
             if ptr.is_null() {
                 panic!(
                     "Received null ptr from sys::Imf_OutputPart_frameBuffer"
@@ -123,7 +134,7 @@ impl OutputPart {
     /// to read from arbitrary memory locations.
     ///
     pub unsafe fn write_pixels(&mut self, num_scan_lines: i32) -> Result<()> {
-        sys::Imf_OutputPart_writePixels(&mut self.0, num_scan_lines)
+        sys::Imf_OutputPart_writePixels(&mut self.inner, num_scan_lines)
             .into_result()?;
         Ok(())
     }
@@ -149,7 +160,7 @@ impl OutputPart {
     pub fn current_scan_line(&self) -> i32 {
         let mut v = 0;
         unsafe {
-            sys::Imf_OutputPart_currentScanLine(&self.0, &mut v);
+            sys::Imf_OutputPart_currentScanLine(&self.inner, &mut v);
         }
         v
     }
@@ -167,7 +178,7 @@ impl OutputPart {
     ///
     pub fn copy_pixels_from_file(&mut self, file: &InputFile) -> Result<()> {
         unsafe {
-            sys::Imf_OutputPart_copyPixels_from_file(&mut self.0, file.0)
+            sys::Imf_OutputPart_copyPixels_from_file(&mut self.inner, file.0)
                 .into_result()?;
         }
         Ok(())
@@ -189,8 +200,11 @@ impl OutputPart {
         file: &mut InputPart,
     ) -> Result<()> {
         unsafe {
-            sys::Imf_OutputPart_copyPixels_from_part(&mut self.0, &mut file.0)
-                .into_result()?;
+            sys::Imf_OutputPart_copyPixels_from_part(
+                &mut self.inner,
+                &mut file.inner,
+            )
+            .into_result()?;
         }
         Ok(())
     }
@@ -218,7 +232,7 @@ impl OutputPart {
     ) -> Result<()> {
         unsafe {
             sys::Imf_OutputPart_updatePreviewImage(
-                &mut self.0,
+                &mut self.inner,
                 new_pixels.as_ptr() as *const sys::Imf_PreviewRgba_t,
             )
             .into_result()?;

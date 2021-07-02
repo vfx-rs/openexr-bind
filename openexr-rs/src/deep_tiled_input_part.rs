@@ -12,10 +12,15 @@ use imath_traits::Bound2;
 
 type Result<T, E = Error> = std::result::Result<T, E>;
 
-#[repr(transparent)]
-pub struct DeepTiledInputPart(pub(crate) sys::Imf_DeepTiledInputPart_t);
+use std::marker::PhantomData;
 
-impl DeepTiledInputPart {
+#[repr(transparent)]
+pub struct DeepTiledInputPart<'a> {
+    pub(crate) inner: sys::Imf_DeepTiledInputPart_t,
+    phantom: std::marker::PhantomData<&'a MultiPartInputFile>,
+}
+
+impl<'a> DeepTiledInputPart<'a> {
     /// Get an interface to the part `part_number` of the [`MultiPartInputFile`]
     /// `multi_part_file`.
     ///
@@ -33,7 +38,10 @@ impl DeepTiledInputPart {
             .into_result()?;
         }
 
-        Ok(DeepTiledInputPart(part))
+        Ok(DeepTiledInputPart {
+            inner: part,
+            phantom: PhantomData,
+        })
     }
 
     /// Access to the file [`Header`]
@@ -41,7 +49,7 @@ impl DeepTiledInputPart {
     pub fn header(&self) -> HeaderRef {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_DeepTiledInputPart_header(&self.0, &mut ptr);
+            sys::Imf_DeepTiledInputPart_header(&self.inner, &mut ptr);
             if ptr.is_null() {
                 panic!(
                     "Received null ptr from sys::Imf_DeepTiledInputPart_header"
@@ -57,7 +65,7 @@ impl DeepTiledInputPart {
     pub fn version(&self) -> i32 {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepTiledInputPart_version(&self.0, &mut v);
+            sys::Imf_DeepTiledInputPart_version(&self.inner, &mut v);
         }
         v
     }
@@ -81,7 +89,7 @@ impl DeepTiledInputPart {
     ) -> Result<()> {
         unsafe {
             sys::Imf_DeepTiledInputPart_setFrameBuffer(
-                &mut self.0,
+                &mut self.inner,
                 frame_buffer.ptr,
             )
             .into_result()?;
@@ -95,7 +103,7 @@ impl DeepTiledInputPart {
     pub fn frame_buffer(&self) -> DeepFrameBufferRef {
         let mut ptr = std::ptr::null();
         unsafe {
-            sys::Imf_DeepTiledInputPart_frameBuffer(&self.0, &mut ptr);
+            sys::Imf_DeepTiledInputPart_frameBuffer(&self.inner, &mut ptr);
         }
 
         DeepFrameBufferRef::new(ptr)
@@ -106,7 +114,7 @@ impl DeepTiledInputPart {
     pub fn is_complete(&self) -> bool {
         let mut v = false;
         unsafe {
-            sys::Imf_DeepTiledInputPart_isComplete(&self.0, &mut v);
+            sys::Imf_DeepTiledInputPart_isComplete(&self.inner, &mut v);
         }
 
         v
@@ -117,7 +125,7 @@ impl DeepTiledInputPart {
     pub fn tile_x_size(&self) -> u32 {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepTiledInputPart_tileXSize(& self.0, &mut v).into_result().expect("Unexpected exception from Imf_DeepTiledInputPart_tileXSize");
+            sys::Imf_DeepTiledInputPart_tileXSize(& self.inner, &mut v).into_result().expect("Unexpected exception from Imf_DeepTiledInputPart_tileXSize");
         }
         v
     }
@@ -127,7 +135,7 @@ impl DeepTiledInputPart {
     pub fn tile_y_size(&self) -> u32 {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepTiledInputPart_tileYSize(& self.0, &mut v).into_result().expect("Unexpected exception from Imf_DeepTiledInputPart_tileYSize");
+            sys::Imf_DeepTiledInputPart_tileYSize(& self.inner, &mut v).into_result().expect("Unexpected exception from Imf_DeepTiledInputPart_tileYSize");
         }
         v
     }
@@ -138,7 +146,7 @@ impl DeepTiledInputPart {
         let mut v = sys::Imf_LevelMode(0);
         unsafe {
             sys::Imf_DeepTiledInputPart_levelMode(
-                & self.0,
+                & self.inner,
                 &mut v,
             )
             .into_result()
@@ -156,7 +164,7 @@ impl DeepTiledInputPart {
         let mut v = sys::Imf_LevelRoundingMode(0);
         unsafe {
             sys::Imf_DeepTiledInputPart_levelRoundingMode(
-                & self.0,
+                & self.inner,
                 &mut v,
             )
             .into_result()
@@ -182,7 +190,7 @@ impl DeepTiledInputPart {
     pub fn num_levels(&self) -> Result<i32> {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepTiledInputPart_numLevels(&self.0, &mut v)
+            sys::Imf_DeepTiledInputPart_numLevels(&self.inner, &mut v)
                 .into_result()?;
         }
 
@@ -203,7 +211,7 @@ impl DeepTiledInputPart {
     pub fn num_x_levels(&self) -> i32 {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepTiledInputPart_numXLevels(& self.0, &mut v).into_result().expect("Unexpected exception from Imf_DeepTiledInputPart_numXLevels");
+            sys::Imf_DeepTiledInputPart_numXLevels(& self.inner, &mut v).into_result().expect("Unexpected exception from Imf_DeepTiledInputPart_numXLevels");
         }
         v
     }
@@ -222,7 +230,7 @@ impl DeepTiledInputPart {
     pub fn num_y_levels(&self) -> i32 {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepTiledInputPart_numYLevels(& self.0, &mut v).into_result().expect("Unexpected exception from Imf_DeepTiledInputPart_numYLevels");
+            sys::Imf_DeepTiledInputPart_numYLevels(& self.inner, &mut v).into_result().expect("Unexpected exception from Imf_DeepTiledInputPart_numYLevels");
         }
         v
     }
@@ -234,7 +242,7 @@ impl DeepTiledInputPart {
         let mut v = false;
         unsafe {
             sys::Imf_DeepTiledInputPart_isValidLevel(
-                & self.0,
+                &self.inner,
                 &mut v,
                 lx,
                 ly,
@@ -261,7 +269,7 @@ impl DeepTiledInputPart {
     pub fn level_width(&self, lx: i32) -> Result<i32> {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepTiledInputPart_levelWidth(&self.0, &mut v, lx)
+            sys::Imf_DeepTiledInputPart_levelWidth(&self.inner, &mut v, lx)
                 .into_result()?;
         }
         Ok(v)
@@ -281,7 +289,7 @@ impl DeepTiledInputPart {
     pub fn level_height(&self, ly: i32) -> Result<i32> {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepTiledInputPart_levelHeight(&self.0, &mut v, ly)
+            sys::Imf_DeepTiledInputPart_levelHeight(&self.inner, &mut v, ly)
                 .into_result()?;
         }
         Ok(v)
@@ -299,7 +307,7 @@ impl DeepTiledInputPart {
     pub fn num_x_tiles(&self, lx: i32) -> Result<i32> {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepTiledInputPart_numXTiles(&self.0, &mut v, lx)
+            sys::Imf_DeepTiledInputPart_numXTiles(&self.inner, &mut v, lx)
                 .into_result()?;
         }
         Ok(v)
@@ -317,7 +325,7 @@ impl DeepTiledInputPart {
     pub fn num_y_tiles(&self, ly: i32) -> Result<i32> {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepTiledInputPart_numYTiles(&self.0, &mut v, ly)
+            sys::Imf_DeepTiledInputPart_numYTiles(&self.inner, &mut v, ly)
                 .into_result()?;
         }
         Ok(v)
@@ -336,7 +344,7 @@ impl DeepTiledInputPart {
         let mut dw = [0i32; 4];
         unsafe {
             sys::Imf_DeepTiledInputPart_dataWindowForLevel(
-                &self.0,
+                &self.inner,
                 dw.as_mut_ptr() as *mut sys::Imath_Box2i_t,
                 lx,
                 ly,
@@ -363,7 +371,7 @@ impl DeepTiledInputPart {
         let mut dw = [0i32; 4];
         unsafe {
             sys::Imf_DeepTiledInputPart_dataWindowForTile(
-                &self.0,
+                &self.inner,
                 dw.as_mut_ptr() as *mut sys::Imath_Box2i_t,
                 dx,
                 dy,
@@ -396,8 +404,14 @@ impl DeepTiledInputPart {
         ly: i32,
     ) -> Result<()> {
         unsafe {
-            sys::Imf_DeepTiledInputPart_readTile(&mut self.0, dx, dy, lx, ly)
-                .into_result()?;
+            sys::Imf_DeepTiledInputPart_readTile(
+                &mut self.inner,
+                dx,
+                dy,
+                lx,
+                ly,
+            )
+            .into_result()?;
         }
         Ok(())
     }
@@ -425,7 +439,7 @@ impl DeepTiledInputPart {
     ) -> Result<()> {
         unsafe {
             sys::Imf_DeepTiledInputPart_readTiles(
-                &mut self.0,
+                &mut self.inner,
                 dx1,
                 dx2,
                 dy1,
@@ -459,7 +473,7 @@ impl DeepTiledInputPart {
     ) -> Result<()> {
         unsafe {
             sys::Imf_DeepTiledInputPart_readPixelSampleCount(
-                &mut self.0,
+                &mut self.inner,
                 dx,
                 dy,
                 lx,
@@ -493,7 +507,7 @@ impl DeepTiledInputPart {
     ) -> Result<()> {
         unsafe {
             sys::Imf_DeepTiledInputPart_readPixelSampleCounts(
-                &mut self.0,
+                &mut self.inner,
                 dx1,
                 dx2,
                 dy1,

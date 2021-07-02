@@ -9,10 +9,15 @@ use crate::{
 
 type Result<T, E = Error> = std::result::Result<T, E>;
 
-#[repr(transparent)]
-pub struct DeepScanLineInputPart(pub(crate) sys::Imf_DeepScanLineInputPart_t);
+use std::marker::PhantomData;
 
-impl DeepScanLineInputPart {
+#[repr(transparent)]
+pub struct DeepScanLineInputPart<'a> {
+    pub(crate) inner: sys::Imf_DeepScanLineInputPart_t,
+    phantom: std::marker::PhantomData<&'a MultiPartInputFile>,
+}
+
+impl<'a> DeepScanLineInputPart<'a> {
     /// Get an interface to the part `part_number` of the [`MultiPartInputFile`]
     /// `multi_part_file`.
     ///
@@ -30,7 +35,10 @@ impl DeepScanLineInputPart {
             .into_result()?;
         }
 
-        Ok(DeepScanLineInputPart(part))
+        Ok(DeepScanLineInputPart {
+            inner: part,
+            phantom: PhantomData,
+        })
     }
 
     /// Access to the file [`Header`]
@@ -38,7 +46,7 @@ impl DeepScanLineInputPart {
     pub fn header(&self) -> HeaderRef {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_DeepScanLineInputPart_header(&self.0, &mut ptr);
+            sys::Imf_DeepScanLineInputPart_header(&self.inner, &mut ptr);
             if ptr.is_null() {
                 panic!("Received null ptr from sys::Imf_DeepScanLineInputPart_header");
             }
@@ -52,7 +60,7 @@ impl DeepScanLineInputPart {
     pub fn version(&self) -> i32 {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepScanLineInputPart_version(&self.0, &mut v);
+            sys::Imf_DeepScanLineInputPart_version(&self.inner, &mut v);
         }
         v
     }
@@ -76,7 +84,7 @@ impl DeepScanLineInputPart {
     ) -> Result<()> {
         unsafe {
             sys::Imf_DeepScanLineInputPart_setFrameBuffer(
-                &mut self.0,
+                &mut self.inner,
                 frame_buffer.ptr,
             )
             .into_result()?;
@@ -90,7 +98,7 @@ impl DeepScanLineInputPart {
     pub fn frame_buffer(&self) -> DeepFrameBufferRef {
         let mut ptr = std::ptr::null();
         unsafe {
-            sys::Imf_DeepScanLineInputPart_frameBuffer(&self.0, &mut ptr);
+            sys::Imf_DeepScanLineInputPart_frameBuffer(&self.inner, &mut ptr);
         }
 
         DeepFrameBufferRef::new(ptr)
@@ -101,7 +109,7 @@ impl DeepScanLineInputPart {
     pub fn is_complete(&self) -> bool {
         let mut v = false;
         unsafe {
-            sys::Imf_DeepScanLineInputPart_isComplete(&self.0, &mut v);
+            sys::Imf_DeepScanLineInputPart_isComplete(&self.inner, &mut v);
         }
 
         v
@@ -120,7 +128,7 @@ impl DeepScanLineInputPart {
     ///
     pub fn read_pixels(&mut self, s1: i32, s2: i32) -> Result<()> {
         unsafe {
-            sys::Imf_DeepScanLineInputPart_readPixels(&mut self.0, s1, s2)
+            sys::Imf_DeepScanLineInputPart_readPixels(&mut self.inner, s1, s2)
                 .into_result()?;
         }
         Ok(())
@@ -136,7 +144,7 @@ impl DeepScanLineInputPart {
     pub fn read_pixel_sample_counts(&mut self, s1: i32, s2: i32) -> Result<()> {
         unsafe {
             sys::Imf_DeepScanLineInputPart_readPixelSampleCounts(
-                &mut self.0,
+                &mut self.inner,
                 s1,
                 s2,
             )
@@ -202,7 +210,7 @@ impl DeepScanLineInputPart {
         }
 
         Ok(DeepScanLineInputPartReader {
-            inner: self.0,
+            inner: self.inner,
             frame_buffer,
         })
     }
