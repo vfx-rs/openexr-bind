@@ -255,8 +255,8 @@ impl TiledInputFile {
 
         unsafe {
             sys::Imf_TiledInputFile_tileXSize(self.inner, &mut tile_x_size)
-            .into_result()
-            .unwrap();
+                .into_result()
+                .unwrap();
         }
 
         tile_x_size

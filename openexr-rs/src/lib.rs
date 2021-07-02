@@ -128,10 +128,10 @@ pub use sample_count_channel::{
 pub mod version;
 pub use version::{Version, VersionFlags};
 pub mod flat_image_io;
-pub mod tiledinputfile;
-pub use tiledinputfile::{RawTileData, TiledInputFile};
-pub mod tiledinputpart;
-pub use tiledinputpart::TiledInputPart;
+pub mod tiled_input_file;
+pub use tiled_input_file::{RawTileData, TiledInputFile};
+pub mod tiled_input_part;
+pub use tiled_input_part::TiledInputPart;
 pub mod timecode;
 pub use timecode::{TimeCode, TimeCodePacking};
 
