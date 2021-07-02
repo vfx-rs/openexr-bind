@@ -257,12 +257,16 @@ impl DeepTiledInputFile {
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
     /// [`DeepTiledInputFile::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
     ///
-    pub fn level_width(&self, lx: i32) -> i32 {
+    /// # Errors
+    /// *[`Error::Base`] - If any error occurs
+    ///
+    pub fn level_width(&self, lx: i32) -> Result<i32> {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepTiledInputFile_levelWidth(self.0, &mut v, lx).into_result().expect("Unexpected exception from Imf_DeepTiledInputFile_levelWidth");
+            sys::Imf_DeepTiledInputFile_levelWidth(self.0, &mut v, lx)
+                .into_result()?;
         }
-        v
+        Ok(v)
     }
 
     /// Returns the height of the level with level number `(*, ly)`, where `*` is any number.
@@ -273,12 +277,16 @@ impl DeepTiledInputFile {
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
     /// [`DeepTiledInputFile::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
     ///
-    pub fn level_height(&self, ly: i32) -> i32 {
+    /// # Errors
+    /// *[`Error::Base`] - If any error occurs
+    ///
+    pub fn level_height(&self, ly: i32) -> Result<i32> {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepTiledInputFile_levelHeight(self.0, &mut v, ly).into_result().expect("Unexpected exception from Imf_DeepTiledInputFile_levelHeight");
+            sys::Imf_DeepTiledInputFile_levelHeight(self.0, &mut v, ly)
+                .into_result()?;
         }
-        v
+        Ok(v)
     }
 
     /// Get the number of tiles in the x axis that cover a level with level number `(lx, *)`
@@ -287,12 +295,16 @@ impl DeepTiledInputFile {
     /// # Returns
     /// *(level_width(lx) + tile_x_size() - 1) / tile_x_size()
     ///
-    pub fn num_x_tiles(&self, lx: i32) -> i32 {
+    /// # Errors
+    /// *[`Error::InvalidArgument`] - If `lx` is not a valid level
+    ///
+    pub fn num_x_tiles(&self, lx: i32) -> Result<i32> {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepTiledInputFile_numXTiles(self.0, &mut v, lx).into_result().expect("Unexpected exception from Imf_DeepTiledInputFile_numXLevels");
+            sys::Imf_DeepTiledInputFile_numXTiles(self.0, &mut v, lx)
+                .into_result()?;
         }
-        v
+        Ok(v)
     }
 
     /// Get the number of tiles in the y axis that cover a level with level number `(*, ly)`
@@ -301,12 +313,16 @@ impl DeepTiledInputFile {
     /// # Returns
     /// * (level_height(ly) + tile_y_size() - 1) / tile_y_size()
     ///
-    pub fn num_y_tiles(&self, ly: i32) -> i32 {
+    /// # Errors
+    /// *[`Error::InvalidArgument`] - If `lx` is not a valid level
+    ///
+    pub fn num_y_tiles(&self, ly: i32) -> Result<i32> {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepTiledInputFile_numYTiles(self.0, &mut v, ly).into_result().expect("Unexpected exception from Imf_DeepTiledInputFile_numYLevels");
+            sys::Imf_DeepTiledInputFile_numYTiles(self.0, &mut v, ly)
+                .into_result()?;
         }
-        v
+        Ok(v)
     }
 
     /// Returns a 2-dimensional region of valid pixel coordinates for a level with level number `(lx, ly)`

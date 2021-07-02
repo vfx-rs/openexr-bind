@@ -214,7 +214,7 @@ impl OutputFile {
         file: &mut InputPart,
     ) -> Result<()> {
         unsafe {
-            sys::Imf_OutputFile_copyPixels_from_part(self.0, &mut file.0)
+            sys::Imf_OutputFile_copyPixels_from_part(self.0, &mut file.inner)
                 .into_result()?;
         }
         Ok(())

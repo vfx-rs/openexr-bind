@@ -12,10 +12,15 @@ use crate::{
 
 type Result<T, E = Error> = std::result::Result<T, E>;
 
-#[repr(transparent)]
-pub struct DeepScanLineOutputPart(pub(crate) sys::Imf_DeepScanLineOutputPart_t);
+use std::marker::PhantomData;
 
-impl DeepScanLineOutputPart {
+#[repr(transparent)]
+pub struct DeepScanLineOutputPart<'a> {
+    pub(crate) inner: sys::Imf_DeepScanLineOutputPart_t,
+    phantom: std::marker::PhantomData<&'a MultiPartOutputFile>,
+}
+
+impl<'a> DeepScanLineOutputPart<'a> {
     /// Get an interface to the part `part_number` of the [`MultiPartOutputFile`]
     /// `multi_part_file`.
     ///
@@ -33,7 +38,10 @@ impl DeepScanLineOutputPart {
             .into_result()?;
         }
 
-        Ok(DeepScanLineOutputPart(part))
+        Ok(DeepScanLineOutputPart {
+            inner: part,
+            phantom: PhantomData,
+        })
     }
 
     /// Get the filename this file is writing to.
@@ -41,7 +49,7 @@ impl DeepScanLineOutputPart {
     pub fn file_name(&self) -> &str {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_DeepScanLineOutputPart_fileName(&self.0, &mut ptr)
+            sys::Imf_DeepScanLineOutputPart_fileName(&self.inner, &mut ptr)
                 .into_result()
                 .unwrap();
             std::ffi::CStr::from_ptr(ptr)
@@ -55,7 +63,7 @@ impl DeepScanLineOutputPart {
     pub fn header(&self) -> HeaderRef {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_DeepScanLineOutputPart_header(&self.0, &mut ptr);
+            sys::Imf_DeepScanLineOutputPart_header(&self.inner, &mut ptr);
             if ptr.is_null() {
                 panic!("Received null ptr from sys::Imf_DeepScanLineOutputPart_header");
             }
@@ -84,7 +92,7 @@ impl DeepScanLineOutputPart {
     ) -> Result<()> {
         unsafe {
             sys::Imf_DeepScanLineOutputPart_setFrameBuffer(
-                &mut self.0,
+                &mut self.inner,
                 frame_buffer.ptr,
             )
             .into_result()?;
@@ -98,7 +106,7 @@ impl DeepScanLineOutputPart {
     pub fn frame_buffer(&self) -> DeepFrameBufferRef {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_DeepScanLineOutputPart_frameBuffer(&self.0, &mut ptr);
+            sys::Imf_DeepScanLineOutputPart_frameBuffer(&self.inner, &mut ptr);
             if ptr.is_null() {
                 panic!(
                     "Received null ptr from sys::Imf_DeepScanLineOutputPart_frameBuffer"
@@ -136,7 +144,7 @@ impl DeepScanLineOutputPart {
     ///
     pub unsafe fn write_pixels(&mut self, num_scan_lines: i32) -> Result<()> {
         sys::Imf_DeepScanLineOutputPart_writePixels(
-            &mut self.0,
+            &mut self.inner,
             num_scan_lines,
         )
         .into_result()?;
@@ -164,7 +172,10 @@ impl DeepScanLineOutputPart {
     pub fn current_scan_line(&self) -> i32 {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepScanLineOutputPart_currentScanLine(&self.0, &mut v);
+            sys::Imf_DeepScanLineOutputPart_currentScanLine(
+                &self.inner,
+                &mut v,
+            );
         }
         v
     }
@@ -186,7 +197,7 @@ impl DeepScanLineOutputPart {
     ) -> Result<()> {
         unsafe {
             sys::Imf_DeepScanLineOutputPart_copyPixels_from_file(
-                &mut self.0,
+                &mut self.inner,
                 file.0,
             )
             .into_result()?;
@@ -211,8 +222,8 @@ impl DeepScanLineOutputPart {
     ) -> Result<()> {
         unsafe {
             sys::Imf_DeepScanLineOutputPart_copyPixels_from_part(
-                &mut self.0,
-                &mut file.0,
+                &mut self.inner,
+                &mut file.inner,
             )
             .into_result()?;
         }
@@ -242,7 +253,7 @@ impl DeepScanLineOutputPart {
     ) -> Result<()> {
         unsafe {
             sys::Imf_DeepScanLineOutputPart_updatePreviewImage(
-                &mut self.0,
+                &mut self.inner,
                 new_pixels.as_ptr() as *const sys::Imf_PreviewRgba_t,
             )
             .into_result()?;

@@ -1,38 +1,40 @@
 use openexr_sys as sys;
 
 use crate::{
-    deep_frame_buffer::{DeepFrameBuffer, DeepFrameBufferRef},
-    deep_tiled_input_file::DeepTiledInputFile,
-    deep_tiled_input_part::DeepTiledInputPart,
+    frame_buffer::{FrameBuffer, FrameBufferRef},
     header::HeaderRef,
+    input_file::InputFile,
+    input_part::InputPart,
     multi_part_output_file::MultiPartOutputFile,
     preview_image::PreviewRgba,
+    tiled_input_file::TiledInputFile,
+    tiled_input_part::TiledInputPart,
     Error, LevelMode, LevelRoundingMode,
 };
 
 use imath_traits::Bound2;
 
-type Result<T, E = Error> = std::result::Result<T, E>;
-
 use std::marker::PhantomData;
 
+type Result<T, E = Error> = std::result::Result<T, E>;
+
 #[repr(transparent)]
-pub struct DeepTiledOutputPart<'a> {
-    pub(crate) inner: sys::Imf_DeepTiledOutputPart_t,
+pub struct TiledOutputPart<'a> {
+    pub(crate) inner: sys::Imf_TiledOutputPart_t,
     phantom: std::marker::PhantomData<&'a MultiPartOutputFile>,
 }
 
-impl<'a> DeepTiledOutputPart<'a> {
+impl<'a> TiledOutputPart<'a> {
     /// Get an interface to the part `part_number` of the [`MultiPartOutputFile`]
     /// `multi_part_file`.
     ///
     pub fn new(
         multi_part_file: &MultiPartOutputFile,
         part_number: i32,
-    ) -> Result<DeepTiledOutputPart> {
-        let mut part = sys::Imf_DeepTiledOutputPart_t::default();
+    ) -> Result<TiledOutputPart> {
+        let mut part = sys::Imf_TiledOutputPart_t::default();
         unsafe {
-            sys::Imf_DeepTiledOutputPart_ctor(
+            sys::Imf_TiledOutputPart_ctor(
                 &mut part,
                 multi_part_file.0,
                 part_number,
@@ -40,7 +42,7 @@ impl<'a> DeepTiledOutputPart<'a> {
             .into_result()?;
         }
 
-        Ok(DeepTiledOutputPart {
+        Ok(TiledOutputPart {
             inner: part,
             phantom: PhantomData,
         })
@@ -55,10 +57,10 @@ impl<'a> DeepTiledOutputPart<'a> {
     ///
     pub fn set_frame_buffer(
         &mut self,
-        frame_buffer: &DeepFrameBuffer,
+        frame_buffer: &FrameBuffer,
     ) -> Result<()> {
         unsafe {
-            sys::Imf_DeepTiledOutputPart_setFrameBuffer(
+            sys::Imf_TiledOutputPart_setFrameBuffer(
                 &mut self.inner,
                 frame_buffer.ptr,
             )
@@ -73,9 +75,11 @@ impl<'a> DeepTiledOutputPart<'a> {
     pub fn header(&self) -> HeaderRef {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_DeepTiledOutputPart_header(&self.inner, &mut ptr);
+            sys::Imf_TiledOutputPart_header(&self.inner, &mut ptr);
             if ptr.is_null() {
-                panic!("Received null ptr from sys::Imf_DeepTiledOutputPart_header");
+                panic!(
+                    "Received null ptr from sys::Imf_TiledOutputPart_header"
+                );
             }
 
             HeaderRef::new(ptr)
@@ -84,15 +88,15 @@ impl<'a> DeepTiledOutputPart<'a> {
 
     /// Get the [`FrameBuffer`]
     ///
-    pub fn frame_buffer(&self) -> DeepFrameBufferRef {
+    pub fn frame_buffer(&self) -> FrameBufferRef {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_DeepTiledOutputPart_frameBuffer(&self.inner, &mut ptr);
+            sys::Imf_TiledOutputPart_frameBuffer(&self.inner, &mut ptr);
             if ptr.is_null() {
-                panic!("Received null ptr from sys::Imf_DeepTiledOutputPart_frameBuffer");
+                panic!("Received null ptr from sys::Imf_TiledOutputPart_frameBuffer");
             }
 
-            DeepFrameBufferRef::new(ptr)
+            FrameBufferRef::new(ptr)
         }
     }
 
@@ -101,7 +105,11 @@ impl<'a> DeepTiledOutputPart<'a> {
     pub fn tile_x_size(&self) -> u32 {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepTiledOutputPart_tileXSize(&self.inner, &mut v).into_result().expect("Unexpected exception from Imf_DeepTiledOutputPart_tileXSize");
+            sys::Imf_TiledOutputPart_tileXSize(&self.inner, &mut v)
+                .into_result()
+                .expect(
+                    "Unexpected exception from Imf_TiledOutputPart_tileXSize",
+                );
         }
         v
     }
@@ -111,7 +119,11 @@ impl<'a> DeepTiledOutputPart<'a> {
     pub fn tile_y_size(&self) -> u32 {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepTiledOutputPart_tileYSize(&self.inner, &mut v).into_result().expect("Unexpected exception from Imf_DeepTiledOutputPart_tileYSize");
+            sys::Imf_TiledOutputPart_tileYSize(&self.inner, &mut v)
+                .into_result()
+                .expect(
+                    "Unexpected exception from Imf_TiledOutputPart_tileYSize",
+                );
         }
         v
     }
@@ -121,14 +133,11 @@ impl<'a> DeepTiledOutputPart<'a> {
     pub fn level_mode(&self) -> LevelMode {
         let mut v = sys::Imf_LevelMode(0);
         unsafe {
-            sys::Imf_DeepTiledOutputPart_levelMode(
-                &self.inner,
-                &mut v,
-            )
-            .into_result()
-            .expect(
-                "Unexpected exception from Imf_DeepTiledOutputPart_levelMode",
-            );
+            sys::Imf_TiledOutputPart_levelMode(&self.inner, &mut v)
+                .into_result()
+                .expect(
+                    "Unexpected exception from Imf_TiledOutputPart_levelMode",
+                );
         }
 
         v.into()
@@ -139,13 +148,13 @@ impl<'a> DeepTiledOutputPart<'a> {
     pub fn level_rounding_mode(&self) -> LevelRoundingMode {
         let mut v = sys::Imf_LevelRoundingMode(0);
         unsafe {
-            sys::Imf_DeepTiledOutputPart_levelRoundingMode(
+            sys::Imf_TiledOutputPart_levelRoundingMode(
                 &self.inner,
                 &mut v,
             )
             .into_result()
             .expect(
-                "Unexpected exception from Imf_DeepTiledOutputPart_levelRoundingMode",
+                "Unexpected exception from Imf_TiledOutputPart_levelRoundingMode",
             );
         }
 
@@ -155,18 +164,18 @@ impl<'a> DeepTiledOutputPart<'a> {
     /// Get the number of levels in the file
     ///
     /// # Returns
-    /// * `Ok(1)` if [`DeepTiledOutputPart::level_mode()`] == [`LevelMode::OneLevel`]
-    /// * `Ok(rfunc (log (max (w, h)) / log (2)) + 1)` if [`DeepTiledOutputPart::level_mode()`] == [`LevelMode::MipmapLevels`]
+    /// * `Ok(1)` if [`TiledOutputPart::level_mode()`] == [`LevelMode::OneLevel`]
+    /// * `Ok(rfunc (log (max (w, h)) / log (2)) + 1)` if [`TiledOutputPart::level_mode()`] == [`LevelMode::MipmapLevels`]
 
-    /// * `Err(Error::Logic)` if [`DeepTiledOutputPart::level_mode()`] == [`LevelMode::RipmapLevels`]
+    /// * `Err(Error::Logic)` if [`TiledOutputPart::level_mode()`] == [`LevelMode::RipmapLevels`]
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
-    /// [`DeepTiledOutputPart::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
+    /// [`TiledOutputPart::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
     ///
     pub fn num_levels(&self) -> Result<i32> {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepTiledOutputPart_numLevels(&self.inner, &mut v)
+            sys::Imf_TiledOutputPart_numLevels(&self.inner, &mut v)
                 .into_result()?;
         }
 
@@ -176,18 +185,22 @@ impl<'a> DeepTiledOutputPart<'a> {
     /// Get the number of levels in the file in the x axis
     ///
     /// # Returns
-    /// * `1` if [`DeepTiledOutputPart::mode()`] == [`LevelMode::OneLevel`]
-    /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`DeepTiledOutputPart::mode()`] == [`LevelMode::MipmapLevels`]
+    /// * `1` if [`TiledOutputPart::mode()`] == [`LevelMode::OneLevel`]
+    /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`TiledOutputPart::mode()`] == [`LevelMode::MipmapLevels`]
 
-    /// * `rfunc (log (w) / log (2)) + 1` if [`DeepTiledOutputPart::mode()`] == [`LevelMode::RipmapLevels`]
+    /// * `rfunc (log (w) / log (2)) + 1` if [`TiledOutputPart::mode()`] == [`LevelMode::RipmapLevels`]
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
-    /// [`DeepTiledOutputPart::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
+    /// [`TiledOutputPart::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
     ///
     pub fn num_x_levels(&self) -> i32 {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepTiledOutputPart_numXLevels(&self.inner, &mut v).into_result().expect("Unexpected exception from Imf_DeepTiledOutputPart_numXLevels");
+            sys::Imf_TiledOutputPart_numXLevels(&self.inner, &mut v)
+                .into_result()
+                .expect(
+                    "Unexpected exception from Imf_TiledOutputPart_numXLevels",
+                );
         }
         v
     }
@@ -195,18 +208,22 @@ impl<'a> DeepTiledOutputPart<'a> {
     /// Get the number of levels in the file in the x axis
     ///
     /// # Returns
-    /// * `1` if [`DeepTiledOutputPart::mode()`] == [`LevelMode::OneLevel`]
-    /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`DeepTiledOutputPart::mode()`] == [`LevelMode::MipmapLevels`]
+    /// * `1` if [`TiledOutputPart::mode()`] == [`LevelMode::OneLevel`]
+    /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`TiledOutputPart::mode()`] == [`LevelMode::MipmapLevels`]
 
-    /// * `rfunc (log (h) / log (2)) + 1` if [`DeepTiledOutputPart::mode()`] == [`LevelMode::RipmapLevels`]
+    /// * `rfunc (log (h) / log (2)) + 1` if [`TiledOutputPart::mode()`] == [`LevelMode::RipmapLevels`]
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
-    /// [`DeepTiledOutputPart::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
+    /// [`TiledOutputPart::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
     ///
     pub fn num_y_levels(&self) -> i32 {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepTiledOutputPart_numYLevels(&self.inner, &mut v).into_result().expect("Unexpected exception from Imf_DeepTiledOutputPart_numYLevels");
+            sys::Imf_TiledOutputPart_numYLevels(&self.inner, &mut v)
+                .into_result()
+                .expect(
+                    "Unexpected exception from Imf_TiledOutputPart_numYLevels",
+                );
         }
         v
     }
@@ -217,7 +234,7 @@ impl<'a> DeepTiledOutputPart<'a> {
     pub fn is_valid_level(&self, lx: i32, ly: i32) -> bool {
         let mut v = false;
         unsafe {
-            sys::Imf_DeepTiledOutputPart_isValidLevel(&self.inner, &mut v, lx, ly).into_result().expect("Unexpected exception from Imf_DeepTiledOutputPart_isValidLevel");
+            sys::Imf_TiledOutputPart_isValidLevel(&self.inner, &mut v, lx, ly).into_result().expect("Unexpected exception from Imf_TiledOutputPart_isValidLevel");
         }
         v
     }
@@ -228,7 +245,7 @@ impl<'a> DeepTiledOutputPart<'a> {
     /// * `max (1, rfunc (w / pow (2, lx)))`
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
-    /// [`DeepTiledOutputPart::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
+    /// [`TiledOutputPart::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
     ///
     /// # Errors
     /// *[`Error::Base`] - If any error occurs
@@ -236,7 +253,7 @@ impl<'a> DeepTiledOutputPart<'a> {
     pub fn level_width(&self, lx: i32) -> Result<i32> {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepTiledOutputPart_levelWidth(&self.inner, &mut v, lx)
+            sys::Imf_TiledOutputPart_levelWidth(&self.inner, &mut v, lx)
                 .into_result()?;
         }
         Ok(v)
@@ -248,7 +265,7 @@ impl<'a> DeepTiledOutputPart<'a> {
     /// * `max (1, rfunc (h / pow (2, ly)))`
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
-    /// [`DeepTiledOutputPart::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
+    /// [`TiledOutputPart::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
     ///
     /// # Errors
     /// *[`Error::Base`] - If any error occurs
@@ -256,7 +273,7 @@ impl<'a> DeepTiledOutputPart<'a> {
     pub fn level_height(&self, ly: i32) -> Result<i32> {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepTiledOutputPart_levelHeight(&self.inner, &mut v, ly)
+            sys::Imf_TiledOutputPart_levelHeight(&self.inner, &mut v, ly)
                 .into_result()?;
         }
         Ok(v)
@@ -274,7 +291,7 @@ impl<'a> DeepTiledOutputPart<'a> {
     pub fn num_x_tiles(&self, lx: i32) -> Result<i32> {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepTiledOutputPart_numXTiles(&self.inner, &mut v, lx)
+            sys::Imf_TiledOutputPart_numXTiles(&self.inner, &mut v, lx)
                 .into_result()?;
         }
         Ok(v)
@@ -292,7 +309,7 @@ impl<'a> DeepTiledOutputPart<'a> {
     pub fn num_y_tiles(&self, ly: i32) -> Result<i32> {
         let mut v = 0;
         unsafe {
-            sys::Imf_DeepTiledOutputPart_numYTiles(&self.inner, &mut v, ly)
+            sys::Imf_TiledOutputPart_numYTiles(&self.inner, &mut v, ly)
                 .into_result()?;
         }
         Ok(v)
@@ -310,7 +327,7 @@ impl<'a> DeepTiledOutputPart<'a> {
     ) -> Result<B> {
         let mut dw = [0i32; 4];
         unsafe {
-            sys::Imf_DeepTiledOutputPart_dataWindowForLevel(
+            sys::Imf_TiledOutputPart_dataWindowForLevel(
                 &self.inner,
                 dw.as_mut_ptr() as *mut sys::Imath_Box2i_t,
                 lx,
@@ -337,7 +354,7 @@ impl<'a> DeepTiledOutputPart<'a> {
     ) -> Result<B> {
         let mut dw = [0i32; 4];
         unsafe {
-            sys::Imf_DeepTiledOutputPart_dataWindowForTile(
+            sys::Imf_TiledOutputPart_dataWindowForTile(
                 &self.inner,
                 dw.as_mut_ptr() as *mut sys::Imath_Box2i_t,
                 dx,
@@ -383,7 +400,7 @@ impl<'a> DeepTiledOutputPart<'a> {
     /// (0,ny-1) (1,ny-1) ... (nx-1,ny-1)
     /// ```
     ///
-    /// where nx = [`num_x_levels()`](DeepTiledOutputPart::num_x_levels), and ny = [`num_y_levels()`](DeepTiledOutputPart::num_y_levels).
+    /// where nx = [`num_x_levels()`](TiledOutputPart::num_x_levels), and ny = [`num_y_levels()`](TiledOutputPart::num_y_levels).
     ///
     /// In an individual level, `(lx, ly)`, the tiles
     /// are stored in the following order:
@@ -395,8 +412,8 @@ impl<'a> DeepTiledOutputPart<'a> {
     /// (0,ty-1) (1,ty-1) ... (tx-1,ty-1)
     /// ```
     ///
-    /// where tx = [`num_x_tiles(lx)`](DeepTiledOutputPart::num_x_tiles),
-    /// and   ty = [`num_y_tiles(ly)`](DeepTiledOutputPart::num_y_tiles).
+    /// where tx = [`num_x_tiles(lx)`](TiledOutputPart::num_x_tiles),
+    /// and   ty = [`num_y_tiles(ly)`](TiledOutputPart::num_y_tiles).
     ///
     /// ## [`LineOrder::DecreasingY`]
     /// As for [`LineOrder::IncreasingY`], the tiles
@@ -425,14 +442,8 @@ impl<'a> DeepTiledOutputPart<'a> {
         ly: i32,
     ) -> Result<()> {
         unsafe {
-            sys::Imf_DeepTiledOutputPart_writeTile(
-                &mut self.inner,
-                dx,
-                dy,
-                lx,
-                ly,
-            )
-            .into_result()?
+            sys::Imf_TiledOutputPart_writeTile(&mut self.inner, dx, dy, lx, ly)
+                .into_result()?
         }
 
         Ok(())
@@ -466,7 +477,7 @@ impl<'a> DeepTiledOutputPart<'a> {
     /// (0,ny-1) (1,ny-1) ... (nx-1,ny-1)
     /// ```
     ///
-    /// where nx = [`num_x_levels()`](DeepTiledOutputPart::num_x_levels), and ny = [`num_y_levels()`](DeepTiledOutputPart::num_y_levels).
+    /// where nx = [`num_x_levels()`](TiledOutputPart::num_x_levels), and ny = [`num_y_levels()`](TiledOutputPart::num_y_levels).
     ///
     /// In an individual level, `(lx, ly)`, the tiles
     /// are stored in the following order:
@@ -478,8 +489,8 @@ impl<'a> DeepTiledOutputPart<'a> {
     /// (0,ty-1) (1,ty-1) ... (tx-1,ty-1)
     /// ```
     ///
-    /// where tx = [`num_x_tiles(lx)`](DeepTiledOutputPart::num_x_tiles),
-    /// and   ty = [`num_y_tiles(ly)`](DeepTiledOutputPart::num_y_tiles).
+    /// where tx = [`num_x_tiles(lx)`](TiledOutputPart::num_x_tiles),
+    /// and   ty = [`num_y_tiles(ly)`](TiledOutputPart::num_y_tiles).
     ///
     /// ## [`LineOrder::DecreasingY`]
     /// As for [`LineOrder::IncreasingY`], the tiles
@@ -510,7 +521,7 @@ impl<'a> DeepTiledOutputPart<'a> {
         ly: i32,
     ) -> Result<()> {
         unsafe {
-            sys::Imf_DeepTiledOutputPart_writeTiles(
+            sys::Imf_TiledOutputPart_writeTiles(
                 &mut self.inner,
                 dx1,
                 dx2,
@@ -544,7 +555,7 @@ impl<'a> DeepTiledOutputPart<'a> {
         new_pixels: &[PreviewRgba],
     ) -> Result<()> {
         unsafe {
-            sys::Imf_DeepTiledOutputPart_updatePreviewImage(
+            sys::Imf_TiledOutputPart_updatePreviewImage(
                 &mut self.inner,
                 new_pixels.as_ptr() as *const sys::Imf_PreviewRgba_t,
             )
@@ -566,12 +577,9 @@ impl<'a> DeepTiledOutputPart<'a> {
     /// * [`Error::Logic`] - If tiles have already been written to this file.
     /// * [`Error::Base`] - If any other error occurs
     ///
-    pub fn copy_pixels_from_file(
-        &mut self,
-        file: &DeepTiledInputFile,
-    ) -> Result<()> {
+    pub fn copy_pixels_from_file(&mut self, file: &InputFile) -> Result<()> {
         unsafe {
-            sys::Imf_DeepTiledOutputPart_copyPixels_from_file(
+            sys::Imf_TiledOutputPart_copyPixels_from_file(
                 &mut self.inner,
                 file.0,
             )
@@ -580,10 +588,10 @@ impl<'a> DeepTiledOutputPart<'a> {
         Ok(())
     }
 
-    /// Shortcut to copy all pixels from an [`DeepTiledInputPart`] into this file,
+    /// Shortcut to copy all pixels from an [`TiledInputPart`] into this file,
     /// without uncompressing and then recompressing the pixel data.
     ///
-    /// This file's header must be compatible with the [`DeepTiledInputPart`]'s
+    /// This file's header must be compatible with the [`TiledInputPart`]'s
     /// header:  The two header's "dataWindow", "compression",
     /// "lineOrder" and "channels" attributes must be the same.
     ///
@@ -594,10 +602,61 @@ impl<'a> DeepTiledOutputPart<'a> {
     ///
     pub fn copy_pixels_from_part(
         &mut self,
-        file: &mut DeepTiledInputPart,
+        file: &mut InputPart,
     ) -> Result<()> {
         unsafe {
-            sys::Imf_DeepTiledOutputPart_copyPixels_from_part(
+            sys::Imf_TiledOutputPart_copyPixels_from_part(
+                &mut self.inner,
+                &mut file.inner,
+            )
+            .into_result()?;
+        }
+        Ok(())
+    }
+    /// Shortcut to copy all pixels from an [`InputFile`] into this file,
+    /// without uncompressing and then recompressing the pixel data.
+    ///
+    /// This file's header must be compatible with the [`InputFile`]'s
+    /// header:  The two header's "dataWindow", "compression",
+    /// "lineOrder" and "channels" attributes must be the same.
+    ///
+    /// # Errors
+    /// * [`Error::InvalidArgument`] - If the headers do not match
+    /// * [`Error::Logic`] - If tiles have already been written to this file.
+    /// * [`Error::Base`] - If any other error occurs
+    ///
+    pub fn copy_pixels_from_tiled_file(
+        &mut self,
+        file: &TiledInputFile,
+    ) -> Result<()> {
+        unsafe {
+            sys::Imf_TiledOutputPart_copyPixels_from_tiled_file(
+                &mut self.inner,
+                file.0,
+            )
+            .into_result()?;
+        }
+        Ok(())
+    }
+
+    /// Shortcut to copy all pixels from an [`TiledInputPart`] into this file,
+    /// without uncompressing and then recompressing the pixel data.
+    ///
+    /// This file's header must be compatible with the [`TiledInputPart`]'s
+    /// header:  The two header's "dataWindow", "compression",
+    /// "lineOrder" and "channels" attributes must be the same.
+    ///
+    /// # Errors
+    /// * [`Error::InvalidArgument`] - If the headers do not match
+    /// * [`Error::Logic`] - If tiles have already been written to this file.
+    /// * [`Error::Base`] - If any other error occurs
+    ///
+    pub fn copy_pixels_from_tiled_part(
+        &mut self,
+        file: &mut TiledInputPart,
+    ) -> Result<()> {
+        unsafe {
+            sys::Imf_TiledOutputPart_copyPixels_from_tiled_part(
                 &mut self.inner,
                 &mut file.inner,
             )

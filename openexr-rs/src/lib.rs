@@ -36,34 +36,6 @@
 //! Note that when you are doing this, *you* are responsible for ensuring that your C++ library
 //! versions are compatible with the crate version.
 //!
-//!
-//! # Crate/Library Version Compatibility
-//!
-//! Correctly versioning a binding crate against an underlying C++ library is tricky. We need to be
-//! able to evolve the API (particularly so we can add layers of safety on top of the C++
-//! interface), and we are also bound to respect the versioning of the underlying crate.
-//!
-//! We have chosen to make a slight abuse of semver here and both in the library and crate API
-//! versions into a single version for the crate:
-//!
-//! ```c
-//!                  OpenEXR Major Version
-//!                  │
-//!                  │  OpenEXR Minor Version
-//!                  │  │
-//!                  │  │  OpenEXR Patch Version
-//!                  │  │  │
-//!                  ▼  ▼  ▼
-//! Crate Version:   30.01.50
-//!                   ▲  ▲  ▲
-//!                   │  │  │
-//!                   │  │  Binding Patch Version
-//!                   │  │
-//!                   │  Binding Minor Version
-//!                   │
-//!                   Binding Major Version
-//! ```
-
 #![allow(dead_code)]
 
 pub mod rgba_file;
@@ -156,10 +128,14 @@ pub use sample_count_channel::{
 pub mod version;
 pub use version::{Version, VersionFlags};
 pub mod flat_image_io;
-pub mod tiledinputfile;
-pub use tiledinputfile::{RawTileData, TiledInputFile};
-pub mod tiledinputpart;
-pub use tiledinputpart::TiledInputPart;
+pub mod tiled_input_file;
+pub use tiled_input_file::TiledInputFile;
+pub mod tiled_input_part;
+pub use tiled_input_part::TiledInputPart;
+pub mod tiled_output_file;
+pub use tiled_output_file::TiledOutputFile;
+pub mod tiled_output_part;
+pub use tiled_output_part::TiledOutputPart;
 pub mod timecode;
 pub use timecode::{TimeCode, TimeCodePacking};
 

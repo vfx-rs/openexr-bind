@@ -42,9 +42,9 @@ type Result<T, E = Error> = std::result::Result<T, E>;
 /// file.set_frame_buffer(&pixels, 1, width as usize).unwrap();
 /// file.write_tiles(
 ///     0,
-///     file.num_x_tiles(0) - 1,
+///     file.num_x_tiles(0).unwrap() - 1,
 ///     0,
-///     file.num_y_tiles(0) - 1,
+///     file.num_y_tiles(0).unwrap() - 1,
 ///     0,
 ///     0,
 /// )
@@ -375,12 +375,16 @@ impl TiledRgbaOutputFile {
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
     /// [`TiledRgbaOutputFile::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
     ///
-    pub fn level_width(&self, lx: i32) -> i32 {
+    /// # Errors
+    /// *[`Error::Base`] - If any error occurs
+    ///
+    pub fn level_width(&self, lx: i32) -> Result<i32> {
         let mut v = 0;
         unsafe {
-            sys::Imf_TiledRgbaOutputFile_levelWidth(self.0, &mut v, lx).into_result().expect("Unexpected exception from Imf_TiledRgbaOutputFile_levelWidth");
+            sys::Imf_TiledRgbaOutputFile_levelWidth(self.0, &mut v, lx)
+                .into_result()?;
         }
-        v
+        Ok(v)
     }
 
     /// Returns the height of the level with level number `(*, ly)`, where `*` is any number.
@@ -391,12 +395,16 @@ impl TiledRgbaOutputFile {
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
     /// [`TiledRgbaOutputFile::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
     ///
-    pub fn level_height(&self, ly: i32) -> i32 {
+    /// # Errors
+    /// *[`Error::Base`] - If any error occurs
+    ///
+    pub fn level_height(&self, ly: i32) -> Result<i32> {
         let mut v = 0;
         unsafe {
-            sys::Imf_TiledRgbaOutputFile_levelHeight(self.0, &mut v, ly).into_result().expect("Unexpected exception from Imf_TiledRgbaOutputFile_levelHeight");
+            sys::Imf_TiledRgbaOutputFile_levelHeight(self.0, &mut v, ly)
+                .into_result()?;
         }
-        v
+        Ok(v)
     }
 
     /// Get the number of tiles in the x axis that cover a level with level number `(lx, *)`
@@ -405,12 +413,16 @@ impl TiledRgbaOutputFile {
     /// # Returns
     /// *(level_width(lx) + tile_x_size() - 1) / tile_x_size()
     ///
-    pub fn num_x_tiles(&self, lx: i32) -> i32 {
+    /// # Errors
+    /// *[`Error::InvalidArgument`] - If `lx` is not a valid level
+    ///
+    pub fn num_x_tiles(&self, lx: i32) -> Result<i32> {
         let mut v = 0;
         unsafe {
-            sys::Imf_TiledRgbaOutputFile_numXTiles(self.0, &mut v, lx).into_result().expect("Unexpected exception from Imf_TiledRgbaOutputFile_numXLevels");
+            sys::Imf_TiledRgbaOutputFile_numXTiles(self.0, &mut v, lx)
+                .into_result()?;
         }
-        v
+        Ok(v)
     }
 
     /// Get the number of tiles in the y axis that cover a level with level number `(*, ly)`
@@ -419,12 +431,16 @@ impl TiledRgbaOutputFile {
     /// # Returns
     /// * (level_height(ly) + tile_y_size() - 1) / tile_y_size()
     ///
-    pub fn num_y_tiles(&self, ly: i32) -> i32 {
+    /// # Errors
+    /// *[`Error::InvalidArgument`] - If `lx` is not a valid level
+    ///
+    pub fn num_y_tiles(&self, ly: i32) -> Result<i32> {
         let mut v = 0;
         unsafe {
-            sys::Imf_TiledRgbaOutputFile_numYTiles(self.0, &mut v, ly).into_result().expect("Unexpected exception from Imf_TiledRgbaOutputFile_numYLevels");
+            sys::Imf_TiledRgbaOutputFile_numYTiles(self.0, &mut v, ly)
+                .into_result()?;
         }
-        v
+        Ok(v)
     }
 
     /// Returns a 2-dimensional region of valid pixel coordinates for a level with level number `(lx, ly)`
@@ -708,9 +724,9 @@ impl Drop for TiledRgbaOutputFile {
 ///     .unwrap();
 /// file.read_tiles(
 ///     0,
-///     file.num_x_tiles(0) - 1,
+///     file.num_x_tiles(0).unwrap() - 1,
 ///     0,
-///     file.num_y_tiles(0) - 1,
+///     file.num_y_tiles(0).unwrap() - 1,
 ///     0,
 ///     0,
 /// )
@@ -989,12 +1005,16 @@ impl TiledRgbaInputFile {
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
     /// [`TiledRgbaInputFile::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
     ///
-    pub fn level_width(&self, lx: i32) -> i32 {
+    /// # Errors
+    /// *[`Error::Base`] - If any error occurs
+    ///
+    pub fn level_width(&self, lx: i32) -> Result<i32> {
         let mut v = 0;
         unsafe {
-            sys::Imf_TiledRgbaInputFile_levelWidth(self.0, &mut v, lx).into_result().expect("Unexpected exception from Imf_TiledRgbaInputFile_levelWidth");
+            sys::Imf_TiledRgbaInputFile_levelWidth(self.0, &mut v, lx)
+                .into_result()?;
         }
-        v
+        Ok(v)
     }
 
     /// Returns the height of the level with level number `(*, ly)`, where `*` is any number.
@@ -1005,12 +1025,16 @@ impl TiledRgbaInputFile {
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
     /// [`TiledRgbaInputFile::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
     ///
-    pub fn level_height(&self, ly: i32) -> i32 {
+    /// # Errors
+    /// *[`Error::Base`] - If any error occurs
+    ///
+    pub fn level_height(&self, ly: i32) -> Result<i32> {
         let mut v = 0;
         unsafe {
-            sys::Imf_TiledRgbaInputFile_levelHeight(self.0, &mut v, ly).into_result().expect("Unexpected exception from Imf_TiledRgbaInputFile_levelHeight");
+            sys::Imf_TiledRgbaInputFile_levelHeight(self.0, &mut v, ly)
+                .into_result()?;
         }
-        v
+        Ok(v)
     }
 
     /// Get the number of tiles in the x axis that cover a level with level number `(lx, *)`
@@ -1019,12 +1043,16 @@ impl TiledRgbaInputFile {
     /// # Returns
     /// *(level_width(lx) + tile_x_size() - 1) / tile_x_size()
     ///
-    pub fn num_x_tiles(&self, lx: i32) -> i32 {
+    /// # Errors
+    /// *[`Error::InvalidArgument`] - If `lx` is not a valid level
+    ///
+    pub fn num_x_tiles(&self, lx: i32) -> Result<i32> {
         let mut v = 0;
         unsafe {
-            sys::Imf_TiledRgbaInputFile_numXTiles(self.0, &mut v, lx).into_result().expect("Unexpected exception from Imf_TiledRgbaInputFile_numXLevels");
+            sys::Imf_TiledRgbaInputFile_numXTiles(self.0, &mut v, lx)
+                .into_result()?;
         }
-        v
+        Ok(v)
     }
 
     /// Get the number of tiles in the y axis that cover a level with level number `(*, ly)`
@@ -1033,12 +1061,16 @@ impl TiledRgbaInputFile {
     /// # Returns
     /// * (level_height(ly) + tile_y_size() - 1) / tile_y_size()
     ///
-    pub fn num_y_tiles(&self, ly: i32) -> i32 {
+    /// # Errors
+    /// *[`Error::InvalidArgument`] - If `lx` is not a valid level
+    ///
+    pub fn num_y_tiles(&self, ly: i32) -> Result<i32> {
         let mut v = 0;
         unsafe {
-            sys::Imf_TiledRgbaInputFile_numYTiles(self.0, &mut v, ly).into_result().expect("Unexpected exception from Imf_TiledRgbaInputFile_numYLevels");
+            sys::Imf_TiledRgbaInputFile_numYTiles(self.0, &mut v, ly)
+                .into_result()?;
         }
-        v
+        Ok(v)
     }
 
     /// Returns a 2-dimensional region of valid pixel coordinates for a level with level number `(lx, ly)`
@@ -1161,7 +1193,7 @@ impl Drop for TiledRgbaInputFile {
 
 #[cfg(test)]
 #[test]
-fn test_write_tiled_rgba1() {
+fn test_write_tiled_rgba1() -> Result<(), Box<dyn std::error::Error>> {
     let (pixels, width, height) = crate::tests::load_ferris();
 
     let header = Header::from_dimensions(width, height);
@@ -1175,24 +1207,24 @@ fn test_write_tiled_rgba1() {
         LevelMode::OneLevel,
         LevelRoundingMode::RoundDown,
         1,
-    )
-    .unwrap();
+    )?;
 
-    file.set_frame_buffer(&pixels, 1, width as usize).unwrap();
+    file.set_frame_buffer(&pixels, 1, width as usize)?;
     file.write_tiles(
         0,
-        file.num_x_tiles(0) - 1,
+        file.num_x_tiles(0)? - 1,
         0,
-        file.num_y_tiles(0) - 1,
+        file.num_y_tiles(0)? - 1,
         0,
         0,
-    )
-    .unwrap();
+    )?;
+
+    Ok(())
 }
 
 #[cfg(test)]
 #[test]
-fn test_read_tiled_rgba1() {
+fn test_read_tiled_rgba1() -> Result<(), Box<dyn std::error::Error>> {
     use crate::rgba_file::RgbaOutputFile;
     use imath_traits::Zero;
     use std::path::PathBuf;
@@ -1204,23 +1236,21 @@ fn test_read_tiled_rgba1() {
     .join("images")
     .join("ferris-tiled.exr");
 
-    let mut file = TiledRgbaInputFile::new(&path, 1).unwrap();
+    let mut file = TiledRgbaInputFile::new(&path, 1)?;
     let data_window = file.header().data_window::<[i32; 4]>().clone();
     let width = data_window[2] - data_window[0] + 1;
     let height = data_window[3] - data_window[1] + 1;
 
     let mut pixels = vec![Rgba::zero(); (width * height) as usize];
-    file.set_frame_buffer(&mut pixels, 1, width as usize)
-        .unwrap();
+    file.set_frame_buffer(&mut pixels, 1, width as usize)?;
     file.read_tiles(
         0,
-        file.num_x_tiles(0) - 1,
+        file.num_x_tiles(0)? - 1,
         0,
-        file.num_y_tiles(0) - 1,
+        file.num_y_tiles(0)? - 1,
         0,
         0,
-    )
-    .unwrap();
+    )?;
 
     let mut ofile = RgbaOutputFile::with_dimensions(
         "read_tiled_rgba1.exr",
@@ -1233,9 +1263,10 @@ fn test_read_tiled_rgba1() {
         LineOrder::IncreasingY,
         Compression::Piz,
         1,
-    )
-    .unwrap();
+    )?;
 
-    ofile.set_frame_buffer(&pixels, 1, width as usize).unwrap();
-    ofile.write_pixels(height).unwrap();
+    ofile.set_frame_buffer(&pixels, 1, width as usize)?;
+    ofile.write_pixels(height)?;
+
+    Ok(())
 }

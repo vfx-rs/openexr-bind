@@ -18,14 +18,20 @@ struct TiledInputPart {
     const char* fileName() const;
     IMF_EXPORT
     const Imf::Header& header() const;
+
     IMF_EXPORT
     int version() const;
+
     IMF_EXPORT
-    void setFrameBuffer(const Imf::FrameBuffer& frameBuffer);
+    void setFrameBuffer(const Imf::FrameBuffer& frameBuffer)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
+
     IMF_EXPORT
     const Imf::FrameBuffer& frameBuffer() const;
+
     IMF_EXPORT
     bool isComplete() const;
+
     IMF_EXPORT
     unsigned int tileXSize() const;
     IMF_EXPORT
@@ -34,43 +40,75 @@ struct TiledInputPart {
     Imf::LevelMode levelMode() const;
     IMF_EXPORT
     Imf::LevelRoundingMode levelRoundingMode() const;
+
     IMF_EXPORT
-    int numLevels() const;
+    int numLevels() const CPPMM_THROWS(Iex::LogicExc, IEX_LOGIC_ERROR);
     IMF_EXPORT
     int numXLevels() const;
     IMF_EXPORT
     int numYLevels() const;
     IMF_EXPORT
     bool isValidLevel(int lx, int ly) const;
+
     IMF_EXPORT
-    int levelWidth(int lx) const;
+    int levelWidth(int lx) const CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
     IMF_EXPORT
-    int levelHeight(int ly) const;
+    int levelHeight(int ly) const CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
+
     IMF_EXPORT
-    int numXTiles(int lx = 0) const;
+    int numXTiles(int lx = 0) const
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
     IMF_EXPORT
-    int numYTiles(int ly = 0) const;
+    int numYTiles(int ly = 0) const
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
+
     IMF_EXPORT
-    IMATH_NAMESPACE::Box2i dataWindowForLevel(int l = 0) const CPPMM_IGNORE;
+    IMATH_NAMESPACE::Box2i dataWindowForLevel(int l = 0) const CPPMM_IGNORE
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+            CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
     IMF_EXPORT
-    IMATH_NAMESPACE::Box2i dataWindowForLevel(int lx, int ly) const;
+    IMATH_NAMESPACE::Box2i dataWindowForLevel(int lx, int ly) const
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+            CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
+
     IMF_EXPORT
     IMATH_NAMESPACE::Box2i dataWindowForTile(int dx, int dy,
-                                             int l = 0) const CPPMM_IGNORE;
+                                             int l = 0) const CPPMM_IGNORE
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+            CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
+
     IMF_EXPORT
     IMATH_NAMESPACE::Box2i dataWindowForTile(int dx, int dy, int lx,
-                                             int ly) const;
+                                             int ly) const
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+            CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
+
     IMF_EXPORT
-    void readTile(int dx, int dy, int l = 0) CPPMM_IGNORE;
+    void readTile(int dx, int dy, int l = 0) CPPMM_IGNORE
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+            CPPMM_THROWS(Iex::BaseExc, IEX_BASE)
+                CPPMM_THROWS(Iex::IoExc, IEX_IO);
     IMF_EXPORT
-    void readTile(int dx, int dy, int lx, int ly);
+    void readTile(int dx, int dy, int lx, int ly)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+            CPPMM_THROWS(Iex::BaseExc, IEX_BASE)
+                CPPMM_THROWS(Iex::IoExc, IEX_IO);
+
     IMF_EXPORT
-    void readTiles(int dx1, int dx2, int dy1, int dy2, int lx, int ly);
+    void readTiles(int dx1, int dx2, int dy1, int dy2, int lx, int ly)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+            CPPMM_THROWS(Iex::BaseExc, IEX_BASE)
+                CPPMM_THROWS(Iex::IoExc, IEX_IO);
+
     IMF_EXPORT
     void readTiles(int dx1, int dx2, int dy1, int dy2, int l = 0) CPPMM_IGNORE;
+
     IMF_EXPORT
     void rawTileData(int& dx, int& dy, int& lx, int& ly, const char*& pixelData,
-                     int& pixelDataSize);
+                     int& pixelDataSize)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+            CPPMM_THROWS(Iex::BaseExc, IEX_BASE)
+                CPPMM_THROWS(Iex::IoExc, IEX_IO);
 
 } CPPMM_OPAQUEBYTES;
 

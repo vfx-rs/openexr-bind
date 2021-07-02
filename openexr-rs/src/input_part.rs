@@ -6,10 +6,15 @@ use crate::{
 
 type Result<T, E = Error> = std::result::Result<T, E>;
 
-#[repr(transparent)]
-pub struct InputPart(pub(crate) sys::Imf_InputPart_t);
+use std::marker::PhantomData;
 
-impl InputPart {
+#[repr(transparent)]
+pub struct InputPart<'a> {
+    pub(crate) inner: sys::Imf_InputPart_t,
+    phantom: std::marker::PhantomData<&'a MultiPartInputFile>,
+}
+
+impl<'a> InputPart<'a> {
     /// Get an interface to the part `part_number` of the [`MultiPartInputFile`]
     /// `multi_part_file`.
     ///
@@ -23,7 +28,10 @@ impl InputPart {
                 .into_result()?;
         }
 
-        Ok(InputPart(part))
+        Ok(InputPart {
+            inner: part,
+            phantom: PhantomData,
+        })
     }
 
     /// Access to the file [`Header`]
@@ -31,7 +39,7 @@ impl InputPart {
     pub fn header(&self) -> HeaderRef {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_InputPart_header(&self.0, &mut ptr);
+            sys::Imf_InputPart_header(&self.inner, &mut ptr);
             if ptr.is_null() {
                 panic!("Received null ptr from sys::Imf_InputPart_header");
             }
@@ -45,7 +53,7 @@ impl InputPart {
     pub fn version(&self) -> i32 {
         let mut v = 0;
         unsafe {
-            sys::Imf_InputPart_version(&self.0, &mut v);
+            sys::Imf_InputPart_version(&self.inner, &mut v);
         }
         v
     }
@@ -68,8 +76,11 @@ impl InputPart {
         frame_buffer: &FrameBuffer,
     ) -> Result<()> {
         unsafe {
-            sys::Imf_InputPart_setFrameBuffer(&mut self.0, frame_buffer.ptr)
-                .into_result()?;
+            sys::Imf_InputPart_setFrameBuffer(
+                &mut self.inner,
+                frame_buffer.ptr,
+            )
+            .into_result()?;
         }
 
         Ok(())
@@ -80,7 +91,7 @@ impl InputPart {
     pub fn frame_buffer(&self) -> FrameBufferRef {
         let mut ptr = std::ptr::null();
         unsafe {
-            sys::Imf_InputPart_frameBuffer(&self.0, &mut ptr);
+            sys::Imf_InputPart_frameBuffer(&self.inner, &mut ptr);
         }
 
         FrameBufferRef::new(ptr)
@@ -91,7 +102,7 @@ impl InputPart {
     pub fn is_complete(&self) -> bool {
         let mut v = false;
         unsafe {
-            sys::Imf_InputPart_isComplete(&self.0, &mut v);
+            sys::Imf_InputPart_isComplete(&self.inner, &mut v);
         }
 
         v
@@ -116,7 +127,7 @@ impl InputPart {
     pub fn is_optimization_enabled(&self) -> bool {
         let mut v = false;
         unsafe {
-            sys::Imf_InputPart_isOptimizationEnabled(&self.0, &mut v);
+            sys::Imf_InputPart_isOptimizationEnabled(&self.inner, &mut v);
         }
 
         v
@@ -135,7 +146,8 @@ impl InputPart {
     ///
     pub fn read_pixels(&mut self, s1: i32, s2: i32) -> Result<()> {
         unsafe {
-            sys::Imf_InputPart_readPixels(&mut self.0, s1, s2).into_result()?;
+            sys::Imf_InputPart_readPixels(&mut self.inner, s1, s2)
+                .into_result()?;
         }
         Ok(())
     }
