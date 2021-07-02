@@ -34,17 +34,18 @@ RUN curl -O "https://static.rust-lang.org/rustup/archive/1.24.1/${RUST_ARCH}/rus
     rustc --version
 
 # Compile CMake
-RUN mkdir -p /opt/cmake && \
-    cd /opt/cmake && \
+RUN mkdir -p /tmp/cmake && \
+    cd /tmp/cmake && \
     curl -L https://github.com/Kitware/CMake/releases/download/v3.20.2/cmake-3.20.2.tar.gz | tar -xvz && \
     cd cmake-3.20.2 && \
     ./bootstrap && \
     make -j $(nproc) && \
-    make install
+    make install && \
+    rm -rf /tmp/cmake
 
 # Compile OpenEXR
-RUN mkdir -p /opt/openexr && \
-    cd /opt/openexr && \
+RUN mkdir -p /tmp/openexr && \
+    cd /tmp/openexr && \
     curl -L https://github.com/AcademySoftwareFoundation/openexr/archive/refs/tags/v3.0.1.tar.gz | tar -xvz && \
     cd openexr-3.0.1 && \
     mkdir build && \
@@ -52,7 +53,8 @@ RUN mkdir -p /opt/openexr && \
     cmake ../ \
         -DCMAKE_CXX_STANDARD=11 && \
     make -j $(nproc) && \
-    make install
+    make install && \
+    rm -rf /tmp/openexr
 ENV IMATH_ROOT=/usr/local \
     OPENEXR_ROOT=/usr/local
 
