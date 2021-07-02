@@ -5,59 +5,14 @@ use imath_traits::Bound2;
 use openexr_sys as sys;
 use std::ffi::{CStr, CString};
 use std::fmt::Debug;
-use std::os::raw::c_char;
 use std::path::{Path, PathBuf};
 
-/// RawTileData represents a raw tile from an EXR.
-///
-#[derive(Debug, Clone)]
-pub struct RawTileData<'a> {
-    dx: i32,
-    dy: i32,
-    lx: i32,
-    ly: i32,
-    pixel_data: &'a [c_char],
-}
-
-impl<'a> RawTileData<'a> {
-    /// The pixel coordinates on the x axis.
-    ///
-    pub fn dx(&self) -> i32 {
-        self.dx
-    }
-
-    /// The pixel coordinates on the y axis.
-    ///
-    pub fn dy(&self) -> i32 {
-        self.dy
-    }
-
-    /// The level coordinates on the x axis.
-    ///
-    pub fn lx(&self) -> i32 {
-        self.lx
-    }
-
-    /// The level coordinates on the y axis.
-    ///
-    pub fn ly(&self) -> i32 {
-        self.ly
-    }
-
-    /// The raw pixel data from the tile.
-    ///
-    pub fn pixel_data(&self) -> &[c_char] {
-        // TODO: Should this return a u8 vs i8? Or, would it be better to return
-        // a f16 or f32?
-        self.pixel_data
-    }
-}
+type Result<T, E = Error> = std::result::Result<T, E>;
 
 /// A TiledInputFile represents reading a tiled EXR file from disk.
 ///
-pub struct TiledInputFile {
-    inner: *mut sys::Imf_TiledInputFile_t,
-}
+#[repr(transparent)]
+pub struct TiledInputFile(pub(crate) *mut sys::Imf_TiledInputFile_t);
 
 impl Debug for TiledInputFile {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -70,9 +25,7 @@ impl Debug for TiledInputFile {
 impl Drop for TiledInputFile {
     fn drop(&mut self) {
         unsafe {
-            sys::Imf_TiledInputFile_dtor(self.inner)
-                .into_result()
-                .unwrap();
+            sys::Imf_TiledInputFile_dtor(self.0).into_result().unwrap();
         }
     }
 }
@@ -116,7 +69,7 @@ impl TiledInputFile {
             }
         }
 
-        Ok(Self { inner: ptr })
+        Ok(Self(ptr))
     }
 
     /// Access to the file path
@@ -125,7 +78,7 @@ impl TiledInputFile {
         let mut ptr = std::ptr::null();
 
         unsafe {
-            sys::Imf_TiledInputFile_fileName(self.inner, &mut ptr)
+            sys::Imf_TiledInputFile_fileName(self.0, &mut ptr)
                 .into_result()
                 .unwrap();
 
@@ -147,11 +100,11 @@ impl TiledInputFile {
 
     /// Access to the file header
     ///
-    pub fn header<'a>(&'a self) -> HeaderRef<'a> {
+    pub fn header(&self) -> HeaderRef {
         let mut ptr = std::ptr::null();
 
         unsafe {
-            sys::Imf_TiledInputFile_header(self.inner, &mut ptr)
+            sys::Imf_TiledInputFile_header(self.0, &mut ptr)
                 .into_result()
                 .unwrap();
 
@@ -171,7 +124,7 @@ impl TiledInputFile {
         let mut version = 0;
 
         unsafe {
-            sys::Imf_TiledInputFile_version(self.inner, &mut version)
+            sys::Imf_TiledInputFile_version(self.0, &mut version)
                 .into_result()
                 .unwrap();
         }
@@ -189,22 +142,18 @@ impl TiledInputFile {
     /// to read_tile().
     ///
     /// # Errors
-    ///
-    /// Returns an error if the sub-sampling factors of the input file
-    /// are not compatible with the FrameBuffer's sub-sampling factors.
+    /// * [`Error::InvalidArgument`] - if the sampling factors do not match or
+    /// if the frame buffer does not have a sample count slice.
     ///
     pub fn set_frame_buffer(
         &mut self,
         frame_buffer: &FrameBuffer,
-    ) -> Result<(), Error> {
+    ) -> Result<()> {
         unsafe {
             // Assume that the frame buffer is valid, since it is coming from
             // Rust.
-            sys::Imf_TiledInputFile_setFrameBuffer(
-                self.inner,
-                frame_buffer.ptr,
-            )
-            .into_result()?;
+            sys::Imf_TiledInputFile_setFrameBuffer(self.0, frame_buffer.ptr)
+                .into_result()?;
         }
 
         Ok(())
@@ -212,11 +161,11 @@ impl TiledInputFile {
 
     /// Access to the current frame buffer
     ///
-    pub fn frame_buffer<'a>(&'a self) -> FrameBufferRef<'a> {
+    pub fn frame_buffer(&self) -> FrameBufferRef {
         let mut ptr = std::ptr::null();
 
         unsafe {
-            sys::Imf_TiledInputFile_frameBuffer(self.inner, &mut ptr)
+            sys::Imf_TiledInputFile_frameBuffer(self.0, &mut ptr)
                 .into_result()
                 .unwrap();
 
@@ -230,332 +179,299 @@ impl TiledInputFile {
         FrameBufferRef::new(ptr)
     }
 
-    /// Returns true if all pixels in the data window
-    /// (in all levels) are present in the input file, or false if
-    /// any pixels are missing.  (Another program may still be busy
-    /// writing the file, or file writing may have been aborted
-    /// prematurely.)
+    /// Check if all pixels in the data window are present in the input file
     ///
     pub fn is_complete(&self) -> bool {
-        let mut is_complete = false;
-
+        let mut v = false;
         unsafe {
-            sys::Imf_TiledInputFile_isComplete(self.inner, &mut is_complete)
-                .into_result()
-                .unwrap();
+            sys::Imf_TiledInputFile_isComplete(self.0, &mut v);
         }
 
-        is_complete
+        v
     }
 
-    /// Return the x size field from the file header's TileDescriptionAttribute.
+    /// Get the tiles' x dimension
     ///
     pub fn tile_x_size(&self) -> u32 {
-        let mut tile_x_size = 0;
-
+        let mut v = 0;
         unsafe {
-            sys::Imf_TiledInputFile_tileXSize(self.inner, &mut tile_x_size)
+            sys::Imf_TiledInputFile_tileXSize(self.0, &mut v)
                 .into_result()
-                .unwrap();
+                .expect(
+                    "Unexpected exception from Imf_TiledInputFile_tileXSize",
+                );
         }
-
-        tile_x_size
+        v
     }
 
-    /// Return the y size field from the file header's TileDescriptionAttribute.
+    /// Get the tiles' y dimension
     ///
     pub fn tile_y_size(&self) -> u32 {
-        let mut tile_y_size = 0;
-
+        let mut v = 0;
         unsafe {
-            sys::Imf_TiledInputFile_tileYSize(self.inner, &mut tile_y_size)
+            sys::Imf_TiledInputFile_tileYSize(self.0, &mut v)
                 .into_result()
-                .unwrap();
+                .expect(
+                    "Unexpected exception from Imf_TiledInputFile_tileYSize",
+                );
         }
-
-        tile_y_size
+        v
     }
 
-    /// Return the level mode field from the file header's
-    /// TileDescriptionAttribute.
+    /// Get the level mode
     ///
     pub fn level_mode(&self) -> LevelMode {
-        let mut level_mode = sys::Imf_LevelMode(0);
-
+        let mut v = sys::Imf_LevelMode(0);
         unsafe {
-            sys::Imf_TiledInputFile_levelMode(self.inner, &mut level_mode);
+            sys::Imf_TiledInputFile_levelMode(self.0, &mut v)
+                .into_result()
+                .expect(
+                    "Unexpected exception from Imf_TiledInputFile_levelMode",
+                );
         }
 
-        LevelMode::from(level_mode)
+        v.into()
     }
 
-    /// Return the level rounding mode field from the file header's
-    /// TileDescriptionAttribute.
+    /// Get the level rounding mode
     ///
     pub fn level_rounding_mode(&self) -> LevelRoundingMode {
-        let mut level_round_mode = sys::Imf_LevelRoundingMode(0);
-
+        let mut v = sys::Imf_LevelRoundingMode(0);
         unsafe {
             sys::Imf_TiledInputFile_levelRoundingMode(
-                self.inner,
-                &mut level_round_mode,
+                self.0,
+                &mut v,
             )
             .into_result()
-            .unwrap();
+            .expect(
+                "Unexpected exception from Imf_TiledInputFile_levelRoundingMode",
+            );
         }
 
-        LevelRoundingMode::from(level_round_mode)
+        v.into()
     }
 
-    /// A convenience function for use with `LevelMode::MIPMAP_LEVELS` files.
+    /// Get the number of levels in the file
     ///
-    ///	If `TiledInputFile::level_mode() == LevelMode::ONE_LEVEL` or
-    /// `TiledInputFile::level_mode() == MIPMAP_LEVELS`, then the return value
-    /// is the same as for `TiledInputFile::num_x_levels()`.
-    ///
-    /// # Errors
-    ///
-    ///	If `TiledInputFile::level_mode() == LevelMode::RIPMAP_LEVELS`, then a
-    /// LogicExc error is returned.
-    ///
-    pub fn num_levels(&self) -> Result<i32, Error> {
-        let mut num_levels = 0;
+    /// # Returns
+    /// * `Ok(1)` if [`TiledInputFile::level_mode()`] == [`LevelMode::OneLevel`]
+    /// * `Ok(rfunc (log (max (w, h)) / log (2)) + 1)` if [`TiledInputFile::level_mode()`] == [`LevelMode::MipmapLevels`]
 
+    /// * `Err(Error::Logic)` if [`TiledInputFile::level_mode()`] == [`LevelMode::RipmapLevels`]
+    ///
+    /// where `rfunc` is either `floor()` or `ceil()` depending on whether
+    /// [`TiledInputFile::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
+    ///
+    pub fn num_levels(&self) -> Result<i32> {
+        let mut v = 0;
         unsafe {
-            sys::Imf_TiledInputFile_numLevels(self.inner, &mut num_levels)
-                .into_result()?;
+            sys::Imf_TiledInputFile_numLevels(self.0, &mut v).into_result()?;
         }
 
-        Ok(num_levels)
+        Ok(v)
     }
 
-    /// Returns the file's number of levels in the x direction.
+    /// Get the number of levels in the file in the x axis
     ///
-    ///	If `TiledInputFile::level_mode() == LevelRoundingMode::ONE_LEVEL`,
-    /// then the return value is `1`.
+    /// # Returns
+    /// * `1` if [`TiledInputFile::mode()`] == [`LevelMode::OneLevel`]
+    /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`TiledInputFile::mode()`] == [`LevelMode::MipmapLevels`]
+
+    /// * `rfunc (log (w) / log (2)) + 1` if [`TiledInputFile::mode()`] == [`LevelMode::RipmapLevels`]
     ///
-    ///	If `TiledInputFile::level_mode() == LevelRoundingMode::MIPMAP_LEVELS`,
-    ///	then the return value is `rfunc (log (max (w, h)) / log (2)) + 1`.
-    ///
-    ///	If `TiledInputFile::level_mode() == LevelRoundingMode::RIPMAP_LEVELS`,
-    ///	then the return value is `rfunc (log (w) / log (2)) + 1`.
-    ///
-    ///	Where...
-    ///
-    ///	- w is the width of the image's data window, `max.x - min.x + 1`
-    ///	- y is the height of the image's data window, `max.y - min.y + 1`
-    ///	- `rfunc(x)` is either `floor(x)`, or `ceil(x)`, depending on whether
-    ///   `TiledInputFile::level_rounding_mode()` returns
-    ///   `LevelRoundingMode::ROUND_DOWN` or `LevelRoundingMode::ROUND_UP`.
+    /// where `rfunc` is either `floor()` or `ceil()` depending on whether
+    /// [`TiledInputFile::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
     ///
     pub fn num_x_levels(&self) -> i32 {
-        let mut num_x_levels = 0;
-
+        let mut v = 0;
         unsafe {
-            sys::Imf_TiledInputFile_numXLevels(self.inner, &mut num_x_levels)
+            sys::Imf_TiledInputFile_numXLevels(self.0, &mut v)
                 .into_result()
-                .unwrap();
+                .expect(
+                    "Unexpected exception from Imf_TiledInputFile_numXLevels",
+                );
         }
-
-        num_x_levels
+        v
     }
 
-    /// Returns the file's number of levels in the y direction.
+    /// Get the number of levels in the file in the x axis
     ///
-    ///	If `TiledInputFile::level_mode() == LevelMode::ONE_LEVEL` or
-    /// `TiledInputFile::level_mode() == LevelMode::MIPMAP_LEVELS`, then the
-    /// return value is the same as for `TiledInputFile::num_x_levels()`.
+    /// # Returns
+    /// * `1` if [`TiledInputFile::mode()`] == [`LevelMode::OneLevel`]
+    /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`TiledInputFile::mode()`] == [`LevelMode::MipmapLevels`]
+
+    /// * `rfunc (log (h) / log (2)) + 1` if [`TiledInputFile::mode()`] == [`LevelMode::RipmapLevels`]
     ///
-    ///	If `TiledInputFile::level_mode() == RIPMAP_LEVELS` then the return value
-    /// is `rfunc (log (h) / log (2)) + 1`.
+    /// where `rfunc` is either `floor()` or `ceil()` depending on whether
+    /// [`TiledInputFile::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
     ///
     pub fn num_y_levels(&self) -> i32 {
-        let mut num_y_levels = 0;
-
+        let mut v = 0;
         unsafe {
-            sys::Imf_TiledInputFile_numYLevels(self.inner, &mut num_y_levels)
+            sys::Imf_TiledInputFile_numYLevels(self.0, &mut v)
                 .into_result()
-                .unwrap();
+                .expect(
+                    "Unexpected exception from Imf_TiledInputFile_numYLevels",
+                );
         }
-
-        num_y_levels
+        v
     }
 
-    /// Returns true if the file contains a level with level number `(lx, ly)`,
-    /// false if not.
+    /// Returns `true` if the file contains a level with level number `(lx, ly)`, `false`
+    /// otherwise.
     ///
     pub fn is_valid_level(&self, lx: i32, ly: i32) -> bool {
-        let mut is_valid_level = false;
-
+        let mut v = false;
         unsafe {
-            sys::Imf_TiledInputFile_isValidLevel(
-                self.inner,
-                &mut is_valid_level,
-                lx,
-                ly,
-            )
-            .into_result()
-            .unwrap();
+            sys::Imf_TiledInputFile_isValidLevel(self.0, &mut v, lx, ly)
+                .into_result()
+                .expect(
+                    "Unexpected exception from Imf_TiledInputFile_isValidLevel",
+                );
         }
-
-        is_valid_level
+        v
     }
 
-    /// Return the width of a level with a level number `(lx, *)`, where `*` is
-    /// any number.
+    /// Returns the width of the level with level number `(lx, *)`, where `*` is any number.
     ///
-    /// Return value is `max (1, rfunc (w / pow (2, lx)))`
+    /// # Returns
+    /// * `max (1, rfunc (w / pow (2, lx)))`
+    ///
+    /// where `rfunc` is either `floor()` or `ceil()` depending on whether
+    /// [`TiledInputFile::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
     ///
     /// # Errors
+    /// *[`Error::Base`] - If any error occurs
     ///
-    /// May return error if wrapped OpenEXR library throws an exception.
-    ///
-    pub fn level_width(&self, lx: i32) -> Result<i32, Error> {
-        let mut level_width = 0;
-
+    pub fn level_width(&self, lx: i32) -> Result<i32> {
+        let mut v = 0;
         unsafe {
-            sys::Imf_TiledInputFile_levelWidth(
-                self.inner,
-                &mut level_width,
-                lx,
-            )
-            .into_result()?;
+            sys::Imf_TiledInputFile_levelWidth(self.0, &mut v, lx)
+                .into_result()?;
         }
-
-        Ok(level_width)
+        Ok(v)
     }
 
-    /// Return the height of a level with a level number `(*, ly)`, where `*` is
-    /// any number.
+    /// Returns the height of the level with level number `(*, ly)`, where `*` is any number.
     ///
-    /// Return value is `max (1, rfunc (h / pow (2, ly)))`
+    /// # Returns
+    /// * `max (1, rfunc (h / pow (2, ly)))`
+    ///
+    /// where `rfunc` is either `floor()` or `ceil()` depending on whether
+    /// [`TiledInputFile::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
     ///
     /// # Errors
+    /// *[`Error::Base`] - If any error occurs
     ///
-    /// May return error if wrapped OpenEXR library throws an exception.
-    ///
-    pub fn level_height(&self, ly: i32) -> Result<i32, Error> {
-        let mut level_height = 0;
-
+    pub fn level_height(&self, ly: i32) -> Result<i32> {
+        let mut v = 0;
         unsafe {
-            sys::Imf_TiledInputFile_levelHeight(
-                self.inner,
-                &mut level_height,
-                ly,
-            )
-            .into_result()?;
-        }
-
-        Ok(level_height)
-    }
-
-    /// Returns the number of tiles in x direction that cover a level with level
-    /// number `(lx, *)`, where `*` is any number.
-    ///
-    ///	Return value is `(TiledInputFile::level_width(lx) + TiledInputFile::tile_x_size() - 1) / TiledInputFile::tile_x_size()`
-    ///
-    pub fn num_x_tiles(&self, lx: i32) -> Result<i32, Error> {
-        let mut num_x_tiles = 0;
-
-        unsafe {
-            sys::Imf_TiledInputFile_numXTiles(self.inner, &mut num_x_tiles, lx)
+            sys::Imf_TiledInputFile_levelHeight(self.0, &mut v, ly)
                 .into_result()?;
         }
-
-        Ok(num_x_tiles)
+        Ok(v)
     }
 
-    /// Returns the number of tiles in y direction that cover a level with level
-    /// number `(*, ly)`, where `*` is any number.
+    /// Get the number of tiles in the x axis that cover a level with level number `(lx, *)`
+    /// where `*` is any number
     ///
-    ///	Return value is `(TiledInputFile::level_height(ly) + TiledInputFile::tile_x_size() - 1) / TiledInputFile::tile_x_size()`
+    /// # Returns
+    /// *(level_width(lx) + tile_x_size() - 1) / tile_x_size()
     ///
-    pub fn num_y_tiles(&self, ly: i32) -> Result<i32, Error> {
-        let mut num_y_tiles = 0;
-
+    /// # Errors
+    /// *[`Error::InvalidArgument`] - If `lx` is not a valid level
+    ///
+    pub fn num_x_tiles(&self, lx: i32) -> Result<i32> {
+        let mut v = 0;
         unsafe {
-            sys::Imf_TiledInputFile_numYTiles(self.inner, &mut num_y_tiles, ly)
+            sys::Imf_TiledInputFile_numXTiles(self.0, &mut v, lx)
                 .into_result()?;
         }
-
-        Ok(num_y_tiles)
+        Ok(v)
     }
 
-    /// returns a 2-dimensional region of valid pixel coordinates for a level
-    /// with level number `(lx, ly)`.
+    /// Get the number of tiles in the y axis that cover a level with level number `(*, ly)`
+    /// where `*` is any number
     ///
-    /// Return value is a Box2i (imath) with the min value
-    /// `(data_window.min.x, data_window.min.y)` and max value
-    /// `(data_window.min.x + TiledInputFile::level_width(lx) - 1, data_window.min.y + TiledInputFile::level_height(ly) - 1)`
+    /// # Returns
+    /// * (level_height(ly) + tile_y_size() - 1) / tile_y_size()
     ///
-    pub fn data_window_for_level<T>(&self, lx: i32, ly: i32) -> Result<T, Error>
-    where
-        T: Bound2<i32>,
-    {
-        let mut data_window =
-            std::mem::MaybeUninit::<sys::Imath_Box2i_t>::uninit();
+    /// # Errors
+    /// *[`Error::InvalidArgument`] - If `lx` is not a valid level
+    ///
+    pub fn num_y_tiles(&self, ly: i32) -> Result<i32> {
+        let mut v = 0;
+        unsafe {
+            sys::Imf_TiledInputFile_numYTiles(self.0, &mut v, ly)
+                .into_result()?;
+        }
+        Ok(v)
+    }
 
+    /// Returns a 2-dimensional region of valid pixel coordinates for a level with level number `(lx, ly)`
+    ///
+    /// # Errors
+    /// *[`Error::Base`] - if any error occurs
+    ///
+    pub fn data_window_for_level<B: Bound2<i32>>(
+        &self,
+        lx: i32,
+        ly: i32,
+    ) -> Result<B> {
+        let mut dw = [0i32; 4];
         unsafe {
             sys::Imf_TiledInputFile_dataWindowForLevel(
-                self.inner,
-                data_window.as_mut_ptr(),
+                self.0,
+                dw.as_mut_ptr() as *mut sys::Imath_Box2i_t,
                 lx,
                 ly,
             )
             .into_result()?;
-
-            let data_window: [i32; 4] =
-                std::mem::transmute(data_window.assume_init());
-            Ok(T::from_slice(&data_window))
         }
+
+        Ok(B::from_slice(&dw))
     }
 
-    /// Returns a 2-dimensional region of valid pixel coordinates for a tile
-    /// with tile coordinates `(dx,dy)` and level number `(lx, ly)`.
+    /// Returns a 2-dimensional region of valid pixel coordinates for a level with  tile coordinates `(dx, dy)` and level number `(lx, ly)`
     ///
-    /// Return value is a Box2i (imath) with the min value
-    /// `(data_window.min.x + dx * TiledInputFile::tile_x_size(), data_window.min.y + dy * TiledInputFile::tile_y_size())`
-    /// and max value
-    /// `(data_window.min.x + (dx + 1) * TiledInputFile::tile_x_size() - 1, data_window.min.y + (dy + 1) * TiledInputFile::tile_y_size() - 1)`
+    /// # Errors
+    /// * [`Error::InvalidArgument`] - if the passed tile coordinates are invalid
+    /// * [`Error::Base`] - if any other error occurs
     ///
-    pub fn data_window_for_tile<T: Bound2<i32>>(
+    pub fn data_window_for_tile<B: Bound2<i32>>(
         &self,
         dx: i32,
         dy: i32,
         lx: i32,
         ly: i32,
-    ) -> Result<T, Error> {
-        let mut data_window =
-            std::mem::MaybeUninit::<sys::Imath_Box2i_t>::uninit();
-
+    ) -> Result<B> {
+        let mut dw = [0i32; 4];
         unsafe {
             sys::Imf_TiledInputFile_dataWindowForTile(
-                self.inner,
-                data_window.as_mut_ptr(),
+                self.0,
+                dw.as_mut_ptr() as *mut sys::Imath_Box2i_t,
                 dx,
                 dy,
                 lx,
                 ly,
             )
             .into_result()?;
-
-            let data_window: [i32; 4] =
-                std::mem::transmute(data_window.assume_init());
-            Ok(T::from_slice(&data_window))
         }
+
+        Ok(B::from_slice(&dw))
     }
 
-    /// Reads the tile with tile coordinates `(dx, dy)`, and level number
-    /// `(lx, ly)`, and stores it in the current frame buffer.
+    /// Reads the tile with tile coordinates `(dx, dy)`, and level number `(lx, ly)`,
+    /// and stores it in the current frame buffer.
     ///
-    /// # Errors
+    ///   # Errors
+    /// * [`Error::InvalidArgument`] - if dx does not lie in the interval [0, num_x_tiles(lx)-1]
+    /// * [`Error::InvalidArgument`] - if dy does not lie in the interval [0, num_y_tiles(ly)-1]
     ///
-    /// Read tile will return an error if the following rules are not followed:
-    ///
-    /// - dx must lie in the interval `[0, TiledInputFile::num_x_tiles(lx)-1]`
-    /// - dy must lie in the interval `[0, TiledInputFile::num_y_tiles(ly)-1]`
-    /// - lx must lie in the interval `[0, TiledInputFile::num_x_levels()-1]`
-    /// - ly must lie in the interval `[0, TiledInputFile::num_y_levels()()-1]`
+    /// * [`Error::InvalidArgument`] -if lx does not lie in the interval [0, num_x_levels()-1]
+    /// * [`Error::InvalidArgument`] -if ly does not lie in the inverval [0, num_y_levels()-1]
+    /// * [`Error::Io`] - if there is an error reading data from the file
+    /// * [`Error::Base`] - if any other error occurs
     ///
     pub fn read_tile(
         &mut self,
@@ -563,25 +479,25 @@ impl TiledInputFile {
         dy: i32,
         lx: i32,
         ly: i32,
-    ) -> Result<(), Error> {
+    ) -> Result<()> {
         unsafe {
-            sys::Imf_TiledInputFile_readTile(self.inner, dx, dy, lx, ly)
+            sys::Imf_TiledInputFile_readTile(self.0, dx, dy, lx, ly)
                 .into_result()?;
         }
-
         Ok(())
     }
 
-    /// This allows reading multiple tiles at once. If multi-threading is used
-    /// the multiple tiles are read concurrently.
+    /// Reads the sample counts in tile range with coordinates `(dx1, dy1)`, to `(dx2, dy2)` and level number `(lx, ly)`,
+    /// and stores it in the current frame buffer.
     ///
-    /// Pixels that are outside the pixel coordinate range for the
-    /// tile's level, are never accessed by the read tile.
+    ///   # Errors
+    /// * [`Error::InvalidArgument`] - if dx does not lie in the interval [0, num_x_tiles(lx)-1]
+    /// * [`Error::InvalidArgument`] - if dy does not lie in the interval [0, num_y_tiles(ly)-1]
     ///
-    /// # Errors
-    ///
-    /// Attempting to access a tile that is not present in the file
-    /// returns an InputExc error.
+    /// * [`Error::InvalidArgument`] -if lx does not lie in the interval [0, num_x_levels()-1]
+    /// * [`Error::InvalidArgument`] -if ly does not lie in the inverval [0, num_y_levels()-1]
+    /// * [`Error::Io`] - if there is an error reading data from the file
+    /// * [`Error::Base`] - if any other error occurs
     ///
     pub fn read_tiles(
         &mut self,
@@ -591,71 +507,14 @@ impl TiledInputFile {
         dy2: i32,
         lx: i32,
         ly: i32,
-    ) -> Result<(), Error> {
+    ) -> Result<()> {
         unsafe {
             sys::Imf_TiledInputFile_readTiles(
-                self.inner, dx1, dx2, dy1, dy2, lx, ly,
+                self.0, dx1, dx2, dy1, dy2, lx, ly,
             )
             .into_result()?;
         }
-
         Ok(())
-    }
-
-    /// Read a tile of raw pixel data from the file, without uncompressing it
-    /// (this function is used to implement TiledOutputFile::copy_pixels()).
-    ///
-    /// For single part files, reads the next tile in the file
-    ///
-    /// For multipart files, reads the tile specified by dx,dy,lx,ly
-    ///
-    pub fn raw_tile_data<'a>(
-        &mut self,
-        dx: i32,
-        dy: i32,
-        lx: i32,
-        ly: i32,
-    ) -> Result<RawTileData<'a>, Error> {
-        let mut new_dx = dx;
-        let mut new_dy = dy;
-        let mut new_lx = lx;
-        let mut new_ly = ly;
-        let mut pixel_data_ptr = std::ptr::null();
-        let mut pixel_data_size = 0;
-
-        unsafe {
-            sys::Imf_TiledInputFile_rawTileData(
-                self.inner,
-                &mut new_dx,
-                &mut new_dy,
-                &mut new_lx,
-                &mut new_ly,
-                &mut pixel_data_ptr,
-                &mut pixel_data_size,
-            )
-            .into_result()?;
-
-            // TODO: Validate if OpenEXR will always return a valid pixel data
-            // array.
-            if pixel_data_ptr.is_null() {
-                panic!(
-                    "Received null ptr from sys::Imf_TiledInputFile_rawTileData"
-                );
-            }
-
-            let pixel_data_slice = std::slice::from_raw_parts(
-                pixel_data_ptr,
-                pixel_data_size as usize,
-            );
-
-            Ok(RawTileData {
-                dx: new_dx,
-                dy: new_dy,
-                lx: new_lx,
-                ly: new_ly,
-                pixel_data: pixel_data_slice,
-            })
-        }
     }
 }
 
@@ -952,17 +811,5 @@ mod tests {
                 i32::MIN,
             )
             .unwrap();
-    }
-
-    #[test]
-    fn test_tiledinputfile_raw_tile_data_success() {
-        let mut tiled_input_file = get_tiled_input_file();
-        let raw_tile_data = tiled_input_file.raw_tile_data(0, 0, 0, 0).unwrap();
-
-        assert_eq!(raw_tile_data.dx(), 0);
-        assert_eq!(raw_tile_data.dy(), 0);
-        assert_eq!(raw_tile_data.lx(), 0);
-        assert_eq!(raw_tile_data.ly(), 0);
-        assert_eq!(raw_tile_data.pixel_data().len(), 110);
     }
 }

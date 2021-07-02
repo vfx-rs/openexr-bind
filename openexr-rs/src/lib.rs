@@ -129,7 +129,7 @@ pub mod version;
 pub use version::{Version, VersionFlags};
 pub mod flat_image_io;
 pub mod tiled_input_file;
-pub use tiled_input_file::{RawTileData, TiledInputFile};
+pub use tiled_input_file::TiledInputFile;
 pub mod tiled_input_part;
 pub use tiled_input_part::TiledInputPart;
 pub mod timecode;

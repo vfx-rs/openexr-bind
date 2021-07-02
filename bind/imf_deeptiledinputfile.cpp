@@ -57,14 +57,16 @@ struct DeepTiledInputFile {
     size_t totalTiles() const;
 
     IMF_EXPORT
-    int levelWidth(int lx) const;
+    int levelWidth(int lx) const CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
     IMF_EXPORT
-    int levelHeight(int ly) const;
+    int levelHeight(int ly) const CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
-    int numXTiles(int lx) const;
+    int numXTiles(int lx = 0) const
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
     IMF_EXPORT
-    int numYTiles(int ly) const;
+    int numYTiles(int ly = 0) const
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     IMF_EXPORT
     IMATH_NAMESPACE::Box2i dataWindowForLevel(int l = 0) const CPPMM_IGNORE
