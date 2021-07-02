@@ -98,124 +98,25 @@
 //!
 #![allow(dead_code)]
 
-pub mod rgba_file;
-pub use rgba_file::{RgbaInputFile, RgbaOutputFile};
-pub mod rgba;
-pub use rgba::{Rgba, RgbaChannels};
-
-pub use openexr_sys::Compression;
-pub use openexr_sys::CubeMapFace;
-pub use openexr_sys::DataWindowSource;
-pub use openexr_sys::DeepImageState;
-pub use openexr_sys::Envmap;
-pub use openexr_sys::Imf_Chromaticities_t as Chromaticities;
-pub use openexr_sys::LevelMode;
-pub use openexr_sys::LevelRoundingMode;
-pub use openexr_sys::LineOrder;
-pub use openexr_sys::PixelType;
-
-pub mod frame_buffer;
-pub use frame_buffer::{
-    Frame, FrameBuffer, FrameBufferRef, FrameHandle, Slice,
-};
-pub mod header;
-pub use header::{Header, HeaderRef, HeaderSlice};
-pub mod attribute;
-pub use attribute::{Attribute, Box2iAttribute, TypedAttribute};
-pub mod channel_list;
-pub use channel_list::{
-    Channel, ChannelList, ChannelListRef, ChannelListRefMut, CHANNEL_FLOAT,
-    CHANNEL_HALF, CHANNEL_UINT,
-};
-pub mod tile_description;
-pub use tile_description::TileDescription;
-pub mod preview_image;
-pub use preview_image::{
-    PreviewImage, PreviewImageRef, PreviewImageRefMut, PreviewRgba,
-};
-pub mod input_file;
-pub use input_file::InputFile;
-pub mod output_file;
-pub use output_file::OutputFile;
-pub mod output_part;
-pub use output_part::OutputPart;
-pub mod input_part;
-pub use input_part::InputPart;
-pub mod composite_deep_scan_line;
-pub mod refptr;
-pub use composite_deep_scan_line::CompositeDeepScanLine;
-pub mod deep_scan_line_input_part;
-pub use deep_scan_line_input_part::DeepScanLineInputPart;
-pub mod deep_scan_line_input_file;
-pub use deep_scan_line_input_file::DeepScanLineInputFile;
-pub mod deep_scan_line_output_file;
-pub mod deep_scan_line_output_part;
-pub mod deep_tiled_input_file;
-pub mod deep_tiled_input_part;
-pub mod deep_tiled_output_file;
-pub mod deep_tiled_output_part;
-pub mod error;
-pub use error::Error;
-pub mod multi_part_input_file;
-pub use multi_part_input_file::MultiPartInputFile;
-pub mod multi_part_output_file;
-pub use multi_part_output_file::MultiPartOutputFile;
-pub mod deep_frame_buffer;
-pub use deep_frame_buffer::{DeepFrameBuffer, DeepSlice};
-pub mod flat_image;
-pub use flat_image::{FlatImage, FlatImageRef, FlatImageRefMut};
-pub mod flat_image_level;
-pub use flat_image_level::{
-    FlatImageLevel, FlatImageLevelRef, FlatImageLevelRefMut,
-};
-pub mod flat_image_channel;
-pub use flat_image_channel::{FlatChannelF16, FlatChannelF32, FlatChannelU32};
-
-pub mod deep_image;
-pub use deep_image::{DeepImage, DeepImageRef, DeepImageRefMut};
-pub mod deep_image_channel;
-pub mod deep_image_io;
-pub use deep_image_channel::{DeepChannelF16, DeepChannelF32, DeepChannelU32};
-pub mod deep_image_level;
-pub use deep_image_level::{
-    DeepImageLevel, DeepImageLevelRef, DeepImageLevelRefMut,
-};
-pub mod sample_count_channel;
-pub use sample_count_channel::{
-    SampleCountChannel, SampleCountChannelRef, SampleCountChannelRefMut,
-};
-
-pub mod version;
-pub use version::{Version, VersionFlags};
-pub mod flat_image_io;
-pub mod tiled_input_file;
-pub use tiled_input_file::TiledInputFile;
-pub mod tiled_input_part;
-pub use tiled_input_part::TiledInputPart;
-pub mod tiled_output_file;
-pub use tiled_output_file::TiledOutputFile;
-pub mod tiled_output_part;
-pub use tiled_output_part::TiledOutputPart;
-pub mod timecode;
-pub use timecode::{TimeCode, TimeCodePacking};
-
-pub mod envmap;
-pub mod frames_per_second;
-pub mod keycode;
-pub mod multi_view;
-pub mod rational;
-pub mod test_file;
-
-pub mod tiled_rgba_file;
-
-pub mod cppstd;
-
+pub mod core;
+pub mod deep;
 pub mod doc;
-pub mod standard_attributes;
+pub mod flat;
+pub mod multi_part;
+pub mod rgba;
+pub mod tiled;
+pub mod util;
 
 #[cfg(test)]
 mod tests {
-    use crate::*;
+    use crate::{
+        core::{error::Error, header::Header, Compression, LineOrder},
+        rgba::{
+            rgba::{Rgba, RgbaChannels},
+            rgba_file::{RgbaInputFile, RgbaOutputFile},
+        },
+    };
+
     use std::path::PathBuf;
 
     use half::f16;
@@ -315,7 +216,7 @@ mod tests {
 
     #[test]
     fn write_rgba3() -> Result<(), Box<dyn std::error::Error>> {
-        use crate::attribute::{CppStringAttribute, M44fAttribute};
+        use crate::core::attribute::{CppStringAttribute, M44fAttribute};
         let (pixels, width, height) = load_ferris();
 
         let comments = "this is an awesome image of Ferris";
@@ -340,6 +241,7 @@ mod tests {
     #[test]
     fn read_rgba1() -> Result<(), Box<dyn std::error::Error>> {
         use imath_traits::Zero;
+
         let path = PathBuf::from(
             std::env::var("CARGO_MANIFEST_DIR")
                 .expect("CARGO_MANIFEST_DIR not set"),
