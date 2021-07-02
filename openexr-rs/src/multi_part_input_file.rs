@@ -72,7 +72,7 @@ impl MultiPartInputFile {
     /// # Errors
     /// * [`Error::OutOfRange`] - if `n` does not index a part in the file.
     ///
-    pub fn header<'a>(&'a self, n: i32) -> Result<HeaderRef<'a>> {
+    pub fn header(&self, n: i32) -> Result<HeaderRef> {
         // OpenEXR itself doesn't handle this
         // https://github.com/AcademySoftwareFoundation/openexr/issues/1031
         if n < 0 || n >= self.parts() {

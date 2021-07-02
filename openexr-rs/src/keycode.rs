@@ -21,21 +21,21 @@ type Result<T, E = Error> = std::result::Result<T, E>;
 /// * `perf_offset` - Offset of frame, in perforations from zero-frame reference mark
 ///     Range: `[0, 119]`
 /// * `perfs_per_frame` - Number of perforations per frame. Typical values are 1 for 16mm film; 3, 4 or 8 for 35mm film; 5, 8 or 15 for 65mm film.
-/// 	Range: `[1, 15]`
+///     Range: `[1, 15]`
 /// * `perfs_per_count` - Number of perforations per count. Typical values are 20 for 16mm film, 64 for 35mm film, 80 or 120 for 65mm film.
 ///     Range: `[20, 120]`
 ///
 /// # Further Reading
 /// For more information about the interpretation of those fields see
 /// the following standards and recommended practice publications:
-/// * SMPTE 254	Motion-Picture Film (35-mm) - Manufacturer-Printed
-/// 		Latent Image Identification Information
-/// * SMPTE 268M 	File Format for Digital Moving-Picture Exchange (DPX)
-/// 		(section 6.1)
-/// * SMPTE 270	Motion-Picture Film (65-mm) - Manufacturer- Printed
-/// 		Latent Image Identification Information
-/// * SMPTE 271	Motion-Picture Film (16-mm) - Manufacturer- Printed
-/// 		Latent Image Identification Information
+/// * SMPTE 254 Motion-Picture Film (35-mm) - Manufacturer-Printed
+///         Latent Image Identification Information
+/// * SMPTE 268M    File Format for Digital Moving-Picture Exchange (DPX)
+///         (section 6.1)
+/// * SMPTE 270 Motion-Picture Film (65-mm) - Manufacturer- Printed
+///         Latent Image Identification Information
+/// * SMPTE 271 Motion-Picture Film (16-mm) - Manufacturer- Printed
+///         Latent Image Identification Information
 ///
 #[repr(transparent)]
 pub struct KeyCode(sys::Imf_KeyCode_t);

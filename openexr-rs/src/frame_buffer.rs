@@ -145,7 +145,7 @@ impl FrameBuffer {
                 .build()?,
             )?;
 
-            ptr = unsafe { ptr.offset(frame.channel_stride as isize) };
+            ptr = unsafe { ptr.add(frame.channel_stride) };
         }
 
         let handle = match &mut self.frames {
@@ -166,6 +166,12 @@ impl Drop for FrameBuffer {
         unsafe {
             sys::Imf_FrameBuffer_dtor(self.ptr);
         }
+    }
+}
+
+impl Default for FrameBuffer {
+    fn default() -> Self {
+        FrameBuffer::new()
     }
 }
 
@@ -349,7 +355,7 @@ impl SliceBuilder {
 }
 
 impl Slice {
-    pub fn new(
+    pub fn builder(
         pixel_type: PixelType,
         data: *const u8,
         w: i64,
@@ -565,6 +571,13 @@ pub struct FrameHandle(usize);
 
 use std::alloc::{GlobalAlloc, Layout, System};
 impl Frame {
+    /// Constructs a new frame for the given `channel_names` and `data_window`
+    /// and allocates storage to hold the pixel data.
+    ///
+    /// # Errors
+    /// [`Error::InvalidArgument`] - if the length of the `channel_names` slice
+    /// is not a multiple of `Pixel::NUM_CHANNELS`
+    ///
     pub fn new<T: Pixel, B: Bound2<i32>, S: AsRef<str>>(
         channel_names: &[S],
         data_window: B,
@@ -602,6 +615,15 @@ impl Frame {
         })
     }
 
+    /// Construct a new `Frame` using the storage provided in `vec`.
+    ///
+    /// This can either be used to provide pixel data for writing, or to re-use
+    /// storage between reads.
+    ///
+    /// # Errors
+    /// [`Error::InvalidArgument`] - if the length of the `channel_names` slice
+    /// is not a multiple of `Pixel::NUM_CHANNELS`
+    ///
     pub fn with_vec<T: Pixel, B: Bound2<i32>, S: AsRef<str>>(
         channel_names: &[S],
         mut vec: Vec<T>,
@@ -641,6 +663,8 @@ impl Frame {
         })
     }
 
+    /// Get a reference to the pixel data slice.
+    ///
     pub fn as_slice<T: Pixel>(&self) -> &[T] {
         let stride = std::mem::size_of::<T>();
         if T::STRIDE != stride {
@@ -655,6 +679,24 @@ impl Frame {
         }
     }
 
+    /// Get a mutable reference to the pixel data slice.
+    ///
+    pub fn as_mut_slice<T: Pixel>(&mut self) -> &mut [T] {
+        let stride = std::mem::size_of::<T>();
+        if T::STRIDE != stride {
+            panic!("Attempt to get a slice with a different type");
+        }
+
+        unsafe {
+            std::slice::from_raw_parts_mut(
+                self.ptr as *mut T,
+                self.byte_len / stride,
+            )
+        }
+    }
+
+    /// Consume this `Frame` and return the pixel data as a `Vec`.
+    ///
     pub fn into_vec<T: Pixel>(self) -> Vec<T> {
         self.as_slice().to_vec()
     }

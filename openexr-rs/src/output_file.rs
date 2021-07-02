@@ -68,7 +68,7 @@ impl OutputFile {
 
     /// Access to the file [`Header`]
     ///
-    pub fn header<'a>(&'a self) -> HeaderRef<'a> {
+    pub fn header(&self) -> HeaderRef {
         unsafe {
             let mut ptr = std::ptr::null();
             sys::Imf_OutputFile_header(self.0, &mut ptr);
@@ -108,7 +108,7 @@ impl OutputFile {
 
     /// Get a reference to the frame buffer.
     ///
-    pub fn frame_buffer<'a>(&'a self) -> FrameBufferRef<'a> {
+    pub fn frame_buffer(&self) -> FrameBufferRef {
         unsafe {
             let mut ptr = std::ptr::null();
             sys::Imf_OutputFile_frameBuffer(self.0, &mut ptr);
@@ -161,13 +161,13 @@ impl OutputFile {
     ///
     /// If `line_order() == INCREASING_Y`:
     ///
-    ///	The current scan line before the first call to write_pixels()
+    /// The current scan line before the first call to write_pixels()
     /// is header().data_window().min.y.  After writing each scan line,
     /// the current scan line is incremented by 1.
     ///
     /// If `line_order() == DECREASING_Y`:
     ///
-    ///	The current scan line before the first call to write_pixels()
+    /// The current scan line before the first call to write_pixels()
     /// is header().data_window().max.y.  After writing each scan line,
     /// the current scan line is decremented by 1.
     ///
@@ -281,7 +281,7 @@ fn write_outputfile1() {
     frame_buffer
         .insert(
             "R",
-            &Slice::new(
+            &Slice::builder(
                 PixelType::Half,
                 &pixels[0].r as *const _ as *const u8,
                 width as i64,
@@ -296,7 +296,7 @@ fn write_outputfile1() {
     frame_buffer
         .insert(
             "G",
-            &Slice::new(
+            &Slice::builder(
                 PixelType::Half,
                 &pixels[0].g as *const _ as *const u8,
                 width as i64,
@@ -311,7 +311,7 @@ fn write_outputfile1() {
     frame_buffer
         .insert(
             "B",
-            &Slice::new(
+            &Slice::builder(
                 PixelType::Half,
                 &pixels[0].b as *const _ as *const u8,
                 width as i64,
@@ -326,7 +326,7 @@ fn write_outputfile1() {
     frame_buffer
         .insert(
             "A",
-            &Slice::new(
+            &Slice::builder(
                 PixelType::Half,
                 &pixels[0].a as *const _ as *const u8,
                 width as i64,

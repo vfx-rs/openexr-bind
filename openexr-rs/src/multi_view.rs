@@ -18,7 +18,7 @@ pub fn view_from_channel_name<'a, S: AsRef<str>>(
     channel: &str,
     multi_view: &'a [S],
 ) -> Option<&'a str> {
-    let toks: Vec<&str> = channel.split(".").collect();
+    let toks: Vec<&str> = channel.split('.').collect();
 
     match toks.len() {
         0 => None,
@@ -59,8 +59,8 @@ pub fn are_counterparts<S: AsRef<str>>(
     channel2: &str,
     multi_view: &[S],
 ) -> bool {
-    let toks1: Vec<&str> = channel1.split(".").collect();
-    let toks2: Vec<&str> = channel2.split(".").collect();
+    let toks1: Vec<&str> = channel1.split('.').collect();
+    let toks2: Vec<&str> = channel2.split('.').collect();
 
     if toks1.is_empty() || toks2.is_empty() {
         return false;
@@ -104,7 +104,7 @@ pub fn are_counterparts<S: AsRef<str>>(
         }
     }
 
-    return true;
+    true
 }
 
 #[cfg(test)]

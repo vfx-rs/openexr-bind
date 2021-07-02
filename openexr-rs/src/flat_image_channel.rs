@@ -133,7 +133,7 @@ impl FlatChannelF16 {
 
     /// Get the level which this channel is a part of
     ///
-    pub fn flat_level<'a>(&'a self) -> FlatImageLevelRef<'a> {
+    pub fn flat_level(&self) -> FlatImageLevelRef {
         let mut ptr = std::ptr::null();
         unsafe {
             sys::Imf_FlatHalfChannel_flatLevel_const(self.0, &mut ptr);
@@ -143,7 +143,7 @@ impl FlatChannelF16 {
 
     /// Get the level which this channel is a part of
     ///
-    pub fn flat_level_mut<'a>(&'a mut self) -> FlatImageLevelRefMut<'a> {
+    pub fn flat_level_mut(&mut self) -> FlatImageLevelRefMut {
         let mut ptr = std::ptr::null_mut();
         unsafe {
             sys::Imf_FlatHalfChannel_flatLevel(self.0, &mut ptr);
@@ -301,7 +301,7 @@ impl FlatChannelF32 {
 
     /// Get the level which this channel is a part of
     ///
-    pub fn flat_level<'a>(&'a self) -> FlatImageLevelRef<'a> {
+    pub fn flat_level(&self) -> FlatImageLevelRef {
         let mut ptr = std::ptr::null();
         unsafe {
             sys::Imf_FlatFloatChannel_flatLevel_const(self.0, &mut ptr);
@@ -311,7 +311,7 @@ impl FlatChannelF32 {
 
     /// Get the level which this channel is a part of
     ///
-    pub fn flat_level_mut<'a>(&'a mut self) -> FlatImageLevelRefMut<'a> {
+    pub fn flat_level_mut(&mut self) -> FlatImageLevelRefMut {
         let mut ptr = std::ptr::null_mut();
         unsafe {
             sys::Imf_FlatFloatChannel_flatLevel(self.0, &mut ptr);
@@ -469,7 +469,7 @@ impl FlatChannelU32 {
 
     /// Get the level which this channel is a part of
     ///
-    pub fn flat_level<'a>(&'a self) -> FlatImageLevelRef<'a> {
+    pub fn flat_level(&self) -> FlatImageLevelRef {
         let mut ptr = std::ptr::null();
         unsafe {
             sys::Imf_FlatUIntChannel_flatLevel_const(self.0, &mut ptr);
@@ -479,7 +479,7 @@ impl FlatChannelU32 {
 
     /// Get the level which this channel is a part of
     ///
-    pub fn flat_level_mut<'a>(&'a mut self) -> FlatImageLevelRefMut<'a> {
+    pub fn flat_level_mut(&mut self) -> FlatImageLevelRefMut {
         let mut ptr = std::ptr::null_mut();
         unsafe {
             sys::Imf_FlatUIntChannel_flatLevel(self.0, &mut ptr);

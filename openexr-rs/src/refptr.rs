@@ -83,7 +83,8 @@ where
 
     fn deref(&self) -> &Self::Target {
         unsafe {
-            std::mem::transmute::<&*const P::SysPointee, &P::Pointee>(&self.ptr)
+            &*(&self.ptr as *const *const <P as OpaquePtr>::SysPointee
+                as *const <P as OpaquePtr>::Pointee)
         }
     }
 }
@@ -96,7 +97,8 @@ where
 
     fn deref(&self) -> &Self::Target {
         unsafe {
-            std::mem::transmute::<&*mut P::SysPointee, &P::Pointee>(&self.ptr)
+            &*(&self.ptr as *const *mut <P as OpaquePtr>::SysPointee
+                as *const <P as OpaquePtr>::Pointee)
         }
     }
 }
@@ -107,9 +109,8 @@ where
 {
     fn deref_mut(&mut self) -> &mut Self::Target {
         unsafe {
-            std::mem::transmute::<&mut *mut P::SysPointee, &mut P::Pointee>(
-                &mut self.ptr,
-            )
+            &mut *(&mut self.ptr as *mut *mut <P as OpaquePtr>::SysPointee
+                as *mut <P as OpaquePtr>::Pointee)
         }
     }
 }
