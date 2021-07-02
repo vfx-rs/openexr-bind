@@ -1,5 +1,18 @@
-# openexr-bind
-cppmm bindings for OpenEXR 3.0.x
+# OpenEXR
+The goal of the bindings are to be official Rust bindings for OpenEXR.
+Currently, we target OpenEXR version 3.0.x, but the bindings should support
+future versions. The API for OpenEXR should be the same with the C++ code,
+unless the C++ API breaks Rust's safety guarantees.
+
+The bindings are automatically generated with cppmm, which takes a definition
+file written in C++, and creates a C and Rust interface.
+
+The project has currently only been built and developed with a recent Linux
+distribution, but support for CentOS 7, Windows 10, and MacOS are planned.
+
+Currently, the project is owned by the Academy Software Foundation (ASWF) Rust
+Working Group, but the project's ownership may be transferred to the OpenEXR
+project once the project is mature.
 
 # Generating bindings
 First you must have `astgen` and `asttoc` in your PATH.
