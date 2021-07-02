@@ -11,7 +11,7 @@ use std::path::PathBuf;
 type Result<T, E = Error> = std::result::Result<T, E>;
 
 pub struct TiledInputPart<'a> {
-    inner: sys::Imf_TiledInputPart_t,
+    pub(crate) inner: sys::Imf_TiledInputPart_t,
     // The MultiPartInputFile is borrowed in the TiledInputPart, so we need to
     // make sure that its lifetime is longer than the TiledInputPart.
     phantom: std::marker::PhantomData<&'a MultiPartInputFile>,
