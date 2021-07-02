@@ -92,20 +92,6 @@ License
 The openexr-bind project is licensed under the [Apache 2 license](LICENSE).
 Contributions to the library should abide by that standard license.
 
-Contributor License Agreements
-------------------------------
-
-While we do not currently have a contributor license agreement, that may change
-in the future. It is assumed that any contributions to the project are both
-legally allowed (for example, any code that you contribute is 100% owned by you)
-and also contributed under the project license.
-
-Commit Sign-Off
----------------
-
-There are currently no requirements to sign off the commits. However, this may
-change in the future.
-
 Getting Started
 ===============
 
@@ -148,12 +134,7 @@ Coding Standards
 
 As much as possible, we try to conform to the Rust
 [style guide](https://doc.rust-lang.org/1.12.0/style/) and
-[API guidelines](https://rust-lang.github.io/api-guidelines/). We do not make
-use of Rustfmt on a project level (but that might change in the future), and the
-project will likely not pass the clippy lints. Although, passing clippy lints
-may be added as part of
-[adding CI support](https://github.com/vfx-rs/openexr-bind/issues/22) to the
-project.
+[API guidelines](https://rust-lang.github.io/api-guidelines/).
 
 Otherwise, we try to match the C++ interfaces where it makes sense to reduce
 friction between languages.
