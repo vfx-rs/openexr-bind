@@ -9,7 +9,7 @@ type Result<T, E = Error> = std::result::Result<T, E>;
 /// Manages writing multi-part images.
 ///
 /// Multi-part images are essentially just containers around multiple
-/// [`InputImage`](crate::InputImage)s.
+/// [`InputFile`](crate::input_file::InputFile)s.
 ///
 /// Certain attributes are shared between all parts:
 /// * `displayWindow`

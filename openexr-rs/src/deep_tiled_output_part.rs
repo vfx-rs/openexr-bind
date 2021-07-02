@@ -68,7 +68,7 @@ impl<'a> DeepTiledOutputPart<'a> {
         Ok(())
     }
 
-    /// Access to the file [`Header`]
+    /// Access to the file [`Header`](crate::header::Header)
     ///
     pub fn header(&self) -> HeaderRef {
         unsafe {
@@ -82,7 +82,7 @@ impl<'a> DeepTiledOutputPart<'a> {
         }
     }
 
-    /// Get the [`FrameBuffer`]
+    /// Get the [`DeepFrameBuffer`](crate::deep_frame_buffer::DeepFrameBuffer)
     ///
     pub fn frame_buffer(&self) -> DeepFrameBufferRef {
         unsafe {
@@ -155,13 +155,13 @@ impl<'a> DeepTiledOutputPart<'a> {
     /// Get the number of levels in the file
     ///
     /// # Returns
-    /// * `Ok(1)` if [`DeepTiledOutputPart::level_mode()`] == [`LevelMode::OneLevel`]
-    /// * `Ok(rfunc (log (max (w, h)) / log (2)) + 1)` if [`DeepTiledOutputPart::level_mode()`] == [`LevelMode::MipmapLevels`]
+    /// * `Ok(1)` if [`level_mode()`](DeepTiledOutputPart::level_mode()) == [`LevelMode::OneLevel`]
+    /// * `Ok(rfunc (log (max (w, h)) / log (2)) + 1)` if [`level_mode()`](DeepTiledOutputPart::level_mode()) == [`LevelMode::MipmapLevels`]
 
-    /// * `Err(Error::Logic)` if [`DeepTiledOutputPart::level_mode()`] == [`LevelMode::RipmapLevels`]
+    /// * `Err(Error::Logic)` if [`level_mode()`](DeepTiledOutputPart::level_mode()) == [`LevelMode::RipmapLevels`]
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
-    /// [`DeepTiledOutputPart::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
+    /// [`level_rounding_mode()`](DeepTiledOutputPart::level_rounding_mode()) is [`LevelRoundingMode::RoundUp`](crate::LevelRoundingMode::RoundUp) or [`LevelRoundingMode::RoundDown`](crate::LevelRoundingMode::RoundDown)
     ///
     pub fn num_levels(&self) -> Result<i32> {
         let mut v = 0;
@@ -176,13 +176,13 @@ impl<'a> DeepTiledOutputPart<'a> {
     /// Get the number of levels in the file in the x axis
     ///
     /// # Returns
-    /// * `1` if [`DeepTiledOutputPart::mode()`] == [`LevelMode::OneLevel`]
-    /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`DeepTiledOutputPart::mode()`] == [`LevelMode::MipmapLevels`]
+    /// * `1` if [`level_mode()`](DeepTiledOutputPart::level_mode) == [`LevelMode::OneLevel`]
+    /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`level_mode()`](DeepTiledOutputPart::level_mode) == [`LevelMode::MipmapLevels`]
 
-    /// * `rfunc (log (w) / log (2)) + 1` if [`DeepTiledOutputPart::mode()`] == [`LevelMode::RipmapLevels`]
+    /// * `rfunc (log (w) / log (2)) + 1` if [`level_mode()`](DeepTiledOutputPart::level_mode) == [`LevelMode::RipmapLevels`]
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
-    /// [`DeepTiledOutputPart::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
+    /// [`level_rounding_mode()`](DeepTiledOutputPart::level_rounding_mode()) is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
     ///
     pub fn num_x_levels(&self) -> i32 {
         let mut v = 0;
@@ -192,16 +192,16 @@ impl<'a> DeepTiledOutputPart<'a> {
         v
     }
 
-    /// Get the number of levels in the file in the x axis
+    /// Get the number of levels in the file in the y axis
     ///
     /// # Returns
-    /// * `1` if [`DeepTiledOutputPart::mode()`] == [`LevelMode::OneLevel`]
-    /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`DeepTiledOutputPart::mode()`] == [`LevelMode::MipmapLevels`]
+    /// * `1` if [`level_mode()`](DeepTiledOutputPart::level_mode) == [`LevelMode::OneLevel`]
+    /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`level_mode()`](DeepTiledOutputPart::level_mode)`DeepTiledOutputPart::mode()`] == [`LevelMode::MipmapLevels`]
 
-    /// * `rfunc (log (h) / log (2)) + 1` if [`DeepTiledOutputPart::mode()`] == [`LevelMode::RipmapLevels`]
+    /// * `rfunc (log (h) / log (2)) + 1` if [`level_mode()`](DeepTiledOutputPart::level_mode) == [`LevelMode::RipmapLevels`]
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
-    /// [`DeepTiledOutputPart::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
+    /// [`level_rounding_mode()`](DeepTiledOutputPart::level_rounding_mode()) is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
     ///
     pub fn num_y_levels(&self) -> i32 {
         let mut v = 0;
@@ -228,7 +228,7 @@ impl<'a> DeepTiledOutputPart<'a> {
     /// * `max (1, rfunc (w / pow (2, lx)))`
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
-    /// [`DeepTiledOutputPart::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
+    /// [`level_rounding_mode()`](DeepTiledOutputPart::level_rounding_mode()) is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
     ///
     /// # Errors
     /// *[`Error::Base`] - If any error occurs
@@ -248,7 +248,7 @@ impl<'a> DeepTiledOutputPart<'a> {
     /// * `max (1, rfunc (h / pow (2, ly)))`
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
-    /// [`DeepTiledOutputPart::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
+    /// [`level_rounding_mode()`](DeepTiledOutputPart::level_rounding_mode()) is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
     ///
     /// # Errors
     /// *[`Error::Base`] - If any error occurs
@@ -372,7 +372,7 @@ impl<'a> DeepTiledOutputPart<'a> {
     /// The file's line order attribute determines the order of the tiles
     /// in the file:
     ///
-    /// ## [`LineOrder::IncreasingY`]
+    /// ## [`LineOrder::IncreasingY`](crate::LineOrder::IncreasingY)
     /// In the file, the tiles for each level are stored
     /// in a contiguous block.  The levels are ordered
     /// like this:
@@ -398,10 +398,10 @@ impl<'a> DeepTiledOutputPart<'a> {
     /// where tx = [`num_x_tiles(lx)`](DeepTiledOutputPart::num_x_tiles),
     /// and   ty = [`num_y_tiles(ly)`](DeepTiledOutputPart::num_y_tiles).
     ///
-    /// ## [`LineOrder::DecreasingY`]
-    /// As for [`LineOrder::IncreasingY`], the tiles
+    /// ## [`LineOrder::DecreasingY`](crate::LineOrder::DecreasingY)
+    /// As for [`LineOrder::IncreasingY`](crate::LineOrder::IncreasingY), the tiles
     /// for each level are stored in a contiguous block.  The levels
-    /// are ordered the same way as for [`LineOrder::IncreasingY`],
+    /// are ordered the same way as for [`LineOrder::IncreasingY`](crate::LineOrder::IncreasingY),
     /// but within an individual level, the tiles
     /// are stored in this order:
     ///
@@ -413,7 +413,7 @@ impl<'a> DeepTiledOutputPart<'a> {
     /// ```
     ///
     ///
-    /// ## [`LineOrder::RandomY`]
+    /// ## [`LineOrder::RandomY`](crate::LineOrder::RandomY)
     /// The order of the calls to `write_tile()` determines
     /// the order of the tiles in the file.
     ///
@@ -455,7 +455,7 @@ impl<'a> DeepTiledOutputPart<'a> {
     /// The file's line order attribute determines the order of the tiles
     /// in the file:
     ///
-    /// ## [`LineOrder::IncreasingY`]
+    /// ## [`LineOrder::IncreasingY`](crate::LineOrder::IncreasingY)
     /// In the file, the tiles for each level are stored
     /// in a contiguous block.  The levels are ordered
     /// like this:
@@ -481,10 +481,10 @@ impl<'a> DeepTiledOutputPart<'a> {
     /// where tx = [`num_x_tiles(lx)`](DeepTiledOutputPart::num_x_tiles),
     /// and   ty = [`num_y_tiles(ly)`](DeepTiledOutputPart::num_y_tiles).
     ///
-    /// ## [`LineOrder::DecreasingY`]
-    /// As for [`LineOrder::IncreasingY`], the tiles
+    /// ## [`LineOrder::DecreasingY`](crate::LineOrder::DecreasingY)
+    /// As for [`LineOrder::IncreasingY`](crate::LineOrder::IncreasingY), the tiles
     /// for each level are stored in a contiguous block.  The levels
-    /// are ordered the same way as for [`LineOrder::IncreasingY`],
+    /// are ordered the same way as for [`LineOrder::IncreasingY`](crate::LineOrder::IncreasingY),
     /// but within an individual level, the tiles
     /// are stored in this order:
     ///
@@ -496,7 +496,7 @@ impl<'a> DeepTiledOutputPart<'a> {
     /// ```
     ///
     ///
-    /// ## [`LineOrder::RandomY`]
+    /// ## [`LineOrder::RandomY`](crate::LineOrder::RandomY)
     /// The order of the calls to `write_tile()` determines
     /// the order of the tiles in the file.
     ///
@@ -536,7 +536,7 @@ impl<'a> DeepTiledOutputPart<'a> {
     /// last tile of the main image.
     ///
     /// # Errors
-    /// * [`Error::Logic`] - If the image header does not contain a preview image
+    /// * [`Error::LogicError`] - If the image header does not contain a preview image
     /// * [`Error::Base`] - If any other error occurs
     ///
     pub fn update_preview_image(
@@ -554,16 +554,16 @@ impl<'a> DeepTiledOutputPart<'a> {
         Ok(())
     }
 
-    /// Shortcut to copy all pixels from an [`InputFile`] into this file,
+    /// Shortcut to copy all pixels from an [`DeepTiledInputFile`] into this file,
     /// without uncompressing and then recompressing the pixel data.
     ///
-    /// This file's header must be compatible with the [`InputFile`]'s
+    /// This file's header must be compatible with the [`DeepTiledInputFile`]'s
     /// header:  The two header's "dataWindow", "compression",
     /// "lineOrder" and "channels" attributes must be the same.
     ///
     /// # Errors
     /// * [`Error::InvalidArgument`] - If the headers do not match
-    /// * [`Error::Logic`] - If tiles have already been written to this file.
+    /// * [`Error::LogicError`] - If tiles have already been written to this file.
     /// * [`Error::Base`] - If any other error occurs
     ///
     pub fn copy_pixels_from_file(
@@ -589,7 +589,7 @@ impl<'a> DeepTiledOutputPart<'a> {
     ///
     /// # Errors
     /// * [`Error::InvalidArgument`] - If the headers do not match
-    /// * [`Error::Logic`] - If tiles have already been written to this file.
+    /// * [`Error::LogicError`] - If tiles have already been written to this file.
     /// * [`Error::Base`] - If any other error occurs
     ///
     pub fn copy_pixels_from_part(

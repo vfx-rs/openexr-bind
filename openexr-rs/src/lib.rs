@@ -14,6 +14,42 @@
 //!
 //! The openexr crate is maintained by [the vfx-rs project](https://github.com/vfx-rs).
 //!
+//! # Quick Start
+//!
+//! ```no_run
+//! use openexr::{Rgba, RgbaInputFile, RgbaOutputFile, Header, RgbaChannels};
+//!
+//! fn write_rgba1(filename: &str, pixels: &[Rgba], width: i32, height: i32)
+//! -> Result<(), Box<dyn std::error::Error>> {
+//!     let header = Header::from_dimensions(width, height);
+//!     let mut file = RgbaOutputFile::new(
+//!         filename,
+//!         &header,
+//!         RgbaChannels::WriteRgba,
+//!         1,
+//!     )?;
+//!
+//!     file.set_frame_buffer(&pixels, 1, width as usize)?;
+//!     file.write_pixels(height)?;
+//!
+//!     Ok(())
+//! }
+//!
+//! fn read_rgba1(path: &str) -> Result<(), Box<dyn std::error::Error>> {
+//!     use imath_traits::Zero;
+//!
+//!     let mut file = RgbaInputFile::new(path, 1).unwrap();
+//!     let data_window = file.header().data_window::<[i32; 4]>().clone();
+//!     let width = data_window[2] - data_window[0] + 1;
+//!     let height = data_window[3] - data_window[1] + 1;
+//!
+//!     let mut pixels = vec![Rgba::zero(); (width * height) as usize];
+//!     file.set_frame_buffer(&mut pixels, 1, width as usize)?;
+//!     file.read_pixels(0, height - 1)?;
+//!
+//!     Ok(())
+//! }
+//! ```
 //!
 //! # Features
 //! * High dynamic range and color precision.
@@ -35,6 +71,15 @@
 //! ```
 //! Note that when you are doing this, *you* are responsible for ensuring that your C++ library
 //! versions are compatible with the crate version.
+//!
+//! # Building the documentation
+//!
+//! To build the full documentation including long-form docs and KaTeX equations, use the following
+//! command:
+//! ```bash
+//! RUSTDOCFLAGS="--html-in-header katex-header.html"  cargo +nightly doc --no-deps --features=long-form-docs
+//! ```
+//! Note this is done automatically for docs.rs
 //!
 #![allow(dead_code)]
 
@@ -150,6 +195,9 @@ pub mod tiled_rgba_file;
 
 pub mod cppstd;
 
+pub mod doc;
+pub mod standard_attributes;
+
 #[cfg(test)]
 mod tests {
     use crate::*;
@@ -232,7 +280,7 @@ mod tests {
     }
 
     #[test]
-    fn write_rgba1() {
+    fn write_rgba1() -> Result<(), Box<dyn std::error::Error>> {
         let (pixels, width, height) = load_ferris();
 
         let header = Header::from_dimensions(width, height);
@@ -242,15 +290,40 @@ mod tests {
             &header,
             RgbaChannels::WriteRgba,
             1,
-        )
-        .unwrap();
+        )?;
 
-        file.set_frame_buffer(&pixels, 1, width as usize).unwrap();
-        file.write_pixels(height).unwrap();
+        file.set_frame_buffer(&pixels, 1, width as usize)?;
+        file.write_pixels(height)?;
+
+        Ok(())
     }
 
     #[test]
-    fn read_rgba1() {
+    fn write_rgba3() -> Result<(), Box<dyn std::error::Error>> {
+        use crate::attribute::{CppStringAttribute, M44fAttribute};
+        let (pixels, width, height) = load_ferris();
+
+        let comments = "this is an awesome image of Ferris";
+        let xform = [0.0f32; 16];
+        let mut header = Header::from_dimensions(width, height);
+        header.insert("comments", &CppStringAttribute::from_value(comments))?;
+        header.insert("cameraTransform", &M44fAttribute::from_value(&xform))?;
+
+        let mut file = RgbaOutputFile::new(
+            "write_rgba3.exr",
+            &header,
+            RgbaChannels::WriteRgba,
+            1,
+        )?;
+
+        file.set_frame_buffer(&pixels, 1, width as usize)?;
+        file.write_pixels(height)?;
+
+        Ok(())
+    }
+
+    #[test]
+    fn read_rgba1() -> Result<(), Box<dyn std::error::Error>> {
         use imath_traits::Zero;
         let path = PathBuf::from(
             std::env::var("CARGO_MANIFEST_DIR")
@@ -259,15 +332,14 @@ mod tests {
         .join("images")
         .join("ferris.exr");
 
-        let mut file = RgbaInputFile::new(&path, 1).unwrap();
+        let mut file = RgbaInputFile::new(&path, 1)?;
         let data_window = file.header().data_window::<[i32; 4]>().clone();
         let width = data_window[2] - data_window[0] + 1;
         let height = data_window[3] - data_window[1] + 1;
 
         let mut pixels = vec![Rgba::zero(); (width * height) as usize];
-        file.set_frame_buffer(&mut pixels, 1, width as usize)
-            .unwrap();
-        file.read_pixels(0, height - 1).unwrap();
+        file.set_frame_buffer(&mut pixels, 1, width as usize)?;
+        file.read_pixels(0, height - 1)?;
 
         let mut ofile = RgbaOutputFile::with_dimensions(
             "read_rgba1.exr",
@@ -280,10 +352,46 @@ mod tests {
             LineOrder::IncreasingY,
             Compression::Piz,
             1,
-        )
-        .unwrap();
+        )?;
 
-        ofile.set_frame_buffer(&pixels, 1, width as usize).unwrap();
-        ofile.write_pixels(height).unwrap();
+        ofile.set_frame_buffer(&pixels, 1, width as usize)?;
+        ofile.write_pixels(height)?;
+
+        Ok(())
+    }
+
+    #[test]
+    fn read_header() -> Result<(), Box<dyn std::error::Error>> {
+        let path = PathBuf::from(
+            std::env::var("CARGO_MANIFEST_DIR")
+                .expect("CARGO_MANIFEST_DIR not set"),
+        )
+        .join("images")
+        .join("custom_attributes.exr");
+
+        let file = RgbaInputFile::new(&path, 1)?;
+
+        if let Some(attr) =
+            file.header().find_typed_attribute_string("comments")
+        {
+            assert_eq!(attr.value(), "this is an awesome image of Ferris");
+        } else {
+        }
+
+        match file.header().find_typed_attribute_string("comments") {
+            Some(attr)
+                if attr.value() == "this is an awesome image of Ferris" =>
+            {
+                ()
+            }
+            _ => panic!("bad string attr"),
+        };
+
+        match file.header().find_typed_attribute_m44f("cameraTransform") {
+            Some(_) => (),
+            _ => panic!("bad matrix attr"),
+        };
+
+        Ok(())
     }
 }

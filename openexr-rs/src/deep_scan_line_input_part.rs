@@ -41,7 +41,7 @@ impl<'a> DeepScanLineInputPart<'a> {
         })
     }
 
-    /// Access to the file [`Header`]
+    /// Access to the file [`Header`](crate::header::Header)
     ///
     pub fn header(&self) -> HeaderRef {
         unsafe {

@@ -232,6 +232,19 @@ impl Header {
         header
     }
 
+    /// Shortcut to construct a new [`Header`] with just the data and display
+    /// windows and everything else Default
+    ///
+    pub fn from_windows<B: Bound2<i32>>(
+        data_window: B,
+        display_window: B,
+    ) -> Header {
+        let mut header = Header::default();
+        *header.data_window_mut() = data_window;
+        *header.display_window_mut() = display_window;
+        header
+    }
+
     /// Examines the header and returns an error if it finds something wrong
     /// with the attributes (e.g. empty display window, negative pixel aspect
     /// ratio etc.)
@@ -731,8 +744,6 @@ impl Header {
     /// * `deepscanline` - Deep, scanline-based.
     /// * `deeptile` - Deep, tiled.
     ///
-    /// FIXME: Make this return an enum instead of a string
-    ///
     pub fn image_type(&self) -> Result<ImageType> {
         unsafe {
             let mut s = std::ptr::null();
@@ -760,8 +771,6 @@ impl Header {
     /// * `tiledimage` - Flat, tiled.
     /// * `deepscanline` - Deep, scanline-based.
     /// * `deeptile` - Deep, tiled.
-    ///
-    /// FIXME: Make this take an enum instead of a string
     ///
     pub fn set_image_type(&mut self, image_type: ImageType) {
         unsafe {
@@ -888,7 +897,8 @@ impl Header {
 impl Header {
     //! # Tile Description
     //!
-    //! The tile description is a [`TileDescriptionAttribute`] whose name is
+    //! The tile description is a
+    //! [`TileDescriptionAttribute`](crate::attribute::TileDescriptionAttribute) whose name is
     //! `"tiles"`. It is mandatory for tiled files. The [`TileDescription`]
     //! describes various properties of the tiles that make up the image file.
 
@@ -927,11 +937,11 @@ impl Header {
 impl Header {
     //! # Preview Image
     //!
-    //! The preview image ias a [`PreviewImageAttribute`] whose name is
+    //! The preview image ias a [`PreviewImageAttribute`](crate::attribute::PreviewImageAttribute) whose name is
     //! `"preview"`.
     //! This attribute is special -- while an image file is being written,
     //! the pixels of the preview image can be changed repeatedly by calling
-    //! [`OutputFile::update_preview_image()`]
+    //! [`update_preview_image()`](crate::output_file::OutputFile::update_preview_image)
 
     /// Get the preview image from the header
     ///

@@ -9,7 +9,7 @@ use openexr_sys as sys;
 type Result<T, E = Error> = std::result::Result<T, E>;
 
 /// Holds the pixel data for a single half-float channel in one level in a
-/// [`FlatImage`]
+/// [`FlatImage`](crate::flat_image::FlatImage)
 ///
 #[repr(transparent)]
 pub struct FlatChannelF16(pub(crate) *mut sys::Imf_FlatHalfChannel_t);
@@ -23,7 +23,7 @@ pub type FlatChannelF16Ref<'a, P = FlatChannelF16> = Ref<'a, P>;
 pub type FlatChannelF16RefMut<'a, P = FlatChannelF16> = RefMut<'a, P>;
 
 /// Holds the pixel data for a single float channel in one level in a
-/// [`FlatImage`]
+/// [`FlatImage`](crate::flat_image::FlatImage)
 ///
 #[repr(transparent)]
 pub struct FlatChannelF32(pub(crate) *mut sys::Imf_FlatFloatChannel_t);
@@ -37,7 +37,7 @@ pub type FlatChannelF32Ref<'a, P = FlatChannelF32> = Ref<'a, P>;
 pub type FlatChannelF32RefMut<'a, P = FlatChannelF32> = RefMut<'a, P>;
 
 /// Holds the pixel data for a single unsigned int channel in one level in a
-/// [`FlatImage`]
+/// [`FlatImage`](crate::flat_image::FlatImage)
 ///
 #[repr(transparent)]
 pub struct FlatChannelU32(pub(crate) *mut sys::Imf_FlatUIntChannel_t);
@@ -121,7 +121,7 @@ impl FlatChannelF16 {
         }
     }
 
-    /// Construct a [`FrameBuffer`] [`Slice`] for this Channel
+    /// Construct a [`Slice`] for this Channel
     ///
     pub fn slice(&self) -> Slice {
         let mut s = sys::Imf_Slice_t::default();
@@ -289,7 +289,7 @@ impl FlatChannelF32 {
         }
     }
 
-    /// Construct a [`FrameBuffer`] [`Slice`] for this Channel
+    /// Construct a [`Slice`] for this Channel
     ///
     pub fn slice(&self) -> Slice {
         let mut s = sys::Imf_Slice_t::default();
@@ -457,7 +457,7 @@ impl FlatChannelU32 {
         }
     }
 
-    /// Construct a [`FrameBuffer`] [`Slice`] for this Channel
+    /// Construct a [`Slice`] for this Channel
     ///
     pub fn slice(&self) -> Slice {
         let mut s = sys::Imf_Slice_t::default();

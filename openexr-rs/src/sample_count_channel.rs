@@ -7,8 +7,7 @@ use openexr_sys as sys;
 
 type Result<T, E = Error> = std::result::Result<T, E>;
 
-/// Holds the pixel data for a single unsigned int channel in one level in a
-/// [`DeepImage`]
+/// Holds the per-pixel number of samples in a deep image.
 ///
 #[repr(transparent)]
 pub struct SampleCountChannel(pub(crate) *mut sys::Imf_SampleCountChannel_t);
@@ -92,7 +91,7 @@ impl SampleCountChannel {
         }
     }
 
-    /// Construct a [`FrameBuffer`] [`Slice`] for this Channel
+    /// Construct a [`Slice`] for this Channel
     ///
     pub fn slice(&self) -> Slice {
         let mut s = sys::Imf_Slice_t::default();

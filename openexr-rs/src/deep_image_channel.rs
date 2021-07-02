@@ -9,7 +9,7 @@ use openexr_sys as sys;
 type Result<T, E = Error> = std::result::Result<T, E>;
 
 /// Holds the pixel data for a single half-float channel in one level in a
-/// [`DeepImage`]
+/// [`DeepImage`](crate::deep_image::DeepImage)
 ///
 #[repr(transparent)]
 pub struct DeepChannelF16(pub(crate) *mut sys::Imf_DeepHalfChannel_t);
@@ -23,7 +23,7 @@ pub type DeepChannelF16Ref<'a, P = DeepChannelF16> = Ref<'a, P>;
 pub type DeepChannelF16RefMut<'a, P = DeepChannelF16> = RefMut<'a, P>;
 
 /// Holds the pixel data for a single float channel in one level in a
-/// [`DeepImage`]
+/// [`DeepImage`](crate::deep_image::DeepImage)
 ///
 #[repr(transparent)]
 pub struct DeepChannelF32(pub(crate) *mut sys::Imf_DeepFloatChannel_t);
@@ -37,7 +37,7 @@ pub type DeepChannelF32Ref<'a, P = DeepChannelF32> = Ref<'a, P>;
 pub type DeepChannelF32RefMut<'a, P = DeepChannelF32> = RefMut<'a, P>;
 
 /// Holds the pixel data for a single unsigned int channel in one level in a
-/// [`DeepImage`]
+/// [`DeepImage`](crate::deep_image::DeepImage)
 ///
 #[repr(transparent)]
 pub struct DeepChannelU32(pub(crate) *mut sys::Imf_DeepUIntChannel_t);
@@ -121,7 +121,7 @@ impl DeepChannelF16 {
         }
     }
 
-    /// Construct a [`FrameBuffer`] [`Slice`] for this Channel
+    /// Construct a [`DeepSlice`] for this Channel
     ///
     pub fn slice(&self) -> DeepSlice {
         let mut s = sys::Imf_DeepSlice_t::default();
@@ -292,7 +292,7 @@ impl DeepChannelF32 {
         }
     }
 
-    /// Construct a [`FrameBuffer`] [`Slice`] for this Channel
+    /// Construct a [`DeepSlice`] for this Channel
     ///
     pub fn slice(&self) -> DeepSlice {
         let mut s = sys::Imf_DeepSlice_t::default();
@@ -462,7 +462,7 @@ impl DeepChannelU32 {
         }
     }
 
-    /// Construct a [`FrameBuffer`] [`Slice`] for this Channel
+    /// Construct a [`DeepSlice`] for this Channel
     ///
     pub fn slice(&self) -> DeepSlice {
         let mut s = sys::Imf_DeepSlice_t::default();
