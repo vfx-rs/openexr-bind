@@ -36,34 +36,6 @@
 //! Note that when you are doing this, *you* are responsible for ensuring that your C++ library
 //! versions are compatible with the crate version.
 //!
-//!
-//! # Crate/Library Version Compatibility
-//!
-//! Correctly versioning a binding crate against an underlying C++ library is tricky. We need to be
-//! able to evolve the API (particularly so we can add layers of safety on top of the C++
-//! interface), and we are also bound to respect the versioning of the underlying crate.
-//!
-//! We have chosen to make a slight abuse of semver here and both in the library and crate API
-//! versions into a single version for the crate:
-//!
-//! ```c
-//!                  OpenEXR Major Version
-//!                  │
-//!                  │  OpenEXR Minor Version
-//!                  │  │
-//!                  │  │  OpenEXR Patch Version
-//!                  │  │  │
-//!                  ▼  ▼  ▼
-//! Crate Version:   30.01.50
-//!                   ▲  ▲  ▲
-//!                   │  │  │
-//!                   │  │  Binding Patch Version
-//!                   │  │
-//!                   │  Binding Minor Version
-//!                   │
-//!                   Binding Major Version
-//! ```
-
 #![allow(dead_code)]
 
 pub mod rgba_file;
