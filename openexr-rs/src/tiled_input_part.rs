@@ -254,10 +254,10 @@ impl<'a> TiledInputPart<'a> {
     /// Get the number of levels in the file in the x axis
     ///
     /// # Returns
-    /// * `1` if [`TiledInputPart::mode()`] == [`LevelMode::OneLevel`]
-    /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`TiledInputPart::mode()`] == [`LevelMode::MipmapLevels`]
+    /// * `1` if [`TiledInputPart::level_mode()`] == [`LevelMode::OneLevel`]
+    /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`TiledInputPart::level_mode()`] == [`LevelMode::MipmapLevels`]
 
-    /// * `rfunc (log (w) / log (2)) + 1` if [`TiledInputPart::mode()`] == [`LevelMode::RipmapLevels`]
+    /// * `rfunc (log (w) / log (2)) + 1` if [`TiledInputPart::level_mode()`] == [`LevelMode::RipmapLevels`]
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
     /// [`TiledInputPart::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
@@ -277,10 +277,10 @@ impl<'a> TiledInputPart<'a> {
     /// Get the number of levels in the file in the x axis
     ///
     /// # Returns
-    /// * `1` if [`TiledInputPart::mode()`] == [`LevelMode::OneLevel`]
-    /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`TiledInputPart::mode()`] == [`LevelMode::MipmapLevels`]
+    /// * `1` if [`TiledInputPart::level_mode()`] == [`LevelMode::OneLevel`]
+    /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`TiledInputPart::level_mode()`] == [`LevelMode::MipmapLevels`]
 
-    /// * `rfunc (log (h) / log (2)) + 1` if [`TiledInputPart::mode()`] == [`LevelMode::RipmapLevels`]
+    /// * `rfunc (log (h) / log (2)) + 1` if [`TiledInputPart::level_mode()`] == [`LevelMode::RipmapLevels`]
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
     /// [`TiledInputPart::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]

@@ -60,6 +60,21 @@
 //! * Flexible support for deep data: pixels can store a variable-length list of samples and, thus, it is possible to store multiple values at different depths for each pixel. Hard surfaces and volumetric data representations are accommodated.
 //! * Multipart: ability to encode separate, but related, images in one file. This allows for access to individual parts without the need to read other parts in the file.
 //!
+//! # Long-Form Documentation
+//!
+//! The following documents give a more in-depth view of different parts of the
+//! openexr crate:
+//!
+//! * [Reading and Writing Image Files](crate::doc::reading_and_writing_image_files) - A
+//! tutorial-style guide to the main image reading and writing interfaces.
+//! * [Technical Introduction](crate::doc::technical_introduction) - A technical overview of the
+//! OpenEXR format and its related concepts.
+//! * [Interpreting Deep Pixels](crate::doc::interpreting_deep_pixels) - An in-depth look at how
+//! deep pixels are stored and how to manipulate their samples.
+//! * [Multi-View OpenEXR](crate::doc::multi_view_open_exr) - Representation of multi-view images
+//! in OpenEXR files.
+//!
+//!
 //!
 //! # Building OpenEXR
 //!

@@ -188,10 +188,10 @@ impl TiledOutputFile {
     /// Get the number of levels in the file in the x axis
     ///
     /// # Returns
-    /// * `1` if [`TiledOutputFile::mode()`] == [`LevelMode::OneLevel`]
-    /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`TiledOutputFile::mode()`] == [`LevelMode::MipmapLevels`]
+    /// * `1` if [`TiledOutputFile::level_mode()`] == [`LevelMode::OneLevel`]
+    /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`TiledOutputFile::level_mode()`] == [`LevelMode::MipmapLevels`]
 
-    /// * `rfunc (log (w) / log (2)) + 1` if [`TiledOutputFile::mode()`] == [`LevelMode::RipmapLevels`]
+    /// * `rfunc (log (w) / log (2)) + 1` if [`TiledOutputFile::level_mode()`] == [`LevelMode::RipmapLevels`]
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
     /// [`TiledOutputFile::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
@@ -211,10 +211,10 @@ impl TiledOutputFile {
     /// Get the number of levels in the file in the x axis
     ///
     /// # Returns
-    /// * `1` if [`TiledOutputFile::mode()`] == [`LevelMode::OneLevel`]
-    /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`TiledOutputFile::mode()`] == [`LevelMode::MipmapLevels`]
+    /// * `1` if [`TiledOutputFile::level_mode()`] == [`LevelMode::OneLevel`]
+    /// * `rfunc (log (max (w, h)) / log (2)) + 1` if [`TiledOutputFile::level_mode()`] == [`LevelMode::MipmapLevels`]
 
-    /// * `rfunc (log (h) / log (2)) + 1` if [`TiledOutputFile::mode()`] == [`LevelMode::RipmapLevels`]
+    /// * `rfunc (log (h) / log (2)) + 1` if [`TiledOutputFile::level_mode()`] == [`LevelMode::RipmapLevels`]
     ///
     /// where `rfunc` is either `floor()` or `ceil()` depending on whether
     /// [`TiledOutputFile::level_rounding_mode()`] is [`LevelRoundingMode::RoundUp`] or [`LevelRoundingMode::RoundDown`]
@@ -392,7 +392,7 @@ impl TiledOutputFile {
     /// The file's line order attribute determines the order of the tiles
     /// in the file:
     ///
-    /// ## [`LineOrder::IncreasingY`]
+    /// ## [`LineOrder::IncreasingY`](crate::LineOrder::DecreasingY)
     /// In the file, the tiles for each level are stored
     /// in a contiguous block.  The levels are ordered
     /// like this:
@@ -418,10 +418,10 @@ impl TiledOutputFile {
     /// where tx = [`num_x_tiles(lx)`](TiledOutputFile::num_x_tiles),
     /// and   ty = [`num_y_tiles(ly)`](TiledOutputFile::num_y_tiles).
     ///
-    /// ## [`LineOrder::DecreasingY`]
-    /// As for [`LineOrder::IncreasingY`], the tiles
+    /// ## [`LineOrder::DecreasingY`](crate::LineOrder::DecreasingY)
+    /// As for [`LineOrder::IncreasingY`](crate::LineOrder::IncreasingY), the tiles
     /// for each level are stored in a contiguous block.  The levels
-    /// are ordered the same way as for [`LineOrder::IncreasingY`],
+    /// are ordered the same way as for [`LineOrder::IncreasingY`](crate::LineOrder::IncreasingY),
     /// but within an individual level, the tiles
     /// are stored in this order:
     ///
@@ -433,7 +433,7 @@ impl TiledOutputFile {
     /// ```
     ///
     ///
-    /// ## [`LineOrder::RandomY`]
+    /// ## [`LineOrder::RandomY`](crate::LineOrder::RandomY)
     /// The order of the calls to `write_tile()` determines
     /// the order of the tiles in the file.
     ///
@@ -469,7 +469,7 @@ impl TiledOutputFile {
     /// The file's line order attribute determines the order of the tiles
     /// in the file:
     ///
-    /// ## [`LineOrder::IncreasingY`]
+    /// ## [`LineOrder::IncreasingY`](crate::LineOrder::IncreasingY)
     /// In the file, the tiles for each level are stored
     /// in a contiguous block.  The levels are ordered
     /// like this:
@@ -495,10 +495,10 @@ impl TiledOutputFile {
     /// where tx = [`num_x_tiles(lx)`](TiledOutputFile::num_x_tiles),
     /// and   ty = [`num_y_tiles(ly)`](TiledOutputFile::num_y_tiles).
     ///
-    /// ## [`LineOrder::DecreasingY`]
-    /// As for [`LineOrder::IncreasingY`], the tiles
+    /// ## [`LineOrder::DecreasingY`](crate::LineOrder)
+    /// As for [`LineOrder::IncreasingY`](crate::LineOrder), the tiles
     /// for each level are stored in a contiguous block.  The levels
-    /// are ordered the same way as for [`LineOrder::IncreasingY`],
+    /// are ordered the same way as for [`LineOrder::IncreasingY`](crate::LineOrder),
     /// but within an individual level, the tiles
     /// are stored in this order:
     ///
@@ -510,7 +510,7 @@ impl TiledOutputFile {
     /// ```
     ///
     ///
-    /// ## [`LineOrder::RandomY`]
+    /// ## [`LineOrder::RandomY`](crate::LineOrder)
     /// The order of the calls to `write_tile()` determines
     /// the order of the tiles in the file.
     ///
@@ -544,7 +544,7 @@ impl TiledOutputFile {
     /// last tile of the main image.
     ///
     /// # Errors
-    /// * [`Error::Logic`] - If the image header does not contain a preview image
+    /// * [`Error::LogicError`] - If the image header does not contain a preview image
     /// * [`Error::Base`] - If any other error occurs
     ///
     pub fn update_preview_image(
@@ -571,7 +571,7 @@ impl TiledOutputFile {
     ///
     /// # Errors
     /// * [`Error::InvalidArgument`] - If the headers do not match
-    /// * [`Error::Logic`] - If tiles have already been written to this file.
+    /// * [`Error::LogicError`] - If tiles have already been written to this file.
     /// * [`Error::Base`] - If any other error occurs
     ///
     pub fn copy_pixels_from_file(&mut self, file: &InputFile) -> Result<()> {
@@ -591,7 +591,7 @@ impl TiledOutputFile {
     ///
     /// # Errors
     /// * [`Error::InvalidArgument`] - If the headers do not match
-    /// * [`Error::Logic`] - If tiles have already been written to this file.
+    /// * [`Error::LogicError`] - If tiles have already been written to this file.
     /// * [`Error::Base`] - If any other error occurs
     ///
     pub fn copy_pixels_from_part(
@@ -616,7 +616,7 @@ impl TiledOutputFile {
     ///
     /// # Errors
     /// * [`Error::InvalidArgument`] - If the headers do not match
-    /// * [`Error::Logic`] - If tiles have already been written to this file.
+    /// * [`Error::LogicError`] - If tiles have already been written to this file.
     /// * [`Error::Base`] - If any other error occurs
     ///
     pub fn copy_pixels_from_tiled_file(
@@ -639,7 +639,7 @@ impl TiledOutputFile {
     ///
     /// # Errors
     /// * [`Error::InvalidArgument`] - If the headers do not match
-    /// * [`Error::Logic`] - If tiles have already been written to this file.
+    /// * [`Error::LogicError`] - If tiles have already been written to this file.
     /// * [`Error::Base`] - If any other error occurs
     ///
     pub fn copy_pixels_from_tiled_part(
