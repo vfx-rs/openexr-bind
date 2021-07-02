@@ -44,17 +44,16 @@ struct DeepImageLevel {
 
     template <class T>
     const Imf::TypedDeepImageChannel<T>*
-    findTypedChannel(const std::string& name) const
-        CPPMM_RENAME(findTypedChannel_const);
+    findTypedChannel(const std::string& name) const;
 
     template <class T>
     Imf::TypedDeepImageChannel<T>& typedChannel(const std::string& name)
-        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT) CPPMM_IGNORE;
 
     template <class T>
     const Imf::TypedDeepImageChannel<T>&
-    typedChannel(const std::string& name) const CPPMM_RENAME(typedChannel_const)
-        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
+    typedChannel(const std::string& name) const
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT) CPPMM_IGNORE;
 
     IMFUTIL_EXPORT
     Imf::DeepImageLevel::Iterator begin();
@@ -123,6 +122,71 @@ struct DeepImageLevel {
 
 } CPPMM_OPAQUEPTR;
 
+// ------------ TypedChannel<half> ---------------------
+extern template Imf::TypedDeepImageChannel<Imath::half>*
+DeepImageLevel::findTypedChannel(const std::string& name);
+
+extern template const Imf::TypedDeepImageChannel<Imath::half>*
+DeepImageLevel::findTypedChannel(const std::string& name) const;
+
+Imf::TypedDeepImageChannel<Imath::half>* (
+    DeepImageLevel::*findTypedChannel_half)(const std::string& name) =
+    &DeepImageLevel::findTypedChannel<Imath::half>;
+
+const Imf::TypedDeepImageChannel<Imath::half>* (
+    DeepImageLevel::*findTypedChannel_half_const)(const std::string& name)
+    const = &DeepImageLevel::findTypedChannel<Imath::half>;
+
+// ------------ TypedChannel<float> ---------------------
+extern template Imf::TypedDeepImageChannel<float>*
+DeepImageLevel::findTypedChannel(const std::string& name);
+
+extern template const Imf::TypedDeepImageChannel<float>*
+DeepImageLevel::findTypedChannel(const std::string& name) const;
+
+Imf::TypedDeepImageChannel<float>* (DeepImageLevel::*findTypedChannel_float)(
+    const std::string& name) = &DeepImageLevel::findTypedChannel<float>;
+
+const Imf::TypedDeepImageChannel<float>* (
+    DeepImageLevel::*findTypedChannel_float_const)(
+    const std::string& name) const = &DeepImageLevel::findTypedChannel<float>;
+
+// ------------ TypedChannel<uint> ---------------------
+extern template Imf::TypedDeepImageChannel<unsigned int>*
+DeepImageLevel::findTypedChannel(const std::string& name);
+
+extern template const Imf::TypedDeepImageChannel<unsigned int>*
+DeepImageLevel::findTypedChannel(const std::string& name) const;
+
+Imf::TypedDeepImageChannel<unsigned int>* (
+    DeepImageLevel::*findTypedChannel_uint)(const std::string& name) =
+    &DeepImageLevel::findTypedChannel<unsigned int>;
+
+const Imf::TypedDeepImageChannel<unsigned int>* (
+    DeepImageLevel::*findTypedChannel_uint_const)(const std::string& name)
+    const = &DeepImageLevel::findTypedChannel<unsigned int>;
+
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 
 } // namespace cppmm_bind
+
+// ------------ TypedDeepImageChannel<half> ---------------------
+extern template Imf::TypedDeepImageChannel<Imath::half>*
+Imf::DeepImageLevel::findTypedChannel(const std::string& name);
+
+extern template const Imf::TypedDeepImageChannel<Imath::half>*
+Imf::DeepImageLevel::findTypedChannel(const std::string& name) const;
+
+// ------------ TypedDeepImageChannel<float> ---------------------
+extern template Imf::TypedDeepImageChannel<float>*
+Imf::DeepImageLevel::findTypedChannel(const std::string& name);
+
+extern template const Imf::TypedDeepImageChannel<float>*
+Imf::DeepImageLevel::findTypedChannel(const std::string& name) const;
+
+// ------------ TypedDeepImageChannel<unsigned int> ---------------------
+extern template Imf::TypedDeepImageChannel<unsigned int>*
+Imf::DeepImageLevel::findTypedChannel(const std::string& name);
+
+extern template const Imf::TypedDeepImageChannel<unsigned int>*
+Imf::DeepImageLevel::findTypedChannel(const std::string& name) const;

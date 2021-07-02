@@ -11,10 +11,13 @@ namespace Imf = ::OPENEXR_IMF_INTERNAL_NAMESPACE;
 struct DeepTiledInputFile {
     using BoundType = Imf::DeepTiledInputFile;
     IMF_EXPORT
-    DeepTiledInputFile(const char fileName[], int numThreads);
+    DeepTiledInputFile(const char fileName[], int numThreads)
+        CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
+
     IMF_EXPORT
     DeepTiledInputFile(Imf::IStream& is, int numThreads)
         CPPMM_RENAME(from_stream);
+
     IMF_EXPORT
     virtual ~DeepTiledInputFile();
     IMF_EXPORT
@@ -25,7 +28,8 @@ struct DeepTiledInputFile {
     IMF_EXPORT
     int version() const;
     IMF_EXPORT
-    void setFrameBuffer(const Imf::DeepFrameBuffer& frameBuffer);
+    void setFrameBuffer(const Imf::DeepFrameBuffer& frameBuffer)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     IMF_EXPORT
     const Imf::DeepFrameBuffer& frameBuffer() const;
@@ -53,55 +57,90 @@ struct DeepTiledInputFile {
     size_t totalTiles() const;
 
     IMF_EXPORT
-    int levelWidth(int lx) const;
+    int levelWidth(int lx) const CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
     IMF_EXPORT
-    int levelHeight(int ly) const;
+    int levelHeight(int ly) const CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
-    int numXTiles(int lx) const;
+    int numXTiles(int lx = 0) const
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
     IMF_EXPORT
-    int numYTiles(int ly) const;
+    int numYTiles(int ly = 0) const
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     IMF_EXPORT
-    IMATH_NAMESPACE::Box2i dataWindowForLevel(int l = 0) const CPPMM_IGNORE;
+    IMATH_NAMESPACE::Box2i dataWindowForLevel(int l = 0) const CPPMM_IGNORE
+        CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
+
     IMF_EXPORT
-    IMATH_NAMESPACE::Box2i dataWindowForLevel(int lx, int ly) const;
+    IMATH_NAMESPACE::Box2i dataWindowForLevel(int lx, int ly) const
+        CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
     IMATH_NAMESPACE::Box2i dataWindowForTile(int dx, int dy,
-                                             int l = 0) const CPPMM_IGNORE;
+                                             int l = 0) const CPPMM_IGNORE
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+            CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
     IMATH_NAMESPACE::Box2i dataWindowForTile(int dx, int dy, int lx,
-                                             int ly) const;
+                                             int ly) const
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+            CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
-    void readTile(int dx, int dy, int l = 0) CPPMM_IGNORE;
-    IMF_EXPORT
-    void readTile(int dx, int dy, int lx, int ly);
+    void readTile(int dx, int dy, int l = 0) CPPMM_IGNORE
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+            CPPMM_THROWS(Iex::IoExc, IEX_IO)
+                CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
-    void readTiles(int dx1, int dx2, int dy1, int dy2, int lx, int ly);
+    void readTile(int dx, int dy, int lx, int ly)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+            CPPMM_THROWS(Iex::IoExc, IEX_IO)
+                CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
-    void readTiles(int dx1, int dx2, int dy1, int dy2, int l = 0) CPPMM_IGNORE;
+    void readTiles(int dx1, int dx2, int dy1, int dy2, int lx, int ly)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+            CPPMM_THROWS(Iex::IoExc, IEX_IO)
+                CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
+
+    IMF_EXPORT
+    void readTiles(int dx1, int dx2, int dy1, int dy2, int l = 0) CPPMM_IGNORE
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+            CPPMM_THROWS(Iex::IoExc, IEX_IO)
+                CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
     void rawTileData(int& dx, int& dy, int& lx, int& ly, char* pixelData,
                      uint64_t& dataSize) const;
 
     IMF_EXPORT
-    void readPixelSampleCount(int dx, int dy, int l = 0) CPPMM_IGNORE;
+    void readPixelSampleCount(int dx, int dy, int l = 0) CPPMM_IGNORE
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+            CPPMM_THROWS(Iex::InputExc, IEX_INPUT)
+                CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
+
     IMF_EXPORT
-    void readPixelSampleCount(int dx, int dy, int lx, int ly);
+    void readPixelSampleCount(int dx, int dy, int lx, int ly)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+            CPPMM_THROWS(Iex::InputExc, IEX_INPUT)
+                CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
     void readPixelSampleCounts(int dx1, int dx2, int dy1, int dy2, int lx,
-                               int ly);
+                               int ly)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+            CPPMM_THROWS(Iex::InputExc, IEX_INPUT)
+                CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
     void readPixelSampleCounts(int dx1, int dx2, int dy1, int dy2,
-                               int l = 0) CPPMM_IGNORE;
+                               int l = 0) CPPMM_IGNORE
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+            CPPMM_THROWS(Iex::InputExc, IEX_INPUT)
+                CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
 } CPPMM_OPAQUEPTR;
 

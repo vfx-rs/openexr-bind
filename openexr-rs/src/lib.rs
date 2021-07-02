@@ -1,3 +1,101 @@
+//! # OpenEXR
+//!
+//! The openexr crate provides high-level bindings for the [ASWF OpenEXR library](https://github.com/AcademySoftwareFoundation/openexr),
+//! which allows reading and writing files in the OpenEXR format (EXR standing
+//! for **EX**tended **R**ange). The OpenEXR format is the de-facto standard
+//! image storage format of the motion-picture industry.
+//!
+//! The purpose of EXR format is to accurately and efficiently represent high-dynamic-range scene-linear image data and associated metadata, with strong support for multi-part, multi-channel use cases.
+//!
+//! OpenEXR is widely used in host application software where accuracy is critical, such as photorealistic rendering, texture access, image compositing, deep compositing, and DI.
+//! OpenEXR is a project of the [Academy Software Foundation](https://www.aswf.io/). The format and library were originally developed by Industrial Light & Magic and first released in 2003. Weta Digital, Walt Disney Animation Studios, Sony Pictures Imageworks, Pixar Animation Studios, DreamWorks, and other studios, companies, and individuals have made contributions to the code base.
+//!
+//! OpenEXR is included in the [VFX Reference Platform](https://vfxplatform.com/).
+//!
+//! The openexr crate is maintained by [the vfx-rs project](https://github.com/vfx-rs).
+//!
+//! # Quick Start
+//!
+//! ```no_run
+//! use openexr::{Rgba, RgbaInputFile, RgbaOutputFile, Header, RgbaChannels};
+//!
+//! fn write_rgba1(filename: &str, pixels: &[Rgba], width: i32, height: i32)
+//! -> Result<(), Box<dyn std::error::Error>> {
+//!     let header = Header::from_dimensions(width, height);
+//!     let mut file = RgbaOutputFile::new(
+//!         filename,
+//!         &header,
+//!         RgbaChannels::WriteRgba,
+//!         1,
+//!     )?;
+//!
+//!     file.set_frame_buffer(&pixels, 1, width as usize)?;
+//!     file.write_pixels(height)?;
+//!
+//!     Ok(())
+//! }
+//!
+//! fn read_rgba1(path: &str) -> Result<(), Box<dyn std::error::Error>> {
+//!     use imath_traits::Zero;
+//!
+//!     let mut file = RgbaInputFile::new(path, 1).unwrap();
+//!     let data_window = file.header().data_window::<[i32; 4]>().clone();
+//!     let width = data_window[2] - data_window[0] + 1;
+//!     let height = data_window[3] - data_window[1] + 1;
+//!
+//!     let mut pixels = vec![Rgba::zero(); (width * height) as usize];
+//!     file.set_frame_buffer(&mut pixels, 1, width as usize)?;
+//!     file.read_pixels(0, height - 1)?;
+//!
+//!     Ok(())
+//! }
+//! ```
+//!
+//! # Features
+//! * High dynamic range and color precision.
+//! * Support for 16-bit floating-point, 32-bit floating-point, and 32-bit integer pixels.
+//! * Multiple image compression algorithms, both lossless and lossy. Some of the included codecs can achieve 2:1 lossless compression ratios on images with film grain. The lossy codecs have been tuned for visual quality and decoding performance.
+//! * Extensibility. New image attributes (strings, vectors, integers, etc.) can be added to OpenEXR image headers without affecting backward compatibility with existing OpenEXR applications.
+//! * Support for stereoscopic image workflows and a generalization to multi-views.
+//! * Flexible support for deep data: pixels can store a variable-length list of samples and, thus, it is possible to store multiple values at different depths for each pixel. Hard surfaces and volumetric data representations are accommodated.
+//! * Multipart: ability to encode separate, but related, images in one file. This allows for access to individual parts without the need to read other parts in the file.
+//!
+//! # Long-Form Documentation
+//!
+//! The following documents give a more in-depth view of different parts of the
+//! openexr crate:
+//!
+//! * [Reading and Writing Image Files](crate::doc::reading_and_writing_image_files) - A
+//! tutorial-style guide to the main image reading and writing interfaces.
+//! * [Technical Introduction](crate::doc::technical_introduction) - A technical overview of the
+//! OpenEXR format and its related concepts.
+//! * [Interpreting Deep Pixels](crate::doc::interpreting_deep_pixels) - An in-depth look at how
+//! deep pixels are stored and how to manipulate their samples.
+//! * [Multi-View OpenEXR](crate::doc::multi_view_open_exr) - Representation of multi-view images
+//! in OpenEXR files.
+//!
+//!
+//!
+//! # Building OpenEXR
+//!
+//! By default, the openexr crate will build the C++ OpenEXR and Imath libraries from a submodule.
+//! If you have existing installations of OpenEXR and Imath you would like to use instead, you can
+//! provide their paths to cargo with environment variables, e.g.:
+//! ```bash
+//! IMATH_ROOT=/path/to/imath OPENEXR_ROOT=/path/to/openexr cargo build
+//! ```
+//! Note that when you are doing this, *you* are responsible for ensuring that your C++ library
+//! versions are compatible with the crate version.
+//!
+//! # Building the documentation
+//!
+//! To build the full documentation including long-form docs and KaTeX equations, use the following
+//! command:
+//! ```bash
+//! RUSTDOCFLAGS="--html-in-header katex-header.html"  cargo +nightly doc --no-deps --features=long-form-docs
+//! ```
+//! Note this is done automatically for docs.rs
+//!
 #![allow(dead_code)]
 
 pub mod rgba_file;
@@ -17,7 +115,9 @@ pub use openexr_sys::LineOrder;
 pub use openexr_sys::PixelType;
 
 pub mod frame_buffer;
-pub use frame_buffer::{Frame, FrameBuffer, FrameBufferRef, Slice};
+pub use frame_buffer::{
+    Frame, FrameBuffer, FrameBufferRef, FrameHandle, Slice,
+};
 pub mod header;
 pub use header::{Header, HeaderRef, HeaderSlice};
 pub mod attribute;
@@ -48,6 +148,12 @@ pub mod deep_scan_line_input_part;
 pub use deep_scan_line_input_part::DeepScanLineInputPart;
 pub mod deep_scan_line_input_file;
 pub use deep_scan_line_input_file::DeepScanLineInputFile;
+pub mod deep_scan_line_output_file;
+pub mod deep_scan_line_output_part;
+pub mod deep_tiled_input_file;
+pub mod deep_tiled_input_part;
+pub mod deep_tiled_output_file;
+pub mod deep_tiled_output_part;
 pub mod error;
 pub use error::Error;
 pub mod multi_part_input_file;
@@ -64,18 +170,78 @@ pub use flat_image_level::{
 };
 pub mod flat_image_channel;
 pub use flat_image_channel::{FlatChannelF16, FlatChannelF32, FlatChannelU32};
+
+pub mod deep_image;
+pub use deep_image::{DeepImage, DeepImageRef, DeepImageRefMut};
+pub mod deep_image_channel;
+pub mod deep_image_io;
+pub use deep_image_channel::{DeepChannelF16, DeepChannelF32, DeepChannelU32};
+pub mod deep_image_level;
+pub use deep_image_level::{
+    DeepImageLevel, DeepImageLevelRef, DeepImageLevelRefMut,
+};
+pub mod sample_count_channel;
+pub use sample_count_channel::{
+    SampleCountChannel, SampleCountChannelRef, SampleCountChannelRefMut,
+};
+
 pub mod version;
-pub use version::{VersionFlags, Version};
+pub use version::{Version, VersionFlags};
 pub mod flat_image_io;
+pub mod tiled_input_file;
+pub use tiled_input_file::TiledInputFile;
+pub mod tiled_input_part;
+pub use tiled_input_part::TiledInputPart;
+pub mod tiled_output_file;
+pub use tiled_output_file::TiledOutputFile;
+pub mod tiled_output_part;
+pub use tiled_output_part::TiledOutputPart;
+pub mod timecode;
+pub use timecode::{TimeCode, TimeCodePacking};
+
+pub mod envmap;
+pub mod frames_per_second;
+pub mod keycode;
+pub mod multi_view;
+pub mod rational;
+pub mod test_file;
+
+pub mod tiled_rgba_file;
 
 pub mod cppstd;
 
-pub mod imath;
+pub mod doc;
+pub mod standard_attributes;
 
 #[cfg(test)]
 mod tests {
     use crate::*;
     use std::path::PathBuf;
+
+    use half::f16;
+
+    pub(crate) fn deep_testpattern(
+        width: i32,
+        height: i32,
+    ) -> (Vec<Vec<f32>>, Vec<Vec<f16>>) {
+        let mut z_pixels = Vec::<Vec<f32>>::new();
+        let mut a_pixels = Vec::<Vec<f16>>::new();
+
+        for y in 0..height {
+            let v = y as f32 / height as f32 * 8.0;
+            for x in 0..width {
+                let u = (x as f32) / (width as f32) * 8.0;
+
+                let z_v = vec![((u.sin() * v.sin()) + 1.0)];
+                let a_v = vec![f16::from_f32(1.0f32)];
+
+                z_pixels.push(z_v);
+                a_pixels.push(a_v);
+            }
+        }
+
+        (z_pixels, a_pixels)
+    }
 
     pub(crate) fn load_ferris() -> (Vec<Rgba>, i32, i32) {
         let path = PathBuf::from(
@@ -129,7 +295,7 @@ mod tests {
     }
 
     #[test]
-    fn write_rgba1() {
+    fn write_rgba1() -> Result<(), Box<dyn std::error::Error>> {
         let (pixels, width, height) = load_ferris();
 
         let header = Header::from_dimensions(width, height);
@@ -139,192 +305,41 @@ mod tests {
             &header,
             RgbaChannels::WriteRgba,
             1,
-        )
-        .unwrap();
+        )?;
 
-        file.set_frame_buffer(&pixels, 1, width as usize).unwrap();
-        file.write_pixels(height).unwrap();
+        file.set_frame_buffer(&pixels, 1, width as usize)?;
+        file.write_pixels(height)?;
+
+        Ok(())
     }
 
     #[test]
-    fn write_multipartoutputfile1() {
+    fn write_rgba3() -> Result<(), Box<dyn std::error::Error>> {
+        use crate::attribute::{CppStringAttribute, M44fAttribute};
         let (pixels, width, height) = load_ferris();
 
-        let channel = Channel {
-            type_: PixelType::Half.into(),
-            x_sampling: 1,
-            y_sampling: 1,
-            p_linear: true,
-        };
+        let comments = "this is an awesome image of Ferris";
+        let xform = [0.0f32; 16];
+        let mut header = Header::from_dimensions(width, height);
+        header.insert("comments", &CppStringAttribute::from_value(comments))?;
+        header.insert("cameraTransform", &M44fAttribute::from_value(&xform))?;
 
-        let mut header_array = Header::new_array(2);
-        let mut i = 0;
-        for mut header in header_array.iter_mut() {
-            header.set_compression(Compression::Zip);
+        let mut file = RgbaOutputFile::new(
+            "write_rgba3.exr",
+            &header,
+            RgbaChannels::WriteRgba,
+            1,
+        )?;
 
-            header.channels_mut().insert("R", &channel);
-            header.channels_mut().insert("G", &channel);
-            header.channels_mut().insert("B", &channel);
-            header.channels_mut().insert("A", &channel);
+        file.set_frame_buffer(&pixels, 1, width as usize)?;
+        file.write_pixels(height)?;
 
-            header.set_image_type("scanlineimage");
-
-            header.set_dimensions(width, height);
-
-            if i == 0 {
-                header.set_name("left");
-                i += 1;
-            } else {
-                header.set_name("right");
-            }
-        }
-
-        let mut frame_buffer_left = FrameBuffer::new();
-
-        frame_buffer_left
-            .insert(
-                "R",
-                &Slice::new(
-                    PixelType::Half,
-                    &pixels[0].r as *const _ as *const u8,
-                    width as i64,
-                    height as i64,
-                )
-                .x_stride(std::mem::size_of::<Rgba>())
-                .build()
-                .unwrap(),
-            )
-            .unwrap();
-
-        frame_buffer_left
-            .insert(
-                "G",
-                &Slice::new(
-                    PixelType::Half,
-                    &pixels[0].g as *const _ as *const u8,
-                    width as i64,
-                    height as i64,
-                )
-                .x_stride(std::mem::size_of::<Rgba>())
-                .build()
-                .unwrap(),
-            )
-            .unwrap();
-
-        frame_buffer_left
-            .insert(
-                "B",
-                &Slice::new(
-                    PixelType::Half,
-                    &pixels[0].b as *const _ as *const u8,
-                    width as i64,
-                    height as i64,
-                )
-                .x_stride(std::mem::size_of::<Rgba>())
-                .build()
-                .unwrap(),
-            )
-            .unwrap();
-
-        frame_buffer_left
-            .insert(
-                "A",
-                &Slice::new(
-                    PixelType::Half,
-                    &pixels[0].a as *const _ as *const u8,
-                    width as i64,
-                    height as i64,
-                )
-                .x_stride(std::mem::size_of::<Rgba>())
-                .build()
-                .unwrap(),
-            )
-            .unwrap();
-
-        let mut frame_buffer_right = FrameBuffer::new();
-
-        frame_buffer_right
-            .insert(
-                "B",
-                &Slice::new(
-                    PixelType::Half,
-                    &pixels[0].r as *const _ as *const u8,
-                    width as i64,
-                    height as i64,
-                )
-                .x_stride(std::mem::size_of::<Rgba>())
-                .build()
-                .unwrap(),
-            )
-            .unwrap();
-
-        frame_buffer_right
-            .insert(
-                "G",
-                &Slice::new(
-                    PixelType::Half,
-                    &pixels[0].g as *const _ as *const u8,
-                    width as i64,
-                    height as i64,
-                )
-                .x_stride(std::mem::size_of::<Rgba>())
-                .build()
-                .unwrap(),
-            )
-            .unwrap();
-
-        frame_buffer_right
-            .insert(
-                "R",
-                &Slice::new(
-                    PixelType::Half,
-                    &pixels[0].b as *const _ as *const u8,
-                    width as i64,
-                    height as i64,
-                )
-                .x_stride(std::mem::size_of::<Rgba>())
-                .build()
-                .unwrap(),
-            )
-            .unwrap();
-
-        frame_buffer_right
-            .insert(
-                "A",
-                &Slice::new(
-                    PixelType::Half,
-                    &pixels[0].a as *const _ as *const u8,
-                    width as i64,
-                    height as i64,
-                )
-                .x_stride(std::mem::size_of::<Rgba>())
-                .build()
-                .unwrap(),
-            )
-            .unwrap();
-
-        let file = MultiPartOutputFile::new(
-            "write_multipartoutputfile1.exr",
-            &header_array,
-            true,
-            4,
-        )
-        .unwrap();
-
-        let mut part_left = OutputPart::new(&file, 0).unwrap();
-        let mut part_right = OutputPart::new(&file, 1).unwrap();
-
-        part_left.set_frame_buffer(&frame_buffer_left).unwrap();
-        part_right.set_frame_buffer(&frame_buffer_right).unwrap();
-
-        unsafe {
-            part_left.write_pixels(height).unwrap();
-            part_right.write_pixels(height).unwrap();
-        }
+        Ok(())
     }
 
     #[test]
-    fn read_rgba1() {
+    fn read_rgba1() -> Result<(), Box<dyn std::error::Error>> {
+        use imath_traits::Zero;
         let path = PathBuf::from(
             std::env::var("CARGO_MANIFEST_DIR")
                 .expect("CARGO_MANIFEST_DIR not set"),
@@ -332,15 +347,14 @@ mod tests {
         .join("images")
         .join("ferris.exr");
 
-        let mut file = RgbaInputFile::new(&path, 1).unwrap();
+        let mut file = RgbaInputFile::new(&path, 1)?;
         let data_window = file.header().data_window::<[i32; 4]>().clone();
         let width = data_window[2] - data_window[0] + 1;
         let height = data_window[3] - data_window[1] + 1;
 
         let mut pixels = vec![Rgba::zero(); (width * height) as usize];
-        file.set_frame_buffer(&mut pixels, 1, width as usize)
-            .unwrap();
-        file.read_pixels(0, height - 1).unwrap();
+        file.set_frame_buffer(&mut pixels, 1, width as usize)?;
+        file.read_pixels(0, height - 1)?;
 
         let mut ofile = RgbaOutputFile::with_dimensions(
             "read_rgba1.exr",
@@ -353,10 +367,46 @@ mod tests {
             LineOrder::IncreasingY,
             Compression::Piz,
             1,
-        )
-        .unwrap();
+        )?;
 
-        ofile.set_frame_buffer(&pixels, 1, width as usize).unwrap();
-        ofile.write_pixels(height).unwrap();
+        ofile.set_frame_buffer(&pixels, 1, width as usize)?;
+        ofile.write_pixels(height)?;
+
+        Ok(())
+    }
+
+    #[test]
+    fn read_header() -> Result<(), Box<dyn std::error::Error>> {
+        let path = PathBuf::from(
+            std::env::var("CARGO_MANIFEST_DIR")
+                .expect("CARGO_MANIFEST_DIR not set"),
+        )
+        .join("images")
+        .join("custom_attributes.exr");
+
+        let file = RgbaInputFile::new(&path, 1)?;
+
+        if let Some(attr) =
+            file.header().find_typed_attribute_string("comments")
+        {
+            assert_eq!(attr.value(), "this is an awesome image of Ferris");
+        } else {
+        }
+
+        match file.header().find_typed_attribute_string("comments") {
+            Some(attr)
+                if attr.value() == "this is an awesome image of Ferris" =>
+            {
+                ()
+            }
+            _ => panic!("bad string attr"),
+        };
+
+        match file.header().find_typed_attribute_m44f("cameraTransform") {
+            Some(_) => (),
+            _ => panic!("bad matrix attr"),
+        };
+
+        Ok(())
     }
 }

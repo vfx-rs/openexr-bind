@@ -16,7 +16,7 @@ struct SampleCountChannel {
     Imf::Slice slice() const;
 
     Imf::DeepImageLevel& deepLevel();
-    const Imf::DeepImageLevel& deepLevel() const;
+    const Imf::DeepImageLevel& deepLevel() const CPPMM_RENAME(deepLevel_const);
 
     IMFUTIL_EXPORT
     const unsigned int& operator()(int x, int y) const CPPMM_RENAME(index);

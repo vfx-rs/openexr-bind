@@ -2,11 +2,12 @@ use openexr_sys as sys;
 
 use crate::{
     cppstd::CppString,
-    imath::Box2,
     refptr::{Ref, RefMut},
     Channel, Error, FlatImageLevelRef, FlatImageLevelRefMut, LevelMode,
     LevelRoundingMode,
 };
+
+use imath_traits::Bound2;
 
 type Result<T, E = Error> = std::result::Result<T, E>;
 
@@ -48,7 +49,7 @@ type Result<T, E = Error> = std::result::Result<T, E>;
 /// channels.
 ///
 /// An image channel has a name (e.g. "R", "Z", or "xVelocity"), a type
-/// ([`CHANNEL_HALF`], [`CHANNEL_FLOAT`] or [`CHANNEL_UINT`]) and x and y sampling
+/// ([`CHANNEL_HALF`](crate::channel_list::CHANNEL_HALF), [`CHANNEL_FLOAT`](crate::channel_list::CHANNEL_FLOAT) or [`CHANNEL_UINT`](crate::channel_list::CHANNEL_UINT)) and x and y sampling
 /// rates. A channel stores samples for a pixel if the pixel is inside the data
 /// window of the level to which the channel belongs, and the x and y coordinates
 /// of the pixel are divisible by the x and y sampling rates of the channel.
@@ -72,7 +73,7 @@ impl FlatImage {
     ///
     /// # Errors
     /// * [`Error::Base`] - if any error occurs
-    pub fn new<B: Box2<i32>>(
+    pub fn new<B: Bound2<i32>>(
         data_window: B,
         level_mode: LevelMode,
         level_rounding_mode: LevelRoundingMode,
@@ -113,13 +114,13 @@ impl FlatImage {
     /// Get the number of levels in the image.
     ///
     /// This is a convenience function for use with mipmaps, in which case this
-    /// function is equivalent to [`num_x_levels()`].
+    /// function is equivalent to [`num_x_levels()`](FlatImage::num_x_levels).
     ///
-    /// If this image's level mode is [`LevelMode::Ripmap`], you must call
-    /// [`num_x_levels()`] or [`num_y_levels`] instead.
+    /// If this image's level mode is [`LevelMode::RipmapLevels`], you must call
+    /// [`num_x_levels()`](FlatImage::num_x_levels) or [`num_y_levels`](FlatImage::num_y_levels) instead.
     ///
     /// # Errors
-    /// * [`Error::Logic`] - if this image's level mode is [`LevelMode::Ripmap`]
+    /// * [`Error::LogicError`] - if this image's level mode is [`LevelMode::RipmapLevels`]
     ///
     pub fn num_levels(&self) -> Result<i32> {
         let mut v = 0;
@@ -132,15 +133,15 @@ impl FlatImage {
     /// Returns the image's number of levels in the x direction.
     ///
     /// # Returns
-    /// * `1` if [`level_mode()`] is [`LevelMode::OneLevel`]
-    /// * `rfunc(log(max(w, h)) / log(2)) + 1` if [`level_mode()`] is [`LevelMode::MipmapLevels`]
-    /// * `rfunc(log(w) / log(2)) + 1` if [`level_mode()`] is [`LevelMode::RipmapLevels`]
+    /// * `1` if [`level_mode()`](FlatImage::level_mode) is [`LevelMode::OneLevel`]
+    /// * `rfunc(log(max(w, h)) / log(2)) + 1` if [`level_mode()`](FlatImage::level_mode) is [`LevelMode::MipmapLevels`]
+    /// * `rfunc(log(w) / log(2)) + 1` if [`level_mode()`](FlatImage::level_mode) is [`LevelMode::RipmapLevels`]
     ///
-    ///	Where:
-    ///	* `w` is the width of the image's data window,  max.x - min.x + 1,
+    /// Where:
+    /// * `w` is the width of the image's data window,  max.x - min.x + 1,
     /// * `h` is the height of the image's data window, max.y - min.y + 1,
     /// * and `rfunc(x)` is either `floor(x)`, or `ceil(x)`, depending on
-    /// * whether [`level_rounding_mode()`] returns [`LevelRoundingMode::RoundDown`] or
+    /// whether [`level_rounding_mode()`](FlatImage::level_rounding_mode) returns [`LevelRoundingMode::RoundDown`] or
     /// [`LevelRoundingMode::RoundUp`].
     ///
     pub fn num_x_levels(&self) -> i32 {
@@ -154,13 +155,13 @@ impl FlatImage {
     /// Returns the image's number of levels in the y direction.
     ///
     /// # Returns
-    /// * Same as [`num_x_levels()`] if [`level_mode()`] is [`LevelMode::OneLevel`] or [`LevelMode::MipmapLevels`]
-    /// * `rfunc(log(h) / log(2)) + 1` if [`level_mode()`] is [`LevelMode::RipmapLevels`]
+    /// * Same as [`num_x_levels()`](FlatImage::num_x_levels) if [`level_mode()`](FlatImage::level_mode) is [`LevelMode::OneLevel`] or [`LevelMode::MipmapLevels`]
+    /// * `rfunc(log(h) / log(2)) + 1` if [`level_mode()`](FlatImage::level_mode) is [`LevelMode::RipmapLevels`]
     ///
-    ///	Where:
+    /// Where:
     /// * `h` is the height of the image's data window, max.y - min.y + 1,
     /// * and `rfunc(x)` is either `floor(x)`, or `ceil(x)`, depending on
-    /// * whether [`level_rounding_mode()`] returns [`LevelRoundingMode::RoundDown`] or
+    /// whether [`level_rounding_mode()`](FlatImage::level_rounding_mode) returns [`LevelRoundingMode::RoundDown`] or
     /// [`LevelRoundingMode::RoundUp`].
     ///
     pub fn num_y_levels(&self) -> i32 {
@@ -175,7 +176,7 @@ impl FlatImage {
     ///
     /// Equivalent to `data_window_for_level(0, 0)`.
     ///
-    pub fn data_window<B: Box2<i32>>(&self) -> &B {
+    pub fn data_window<B: Bound2<i32>>(&self) -> &B {
         let mut ptr = std::ptr::null();
         unsafe {
             sys::Imf_FlatImage_dataWindow(self.0, &mut ptr);
@@ -188,14 +189,14 @@ impl FlatImage {
     /// That is, the window for which the image level with level number
     /// (lx, ly) has allocated pixel storage.
     ///
-    ///	# Returns
-    ///	A reference to a `Box2<i32>` with min value (dataWindow().min.x, dataWindow().min.y) and max value (dataWindow().min.x + levelWidth(lx) - 1, dataWindow().min.y + levelHeight(ly) - 1)
+    /// # Returns
+    /// A reference to a `Bound2<i32>` with min value (dataWindow().min.x, dataWindow().min.y) and max value (dataWindow().min.x + levelWidth(lx) - 1, dataWindow().min.y + levelHeight(ly) - 1)
     ///
     /// # Errors
     /// * [`Error::InvalidArgument`] - if `(lx, ly)` does not correspond to a
     /// valid image level.
     ///
-    pub fn data_window_for_level<B: Box2<i32>>(
+    pub fn data_window_for_level<B: Bound2<i32>>(
         &self,
         lx: i32,
         ly: i32,
@@ -211,7 +212,7 @@ impl FlatImage {
 
     /// Returns the width of a level with level number (lx, *), where * is any number.
     ///
-    ///	# Returns
+    /// # Returns
     /// `max (1, rfunc (w / pow (2, lx)))`
     ///
     /// # Errors
@@ -227,7 +228,7 @@ impl FlatImage {
 
     /// Returns the height of a level with level number (*, ly), where * is any number.
     ///
-    ///	# Returns
+    /// # Returns
     /// `max (1, rfunc (y / pow (2, ly)))`
     ///
     /// # Errors
@@ -256,7 +257,7 @@ impl FlatImage {
     /// *[`Error::Base`] - if any error occurs. The image will be set to empty
     /// in this case.
     ///
-    pub fn resize<B: Box2<i32>>(
+    pub fn resize<B: Bound2<i32>>(
         &mut self,
         dw: B,
         lm: LevelMode,
@@ -295,7 +296,7 @@ impl FlatImage {
     /// Insert a new channel into the image.
     ///
     /// The arguments to this function are the same as for adding a
-    /// a channel to a [`Header`]: channel name, x and y sampling
+    /// a channel to a [`Header`](crate::header::Header): channel name, x and y sampling
     /// rates, and a "perceptually approximately linear" flag.
     ///
     /// If the image already contains a channel with the same name
@@ -376,11 +377,7 @@ impl FlatImage {
     /// # Errors
     /// * [`Error::InvalidArgument`] - if `(lx, ly`) does not refer to a valid image level.
     ///
-    pub fn level<'a>(
-        &'a self,
-        lx: i32,
-        ly: i32,
-    ) -> Result<FlatImageLevelRef<'a>> {
+    pub fn level(&self, lx: i32, ly: i32) -> Result<FlatImageLevelRef> {
         let mut ptr = std::ptr::null();
         unsafe {
             sys::Imf_FlatImage_level_const(self.0, &mut ptr, lx, ly)
@@ -394,11 +391,7 @@ impl FlatImage {
     /// # Errors
     /// * [`Error::InvalidArgument`] - if `(lx, ly`) does not refer to a valid image level.
     ///
-    pub fn level_mut<'a>(
-        &'a self,
-        lx: i32,
-        ly: i32,
-    ) -> Result<FlatImageLevelRefMut<'a>> {
+    pub fn level_mut(&self, lx: i32, ly: i32) -> Result<FlatImageLevelRefMut> {
         let mut ptr = std::ptr::null_mut();
         unsafe {
             sys::Imf_FlatImage_level(self.0, &mut ptr, lx, ly).into_result()?;
@@ -408,8 +401,8 @@ impl FlatImage {
 }
 
 impl Default for FlatImage {
-    /// Constructs a `FlatImage` with an empty data window, [`LevelMode::One`] level and
-    /// [`LevelRounLevelRoundingMode::RoundDown`]
+    /// Constructs a `FlatImage` with an empty data window, [`LevelMode::OneLevel`] level and
+    /// [`LevelRoundingMode::RoundDown`]
     ///
     fn default() -> FlatImage {
         let mut ptr = std::ptr::null_mut();

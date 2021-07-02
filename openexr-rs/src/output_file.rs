@@ -68,7 +68,7 @@ impl OutputFile {
 
     /// Access to the file [`Header`]
     ///
-    pub fn header<'a>(&'a self) -> HeaderRef<'a> {
+    pub fn header(&self) -> HeaderRef {
         unsafe {
             let mut ptr = std::ptr::null();
             sys::Imf_OutputFile_header(self.0, &mut ptr);
@@ -90,7 +90,8 @@ impl OutputFile {
     /// after each call to [`OutputFile::write_pixels`].
     ///
     /// ## Errors
-    /// * [`Iex::ArgExc`] - If the pixel type of the [`Channel`]s in the [`Header`]
+    /// * [`Error::InvalidArgument`] - If the pixel type of the
+    /// [`Channel`](crate::channel_list::Channel)s in the [`Header`]
     /// do not match the types in the frame buffer, or if the sampling rates do
     /// not match.
     ///
@@ -108,7 +109,7 @@ impl OutputFile {
 
     /// Get a reference to the frame buffer.
     ///
-    pub fn frame_buffer<'a>(&'a self) -> FrameBufferRef<'a> {
+    pub fn frame_buffer(&self) -> FrameBufferRef {
         unsafe {
             let mut ptr = std::ptr::null();
             sys::Imf_OutputFile_frameBuffer(self.0, &mut ptr);
@@ -161,13 +162,13 @@ impl OutputFile {
     ///
     /// If `line_order() == INCREASING_Y`:
     ///
-    ///	The current scan line before the first call to write_pixels()
+    /// The current scan line before the first call to write_pixels()
     /// is header().data_window().min.y.  After writing each scan line,
     /// the current scan line is incremented by 1.
     ///
     /// If `line_order() == DECREASING_Y`:
     ///
-    ///	The current scan line before the first call to write_pixels()
+    /// The current scan line before the first call to write_pixels()
     /// is header().data_window().max.y.  After writing each scan line,
     /// the current scan line is decremented by 1.
     ///
@@ -188,7 +189,7 @@ impl OutputFile {
     ///
     /// # Errors
     /// * [`Error::InvalidArgument`] - If the headers do not match
-    /// * [`Error::Logic`] - If scan lines have already been written to this file.
+    /// * [`Error::LogicError`] - If scan lines have already been written to this file.
     ///
     pub fn copy_pixels_from_file(&mut self, file: &InputFile) -> Result<()> {
         unsafe {
@@ -207,14 +208,14 @@ impl OutputFile {
     ///
     /// # Errors
     /// * [`Error::InvalidArgument`] - If the headers do not match
-    /// * [`Error::Logic`] - If scan lines have already been written to this file.
+    /// * [`Error::LogicError`] - If scan lines have already been written to this file.
     ///
     pub fn copy_pixels_from_part(
         &mut self,
         file: &mut InputPart,
     ) -> Result<()> {
         unsafe {
-            sys::Imf_OutputFile_copyPixels_from_part(self.0, &mut file.0)
+            sys::Imf_OutputFile_copyPixels_from_part(self.0, &mut file.inner)
                 .into_result()?;
         }
         Ok(())
@@ -234,7 +235,7 @@ impl OutputFile {
     /// the last scan line of the main image.
     ///
     /// # Errors
-    /// * [`Error::Logic`] - If the header does not contain a preview image
+    /// * [`Error::LogicError`] - If the header does not contain a preview image
     /// * [`Error::Base`] - If any other error occurs
     ///
     pub fn update_preview_image(
@@ -281,7 +282,7 @@ fn write_outputfile1() {
     frame_buffer
         .insert(
             "R",
-            &Slice::new(
+            &Slice::builder(
                 PixelType::Half,
                 &pixels[0].r as *const _ as *const u8,
                 width as i64,
@@ -296,7 +297,7 @@ fn write_outputfile1() {
     frame_buffer
         .insert(
             "G",
-            &Slice::new(
+            &Slice::builder(
                 PixelType::Half,
                 &pixels[0].g as *const _ as *const u8,
                 width as i64,
@@ -311,7 +312,7 @@ fn write_outputfile1() {
     frame_buffer
         .insert(
             "B",
-            &Slice::new(
+            &Slice::builder(
                 PixelType::Half,
                 &pixels[0].b as *const _ as *const u8,
                 width as i64,
@@ -326,7 +327,7 @@ fn write_outputfile1() {
     frame_buffer
         .insert(
             "A",
-            &Slice::new(
+            &Slice::builder(
                 PixelType::Half,
                 &pixels[0].a as *const _ as *const u8,
                 width as i64,
@@ -365,7 +366,6 @@ fn write_outputfile2() {
         &channel_names,
         pixels,
         *header.data_window::<[i32; 4]>(),
-        *header.display_window::<[i32; 4]>(),
     )
     .unwrap();
 
@@ -375,4 +375,121 @@ fn write_outputfile2() {
         OutputFile::new("write_outputfile2.exr", &header, 6).unwrap();
     file.set_frame_buffer(&frame_buffer).unwrap();
     unsafe { file.write_pixels(height).unwrap() };
+}
+
+#[cfg(test)]
+#[test]
+fn write_gz1() -> Result<(), Box<dyn std::error::Error>> {
+    use crate::{
+        channel_list::{CHANNEL_FLOAT, CHANNEL_HALF},
+        PixelType, Slice,
+    };
+    use half::f16;
+
+    let g: Vec<f16> = [0.0f32, 0.2, 0.4, 0.6, 0.8, 1.0]
+        .iter()
+        .map(|f| f16::from_f32(*f))
+        .collect();
+    let z = [1.0f32, 0.8, 0.6, 0.4, 0.2, 0.0];
+
+    let width = 6;
+    let height = 1;
+    let _filename = "write_gz1.exr";
+
+    let mut header = Header::from_dimensions(width, height);
+    header.channels_mut().insert("G", &CHANNEL_HALF);
+    header.channels_mut().insert("Z", &CHANNEL_FLOAT);
+
+    let mut frame_buffer = FrameBuffer::new();
+
+    frame_buffer.insert(
+        "G",
+        &Slice::builder(
+            PixelType::Half,
+            g.as_ptr() as *const u8,
+            width as i64,
+            height as i64,
+        )
+        .build()
+        .unwrap(),
+    )?;
+
+    frame_buffer.insert(
+        "Z",
+        &Slice::builder(
+            PixelType::Float,
+            z.as_ptr() as *const u8,
+            width as i64,
+            height as i64,
+        )
+        .build()
+        .unwrap(),
+    )?;
+
+    let mut file = OutputFile::new("write_gz1.exr", &header, 1).unwrap();
+    file.set_frame_buffer(&frame_buffer).unwrap();
+    unsafe { file.write_pixels(height).unwrap() };
+
+    Ok(())
+}
+
+#[cfg(test)]
+#[test]
+fn write_gz2() -> Result<(), Box<dyn std::error::Error>> {
+    use crate::{
+        channel_list::{CHANNEL_FLOAT, CHANNEL_HALF},
+        PixelType, Slice,
+    };
+    use half::f16;
+
+    let g: Vec<f16> = [0.0f32, 0.2, 0.4, 0.6, 0.8, 1.0]
+        .iter()
+        .map(|f| f16::from_f32(*f))
+        .collect();
+    let z = [1.0f32, 0.8, 0.6, 0.4, 0.2, 0.0];
+
+    let width = 6;
+    let height = 1;
+    let _filename = "write_gz1.exr";
+    let data_window = [2, 0, 4, 0];
+
+    let mut header = Header::from_dimensions(width, height);
+    header.channels_mut().insert("G", &CHANNEL_HALF);
+    header.channels_mut().insert("Z", &CHANNEL_FLOAT);
+    *header.data_window_mut() = data_window;
+
+    let mut frame_buffer = FrameBuffer::new();
+
+    frame_buffer.insert(
+        "G",
+        &Slice::builder(
+            PixelType::Half,
+            g.as_ptr() as *const u8,
+            width as i64,
+            height as i64,
+        )
+        .build()
+        .unwrap(),
+    )?;
+
+    frame_buffer.insert(
+        "Z",
+        &Slice::builder(
+            PixelType::Float,
+            z.as_ptr() as *const u8,
+            width as i64,
+            height as i64,
+        )
+        .build()
+        .unwrap(),
+    )?;
+
+    let mut file = OutputFile::new("write_gz2.exr", &header, 1).unwrap();
+    file.set_frame_buffer(&frame_buffer).unwrap();
+    unsafe {
+        file.write_pixels(data_window[3] - data_window[1] + 1)
+            .unwrap()
+    };
+
+    Ok(())
 }

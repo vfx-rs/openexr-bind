@@ -63,9 +63,9 @@ template <typename T> struct TypedDeepImageChannel {
     T* at(int x, int y) CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
     const T* at(int x, int y) const CPPMM_RENAME(at_const)
         CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
-    T* const* row(int r) CPPMM_IGNORE; // TODO LT: Fix pointer to pointer
-    const T* const* row(int r) const
-        CPPMM_RENAME(row_const) CPPMM_IGNORE; // TODO LT: Fix pointer to pointer
+
+    T* const* row(int r) CPPMM_IGNORE;
+    const T* const* row(int r) const CPPMM_RENAME(row_const) CPPMM_IGNORE;
 
 } CPPMM_OPAQUEPTR;
 

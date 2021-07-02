@@ -56,7 +56,7 @@ impl Version {
     ///
     pub fn new(version: i32, flags: VersionFlags) -> Self {
         assert!(
-            version <= 0x000000ff && version >= 0,
+            (0..=0x000000ff).contains(&version),
             "Version must be between 0 and 255"
         );
         Self {

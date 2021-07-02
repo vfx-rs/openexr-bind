@@ -1,7 +1,10 @@
 use openexr_sys as sys;
 
 use crate::{
-    deep_frame_buffer::DeepFrameBufferRef, DeepFrameBuffer, Error, HeaderRef,
+    deep_frame_buffer::{DeepFrame, DeepFrameBuffer, DeepFrameBufferRef},
+    error::Error,
+    frame_buffer::Frame,
+    header::HeaderRef,
 };
 
 use std::ffi::CString;
@@ -13,11 +16,6 @@ type Result<T, E = Error> = std::result::Result<T, E>;
 pub struct DeepScanLineInputFile(
     pub(crate) *mut sys::Imf_DeepScanLineInputFile_t,
 );
-
-pub struct DeepScanLineInputFileReader {
-    pub(crate) ptr: *mut sys::Imf_DeepScanLineInputFile_t,
-    pub(crate) frame_buffer: DeepFrameBuffer,
-}
 
 impl DeepScanLineInputFile {
     /// Open the file at path `filename` and read the header.
@@ -50,9 +48,9 @@ impl DeepScanLineInputFile {
         Ok(DeepScanLineInputFile(ptr))
     }
 
-    /// Access to the file [`Header`]
+    /// Access to the file [`Header`](crate::header::Header)
     ///
-    pub fn header<'a>(&'a self) -> HeaderRef<'a> {
+    pub fn header(&self) -> HeaderRef {
         unsafe {
             let mut ptr = std::ptr::null();
             sys::Imf_DeepScanLineInputFile_header(self.0, &mut ptr);
@@ -94,7 +92,7 @@ impl DeepScanLineInputFile {
         unsafe {
             sys::Imf_DeepScanLineInputFile_setFrameBuffer(
                 self.0,
-                frame_buffer.0,
+                frame_buffer.ptr,
             )
             .into_result()?;
         }
@@ -104,7 +102,7 @@ impl DeepScanLineInputFile {
 
     /// Access to the current frame buffer
     ///
-    pub fn frame_buffer<'a>(&'a self) -> DeepFrameBufferRef<'a> {
+    pub fn frame_buffer(&self) -> DeepFrameBufferRef {
         let mut ptr = std::ptr::null();
         unsafe {
             sys::Imf_DeepScanLineInputFile_frameBuffer(self.0, &mut ptr);
@@ -161,19 +159,77 @@ impl DeepScanLineInputFile {
         Ok(())
     }
 
-    // pub fn into_reader(
-    //     mut self,
-    //     frame_buffer: DeepFrameBuffer,
-    // ) -> Result<DeepScanLineInputFileReader> {
-    //     self.read_pixel_sample_counts()?;
+    pub fn into_reader(
+        mut self,
+        frames: Vec<DeepFrame>,
+    ) -> Result<DeepScanLineInputFileReader> {
+        // we need to know the union of all the frames passed in to know which
+        // pixels to read sample counts for
+        let mut data_window =
+            [std::i32::MAX, std::i32::MAX, std::i32::MIN, std::i32::MIN];
+        for f in &frames {
+            data_window[0] = data_window[0].min(f.data_window[0]);
+            data_window[1] = data_window[1].min(f.data_window[1]);
+            data_window[2] = data_window[2].max(f.data_window[2]);
+            data_window[3] = data_window[3].max(f.data_window[3]);
+        }
 
-    // }
+        // create a Frame for the sample counts, which we'll need to
+        // allocate storage for the DeepFrames
+        let sample_count_frame =
+            Frame::new::<u32, _, _>(&["sampleCounts"], data_window).unwrap();
+
+        let mut frame_buffer = DeepFrameBuffer::new();
+
+        // insert the sample count and all user-provided frames
+        frame_buffer
+            .set_sample_count_frame(sample_count_frame)
+            .unwrap();
+
+        for f in frames {
+            frame_buffer.insert_deep_frame(f)?;
+        }
+
+        // read the sample counts and get a slice to them
+        self.read_pixel_sample_counts(data_window[0], data_window[2])?;
+
+        let DeepFrameBuffer {
+            ref sample_count_frame,
+            ref mut frames,
+            ..
+        } = frame_buffer;
+        let counts = sample_count_frame.as_ref().unwrap().as_slice();
+
+        // Now allocate sample storage for each frame's pixels
+        let mut i = 0;
+        for y in data_window[1]..=data_window[3] {
+            for x in data_window[0]..=data_window[2] {
+                let v = frames.as_mut().unwrap();
+                for f in v {
+                    let count = counts[i];
+                    unsafe { f.allocate_pixel_storage(x, y, count) };
+                }
+                i += 1;
+            }
+        }
+
+        Ok(DeepScanLineInputFileReader {
+            inner: self.0,
+            frame_buffer,
+        })
+    }
+}
+
+pub struct DeepScanLineInputFileReader {
+    pub(crate) inner: *mut sys::Imf_DeepScanLineInputFile_t,
+    frame_buffer: DeepFrameBuffer,
 }
 
 #[cfg(test)]
 #[test]
 fn read_deep1() {
-    use crate::{imath::f16, DeepSlice, Frame};
+    use crate::{DeepSlice, Frame};
+    use half::f16;
     use itertools::izip;
     use std::alloc::{GlobalAlloc, Layout, System};
     use std::path::PathBuf;
@@ -189,7 +245,6 @@ fn read_deep1() {
     let header = file.header();
 
     let data_window = *header.data_window::<[i32; 4]>();
-    let display_window = *header.display_window::<[i32; 4]>();
 
     let data_width = data_window[2] - data_window[0] + 1;
     let data_height = data_window[3] - data_window[1] + 1;
@@ -224,11 +279,10 @@ fn read_deep1() {
     let mut frame_buffer = DeepFrameBuffer::new();
 
     let sample_count_frame =
-        Frame::new::<u32, _>("sampleCounts", data_window, display_window)
-            .unwrap();
+        Frame::new::<u32, _, _>(&["sampleCounts"], data_window).unwrap();
 
     frame_buffer
-        .set_sample_count_frame(&sample_count_frame)
+        .set_sample_count_frame(sample_count_frame)
         .unwrap();
 
     // add slices for all the data we're interested in
@@ -236,7 +290,7 @@ fn read_deep1() {
         frame_buffer
             .insert(
                 "Z",
-                &DeepSlice::new(
+                &DeepSlice::builder(
                     sys::PixelType::Float,
                     data_z.as_mut_ptr().offset(offset) as *mut i8,
                 )
@@ -253,7 +307,7 @@ fn read_deep1() {
         frame_buffer
             .insert(
                 "ZBack",
-                &DeepSlice::new(
+                &DeepSlice::builder(
                     sys::PixelType::Float,
                     data_zback.as_mut_ptr().offset(offset) as *mut i8,
                 )
@@ -270,7 +324,7 @@ fn read_deep1() {
         frame_buffer
             .insert(
                 "R",
-                &DeepSlice::new(
+                &DeepSlice::builder(
                     sys::PixelType::Half,
                     data_r.as_mut_ptr().offset(offset) as *mut i8,
                 )
@@ -287,7 +341,7 @@ fn read_deep1() {
         frame_buffer
             .insert(
                 "G",
-                &DeepSlice::new(
+                &DeepSlice::builder(
                     sys::PixelType::Half,
                     data_g.as_mut_ptr().offset(offset) as *mut i8,
                 )
@@ -304,7 +358,7 @@ fn read_deep1() {
         frame_buffer
             .insert(
                 "B",
-                &DeepSlice::new(
+                &DeepSlice::builder(
                     sys::PixelType::Half,
                     data_b.as_mut_ptr().offset(offset) as *mut i8,
                 )
@@ -321,7 +375,7 @@ fn read_deep1() {
         frame_buffer
             .insert(
                 "A",
-                &DeepSlice::new(
+                &DeepSlice::builder(
                     sys::PixelType::Half,
                     data_a.as_mut_ptr().offset(offset) as *mut i8,
                 )
@@ -340,6 +394,8 @@ fn read_deep1() {
     file.set_frame_buffer(&frame_buffer).unwrap();
     file.read_pixel_sample_counts(data_window[1], data_window[3])
         .unwrap();
+
+    let sample_count_frame = frame_buffer.sample_count_frame.take().unwrap();
 
     // pre-allocate the memory for the sample data using the sample counts
     // channel
@@ -364,6 +420,10 @@ fn read_deep1() {
             *a = System.alloc(Layout::array::<f16>(sz).unwrap()) as *mut f16;
         }
     }
+
+    frame_buffer
+        .set_sample_count_frame(sample_count_frame)
+        .unwrap();
 
     // read the data
     file.read_pixels(data_window[1], data_window[3]).unwrap();

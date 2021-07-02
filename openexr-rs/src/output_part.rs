@@ -7,10 +7,15 @@ use crate::{
 
 type Result<T, E = Error> = std::result::Result<T, E>;
 
-#[repr(transparent)]
-pub struct OutputPart(pub(crate) sys::Imf_OutputPart_t);
+use std::marker::PhantomData;
 
-impl OutputPart {
+#[repr(transparent)]
+pub struct OutputPart<'a> {
+    pub(crate) inner: sys::Imf_OutputPart_t,
+    phantom: std::marker::PhantomData<&'a MultiPartOutputFile>,
+}
+
+impl<'a> OutputPart<'a> {
     /// Get an interface to the part `part_number` of the [`MultiPartOutputFile`]
     /// `multi_part_file`.
     ///
@@ -24,7 +29,10 @@ impl OutputPart {
                 .into_result()?;
         }
 
-        Ok(OutputPart(part))
+        Ok(OutputPart {
+            inner: part,
+            phantom: PhantomData,
+        })
     }
 
     /// Get the filename this file is writing to.
@@ -32,7 +40,7 @@ impl OutputPart {
     pub fn file_name(&self) -> &str {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_OutputPart_fileName(&self.0, &mut ptr)
+            sys::Imf_OutputPart_fileName(&self.inner, &mut ptr)
                 .into_result()
                 .unwrap();
             std::ffi::CStr::from_ptr(ptr)
@@ -41,12 +49,12 @@ impl OutputPart {
         }
     }
 
-    /// Access to the file [`Header`]
+    /// Access to the file [`Header`](crate::header::Header)
     ///
-    pub fn header<'a>(&'a self) -> HeaderRef<'a> {
+    pub fn header(&self) -> HeaderRef {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_OutputPart_header(&self.0, &mut ptr);
+            sys::Imf_OutputPart_header(&self.inner, &mut ptr);
             if ptr.is_null() {
                 panic!("Received null ptr from sys::Imf_OutputPart_header");
             }
@@ -65,7 +73,8 @@ impl OutputPart {
     /// after each call to [`OutputPart::write_pixels`].
     ///
     /// ## Errors
-    /// * [`Iex::ArgExc`] - If the pixel type of the [`Channel`]s in the [`Header`]
+    /// * [`Error::InvalidArgument`] - If the pixel type of the
+    /// [`Channel`](crate::channel_list::Channel)s in the [`Header`](crate::header::Header)
     /// do not match the types in the frame buffer, or if the sampling rates do
     /// not match.
     ///
@@ -74,8 +83,11 @@ impl OutputPart {
         frame_buffer: &FrameBuffer,
     ) -> Result<()> {
         unsafe {
-            sys::Imf_OutputPart_setFrameBuffer(&mut self.0, frame_buffer.ptr)
-                .into_result()?;
+            sys::Imf_OutputPart_setFrameBuffer(
+                &mut self.inner,
+                frame_buffer.ptr,
+            )
+            .into_result()?;
         }
 
         Ok(())
@@ -83,10 +95,10 @@ impl OutputPart {
 
     /// Get a reference to the frame buffer.
     ///
-    pub fn frame_buffer<'a>(&'a self) -> FrameBufferRef<'a> {
+    pub fn frame_buffer(&self) -> FrameBufferRef {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_OutputPart_frameBuffer(&self.0, &mut ptr);
+            sys::Imf_OutputPart_frameBuffer(&self.inner, &mut ptr);
             if ptr.is_null() {
                 panic!(
                     "Received null ptr from sys::Imf_OutputPart_frameBuffer"
@@ -123,7 +135,7 @@ impl OutputPart {
     /// to read from arbitrary memory locations.
     ///
     pub unsafe fn write_pixels(&mut self, num_scan_lines: i32) -> Result<()> {
-        sys::Imf_OutputPart_writePixels(&mut self.0, num_scan_lines)
+        sys::Imf_OutputPart_writePixels(&mut self.inner, num_scan_lines)
             .into_result()?;
         Ok(())
     }
@@ -136,20 +148,20 @@ impl OutputPart {
     ///
     /// If `line_order() == INCREASING_Y`:
     ///
-    ///	The current scan line before the first call to write_pixels()
+    /// The current scan line before the first call to write_pixels()
     /// is header().data_window().min.y.  After writing each scan line,
     /// the current scan line is incremented by 1.
     ///
     /// If `line_order() == DECREASING_Y`:
     ///
-    ///	The current scan line before the first call to write_pixels()
+    /// The current scan line before the first call to write_pixels()
     /// is header().data_window().max.y.  After writing each scan line,
     /// the current scan line is decremented by 1.
     ///
     pub fn current_scan_line(&self) -> i32 {
         let mut v = 0;
         unsafe {
-            sys::Imf_OutputPart_currentScanLine(&self.0, &mut v);
+            sys::Imf_OutputPart_currentScanLine(&self.inner, &mut v);
         }
         v
     }
@@ -163,11 +175,11 @@ impl OutputPart {
     ///
     /// # Errors
     /// * [`Error::InvalidArgument`] - If the headers do not match
-    /// * [`Error::Logic`] - If scan lines have already been written to this file.
+    /// * [`Error::LogicError`] - If scan lines have already been written to this file.
     ///
     pub fn copy_pixels_from_file(&mut self, file: &InputFile) -> Result<()> {
         unsafe {
-            sys::Imf_OutputPart_copyPixels_from_file(&mut self.0, file.0)
+            sys::Imf_OutputPart_copyPixels_from_file(&mut self.inner, file.0)
                 .into_result()?;
         }
         Ok(())
@@ -182,15 +194,18 @@ impl OutputPart {
     ///
     /// # Errors
     /// * [`Error::InvalidArgument`] - If the headers do not match
-    /// * [`Error::Logic`] - If scan lines have already been written to this file.
+    /// * [`Error::LogicError`] - If scan lines have already been written to this file.
     ///
     pub fn copy_pixels_from_part(
         &mut self,
         file: &mut InputPart,
     ) -> Result<()> {
         unsafe {
-            sys::Imf_OutputPart_copyPixels_from_part(&mut self.0, &mut file.0)
-                .into_result()?;
+            sys::Imf_OutputPart_copyPixels_from_part(
+                &mut self.inner,
+                &mut file.inner,
+            )
+            .into_result()?;
         }
         Ok(())
     }
@@ -209,7 +224,7 @@ impl OutputPart {
     /// the last scan line of the main image.
     ///
     /// # Errors
-    /// * [`Error::Logic`] - If the header does not contain a preview image
+    /// * [`Error::LogicError`] - If the header does not contain a preview image
     /// * [`Error::Base`] - If any other error occurs
     ///
     pub fn update_preview_image(
@@ -218,7 +233,7 @@ impl OutputPart {
     ) -> Result<()> {
         unsafe {
             sys::Imf_OutputPart_updatePreviewImage(
-                &mut self.0,
+                &mut self.inner,
                 new_pixels.as_ptr() as *const sys::Imf_PreviewRgba_t,
             )
             .into_result()?;

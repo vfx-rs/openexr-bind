@@ -1,4 +1,5 @@
 #include <OpenEXR/ImfTimeCode.h>
+#include <OpenEXR/IexBaseExc.h>
 
 #include <cppmm_bind.hpp>
 
@@ -21,14 +22,14 @@ struct TimeCode {
              bool fieldPhase = false, bool bgf0 = false, bool bgf1 = false,
              bool bgf2 = false, int binaryGroup1 = 0, int binaryGroup2 = 0,
              int binaryGroup3 = 0, int binaryGroup4 = 0, int binaryGroup5 = 0,
-             int binaryGroup6 = 0, int binaryGroup7 = 0, int binaryGroup8 = 0);
+             int binaryGroup6 = 0, int binaryGroup7 = 0, int binaryGroup8 = 0) CPPMM_RENAME(ctor);
 
     IMF_EXPORT
     TimeCode(unsigned int timeAndFlags, unsigned int userData,
              Imf::TimeCode::Packing packing) CPPMM_RENAME(from_time_and_flags);
 
     IMF_EXPORT
-    TimeCode(const Imf::TimeCode& other);
+    TimeCode(const Imf::TimeCode& other) CPPMM_RENAME(copy);
 
     ~TimeCode() = default;
 
@@ -42,22 +43,22 @@ struct TimeCode {
     IMF_EXPORT
     int hours() const;
     IMF_EXPORT
-    void setHours(int value);
+    void setHours(int value) CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     IMF_EXPORT
     int minutes() const;
     IMF_EXPORT
-    void setMinutes(int value);
+    void setMinutes(int value) CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     IMF_EXPORT
     int seconds() const;
     IMF_EXPORT
-    void setSeconds(int value);
+    void setSeconds(int value) CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     IMF_EXPORT
     int frame() const;
     IMF_EXPORT
-    void setFrame(int value);
+    void setFrame(int value) CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     IMF_EXPORT
     bool dropFrame() const;
@@ -90,9 +91,9 @@ struct TimeCode {
     void setBgf2(bool value);
 
     IMF_EXPORT
-    int binaryGroup(int group) const; // group must be between 1 and 8
+    int binaryGroup(int group) const CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT); // group must be between 1 and 8
     IMF_EXPORT
-    void setBinaryGroup(int group, int value);
+    void setBinaryGroup(int group, int value) CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     IMF_EXPORT
     unsigned int timeAndFlags(Imf::TimeCode::Packing packing) const;

@@ -11,16 +11,23 @@ namespace Imf = ::OPENEXR_IMF_INTERNAL_NAMESPACE;
 IMFUTIL_EXPORT
 void saveDeepImage(const std::string& fileName, const Imf::Header& hdr,
                    const Imf::DeepImage& img, Imf::DataWindowSource dws)
-    CPPMM_RENAME(saveDeepImage_with_header);
+    CPPMM_RENAME(saveDeepImage_with_header)
+        CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
 IMFUTIL_EXPORT
-void saveDeepImage(const std::string& fileName, const Imf::DeepImage& img);
+void saveDeepImage(const std::string& fileName, const Imf::DeepImage& img)
+    CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
 IMFUTIL_EXPORT
 void loadDeepImage(const std::string& fileName, Imf::Header& hdr,
-                   Imf::DeepImage& img) CPPMM_RENAME(loadDeepImage_with_header);
+                   Imf::DeepImage& img) CPPMM_RENAME(loadDeepImage_with_header)
+    CPPMM_THROWS(Iex::BaseExc, IEX_BASE)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
+
 IMFUTIL_EXPORT
-void loadDeepImage(const std::string& fileName, Imf::DeepImage& img);
+void loadDeepImage(const std::string& fileName, Imf::DeepImage& img)
+    CPPMM_THROWS(Iex::BaseExc, IEX_BASE)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
 IMFUTIL_EXPORT
 void saveDeepScanLineImage(const std::string& fileName, const Imf::Header& hdr,

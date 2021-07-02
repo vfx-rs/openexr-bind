@@ -1,4 +1,3 @@
-use crate::imath::{Box2, Vec2};
 use crate::{
     channel_list::{ChannelListRef, ChannelListRefMut},
     cppstd::CppString,
@@ -7,6 +6,8 @@ use crate::{
     TypedAttribute,
 };
 use openexr_sys as sys;
+
+use imath_traits::{Bound2, Vec2};
 
 type Result<T, E = Error> = std::result::Result<T, E>;
 
@@ -99,7 +100,7 @@ impl Header {
         compression: Compression,
     ) -> Result<Header>
     where
-        B: Box2<i32>,
+        B: Bound2<i32>,
         V: Vec2<f32>,
     {
         unsafe {
@@ -228,6 +229,19 @@ impl Header {
     pub fn from_dimensions(width: i32, height: i32) -> Header {
         let mut header = Header::default();
         header.set_dimensions(width, height);
+        header
+    }
+
+    /// Shortcut to construct a new [`Header`] with just the data and display
+    /// windows and everything else Default
+    ///
+    pub fn from_windows<B: Bound2<i32>>(
+        data_window: B,
+        display_window: B,
+    ) -> Header {
+        let mut header = Header::default();
+        *header.data_window_mut() = data_window;
+        *header.display_window_mut() = display_window;
         header
     }
 
@@ -361,7 +375,7 @@ impl Header {
     ///
     pub fn display_window<B>(&self) -> &B
     where
-        B: Box2<i32>,
+        B: Bound2<i32>,
     {
         unsafe {
             let mut ptr = std::ptr::null();
@@ -387,7 +401,7 @@ impl Header {
     ///
     pub fn display_window_mut<B>(&mut self) -> &mut B
     where
-        B: Box2<i32>,
+        B: Bound2<i32>,
     {
         unsafe {
             let mut ptr = std::ptr::null_mut();
@@ -412,7 +426,7 @@ impl Header {
     ///
     pub fn data_window<B>(&self) -> &B
     where
-        B: Box2<i32>,
+        B: Bound2<i32>,
     {
         unsafe {
             let mut ptr = std::ptr::null();
@@ -438,7 +452,7 @@ impl Header {
     ///
     pub fn data_window_mut<B>(&mut self) -> &mut B
     where
-        B: Box2<i32>,
+        B: Bound2<i32>,
     {
         unsafe {
             let mut ptr = std::ptr::null_mut();
@@ -512,7 +526,7 @@ impl Header {
     ///
     pub fn screen_window_center<B>(&self) -> &B
     where
-        B: Box2<i32>,
+        B: Bound2<i32>,
     {
         unsafe {
             let mut ptr = std::ptr::null();
@@ -535,7 +549,7 @@ impl Header {
     ///
     pub fn screen_window_center_mut<B>(&mut self) -> &mut B
     where
-        B: Box2<i32>,
+        B: Bound2<i32>,
     {
         unsafe {
             let mut ptr = std::ptr::null_mut();
@@ -587,7 +601,7 @@ impl Header {
     }
 
     /// Get a reference to the list of channels in the header
-    pub fn channels<'a>(&'a self) -> ChannelListRef<'a> {
+    pub fn channels(&self) -> ChannelListRef {
         unsafe {
             let mut ptr = std::ptr::null();
             sys::Imf_Header_channels_const(self.0.as_ref(), &mut ptr)
@@ -598,7 +612,7 @@ impl Header {
     }
 
     /// Get a mutable reference to the list of channels in the header
-    pub fn channels_mut<'a>(&'a mut self) -> ChannelListRefMut<'a> {
+    pub fn channels_mut(&mut self) -> ChannelListRefMut {
         unsafe {
             let mut ptr = std::ptr::null_mut();
             sys::Imf_Header_channels(self.0.as_mut(), &mut ptr)
@@ -686,17 +700,18 @@ impl Header {
     /// Names must be unique, that is no two parts in the same file may share
     /// the same name.
     ///
-    pub fn name(&self) -> String {
+    pub fn name(&self) -> Result<String> {
         unsafe {
             let mut s = std::ptr::null();
             sys::Imf_Header_name_const(self.0.as_ref(), &mut s)
                 .into_result()
-                .unwrap();
+                .map(|_| {
+                    let mut cptr = std::ptr::null();
+                    sys::std_string_c_str(s, &mut cptr).into_result().unwrap();
 
-            let mut cptr = std::ptr::null();
-            sys::std_string_c_str(s, &mut cptr).into_result().unwrap();
-
-            CStr::from_ptr(cptr).to_string_lossy().to_string()
+                    CStr::from_ptr(cptr).to_string_lossy().to_string()
+                })
+                .map_err(Error::from)
         }
     }
 
@@ -712,6 +727,15 @@ impl Header {
         }
     }
 
+    /// Does the file/part have a name?
+    pub fn has_name(&self) -> bool {
+        unsafe {
+            let mut v = false;
+            sys::Imf_Header_hasName(self.0.as_ref(), &mut v);
+            v
+        }
+    }
+
     /// Get the image type of this part from the header
     ///
     /// This must be one of:
@@ -720,16 +744,23 @@ impl Header {
     /// * `deepscanline` - Deep, scanline-based.
     /// * `deeptile` - Deep, tiled.
     ///
-    /// FIXME: Make this return an enum instead of a string
-    ///
-    pub fn image_type(&self) -> String {
+    pub fn image_type(&self) -> Result<ImageType> {
         unsafe {
             let mut s = std::ptr::null();
-            sys::Imf_Header_type_const(self.0.as_ref(), &mut s);
-
-            let mut cptr = std::ptr::null();
-            sys::std_string_c_str(s, &mut cptr);
-            CStr::from_ptr(cptr).to_string_lossy().to_string()
+            sys::Imf_Header_type_const(self.0.as_ref(), &mut s)
+                .into_result()
+                .map(|_| {
+                    let mut cptr = std::ptr::null();
+                    sys::std_string_c_str(s, &mut cptr);
+                    match CStr::from_ptr(cptr).to_str().unwrap() {
+                        "scanlineimage" => ImageType::Scanline,
+                        "tiledimage" => ImageType::Tiled,
+                        "deepscanline" => ImageType::DeepScanline,
+                        "deeptile" => ImageType::DeepTiled,
+                        _ => panic!("bad value for image type"),
+                    }
+                })
+                .map_err(Error::from)
         }
     }
 
@@ -741,22 +772,38 @@ impl Header {
     /// * `deepscanline` - Deep, scanline-based.
     /// * `deeptile` - Deep, tiled.
     ///
-    /// FIXME: Make this take an enum instead of a string
-    ///
-    pub fn set_image_type(&mut self, image_type: &str) {
+    pub fn set_image_type(&mut self, image_type: ImageType) {
         unsafe {
-            let s = CppString::new(image_type);
-            sys::Imf_Header_setType(self.0.as_mut(), s.0);
+            let s = match image_type {
+                ImageType::Scanline => CppString::new("scanlineimage"),
+                ImageType::Tiled => CppString::new("tiledimage"),
+                ImageType::DeepScanline => CppString::new("deepscanline"),
+                ImageType::DeepTiled => CppString::new("deeptile"),
+            };
+            sys::Imf_Header_setType(self.0.as_mut(), s.0)
+                .into_result()
+                .expect("Unexpected exception from Imf_Header_setType");
+        }
+    }
+
+    /// Does the file/part have a type?
+    pub fn has_image_type(&self) -> bool {
+        unsafe {
+            let mut v = false;
+            sys::Imf_Header_hasType(self.0.as_ref(), &mut v);
+            v
         }
     }
 
     /// Get the version of the file
     ///
-    pub fn version(&self) -> i32 {
+    pub fn version(&self) -> Result<i32> {
         unsafe {
             let mut v = std::ptr::null();
-            sys::Imf_Header_version_const(self.0.as_ref(), &mut v);
-            *v
+            sys::Imf_Header_version_const(self.0.as_ref(), &mut v)
+                .into_result()
+                .map(|_| *v)
+                .map_err(Error::from)
         }
     }
 
@@ -794,11 +841,13 @@ impl Header {
 
     /// Get the chunk_count of the file
     ///
-    pub fn chunk_count(&self) -> i32 {
+    pub fn chunk_count(&self) -> Result<i32> {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_Header_chunkCount_const(self.0.as_ref(), &mut ptr);
-            *ptr
+            sys::Imf_Header_chunkCount_const(self.0.as_ref(), &mut ptr)
+                .into_result()
+                .map(|_| *ptr)
+                .map_err(Error::from)
         }
     }
 }
@@ -812,13 +861,17 @@ impl Header {
 
     /// Get the view of this part from the header
     ///
-    pub fn view(&self) -> String {
+    pub fn view(&self) -> Result<String> {
         unsafe {
             let mut s = std::ptr::null();
-            sys::Imf_Header_view_const(self.0.as_ref(), &mut s);
-            let mut cptr = std::ptr::null();
-            sys::std_string_c_str(s, &mut cptr);
-            CStr::from_ptr(cptr).to_string_lossy().to_string()
+            sys::Imf_Header_view_const(self.0.as_ref(), &mut s)
+                .into_result()
+                .map(|_| {
+                    let mut cptr = std::ptr::null();
+                    sys::std_string_c_str(s, &mut cptr);
+                    CStr::from_ptr(cptr).to_string_lossy().to_string()
+                })
+                .map_err(Error::from)
         }
     }
 
@@ -844,17 +897,20 @@ impl Header {
 impl Header {
     //! # Tile Description
     //!
-    //! The tile description is a [`TileDescriptionAttribute`] whose name is
+    //! The tile description is a
+    //! [`TileDescriptionAttribute`](crate::attribute::TileDescriptionAttribute) whose name is
     //! `"tiles"`. It is mandatory for tiled files. The [`TileDescription`]
     //! describes various properties of the tiles that make up the image file.
 
     /// Get the tile description from the header
     ///
-    pub fn tile_description(&self) -> &TileDescription {
+    pub fn tile_description(&self) -> Result<TileDescription> {
         let mut ptr = std::ptr::null();
         unsafe {
-            sys::Imf_Header_tileDescription_const(self.0.as_ref(), &mut ptr);
-            &*ptr
+            sys::Imf_Header_tileDescription_const(self.0.as_ref(), &mut ptr)
+                .into_result()
+                .map(|_| (*ptr).clone().into())
+                .map_err(Error::from)
         }
     }
 
@@ -862,7 +918,8 @@ impl Header {
     ///
     pub fn set_tile_description(&mut self, td: &TileDescription) {
         unsafe {
-            sys::Imf_Header_setTileDescription(self.0.as_mut(), td);
+            let td = (*td).into();
+            sys::Imf_Header_setTileDescription(self.0.as_mut(), &td);
         }
     }
 
@@ -880,19 +937,21 @@ impl Header {
 impl Header {
     //! # Preview Image
     //!
-    //! The preview image ias a [`PreviewImageAttribute`] whose name is
+    //! The preview image ias a [`PreviewImageAttribute`](crate::attribute::PreviewImageAttribute) whose name is
     //! `"preview"`.
     //! This attribute is special -- while an image file is being written,
     //! the pixels of the preview image can be changed repeatedly by calling
-    //! [`OutputFile::update_preview_image()`]
+    //! [`update_preview_image()`](crate::output_file::OutputFile::update_preview_image)
 
     /// Get the preview image from the header
     ///
-    pub fn preview_image(&self) -> &PreviewImage {
+    pub fn preview_image(&self) -> Result<&PreviewImage> {
         let mut ptr = std::ptr::null();
         unsafe {
-            sys::Imf_Header_previewImage_const(self.0.as_ref(), &mut ptr);
-            &*(ptr as *const PreviewImage)
+            sys::Imf_Header_previewImage_const(self.0.as_ref(), &mut ptr)
+                .into_result()
+                .map(|_| &*(ptr as *const PreviewImage))
+                .map_err(Error::from)
         }
     }
 
@@ -1116,6 +1175,16 @@ impl<'s> Iterator for HeaderSliceIterMut<'s> {
     }
 }
 
+/// Used to set (or inspect) the type of an image in the header
+///
+#[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub enum ImageType {
+    Scanline,
+    Tiled,
+    DeepScanline,
+    DeepTiled,
+}
+
 #[cfg(test)]
 #[test]
 fn header_rtrip1() -> Result<()> {
@@ -1255,6 +1324,12 @@ fn header_rtrip1() -> Result<()> {
             .value(),
         "lorem ipsum",
     );
+
+    assert!(file.header().version().is_err());
+    assert!(file.header().image_type().is_err());
+    assert!(file.header().preview_image().is_err());
+    assert!(file.header().name().is_err());
+    assert!(file.header().view().is_err());
 
     Ok(())
 }

@@ -13,7 +13,8 @@ struct MultiPartInputFile {
 
     IMF_EXPORT
     MultiPartInputFile(const char fileName[], int numThreads,
-                       bool reconstructChunkOffsetTable = true);
+                       bool reconstructChunkOffsetTable = true)
+        CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
     MultiPartInputFile(Imf::IStream& is, int numThreads,
