@@ -1,30 +1,39 @@
 use openexr_sys as sys;
 
 use crate::{
-    Error, FrameBuffer, FrameBufferRef, HeaderRef, InputFile, InputPart,
-    MultiPartOutputFile, PreviewRgba,
+    deep_frame_buffer::{DeepFrameBuffer, DeepFrameBufferRef},
+    deep_scan_line_input_file::DeepScanLineInputFile,
+    deep_scan_line_input_part::DeepScanLineInputPart,
+    header::HeaderRef,
+    multi_part_output_file::MultiPartOutputFile,
+    preview_image::PreviewRgba,
+    Error,
 };
 
 type Result<T, E = Error> = std::result::Result<T, E>;
 
 #[repr(transparent)]
-pub struct OutputPart(pub(crate) sys::Imf_OutputPart_t);
+pub struct DeepScanLineOutputPart(pub(crate) sys::Imf_DeepScanLineOutputPart_t);
 
-impl OutputPart {
+impl DeepScanLineOutputPart {
     /// Get an interface to the part `part_number` of the [`MultiPartOutputFile`]
     /// `multi_part_file`.
     ///
     pub fn new(
         multi_part_file: &MultiPartOutputFile,
         part_number: i32,
-    ) -> Result<OutputPart> {
-        let mut part = sys::Imf_OutputPart_t::default();
+    ) -> Result<DeepScanLineOutputPart> {
+        let mut part = sys::Imf_DeepScanLineOutputPart_t::default();
         unsafe {
-            sys::Imf_OutputPart_ctor(&mut part, multi_part_file.0, part_number)
-                .into_result()?;
+            sys::Imf_DeepScanLineOutputPart_ctor(
+                &mut part,
+                multi_part_file.0,
+                part_number,
+            )
+            .into_result()?;
         }
 
-        Ok(OutputPart(part))
+        Ok(DeepScanLineOutputPart(part))
     }
 
     /// Get the filename this file is writing to.
@@ -32,7 +41,7 @@ impl OutputPart {
     pub fn file_name(&self) -> &str {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_OutputPart_fileName(&self.0, &mut ptr)
+            sys::Imf_DeepScanLineOutputPart_fileName(&self.0, &mut ptr)
                 .into_result()
                 .unwrap();
             std::ffi::CStr::from_ptr(ptr)
@@ -46,36 +55,39 @@ impl OutputPart {
     pub fn header(&self) -> HeaderRef {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_OutputPart_header(&self.0, &mut ptr);
+            sys::Imf_DeepScanLineOutputPart_header(&self.0, &mut ptr);
             if ptr.is_null() {
-                panic!("Received null ptr from sys::Imf_OutputPart_header");
+                panic!("Received null ptr from sys::Imf_DeepScanLineOutputPart_header");
             }
 
             HeaderRef::new(ptr)
         }
     }
 
-    /// Set the current frame buffer -- copies the FrameBuffer
-    /// object into the OutputPart object.
+    /// Set the current frame buffer -- copies the [`DeepFrameBuffer`]
+    /// object into the [`DeepScanLineOutputPart`] object.
     ///
     /// The current frame buffer is the source of the pixel
     /// data written to the file.  The current frame buffer
-    /// must be set at least once before [`OutputPart::write_pixels`] is
+    /// must be set at least once before [`DeepScanLineOutputPart::write_pixels`] is
     /// called.  The current frame buffer can be changed
-    /// after each call to [`OutputPart::write_pixels`].
+    /// after each call to [`DeepScanLineOutputPart::write_pixels`].
     ///
     /// ## Errors
-    /// * [`Iex::ArgExc`] - If the pixel type of the [`Channel`]s in the [`Header`]
+    /// * [`Iex::ArgExc`] - If the pixel type of the [`Channel`](crate::channel_list::Channel)s in the [`Header`](crate::header::Header)
     /// do not match the types in the frame buffer, or if the sampling rates do
     /// not match.
     ///
     pub fn set_frame_buffer(
         &mut self,
-        frame_buffer: &FrameBuffer,
+        frame_buffer: &DeepFrameBuffer,
     ) -> Result<()> {
         unsafe {
-            sys::Imf_OutputPart_setFrameBuffer(&mut self.0, frame_buffer.ptr)
-                .into_result()?;
+            sys::Imf_DeepScanLineOutputPart_setFrameBuffer(
+                &mut self.0,
+                frame_buffer.ptr,
+            )
+            .into_result()?;
         }
 
         Ok(())
@@ -83,17 +95,17 @@ impl OutputPart {
 
     /// Get a reference to the frame buffer.
     ///
-    pub fn frame_buffer(&self) -> FrameBufferRef {
+    pub fn frame_buffer(&self) -> DeepFrameBufferRef {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_OutputPart_frameBuffer(&self.0, &mut ptr);
+            sys::Imf_DeepScanLineOutputPart_frameBuffer(&self.0, &mut ptr);
             if ptr.is_null() {
                 panic!(
-                    "Received null ptr from sys::Imf_OutputPart_frameBuffer"
+                    "Received null ptr from sys::Imf_DeepScanLineOutputPart_frameBuffer"
                 );
             }
 
-            FrameBufferRef::new(ptr)
+            DeepFrameBufferRef::new(ptr)
         }
     }
 
@@ -123,8 +135,11 @@ impl OutputPart {
     /// to read from arbitrary memory locations.
     ///
     pub unsafe fn write_pixels(&mut self, num_scan_lines: i32) -> Result<()> {
-        sys::Imf_OutputPart_writePixels(&mut self.0, num_scan_lines)
-            .into_result()?;
+        sys::Imf_DeepScanLineOutputPart_writePixels(
+            &mut self.0,
+            num_scan_lines,
+        )
+        .into_result()?;
         Ok(())
     }
 
@@ -132,7 +147,7 @@ impl OutputPart {
     ///
     /// Returns the y coordinate of the first scan line
     /// that will be read from the current frame buffer during the next
-    /// call to [`OutputPart::write_pixels`].
+    /// call to [`DeepScanLineOutputPart::write_pixels`].
     ///
     /// If `line_order() == INCREASING_Y`:
     ///
@@ -149,7 +164,7 @@ impl OutputPart {
     pub fn current_scan_line(&self) -> i32 {
         let mut v = 0;
         unsafe {
-            sys::Imf_OutputPart_currentScanLine(&self.0, &mut v);
+            sys::Imf_DeepScanLineOutputPart_currentScanLine(&self.0, &mut v);
         }
         v
     }
@@ -165,18 +180,24 @@ impl OutputPart {
     /// * [`Error::InvalidArgument`] - If the headers do not match
     /// * [`Error::Logic`] - If scan lines have already been written to this file.
     ///
-    pub fn copy_pixels_from_file(&mut self, file: &InputFile) -> Result<()> {
+    pub fn copy_pixels_from_file(
+        &mut self,
+        file: &DeepScanLineInputFile,
+    ) -> Result<()> {
         unsafe {
-            sys::Imf_OutputPart_copyPixels_from_file(&mut self.0, file.0)
-                .into_result()?;
+            sys::Imf_DeepScanLineOutputPart_copyPixels_from_file(
+                &mut self.0,
+                file.0,
+            )
+            .into_result()?;
         }
         Ok(())
     }
 
-    /// Shortcut to copy all pixels from an [`InputPart`] into this file,
+    /// Shortcut to copy all pixels from an [`DeepScanLineInputPart`] into this file,
     /// without uncompressing and then recompressing the pixel data.
     ///
-    /// This file's header must be compatible with the [`InputPart`]'s
+    /// This file's header must be compatible with the [`DeepScanLineInputPart`]'s
     /// header:  The two header's "dataWindow", "compression",
     /// "lineOrder" and "channels" attributes must be the same.
     ///
@@ -186,11 +207,14 @@ impl OutputPart {
     ///
     pub fn copy_pixels_from_part(
         &mut self,
-        file: &mut InputPart,
+        file: &mut DeepScanLineInputPart,
     ) -> Result<()> {
         unsafe {
-            sys::Imf_OutputPart_copyPixels_from_part(&mut self.0, &mut file.0)
-                .into_result()?;
+            sys::Imf_DeepScanLineOutputPart_copyPixels_from_part(
+                &mut self.0,
+                &mut file.0,
+            )
+            .into_result()?;
         }
         Ok(())
     }
@@ -217,7 +241,7 @@ impl OutputPart {
         new_pixels: &[PreviewRgba],
     ) -> Result<()> {
         unsafe {
-            sys::Imf_OutputPart_updatePreviewImage(
+            sys::Imf_DeepScanLineOutputPart_updatePreviewImage(
                 &mut self.0,
                 new_pixels.as_ptr() as *const sys::Imf_PreviewRgba_t,
             )

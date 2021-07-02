@@ -28,7 +28,7 @@ impl InputPart {
 
     /// Access to the file [`Header`]
     ///
-    pub fn header<'a>(&'a self) -> HeaderRef<'a> {
+    pub fn header(&self) -> HeaderRef {
         unsafe {
             let mut ptr = std::ptr::null();
             sys::Imf_InputPart_header(&self.0, &mut ptr);
@@ -77,7 +77,7 @@ impl InputPart {
 
     /// Access to the current frame buffer
     ///
-    pub fn frame_buffer<'a>(&'a self) -> FrameBufferRef<'a> {
+    pub fn frame_buffer(&self) -> FrameBufferRef {
         let mut ptr = std::ptr::null();
         unsafe {
             sys::Imf_InputPart_frameBuffer(&self.0, &mut ptr);

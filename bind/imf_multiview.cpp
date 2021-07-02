@@ -18,7 +18,7 @@ viewFromChannelName(const std::string& channel,
 
 IMF_EXPORT
 bool areCounterparts(const std::string& channel1, const std::string& channel2,
-                     const Imf::StringVector& multiView);
+                     const Imf::StringVector& multiView) CPPMM_IGNORE;
 
 IMF_EXPORT
 Imf::ChannelList

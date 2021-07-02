@@ -1,6 +1,6 @@
 use crate::{
-    cppstd::CppString, Compression, Error, Header, HeaderRef, LineOrder, Rgba,
-    RgbaChannels,
+    cppstd::CppString, preview_image::PreviewRgba, Compression, Error, Header,
+    HeaderRef, LineOrder, Rgba, RgbaChannels,
 };
 use imath_traits::Vec2;
 use openexr_sys as sys;
@@ -94,6 +94,7 @@ impl RgbaOutputFile {
     /// ## Errors
     /// * [`Error::Base`] - If an error occurs
     ///
+    #[allow(clippy::too_many_arguments)]
     pub fn with_dimensions<P: AsRef<Path>, V>(
         filename: P,
         width: i32,
@@ -199,13 +200,13 @@ impl RgbaOutputFile {
     ///
     /// If `line_order() == INCREASING_Y`:
     ///
-    ///	The current scan line before the first call to write_pixels()
+    /// The current scan line before the first call to write_pixels()
     /// is header().data_window().min.y.  After writing each scan line,
     /// the current scan line is incremented by 1.
     ///
     /// If `line_order() == DECREASING_Y`:
     ///
-    ///	The current scan line before the first call to write_pixels()
+    /// The current scan line before the first call to write_pixels()
     /// is header().data_window().max.y.  After writing each scan line,
     /// the current scan line is decremented by 1.
     ///
@@ -219,7 +220,7 @@ impl RgbaOutputFile {
 
     /// Access to the file [`Header`]
     ///
-    pub fn header<'a>(&'a self) -> HeaderRef<'a> {
+    pub fn header(&self) -> HeaderRef {
         unsafe {
             let mut ptr = std::ptr::null();
             sys::Imf_RgbaOutputFile_header(self.0, &mut ptr);
@@ -247,6 +248,38 @@ impl RgbaOutputFile {
         unsafe {
             sys::Imf_RgbaOutputFile_setYCRounding(self.0, round_y, round_c);
         }
+    }
+
+    /// Updating the preview image:
+    ///
+    /// Supplies a new set of pixels for the
+    /// preview image attribute in the file's header.
+    ///
+    /// This is necessary because images are
+    /// often stored in a file incrementally, a few scan lines at a
+    /// time, while the image is being generated.  Since the preview
+    /// image is an attribute in the file's header, it gets stored in
+    /// the file as soon as the file is opened, but we may not know
+    /// what the preview image should look like until we have written
+    /// the last scan line of the main image.
+    ///
+    /// # Errors
+    /// * [`Error::Logic`] - If the header does not contain a preview image
+    /// * [`Error::Base`] - If any other error occurs
+    ///
+    pub fn update_preview_image(
+        &mut self,
+        new_pixels: &[PreviewRgba],
+    ) -> Result<()> {
+        unsafe {
+            sys::Imf_RgbaOutputFile_updatePreviewImage(
+                self.0,
+                new_pixels.as_ptr() as *const sys::Imf_PreviewRgba_t,
+            )
+            .into_result()?;
+        }
+
+        Ok(())
     }
 
     /*
@@ -409,7 +442,7 @@ impl RgbaInputFile {
 
     /// Access to the file [`Header`]
     ///
-    pub fn header<'a>(&'a self) -> HeaderRef<'a> {
+    pub fn header(&self) -> HeaderRef {
         unsafe {
             let mut ptr = std::ptr::null();
             sys::Imf_RgbaInputFile_header(self.0, &mut ptr);

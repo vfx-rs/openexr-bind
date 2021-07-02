@@ -104,6 +104,12 @@ impl CppVectorFloat {
     }
 }
 
+impl Default for CppVectorFloat {
+    fn default() -> Self {
+        CppVectorFloat::new()
+    }
+}
+
 #[repr(transparent)]
 pub struct CppVectorString(pub(crate) *mut sys::std_vector_string_t);
 
@@ -140,6 +146,11 @@ impl CppVectorString {
         CppVectorString(ptr)
     }
 
+    /// Get a reference to the string at index `pos` without bounds checking
+    ///
+    /// # Safety
+    /// You must ensure that `pos` is less than the length of the vector
+    ///
     pub unsafe fn get_unchecked(&self, pos: usize) -> CppStringRef {
         let mut ptr = std::ptr::null();
         sys::std_vector_string_index(self.0, &mut ptr, pos as u64);
@@ -161,5 +172,11 @@ impl CppVectorString {
 
             result
         }
+    }
+}
+
+impl Default for CppVectorString {
+    fn default() -> Self {
+        CppVectorString::new()
     }
 }

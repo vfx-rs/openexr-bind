@@ -187,7 +187,7 @@ impl DeepFrameBuffer {
 
     /// Get the sample count slice
     ///
-    pub fn sample_count_slice<'a>(&'a self) -> SliceRef<'a> {
+    pub fn sample_count_slice(&self) -> SliceRef {
         let mut ptr = std::ptr::null();
         unsafe {
             sys::Imf_DeepFrameBuffer_getSampleCountSlice(self.ptr, &mut ptr);
@@ -205,7 +205,7 @@ impl DeepFrameBuffer {
         unsafe {
             self.insert(
                 &frame.channel_name,
-                &DeepSlice::new(
+                &DeepSlice::builder(
                     frame.channel_type,
                     ptr.offset(offset) as *mut i8,
                 )
@@ -234,6 +234,12 @@ impl Drop for DeepFrameBuffer {
         unsafe {
             sys::Imf_DeepFrameBuffer_dtor(self.ptr);
         }
+    }
+}
+
+impl Default for DeepFrameBuffer {
+    fn default() -> Self {
+        DeepFrameBuffer::new()
     }
 }
 
@@ -413,13 +419,31 @@ impl DeepSliceBuilder {
 }
 
 impl DeepSlice {
-    pub fn new(pixel_type: PixelType, data: *mut i8) -> DeepSliceBuilder {
+    pub fn builder(pixel_type: PixelType, data: *mut i8) -> DeepSliceBuilder {
         DeepSliceBuilder {
             pixel_type,
             data,
-            x_stride: 0,
+            x_stride: std::mem::size_of::<*mut i8>(),
             y_stride: 0,
             sample_stride: 0,
+            x_sampling: 1,
+            y_sampling: 1,
+            fill_value: 0.0,
+            x_tile_coords: false,
+            y_tile_coords: false,
+        }
+    }
+
+    pub fn from_sample_ptr<S: DeepSample>(
+        data: *mut *mut S,
+        width: i32,
+    ) -> DeepSliceBuilder {
+        DeepSliceBuilder {
+            pixel_type: S::CHANNEL_TYPE,
+            data: data as *mut i8,
+            x_stride: std::mem::size_of::<*mut i8>(),
+            y_stride: std::mem::size_of::<*mut i8>() * width as usize,
+            sample_stride: std::mem::size_of::<S>(),
             x_sampling: 1,
             y_sampling: 1,
             fill_value: 0.0,
@@ -516,7 +540,6 @@ impl DeepFrame {
         }
 
         let w = self.data_window[2] - self.data_window[0] + 1;
-        let h = self.data_window[3] - self.data_window[1] + 1;
 
         // offset index back to data window corner
         let x = x - self.data_window[0];

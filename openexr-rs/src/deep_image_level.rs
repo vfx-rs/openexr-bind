@@ -57,7 +57,7 @@ impl DeepImageLevel {
 
     /// Get the [`DeepImage`] to which this level belongs   
     ///
-    pub fn deep_image<'a>(&'a self) -> DeepImageRef<'a> {
+    pub fn deep_image(&self) -> DeepImageRef {
         let mut ptr = std::ptr::null();
         unsafe {
             sys::Imf_DeepImageLevel_deepImage_const(self.0, &mut ptr);
@@ -67,7 +67,7 @@ impl DeepImageLevel {
 
     /// Get a mutable reference to the [`DeepImage`] to which this level belongs   
     ///
-    pub fn deep_image_mut<'a>(&'a mut self) -> DeepImageRefMut<'a> {
+    pub fn deep_image_mut(&mut self) -> DeepImageRefMut {
         let mut ptr = std::ptr::null_mut();
         unsafe {
             sys::Imf_DeepImageLevel_deepImage(self.0, &mut ptr);

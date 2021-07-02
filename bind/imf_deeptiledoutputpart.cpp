@@ -21,7 +21,8 @@ struct DeepTiledOutputPart {
     const Imf::Header& header() const;
 
     IMF_EXPORT
-    void setFrameBuffer(const Imf::DeepFrameBuffer& frameBuffer);
+    void setFrameBuffer(const Imf::DeepFrameBuffer& frameBuffer)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     IMF_EXPORT
     const Imf::DeepFrameBuffer& frameBuffer() const;
@@ -57,7 +58,8 @@ struct DeepTiledOutputPart {
     IMF_EXPORT
     IMATH_NAMESPACE::Box2i dataWindowForLevel(int l = 0) const CPPMM_IGNORE;
     IMF_EXPORT
-    IMATH_NAMESPACE::Box2i dataWindowForLevel(int lx, int ly) const;
+    IMATH_NAMESPACE::Box2i dataWindowForLevel(int lx, int ly) const
+        CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
     IMATH_NAMESPACE::Box2i dataWindowForTile(int dx, int dy,
@@ -65,24 +67,38 @@ struct DeepTiledOutputPart {
 
     IMF_EXPORT
     IMATH_NAMESPACE::Box2i dataWindowForTile(int dx, int dy, int lx,
-                                             int ly) const;
+                                             int ly) const
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+            CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
     void writeTile(int dx, int dy, int l = 0) CPPMM_IGNORE;
     IMF_EXPORT
-    void writeTile(int dx, int dy, int lx, int ly);
+    void writeTile(int dx, int dy, int lx, int ly)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+            CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
-    void writeTiles(int dx1, int dx2, int dy1, int dy2, int lx, int ly);
+    void writeTiles(int dx1, int dx2, int dy1, int dy2, int lx, int ly)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+            CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
     void writeTiles(int dx1, int dx2, int dy1, int dy2, int l = 0) CPPMM_IGNORE;
 
     IMF_EXPORT
-    void copyPixels(Imf::DeepTiledInputFile& in);
+    void copyPixels(Imf::DeepTiledInputFile& in)
+        CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+            CPPMM_THROWS(Iex::LogicExc, IEX_LOGIC_ERROR)
+                CPPMM_THROWS(Iex::BaseExc, IEX_BASE)
+                    CPPMM_RENAME(copyPixels_from_file);
+
     IMF_EXPORT
     void copyPixels(Imf::DeepTiledInputPart& in)
-        CPPMM_RENAME(copyPixels_from_part);
+        CPPMM_RENAME(copyPixels_from_part)
+            CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT)
+                CPPMM_THROWS(Iex::LogicExc, IEX_LOGIC_ERROR)
+                    CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
 
     IMF_EXPORT
     void updatePreviewImage(const Imf::PreviewRgba newPixels[]);

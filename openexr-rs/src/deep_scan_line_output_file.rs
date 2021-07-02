@@ -4,21 +4,27 @@ use std::ffi::CString;
 use std::path::Path;
 
 use crate::{
-    Error, FrameBuffer, FrameBufferRef, Header, HeaderRef, InputFile,
-    InputPart, PreviewRgba,
+    deep_frame_buffer::{DeepFrameBuffer, DeepFrameBufferRef},
+    deep_scan_line_input_file::DeepScanLineInputFile,
+    deep_scan_line_input_part::DeepScanLineInputPart,
+    header::{Header, HeaderRef},
+    preview_image::PreviewRgba,
+    Error,
 };
 
 type Result<T, E = Error> = std::result::Result<T, E>;
 
 #[repr(transparent)]
-pub struct OutputFile(pub(crate) *mut sys::Imf_OutputFile_t);
+pub struct DeepScanLineOutputFile(
+    pub(crate) *mut sys::Imf_DeepScanLineOutputFile_t,
+);
 
-impl OutputFile {
+impl DeepScanLineOutputFile {
     /// Opens the file and writes the file header.
     ///
-    /// The file header is also copied into the OutputFile object,
+    /// The file header is also copied into the DeepScanLineOutputFile object,
     /// and can later be accessed via the `header()` method.
-    /// Dropping this OutputFile object automatically closes
+    /// Dropping this DeepScanLineOutputFile object automatically closes
     /// the file.
     ///
     /// # Errors
@@ -29,7 +35,7 @@ impl OutputFile {
         filename: P,
         header: &Header,
         num_threads: i32,
-    ) -> Result<OutputFile> {
+    ) -> Result<DeepScanLineOutputFile> {
         let c_filename = CString::new(
             filename
                 .as_ref()
@@ -40,7 +46,7 @@ impl OutputFile {
 
         let mut _inner = std::ptr::null_mut();
         unsafe {
-            sys::Imf_OutputFile_ctor(
+            sys::Imf_DeepScanLineOutputFile_ctor(
                 &mut _inner,
                 c_filename.as_ptr(),
                 header.0.as_ref(),
@@ -49,7 +55,7 @@ impl OutputFile {
             .into_result()?;
         }
 
-        Ok(OutputFile(_inner))
+        Ok(DeepScanLineOutputFile(_inner))
     }
 
     /// Get the filename this file is writing to.
@@ -57,7 +63,7 @@ impl OutputFile {
     pub fn file_name(&self) -> &str {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_OutputFile_fileName(self.0, &mut ptr)
+            sys::Imf_DeepScanLineOutputFile_fileName(self.0, &mut ptr)
                 .into_result()
                 .unwrap();
             std::ffi::CStr::from_ptr(ptr)
@@ -71,9 +77,9 @@ impl OutputFile {
     pub fn header(&self) -> HeaderRef {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_OutputFile_header(self.0, &mut ptr);
+            sys::Imf_DeepScanLineOutputFile_header(self.0, &mut ptr);
             if ptr.is_null() {
-                panic!("Received null ptr from sys::Imf_OutputFile_header");
+                panic!("Received null ptr from sys::Imf_DeepScanLineOutputFile_header");
             }
 
             HeaderRef::new(ptr)
@@ -96,11 +102,14 @@ impl OutputFile {
     ///
     pub fn set_frame_buffer(
         &mut self,
-        frame_buffer: &FrameBuffer,
+        frame_buffer: &DeepFrameBuffer,
     ) -> Result<()> {
         unsafe {
-            sys::Imf_OutputFile_setFrameBuffer(self.0, frame_buffer.ptr)
-                .into_result()?;
+            sys::Imf_DeepScanLineOutputFile_setFrameBuffer(
+                self.0,
+                frame_buffer.ptr,
+            )
+            .into_result()?;
         }
 
         Ok(())
@@ -108,17 +117,17 @@ impl OutputFile {
 
     /// Get a reference to the frame buffer.
     ///
-    pub fn frame_buffer(&self) -> FrameBufferRef {
+    pub fn frame_buffer(&self) -> DeepFrameBufferRef {
         unsafe {
             let mut ptr = std::ptr::null();
-            sys::Imf_OutputFile_frameBuffer(self.0, &mut ptr);
+            sys::Imf_DeepScanLineOutputFile_frameBuffer(self.0, &mut ptr);
             if ptr.is_null() {
                 panic!(
-                    "Received null ptr from sys::Imf_OutputFile_frameBuffer"
+                    "Received null ptr from sys::Imf_DeepScanLineOutputFile_frameBuffer"
                 );
             }
 
-            FrameBufferRef::new(ptr)
+            DeepFrameBufferRef::new(ptr)
         }
     }
 
@@ -148,7 +157,7 @@ impl OutputFile {
     /// to read from arbitrary memory locations.
     ///
     pub unsafe fn write_pixels(&self, num_scan_lines: i32) -> Result<()> {
-        sys::Imf_OutputFile_writePixels(self.0, num_scan_lines)
+        sys::Imf_DeepScanLineOutputFile_writePixels(self.0, num_scan_lines)
             .into_result()?;
         Ok(())
     }
@@ -174,15 +183,15 @@ impl OutputFile {
     pub fn current_scan_line(&self) -> i32 {
         let mut v = 0;
         unsafe {
-            sys::Imf_OutputFile_currentScanLine(self.0, &mut v);
+            sys::Imf_DeepScanLineOutputFile_currentScanLine(self.0, &mut v);
         }
         v
     }
 
-    /// Shortcut to copy all pixels from an [`InputFile`] into this file,
+    /// Shortcut to copy all pixels from a [`DeepScanLineInputFile`] into this file,
     /// without uncompressing and then recompressing the pixel data.
     ///
-    /// This file's header must be compatible with the [`InputFile`]'s
+    /// This file's header must be compatible with the [`DeepScanLineInputFile`]'s
     /// header:  The two header's "dataWindow", "compression",
     /// "lineOrder" and "channels" attributes must be the same.
     ///
@@ -190,18 +199,23 @@ impl OutputFile {
     /// * [`Error::InvalidArgument`] - If the headers do not match
     /// * [`Error::Logic`] - If scan lines have already been written to this file.
     ///
-    pub fn copy_pixels_from_file(&mut self, file: &InputFile) -> Result<()> {
+    pub fn copy_pixels_from_file(
+        &mut self,
+        file: &DeepScanLineInputFile,
+    ) -> Result<()> {
         unsafe {
-            sys::Imf_OutputFile_copyPixels_from_file(self.0, file.0)
-                .into_result()?;
+            sys::Imf_DeepScanLineOutputFile_copyPixels_from_file(
+                self.0, file.0,
+            )
+            .into_result()?;
         }
         Ok(())
     }
 
-    /// Shortcut to copy all pixels from an [`InputPart`] into this file,
+    /// Shortcut to copy all pixels from a [`DeepScanLineInputPart`] into this file,
     /// without uncompressing and then recompressing the pixel data.
     ///
-    /// This file's header must be compatible with the [`InputPart`]'s
+    /// This file's header must be compatible with the [`DeepScanLineInputPart`]'s
     /// header:  The two header's "dataWindow", "compression",
     /// "lineOrder" and "channels" attributes must be the same.
     ///
@@ -211,11 +225,14 @@ impl OutputFile {
     ///
     pub fn copy_pixels_from_part(
         &mut self,
-        file: &mut InputPart,
+        file: &mut DeepScanLineInputPart,
     ) -> Result<()> {
         unsafe {
-            sys::Imf_OutputFile_copyPixels_from_part(self.0, &mut file.0)
-                .into_result()?;
+            sys::Imf_DeepScanLineOutputFile_copyPixels_from_part(
+                self.0,
+                &mut file.0,
+            )
+            .into_result()?;
         }
         Ok(())
     }
@@ -242,7 +259,7 @@ impl OutputFile {
         new_pixels: &[PreviewRgba],
     ) -> Result<()> {
         unsafe {
-            sys::Imf_OutputFile_updatePreviewImage(
+            sys::Imf_DeepScanLineOutputFile_updatePreviewImage(
                 self.0,
                 new_pixels.as_ptr() as *const sys::Imf_PreviewRgba_t,
             )
@@ -253,125 +270,76 @@ impl OutputFile {
     }
 }
 
-impl Drop for OutputFile {
+impl Drop for DeepScanLineOutputFile {
     fn drop(&mut self) {
         unsafe {
-            sys::Imf_OutputFile_dtor(self.0);
+            sys::Imf_DeepScanLineOutputFile_dtor(self.0);
         }
     }
 }
 
 #[cfg(test)]
 #[test]
-fn write_outputfile1() {
-    use crate::tests::load_ferris;
-    use crate::{PixelType, Rgba, Slice, CHANNEL_HALF};
+fn test_write_deep1() -> Result<()> {
+    use crate::{
+        channel_list::{CHANNEL_FLOAT, CHANNEL_HALF},
+        deep_frame_buffer::{DeepFrameBuffer, DeepSlice},
+        frame_buffer::Frame,
+        header::ImageType,
+        Compression, LineOrder,
+    };
+    use half::f16;
 
-    let (pixels, width, height) = load_ferris();
+    let width = 256;
+    let height = 256;
+    let num_pixels = (width * height) as usize;
 
-    let mut header = Header::from_dimensions(width, height);
+    let data_window = [0, 0, width - 1, height - 1];
 
-    header.channels_mut().insert("R", &CHANNEL_HALF);
-    header.channels_mut().insert("G", &CHANNEL_HALF);
-    header.channels_mut().insert("B", &CHANNEL_HALF);
+    let mut header = Header::with_dimensions(
+        width,
+        height,
+        1.0,
+        [0.0f32, 0.0],
+        1.0,
+        LineOrder::IncreasingY,
+        Compression::No,
+    )?;
+
+    header.set_image_type(ImageType::DeepScanline);
+    header.channels_mut().insert("Z", &CHANNEL_FLOAT);
     header.channels_mut().insert("A", &CHANNEL_HALF);
 
-    let mut frame_buffer = FrameBuffer::new();
+    let mut frame_buffer = DeepFrameBuffer::new();
+    let sample_counts = vec![1u32; num_pixels];
+    let sample_count_frame =
+        Frame::with_vec(&["sampleCounts"], sample_counts, data_window)?;
+    frame_buffer.set_sample_count_frame(sample_count_frame)?;
 
-    frame_buffer
-        .insert(
-            "R",
-            &Slice::builder(
-                PixelType::Half,
-                &pixels[0].r as *const _ as *const u8,
-                width as i64,
-                height as i64,
-            )
-            .x_stride(std::mem::size_of::<Rgba>())
-            .build()
-            .unwrap(),
-        )
-        .unwrap();
+    let (mut z_pixels, mut a_pixels): (Vec<Vec<f32>>, Vec<Vec<f16>>) =
+        crate::tests::deep_testpattern(width, height);
 
-    frame_buffer
-        .insert(
-            "G",
-            &Slice::builder(
-                PixelType::Half,
-                &pixels[0].g as *const _ as *const u8,
-                width as i64,
-                height as i64,
-            )
-            .x_stride(std::mem::size_of::<Rgba>())
-            .build()
-            .unwrap(),
-        )
-        .unwrap();
+    let mut z_ptrs: Vec<*mut f32> =
+        z_pixels.iter_mut().map(|v| v.as_mut_ptr()).collect();
+    let mut a_ptrs: Vec<*mut f16> =
+        a_pixels.iter_mut().map(|v| v.as_mut_ptr()).collect();
 
-    frame_buffer
-        .insert(
-            "B",
-            &Slice::builder(
-                PixelType::Half,
-                &pixels[0].b as *const _ as *const u8,
-                width as i64,
-                height as i64,
-            )
-            .x_stride(std::mem::size_of::<Rgba>())
-            .build()
-            .unwrap(),
-        )
-        .unwrap();
+    // set slices
+    frame_buffer.insert(
+        "Z",
+        &DeepSlice::from_sample_ptr(z_ptrs.as_mut_ptr(), width).build()?,
+    )?;
 
-    frame_buffer
-        .insert(
-            "A",
-            &Slice::builder(
-                PixelType::Half,
-                &pixels[0].a as *const _ as *const u8,
-                width as i64,
-                height as i64,
-            )
-            .x_stride(std::mem::size_of::<Rgba>())
-            .build()
-            .unwrap(),
-        )
-        .unwrap();
+    frame_buffer.insert(
+        "A",
+        &DeepSlice::from_sample_ptr(a_ptrs.as_mut_ptr(), width).build()?,
+    )?;
 
-    let mut file =
-        OutputFile::new("write_outputfile1.exr", &header, 1).unwrap();
-    file.set_frame_buffer(&frame_buffer).unwrap();
-    unsafe { file.write_pixels(height).unwrap() };
-}
-
-#[cfg(test)]
-#[test]
-fn write_outputfile2() {
-    use crate::tests::load_ferris;
-    use crate::{Frame, CHANNEL_HALF};
-
-    let (pixels, width, height) = load_ferris();
-
-    let mut header = Header::from_dimensions(width, height);
-
-    let channel_names = ["R", "G", "B", "A"];
-    for c in &channel_names {
-        header.channels_mut().insert(c, &CHANNEL_HALF);
+    let mut file = DeepScanLineOutputFile::new("write_deep1.exr", &header, 4)?;
+    file.set_frame_buffer(&frame_buffer)?;
+    unsafe {
+        file.write_pixels(height)?;
     }
 
-    let mut frame_buffer = FrameBuffer::new();
-
-    let frame = Frame::with_vec(
-        &channel_names,
-        pixels,
-        *header.data_window::<[i32; 4]>(),
-    )
-    .unwrap();
-
-    frame_buffer.insert_frame(frame).unwrap();
-
-    let mut file =
-        OutputFile::new("write_outputfile2.exr", &header, 6).unwrap();
-    file.set_frame_buffer(&frame_buffer).unwrap();
-    unsafe { file.write_pixels(height).unwrap() };
+    Ok(())
 }

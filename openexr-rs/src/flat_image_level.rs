@@ -57,7 +57,7 @@ impl FlatImageLevel {
 
     /// Get the [`FlatImage`] to which this level belongs   
     ///
-    pub fn flat_image<'a>(&'a self) -> FlatImageRef<'a> {
+    pub fn flat_image(&self) -> FlatImageRef {
         let mut ptr = std::ptr::null();
         unsafe {
             sys::Imf_FlatImageLevel_flatImage_const(self.0, &mut ptr);
@@ -67,7 +67,7 @@ impl FlatImageLevel {
 
     /// Get a mutable reference to the [`FlatImage`] to which this level belongs   
     ///
-    pub fn flat_image_mut<'a>(&'a mut self) -> FlatImageRefMut<'a> {
+    pub fn flat_image_mut(&mut self) -> FlatImageRefMut {
         let mut ptr = std::ptr::null_mut();
         unsafe {
             sys::Imf_FlatImageLevel_flatImage(self.0, &mut ptr);
