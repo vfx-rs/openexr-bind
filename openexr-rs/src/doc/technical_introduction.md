@@ -409,9 +409,9 @@ same image, each with a different resolution. Each version is called a
 ***level***. The number of levels in a part and their resolutions depend
 on the part\'s ***level mode***. OpenEXR supports three level modes:
 
-[`LevelMode::OneLevel`]: crate::LevelMode::OneLevel
-[`LevelMode::MipmapLevels`]: crate::LevelMode::MipmapLevels
-[`LevelMode::RipmapLevels`]: crate::LevelMode::RipmapLevels
+[`LevelMode::OneLevel`]: crate::core::LevelMode::OneLevel
+[`LevelMode::MipmapLevels`]: crate::core::LevelMode::MipmapLevels
+[`LevelMode::RipmapLevels`]: crate::core::LevelMode::RipmapLevels
 
 | Mode Name | Description |
 | --- | --- |
@@ -434,8 +434,8 @@ by
 
 pixels, where $rf(x)$ is a rounding function that depends on the ***level size rounding mode***:
 
-[`LevelRoundingMode::RoundDown`]: crate::LevelRoundingMode::RoundDown
-[`LevelRoundingMode::RoundUp`]: crate::LevelRoundingMode::RoundUp
+[`LevelRoundingMode::RoundDown`]: crate::core::LevelRoundingMode::RoundDown
+[`LevelRoundingMode::RoundUp`]: crate::core::LevelRoundingMode::RoundUp
 
 | Rounding mode | Rounding function |
 | --- | --- |
@@ -595,9 +595,9 @@ attribute is described under ["RGB Color"](#rgb-color).
 
 ## Scan Lines
 
-[`LineOrder::IncreasingY`]: crate::LineOrder::IncreasingY
-[`LineOrder::DecreasingY`]: crate::LineOrder::DecreasingY
-[`LineOrder::RandomY`]: crate::LineOrder::RandomY
+[`LineOrder::IncreasingY`]: crate::core::LineOrder::IncreasingY
+[`LineOrder::DecreasingY`]: crate::core::LineOrder::DecreasingY
+[`LineOrder::RandomY`]: crate::core::LineOrder::RandomY
 
 When a scan-line based image is written, application code must set the
 lineOrder attribute in the header to [`LineOrder::IncreasingY`] order (top scan line

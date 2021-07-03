@@ -67,7 +67,7 @@ This document shows how to write Rust code that reads and writes OpenEXR
 
 The text assumes that the reader is familiar with OpenEXR terms like
 "channel", "attribute", "data window" or "deep data". For an explanation
-of those terms see the *Technical Introduction to OpenEXR* document.
+of those terms see the [Technical Introduction to OpenEXR](crate::doc::technical_introduction) document.
 
 Most of the code examples below are standalone examples in the `examples` directory and can be run as usual.
 
