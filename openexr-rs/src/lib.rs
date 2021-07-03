@@ -63,9 +63,9 @@
 //!     let mut file = RgbaInputFile::new(path, 1).unwrap();
 //!     // Note that windows in OpenEXR are ***inclusive*** bounds, so a
 //!     // 1920x1080 image has window [0, 0, 1919, 1079].
-//!     let data_window = file.header().data_window::<[i32; 4]>().clone();
-//!     let width = data_window[2] - data_window[0] + 1;
-//!     let height = data_window[3] - data_window[1] + 1;
+//!     let data_window: [i32; 4] = *file.header().data_window();
+//!     let width = data_window.width() + 1;
+//!     let height = data_window.height() + 1;
 //!
 //!     let mut pixels = vec![Rgba::zero(); (width * height) as usize];
 //!     file.set_frame_buffer(&mut pixels, 1, width as usize)?;
@@ -97,8 +97,8 @@
 //! #   use imath_traits::Zero;
 //!     let mut file = RgbaInputFile::new(path, 1).unwrap();
 //!     let data_window = file.header().data_window::<[i32; 4]>().clone();
-//!     let width = data_window[2] - data_window[0] + 1;
-//!     let height = data_window[3] - data_window[1] + 1;
+//!     let width = data_window.width() + 1;
+//!     let height = data_window.height() + 1;
 //! #    Ok(())
 //! # }
 //! ```
@@ -121,7 +121,7 @@
 //!     use imath_traits::Box2i;
 //!
 //!     let mut file = RgbaInputFile::new(path, 1).unwrap();
-//!     let data_window = file.header().data_window::<Box2i>().clone();
+//!     let data_window: Box2i = *file.header().data_window();
 //!     let width = data_window.width() + 1;
 //!     let height = data_window.height() + 1;
 //! #    Ok(())
