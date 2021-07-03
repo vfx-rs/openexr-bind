@@ -251,8 +251,8 @@ fn write_rgba2(
         1,
     )?;
 
-    file.set_frame_buffer(&pixels, 1, (data_window[2] - data_window[0] + 1) as usize)?;
-    file.write_pixels(data_window[3] - data_window[1] + 1)?;
+    file.set_frame_buffer(&pixels, 1, (data_window.width() + 1) as usize)?;
+    file.write_pixels(data_window.height() + 1)?;
 
     Ok(())
 }

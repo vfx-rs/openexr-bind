@@ -17,3 +17,7 @@ pub use crate::{
     },
     tiled::tiled_rgba_file::{TiledRgbaInputFile, TiledRgbaOutputFile},
 };
+
+// re-export Bound2 so we get .width() and .height() on bounding boxes even when
+// they're just [i32; 4]
+pub use imath_traits::Bound2;

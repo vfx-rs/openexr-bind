@@ -118,7 +118,7 @@
 //! # use openexr::prelude::*;
 //! # fn read_rgba1(path: &str) -> Result<(), Box<dyn std::error::Error>> {
 //! #   use imath_traits::Zero;
-//!     use imath_traits::{Bound2, Box2i};
+//!     use imath_traits::Box2i;
 //!
 //!     let mut file = RgbaInputFile::new(path, 1).unwrap();
 //!     let data_window = file.header().data_window::<Box2i>().clone();
