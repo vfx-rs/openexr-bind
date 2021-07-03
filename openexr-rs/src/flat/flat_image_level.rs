@@ -60,7 +60,7 @@ impl FlatImageLevel {
         }
     }
 
-    /// Get the [`FlatImage`](crate::flat_image::FlatImage) to which this level belongs   
+    /// Get the [`FlatImage`](crate::flat::flat_image::FlatImage) to which this level belongs   
     ///
     pub fn flat_image(&self) -> FlatImageRef {
         let mut ptr = std::ptr::null();
@@ -70,7 +70,7 @@ impl FlatImageLevel {
         }
     }
 
-    /// Get a mutable reference to the [`FlatImage`](crate::flat_image::FlatImage) to which this level belongs   
+    /// Get a mutable reference to the [`FlatImage`](crate::flat::flat_image::FlatImage) to which this level belongs   
     ///
     pub fn flat_image_mut(&mut self) -> FlatImageRefMut {
         let mut ptr = std::ptr::null_mut();
@@ -80,7 +80,7 @@ impl FlatImageLevel {
         }
     }
 
-    /// Find a [`FlatChannelF16`](crate::flat_image_channel::FlatChannelF16) with the given name
+    /// Find a [`FlatChannelF16`](crate::flat::flat_image_channel::FlatChannelF16) with the given name
     ///
     pub fn find_channel_f16(&self, name: &str) -> Option<FlatChannelF16Ref> {
         let mut ptr = std::ptr::null();
@@ -99,7 +99,7 @@ impl FlatImageLevel {
         }
     }
 
-    /// Find a [`FlatChannelF16`](crate::flat_image_channel::FlatChannelF16) with the given name and get a mutable reference
+    /// Find a [`FlatChannelF16`](crate::flat::flat_image_channel::FlatChannelF16) with the given name and get a mutable reference
     /// to it
     ///
     pub fn find_channel_f16_mut(
@@ -122,7 +122,7 @@ impl FlatImageLevel {
         }
     }
 
-    /// Find a [`FlatChannelF32`](crate::flat_image_channel::FlatChannelF32) with the given name
+    /// Find a [`FlatChannelF32`](crate::flat::flat_image_channel::FlatChannelF32) with the given name
     ///
     pub fn find_channel_f32(&self, name: &str) -> Option<FlatChannelF32Ref> {
         let mut ptr = std::ptr::null();
@@ -140,7 +140,7 @@ impl FlatImageLevel {
         }
     }
 
-    /// Find a [`FlatChannelF32`](crate::flat_image_channel::FlatChannelF32) with the given name and get a mutable reference
+    /// Find a [`FlatChannelF32`](crate::flat::flat_image_channel::FlatChannelF32) with the given name and get a mutable reference
     /// to it
     ///
     pub fn find_channel_f32_mut(
@@ -162,7 +162,7 @@ impl FlatImageLevel {
         }
     }
 
-    /// Find a [`FlatChannelU32`](crate::flat_image_channel::FlatChannelU32) with the given name
+    /// Find a [`FlatChannelU32`](crate::flat::flat_image_channel::FlatChannelU32) with the given name
     ///
     pub fn find_channel_u32(&self, name: &str) -> Option<FlatChannelU32Ref> {
         let mut ptr = std::ptr::null();
@@ -180,7 +180,7 @@ impl FlatImageLevel {
         }
     }
 
-    /// Find a [`FlatChannelU32`](crate::flat_image_channel::FlatChannelU32) with the given name and get a mutable reference
+    /// Find a [`FlatChannelU32`](crate::flat::flat_image_channel::FlatChannelU32) with the given name and get a mutable reference
     /// to it
     ///
     pub fn find_channel_u32_mut(

@@ -91,13 +91,13 @@ the following eight structs:
 
 |                    | Tiles                                                                | Scan lines                                           | Scan lines and tiles                               |
 |--------------------|----------------------------------------------------------------------|------------------------------------------------------|----------------------------------------------------|
-| Arbitrary channels | [`TiledInputFile`](crate::tiled_input_file::TiledInputFile)          |                                                      | [`InputFile`](crate::input_file::InputFile)        |
-|                    | [`TiledOutputFile`](crate::tiled_output_file::TiledOutputFile)       | [`OutputFile`](crate::output_file::OutputFile)       |                                                    |
-| RGBA only          | [`TiledRgbaInputFile`](crate::tiled_rgba_file::TiledRgbaInputFile)   |                                                      | [`RgbaInputFile`](crate::rgba_file::RgbaInputFile) |
-|                    | [`TiledRgbaOutputFile`](crate::tiled_rgba_file::TiledRgbaOutputFile) | [`RgbaOutputFile`](crate::rgba_file::RgbaOutputFile) |                                                    |
+| Arbitrary channels | [`TiledInputFile`](crate::tiled::tiled_input_file::TiledInputFile)          |                                                      | [`InputFile`](crate::core::input_file::InputFile)        |
+|                    | [`TiledOutputFile`](crate::tiled::tiled_output_file::TiledOutputFile)       | [`OutputFile`](crate::core::output_file::OutputFile)       |                                                    |
+| RGBA only          | [`TiledRgbaInputFile`](crate::tiled::tiled_rgba_file::TiledRgbaInputFile)   |                                                      | [`RgbaInputFile`](crate::rgba::rgba_file::RgbaInputFile) |
+|                    | [`TiledRgbaOutputFile`](crate::tiled::tiled_rgba_file::TiledRgbaOutputFile) | [`RgbaOutputFile`](crate::rgba::rgba_file::RgbaOutputFile) |                                                    |
 
-The classes for reading scan line based images ([`InputFile`](crate::input_file::InputFile) and
-[`RgbaInputFile`](crate::rgba_file::RgbaInputFile)) can also be used to read tiled image files. This way,
+The classes for reading scan line based images ([`InputFile`](crate::core::input_file::InputFile) and
+[`RgbaInputFile`](crate::core::rgba_file::RgbaInputFile)) can also be used to read tiled image files. This way,
 programs that do not need support for tiled or multi-resolution images
 can always use the rather straightforward scan line interfaces, without
 worrying about complications related to tiling and multiple resolutions.
@@ -153,7 +153,7 @@ data files.
 Writing a simple RGBA image file is fairly straightforward:
 
 ```no_run
-use openexr::{Rgba, RgbaOutputFile, Header, RgbaChannels};
+use openexr::prelude::*;
 
 fn write_rgba1(filename: &str, pixels: &[Rgba], width: i32, height: i32) 
 -> Result<(), Box<dyn std::error::Error>> {
@@ -172,8 +172,8 @@ fn write_rgba1(filename: &str, pixels: &[Rgba], width: i32, height: i32)
 }
 ```
 
-[`RgbaOutputFile`]: crate::rgba_file::RgbaOutputFile
-[`Rgba`]: crate::rgba::Rgba
+[`RgbaOutputFile`]: crate::rgba::rgba_file::RgbaOutputFile
+[`Rgba`]: crate::rgba::rgba::Rgba
 
 Construction of an [`RgbaOutputFile`] object, in line 1, creates an OpenEXR
 header, sets the header\'s attributes, opens the file with the specified
@@ -185,30 +185,30 @@ Line 2 specifies how the pixel data are laid out in memory. In our
 example, `pixels` is a slice of [`Rgba`] of length `width * height`.
 
 The elements of our slice are arranged so that the pixels of each scan
-line are contiguous in memory. The  [`set_frame_buffer()`](crate::rgba_file::RgbaOutputFile::set_frame_buffer) method takes
+line are contiguous in memory. The  [`set_frame_buffer()`](crate::rgba::rgba_file::RgbaOutputFile::set_frame_buffer) method takes
 three arguments, `pixels`, `x_stride`, and `y_stride`. To find the address
 of pixel `(x, y)`, the [`RgbaOutputFile`] object computes
 
-```ignore
+```c
 pixels[x * x_stride + y * y_sride]
 ```
 
 In this case, `x_stride` and `y_stride` are set to `1` and `width`, respectively, indicating that pixel `(x, y)` can be found at index
 
-```ignore
+```c
 pixels[1 * x + width * y]
 ```
 
-The call to [`write_pixels()`](crate::rgba_file::RgbaOutputFile::write_pixels) in line 3, copies the image\'s pixels from
-memory to the file. The argument to [`write_pixels()`](crate::rgba_file::RgbaOutputFile::write_pixels), `height`, specifies
+The call to [`write_pixels()`](crate::rgba::rgba_file::RgbaOutputFile::write_pixels) in line 3, copies the image\'s pixels from
+memory to the file. The argument to [`write_pixels()`](crate::rgba::rgba_file::RgbaOutputFile::write_pixels), `height`, specifies
 how many scan lines worth of data are copied.
 
 Finally, returning from function `write_rgba1()` drops the local [`RgbaOutputFile`] object, thereby closing the file.
 
-Why do we have to tell the [`write_pixels()`](crate::rgba_file::RgbaOutputFile::write_pixels) function how many scan lines
+Why do we have to tell the [`write_pixels()`](crate::rgba::rgba_file::RgbaOutputFile::write_pixels) function how many scan lines
 we want to write? Shouldn\'t the [`RgbaOutputFile`] object be able to
 derive the number of scan lines from the data window? OpenEXR
-doesn\'t require writing all scan lines with a single [`write_pixels()`](crate::rgba_file::RgbaOutputFile::write_pixels)
+doesn\'t require writing all scan lines with a single [`write_pixels()`](crate::rgba::rgba_file::RgbaOutputFile::write_pixels)
 call. Many programs want to write scan lines individually, or in small
 blocks. For example, rendering computer-generated images can take a
 significant amount of time, and many rendering programs want to store
@@ -216,9 +216,9 @@ each scan line in the image file as soon as all of the pixels for that
 scan line are available. This way, users can look at a partial image
 before rendering is finished. The OpenEXR crate allows writing the scan
 lines in top-to-bottom or bottom-to-top direction. The direction is
-defined by the file header\'s line order attribute ([`LineOrder::IncreasingY`](crate::LineOrder) or
-[`LineOrder::DecreasingY`](crate::LineOrder)). By default, scan lines are written top to bottom
-([`LineOrder::IncreasingY`](crate::LineOrder)).
+defined by the file header\'s line order attribute ([`LineOrder::IncreasingY`](crate::core::LineOrder) or
+[`LineOrder::DecreasingY`](crate::core::LineOrder)). By default, scan lines are written top to bottom
+([`LineOrder::IncreasingY`](crate::core::LineOrder)).
 
 ## Writing a Cropped RGBA Image
 
@@ -231,7 +231,7 @@ the data window specifies the region for which valid pixel data exist.
 Only the pixels in the data window are stored in the file.
 
 ```no_run
-use openexr::{Rgba, RgbaOutputFile, Header, RgbaChannels, LineOrder, Compression};
+use openexr::prelude::*;
 
 fn write_rgba2(
     filename: &str, 
@@ -240,8 +240,8 @@ fn write_rgba2(
     display_window: &[i32; 4],
 ) -> Result<(), Box<dyn std::error::Error>> {
     let mut header = Header::from_windows(
-        data_window,    
-        display_window,
+        *data_window,    
+        *display_window,
     );
 
     let mut file = RgbaOutputFile::new(
@@ -258,7 +258,7 @@ fn write_rgba2(
 }
 ```
 
-The code above is similar to that in [Writing an RGBA Image File](#writing-an-rgba-image-file), where the whole image was stored in the file. Two things are different, however: When the [`RgbaOutputFile`] object is created, the data window and the display window are explicitly specified rather than being derived from the image's width and height. The number of scan lines stored in the file by [`write_pixels()`](crate::rgba_file::RgbaOutputFile::write_pixels) is equal to the height of the data window instead of the height of the whole image. Since we are using the default [`LineOrder::IncreasingY`](crate::LineOrder) direction for storing the scan lines in the file, [`write_pixels()`](crate::rgba_file::RgbaOutputFile::write_pixels) starts at the top of the data window, at y coordinate `data_window.min.y`, and proceeds toward the bottom, at y coordinate `data_window.max.y`.
+The code above is similar to that in [Writing an RGBA Image File](#writing-an-rgba-image-file), where the whole image was stored in the file. Two things are different, however: When the [`RgbaOutputFile`] object is created, the data window and the display window are explicitly specified rather than being derived from the image's width and height. The number of scan lines stored in the file by [`write_pixels()`](crate::rgba::rgba_file::RgbaOutputFile::write_pixels) is equal to the height of the data window instead of the height of the whole image. Since we are using the default [`LineOrder::IncreasingY`](crate::core::LineOrder) direction for storing the scan lines in the file, [`write_pixels()`](crate::rgba::rgba_file::RgbaOutputFile::write_pixels) starts at the top of the data window, at y coordinate `data_window.min.y`, and proceeds toward the bottom, at y coordinate `data_window.max.y`.
 
 Even though we are storing only part of the image in the file, the frame buffer is still large enough to hold the whole image. In order to save memory, a smaller frame buffer could have been allocated, just big enough to hold the contents of the data window. Assuming that the pixels were still stored in contiguous scan lines, with the *pixels* pointer pointing to the pixel at the upper left corner of the data window, at coordinates *(dataWindow.min.x, dataWindow.min.y)*, the arguments to the *setFrameBuffer()* call would have to be to be changed as follows:
 
@@ -304,13 +304,8 @@ attributes to the image file header: a string, called `"comments"`, and
 a 4×4 matrix, called `"cameraTransform"`.
 
 ```no_run
-use openexr::{
-    RgbaChannels, 
-    attribute::{CppStringAttribute, M44fAttribute},
-    rgba_file::RgbaOutputFile, 
-    header::Header, 
-    rgba::Rgba, 
-};
+use openexr::prelude::*;
+use openexr::core::attribute::{CppStringAttribute, M44fAttribute};
 
 fn write_rgba3(
     pixels: &[Rgba], 
@@ -342,7 +337,7 @@ different people, the IlmImf library defines a set of standard
 attributes for commonly used data, such as colorimetric information,
 time and place where an image was recorded, or the owner of an image
 file\'s content. For the current list of standard attributes, see the
-[`standard_attributes`](crate::standard_attributes) module. The list is expected to grow over
+[`standard_attributes`](crate::core::standard_attributes) module. The list is expected to grow over
 time as OpenEXR users identify new types of data they would like to
 represent in a standard format. If you need to store some piece of
 information in an OpenEXR file header, it is probably a good idea to
@@ -354,7 +349,8 @@ attribute.
 Reading an RGBA image is almost as easy as writing one:
 
 ```no_run
-use openexr::{Rgba, RgbaInputFile};
+use openexr::prelude::*;
+
 fn read_rgba1(path: &str) -> Result<(), Box<dyn std::error::Error>> {
     use imath_traits::Zero;
 
@@ -370,7 +366,7 @@ fn read_rgba1(path: &str) -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 ```
-[`RgbaInputFile`]: crate::rgba_file::RgbaInputFile
+[`RgbaInputFile`]: crate::rgba::rgba_file::RgbaInputFile
 
 Constructing an [`RgbaInputFile`] object, passing the name of the file to
 the constructor, opens the file and reads the file\'s header.
@@ -385,12 +381,12 @@ Note that we ignore the display window in this example; in a program
 that wanted to place the pixels in the data window correctly in an
 overall image, the display window would have to be taken into account.
 
-Just as for writing a file, calling [`RgbaInputFile`](crate::rgba_file::RgbaInputFile::set_frame_buffer) tells the
+Just as for writing a file, calling [`RgbaInputFile`](crate::rgba::rgba_file::RgbaInputFile::set_frame_buffer) tells the
 [`RgbaInputFile`] object how to access individual pixels in the buffer.
 (See also [Writing a Cropped RGBA
 Image](#writing-a-cropped-rgba-image).
 
-Calling [`read_pixels()`](crate::rgba_file::RgbaInputFile::read_pixels) copies the pixel data from the file into the
+Calling [`read_pixels()`](crate::rgba::rgba_file::RgbaInputFile::read_pixels) copies the pixel data from the file into the
 buffer. If one or more of the R, G, B, and A channels are missing in the
 file, the corresponding field in the pixels is filled with an
 appropriate default value. The default value for R, G and B is 0.0, or
@@ -399,7 +395,7 @@ black; the default value for A is 1.0, or opaque.
 Finally, returning from function `read_rgba1()` drops the local
 [`RgbaInputFile`] object, thereby closing the file.
 
-Unlike the [`RgbaOutputFile`]'s [`write_pixels()`](crate::rgba_file::RgbaOutputFile::write_pixels) method, [`read_pixels()`](crate::rgba_file::RgbaInputFile::read_pixels)
+Unlike the [`RgbaOutputFile`]'s [`write_pixels()`](crate::rgba::rgba_file::RgbaOutputFile::write_pixels) method, [`read_pixels()`](crate::rgba::rgba_file::RgbaInputFile::read_pixels)
 has two arguments. Calling `read_pixels(y1, y2)` copies the pixels for all
 scan lines with y coordinates from `y1` to `y2` into the frame buffer.
 This allows access to the the scan lines in any order. The image can be
@@ -409,9 +405,9 @@ scan lines. It is also possible to skip parts of the image.
 Note that even though random access is possible, reading the scan lines
 in the same order as they were written, is more efficient. Random access
 to the file requires seek operations, which tend to be slow. Calling the
-[`RgbaInputFile`]'s [`line_order`](crate::rgba_file::RgbaInputFile::line_order) method returns the order in which the
-scan lines in the file were written ([`LineOrder::IncreasingY`](crate::LineOrder) or [`LineOrder::DecreasingY`](crate::LineOrder)).
-If successive calls to [`read_pixels()`](crate::rgba_file::RgbaInputFile::read_pixels) access the scan lines in the right
+[`RgbaInputFile`]'s [`line_order`](crate::rgba::rgba_file::RgbaInputFile::line_order) method returns the order in which the
+scan lines in the file were written ([`LineOrder::IncreasingY`](crate::core::LineOrder) or [`LineOrder::DecreasingY`](crate::core::LineOrder)).
+If successive calls to [`read_pixels()`](crate::rgba::rgba_file::RgbaInputFile::read_pixels) access the scan lines in the right
 order, the OpenEXR reads the file as fast as possible, without seek operations.
 
 <!---
@@ -482,7 +478,7 @@ given file\'s header contains particular attributes, and how to read
 those attributes\' values.
 
 ```no_run
-use openexr::rgba_file::RgbaInputFile;
+use openexr::prelude::*;
 
 fn read_header(filename: &str) -> Result<(), Box<dyn std::error::Error>> {
     let file = RgbaInputFile::new(filename, 1)?;
@@ -500,14 +496,14 @@ fn read_header(filename: &str) -> Result<(), Box<dyn std::error::Error>> {
 ```
 
 As usual, we open the file by constructing an [`RgbaInputFile`] object.
-Calling [`find_typed_attribute_X(n)`](crate::header::Header::find_typed_attribute_string) searches the header for an attribute
+Calling [`find_typed_attribute_X(n)`](crate::core::header::Header::find_typed_attribute_string) searches the header for an attribute
 with type `X` and name `n`. If a matching attribute is found,
-[`find_typed_attribute_X(n)`](crate::header::Header::find_typed_attribute_string) returns [`Some`] containing a reference to the attribute. If the header
+[`find_typed_attribute_X(n)`](crate::core::header::Header::find_typed_attribute_string) returns [`Some`] containing a reference to the attribute. If the header
 contains no attribute with name `n`, or if the header contains an
 attribute with name `n`, but the attribute\'s type is not `X`,
-[`find_typed_attribute_X(n)`](crate::header::Header::find_typed_attribute_string) returns [`None`]. Once we have references to the attributes
+[`find_typed_attribute_X(n)`](crate::core::header::Header::find_typed_attribute_string) returns [`None`]. Once we have references to the attributes
 we were looking for, we can access their values by calling the
-attributes\' [`value()`](crate::attribute::CppStringAttribute::value) methods.
+attributes\' [`value()`](crate::core::attribute::CppStringAttribute::value) methods.
 
 
 ## Luminance/Chroma and Gray-Scale Images
@@ -546,11 +542,11 @@ file:
 | [`RgbaChannels::WriteY`]    |  luminance only           |
 | [`RgbaChannels::WriteYa`]   |  luminance, alpha         |
 
-[`RgbaChannels::WriteRgba`]: crate::rgba_channels::RgbaChannels::WriteRgba
-[`RgbaChannels::WriteYc`]: crate::rgba_channels::RgbaChannels::Yc
-[`RgbaChannels::WriteYca`]: crate::rgba_channels::RgbaChannels::Yca
-[`RgbaChannels::WriteY`]: crate::rgba_channels::RgbaChannels::Y
-[`RgbaChannels::WriteYa`]: crate::rgba_channels::RgbaChannels::Ya
+[`RgbaChannels::WriteRgba`]: crate::rgba::rgba::RgbaChannels::WriteRgba
+[`RgbaChannels::WriteYc`]: crate::rgba::rgba::RgbaChannels::Yc
+[`RgbaChannels::WriteYca`]: crate::rgba::rgba::RgbaChannels::Yca
+[`RgbaChannels::WriteY`]: crate::rgba::rgba::RgbaChannels::Y
+[`RgbaChannels::WriteYa`]: crate::rgba::rgba::RgbaChannels::Ya
 
 [`RgbaChannels::WriteY`] and [`RgbaChannels::WriteYa`] provide an efficient way to store gray-scale
 images. The chroma channels for a gray-scale image contain only zeroes,
@@ -571,18 +567,12 @@ pixels. The data for the two channels are supplied in two separate
 buffers, `g` and `z`. Within each buffer, the pixels of each
 scan line are contiguous in memory.
 
-[`PixelType`]: crate::PixelType
-[`PixelType::Half`]: crate::PixelType::Half
-[`PixelType::Float`]: crate::PixelType::Float
+[`PixelType`]: crate::core::PixelType
+[`PixelType::Half`]: crate::core::PixelType::Half
+[`PixelType::Float`]: crate::core::PixelType::Float
 
 ```no_run
-use openexr::{
-    channel_list::{CHANNEL_FLOAT, CHANNEL_HALF},
-    frame_buffer::{Frame, Slice, FrameBuffer}, 
-    output_file::OutputFile,
-    header::Header,
-    PixelType, 
-};
+use openexr::prelude::*;
 use half::f16;
 
 fn write_gz1(
@@ -601,7 +591,7 @@ fn write_gz1(
 
     frame_buffer.insert(
         "G",
-        &Slice::new(
+        &Slice::builder(
             PixelType::Half,
             g.as_ptr() as *const u8,
             width as i64,
@@ -613,7 +603,7 @@ fn write_gz1(
 
     frame_buffer.insert(
         "Z",
-        &Slice::new(
+        &Slice::builder(
             PixelType::Float,
             z.as_ptr() as *const u8,
             width as i64,
@@ -632,25 +622,25 @@ fn write_gz1(
 ```
 
 First, an OpenEXR header is created, and the header\'s display
-window and data window are both set to `(0, 0) - (width-1, height-1)` by the [`with_dimensions`](crate::header::Header::with_dimensions) constructor.
+window and data window are both set to `(0, 0) - (width-1, height-1)` by the [`with_dimensions`](crate::core::header::Header::with_dimensions) constructor.
 
 Next the names and types of the channels that are to be stored are specified on the header.
 
-[`FrameBuffer`]: crate::frame_buffer::FrameBuffer
-[`Slice`]: crate::frame_buffer::Slice
-[`SliceBuilder`]: crate::frame_buffer::SliceBuilder
-[`OutputFile`]: crate::output_file::OutputFile
+[`FrameBuffer`]: crate::core::frame_buffer::FrameBuffer
+[`Slice`]: crate::core::frame_buffer::Slice
+[`SliceBuilder`]: crate::core::frame_buffer::SliceBuilder
+[`OutputFile`]: crate::core::output_file::OutputFile
 
 Then a [`FrameBuffer`] is constructed and two [`Slice`]s are added to it. [`Slice`] describes the memory layout of a single channel. The constructor takes as arguments the [`PixelType`] of the [`Slice`], a pointer to the start of the [`Slice`]'s data window, and the width and height of the [`Slice`]. No further arguments are required in this example so the [`Slice`] is built immediately.
 
-Note that unlike the C++ API, the strides of the pixels are automatically computed from the pixel type. You only need to specify the [`x_stride`](crate::frame_buffer::SliceBuilder::x_stride) and/or [`y_stride`](crate::frame_buffer::SliceBuilder::y_stride) if your pixels are not densely packed elements of the specified type (e.g. you are passing an RGBA slice and ony want to write out the R channel).
+Note that unlike the C++ API, the strides of the pixels are automatically computed from the pixel type. You only need to specify the [`x_stride`](crate::core::frame_buffer::SliceBuilder::x_stride) and/or [`y_stride`](crate::core::frame_buffer::SliceBuilder::y_stride) if your pixels are not densely packed elements of the specified type (e.g. you are passing an RGBA slice and ony want to write out the R channel).
 
 Next, constructing an [`OutputFile`] object opens the file with the
 specified name, and stores the header in the file.
 
-The [`write_pixels()`](crate::output_file::OutputFile::write_pixels) call copies the image's pixels from
+The [`write_pixels()`](crate::core::output_file::OutputFile::write_pixels) call copies the image's pixels from
 memory into the file. As in the RGBA-only interface, the argument to
-[`write_pixels()`](crate::output_file::OutputFile::write_pixels) specifies how many scan lines are copied into the file.
+[`write_pixels()`](crate::core::output_file::OutputFile::write_pixels) specifies how many scan lines are copied into the file.
 (See [Writing an RGBA Image File](#writing-and-rgba-image-file))
 
 If the image file contains a channel for which the [`FrameBuffer`] object
@@ -678,13 +668,7 @@ only for the pixels in the data window, the `base`, `x_stride()` and
 be adjusted accordingly. (Again, see [Writing a Cropped RGBA Image](#writing-a-cropped-rgba-image).
 
 ```no_run
-use openexr::{
-    channel_list::{CHANNEL_FLOAT, CHANNEL_HALF},
-    frame_buffer::{Frame, Slice, FrameBuffer}, 
-    header::Header,
-    output_file::OutputFile,
-    PixelType, 
-};
+use openexr::prelude::*;
 use half::f16;
 
 fn write_gz2(
@@ -705,7 +689,7 @@ fn write_gz2(
 
     frame_buffer.insert(
         "G",
-        &Slice::new(
+        &Slice::builder(
             PixelType::Half,
             g.as_ptr() as *const u8,
             width as i64,
@@ -717,7 +701,7 @@ fn write_gz2(
 
     frame_buffer.insert(
         "Z",
-        &Slice::new(
+        &Slice::builder(
             PixelType::Float,
             z.as_ptr() as *const u8,
             width as i64,
@@ -738,7 +722,7 @@ fn write_gz2(
 
 ## Reading an Image File
 
-[`InputFile`]: crate::input_file::InputFile
+[`InputFile`]: crate::core::input_file::InputFile
 
 In this example, we read an OpenEXR image file using the [`InputFile`] general interface. We assume that the file contains two
 channels, R, and G, of type [`PixelType::Half`], and one channel, Z, of type [`PixelType::Float`].
@@ -990,7 +974,7 @@ over the channels:
 
 ```no_run
 use std::path::PathBuf;
-use openexr::input_file::InputFile;
+use openexr::prelude::*;
 
 // Open the `InputFile` and read the header
 let file = InputFile::new("image.exr", 4).unwrap();
@@ -1001,11 +985,11 @@ for (name, channel) in file.header().channels().iter() {
 
 ```
 
-Channels can also be accessed by name with the [`ChannelList::get()`](crate::channel_list::ChannelList::get) method, which returns an [`Option`] indiciating if the channel is present in the header or not.
+Channels can also be accessed by name with the [`ChannelList::get()`](crate::core::channel_list::ChannelList::get) method, which returns an [`Option`] indiciating if the channel is present in the header or not.
 
 ```no_run
 use std::path::PathBuf;
-use openexr::input_file::InputFile;
+use openexr::prelude::*;
 
 // Open the `InputFile` and read the header
 let file = InputFile::new("image.exr", 4).unwrap();
@@ -1038,17 +1022,17 @@ Channel names that do not contain a `.`, or that contain a `.` only
 at the beginning or at the end are not considered to be part of any
 layer.
 
-[`ChannelList`]: crate::channel_list::ChannelList
+[`ChannelList`]: crate::core::channel_list::ChannelList
 
 Class [`ChannelList`] has two member functions that support per-layer
-access to channels: [`layers()`](crate::channel_list::ChannelList::layers) returns the names of all layers in a
-[`ChannelList`], and [`channels_in_layer()`](crate::channel_list::ChannelList::channels_in_layer) returns an iterator over the channels in the
+access to channels: [`layers()`](crate::core::channel_list::ChannelList::layers) returns the names of all layers in a
+[`ChannelList`], and [`channels_in_layer()`](crate::core::channel_list::ChannelList::channels_in_layer) returns an iterator over the channels in the
 corresponding layer.
 
 The following code shows how to iterate over all the channels in a particular layer:
 
 ```no_run
-use openexr::{channel_list::{Channel, ChannelList}, PixelType};
+use openexr::prelude::*;
 
 let mut list = ChannelList::new();
 let channel = Channel {
@@ -1083,9 +1067,9 @@ There are three different level modes:
 
 | Mode | Explanation |
 | --- | --- |
-| [`LevelMode::OneLevel`](crate::LevelMode::OneLevel) | The file contains a single level. |
-| [`LevelMode::MipmapLevels`](crate::LevelMode::MipmapLevels) |   The file contains multiple levels. The first level holds the image at full resolution. Each successive level is half the resolution of the previous level in x and y direction. The last level contains only a single pixel. `MipmapLevels` files are used for texture-mapping and similar applications. |
-| [`LevelMode::RipmapLevels`](crate::LevelMode::RipmapLevels) |  Like `MipmapLevels`, but with more levels. The levels include all combinations of reducing the resolution of the image by powers of two independently in x and y direction. Used for texture mapping, like `MipmapLevels`. The additional levels in a `RipmapLevels` file can help to accelerate anisotropic filtering during texture lookups. |
+| [`LevelMode::OneLevel`](crate::core::LevelMode::OneLevel) | The file contains a single level. |
+| [`LevelMode::MipmapLevels`](crate::core::LevelMode::MipmapLevels) |   The file contains multiple levels. The first level holds the image at full resolution. Each successive level is half the resolution of the previous level in x and y direction. The last level contains only a single pixel. `MipmapLevels` files are used for texture-mapping and similar applications. |
+| [`LevelMode::RipmapLevels`](crate::core::LevelMode::RipmapLevels) |  Like `MipmapLevels`, but with more levels. The levels include all combinations of reducing the resolution of the image by powers of two independently in x and y direction. Used for texture mapping, like `MipmapLevels`. The additional levels in a `RipmapLevels` file can help to accelerate anisotropic filtering during texture lookups. |
 
 In `MipmapLevels` and `RipmapLevels` mode, the size (width or height)
 of each level is computed by halving the size of the level with the next
@@ -1103,7 +1087,7 @@ tiles.
 
 An OpenEXR file\'s level mode and rounding mode, and the size of the
 tiles are stored in an attribute in the file header. The value of this
-attribute is a [`TileDescription`](crate::TileDescription) object:
+attribute is a [`TileDescription`](crate::core::TileDescription) object:
 
 ```
 pub struct TileDescription {
@@ -1134,12 +1118,7 @@ pub enum LevelRoundingMode {
 Writing a tiled RGBA image with a single level is easy:
 
 ```no_run
-use openexr::{
-    header::Header,
-    tiled_rgba_file::TiledRgbaOutputFile,
-    LevelMode, LevelRoundingMode,
-    rgba::{Rgba, RgbaChannels},
-};
+use openexr::prelude::*;
 
 fn write_tiled_rgba1(
     filename: &str,
@@ -1165,9 +1144,9 @@ fn write_tiled_rgba1(
     file.set_frame_buffer(&pixels, 1, width as usize)?;
     file.write_tiles(
         0,
-        file.num_x_tiles(0) - 1,
+        file.num_x_tiles(0)? - 1,
         0,
-        file.num_y_tiles(0) - 1,
+        file.num_y_tiles(0)? - 1,
         0,
         0,
     )?;
@@ -1175,7 +1154,7 @@ fn write_tiled_rgba1(
     Ok(())
 }
 ```
-[`TiledRgbaOutputFile`]: crate::tiled_rgba_file::TiledRgbaOutputFile;
+[`TiledRgbaOutputFile`]: crate::tiled::tiled_rgba_file::TiledRgbaOutputFile;
 
 Opening the file and defining the pixel data layout in memory are done
 in almost the same way as for scan line based files:
@@ -1187,9 +1166,9 @@ The size of each tile in the file will be `tile_width` by `tile_height`
 pixels. The channel list contains four channels, R, G, B, and A, of type
 [`PixelType::Half`].
 
-[`set_frame_buffer()`](crate::tiled_rgba_file::TiledRgbaOutputFile::set_frame_buffer) sets the `pixels` slice as the source for the image data, specifying the `x_stride` as 1 and `y_stride` as the width of the image, since the slice is denssely packed.
+[`set_frame_buffer()`](crate::tiled::tiled_rgba_file::TiledRgbaOutputFile::set_frame_buffer) sets the `pixels` slice as the source for the image data, specifying the `x_stride` as 1 and `y_stride` as the width of the image, since the slice is denssely packed.
 
-[`write_tiles()`](crate::tiled_rgba_file::TiledRgbaOutputFile::write_tiles) copies the pixels into the file. The first four arguments specify the x and y ranges of tiles to write, and we can use [`TiledRgbaOutputFile`]'s [`num_x_tiles()`](crate::tiled_rgba_file::TiledRgbaOutputFile::num_x_tiles) and [`num_y_tiles()`](crate::tiled_rgba_file::TiledRgbaOutputFile::num_y_tiles) to specify the full set of tiles in the image.
+[`write_tiles()`](crate::tiled::tiled_rgba_file::TiledRgbaOutputFile::write_tiles) copies the pixels into the file. The first four arguments specify the x and y ranges of tiles to write, and we can use [`TiledRgbaOutputFile`]'s [`num_x_tiles()`](crate::tiled::tiled_rgba_file::TiledRgbaOutputFile::num_x_tiles) and [`num_y_tiles()`](crate::tiled::tiled_rgba_file::TiledRgbaOutputFile::num_y_tiles) to specify the full set of tiles in the image.
 
 <!---
 This simple method works well when enough memory is available to
@@ -1503,10 +1482,7 @@ Reading a tiled RGBA image file is done similarly to writing one:
 
 ```no_run
 use imath_traits::Zero;
-use openexr::{
-    tiled_rgba_file::TiledRgbaInputFile,
-    rgba::Rgba,
-};
+use openexr::prelude::*;
 
 fn read_tiled_rgba1(
     filename: &str,
@@ -1521,9 +1497,9 @@ fn read_tiled_rgba1(
 
     file.read_tiles(
         0,
-        file.num_x_tiles(0) - 1,
+        file.num_x_tiles(0)? - 1,
         0,
-        file.num_y_tiles(0) - 1,
+        file.num_y_tiles(0)? - 1,
         0,
         0,
     )?;
@@ -1532,7 +1508,7 @@ fn read_tiled_rgba1(
 }
 ```
 
-[`TiledRgbaInputFile`]: crate::tiled_rgba_file::TiledRgbaInputFile
+[`TiledRgbaInputFile`]: crate::tiled::tiled_rgba_file::TiledRgbaInputFile
 
 First we need to create a [`TiledRgbaInputFile`] object for the given file
 name. We then retrieve information about the data window in order to
@@ -3152,7 +3128,7 @@ illuminated by their surroundings. Environment maps with enough dynamic
 range to represent even the brightest light sources in the environment
 are sometimes called \"light probe images.\"
 
-[`Envmap`]: crate::Envmap
+[`Envmap`]: crate::core::EnvMap
 
 In an OpenEXR file, an environment map is stored as a rectangular pixel
 array, just like any other image, but an attribute in the file header
@@ -3163,8 +3139,8 @@ are possible:
 
 | | |
 |---|---|
-| [`Envmap::Latlong`](crate::Envmap::Latlong) | <p>The environment is projected onto the image using polar coordinates (latitude and longitude). A pixel's x coordinate corresponds to its longitude, and the y coordinate corresponds to its latitude. The pixel in the upper left corner of the data window has latitude +π/2 and longitude +π; the pixel in the lower right corner has latitude -π/2 and longitude -π.</p><p> In 3D space, latitudes -π/2 and +π/2 correspond to the negative and positive y direction. Latitude 0, longitude 0 points in the positive z direction; latitude 0, longitude π/2 points in the positive x direction.</p><p>  ![Latlong map][env_latlong] </p> <p> For a latitude-longitude map, the size of the data window should be 2×N by N pixels (width by height), where N can be any integer greater than 0.</p>|
-| [`Envmap::Cube`](crate::Envmap::Cube) | <p>The environment is projected onto the six faces of an axis-aligned cube. The cube's faces are then arranged in a 2D image as shown below.</p><p> ![Cube map][env_cubemap] </p><p> For a cube map, the size of the data window should be N by 6×N pixels (width by height), where N can be any integer greater than 0. </p> | 
+| [`Envmap::Latlong`](crate::core::EnvMap::Latlong) | <p>The environment is projected onto the image using polar coordinates (latitude and longitude). A pixel's x coordinate corresponds to its longitude, and the y coordinate corresponds to its latitude. The pixel in the upper left corner of the data window has latitude +π/2 and longitude +π; the pixel in the lower right corner has latitude -π/2 and longitude -π.</p><p> In 3D space, latitudes -π/2 and +π/2 correspond to the negative and positive y direction. Latitude 0, longitude 0 points in the positive z direction; latitude 0, longitude π/2 points in the positive x direction.</p><p>  ![Latlong map][env_latlong] </p> <p> For a latitude-longitude map, the size of the data window should be 2×N by N pixels (width by height), where N can be any integer greater than 0.</p>|
+| [`Envmap::Cube`](crate::core::EnvMap::Cube) | <p>The environment is projected onto the six faces of an axis-aligned cube. The cube's faces are then arranged in a 2D image as shown below.</p><p> ![Cube map][env_cubemap] </p><p> For a cube map, the size of the data window should be N by 6×N pixels (width by height), where N can be any integer greater than 0. </p> | 
 
 **Note:** Both kinds of environment maps contain redundant pixels: In a
 latitude-longitude map, the top row and the bottom row of pixels
@@ -3181,7 +3157,7 @@ The following code fragment tests if an OpenEXR file contains an
 environment map, and if it does, which kind:
 
 ```no_run
-use openexr::{rgba_file::RgbaInputFile, Envmap};
+use openexr::prelude::*;
 
 pub fn test_envmap(filename: &str) -> Result<(), Box<dyn std::error::Error>> {
     let file = RgbaInputFile::new(filename, 1)?;
@@ -3202,4 +3178,4 @@ For each kind of environment map, openexr provides a set of
 routines that convert from 3D directions to 2D floating-point pixel
 locations and back. Those routines are useful in application programs
 that create environment maps and in programs that perform map lookups.
-For details, see the documentation for the [`envmap`](crate::envmap) module.
+For details, see the documentation for the [`envmap`](crate::core::envmap) module.

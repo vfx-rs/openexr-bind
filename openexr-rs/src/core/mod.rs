@@ -14,10 +14,14 @@ pub mod output_file;
 pub mod output_part;
 pub mod preview_image;
 pub mod rational;
+pub use rational::Rational;
 pub mod refptr;
 pub mod standard_attributes;
+pub mod tile_description;
 pub mod timecode;
+pub use timecode::TimeCode;
 pub mod version;
+pub use version::Version;
 
 pub use openexr_sys::Compression;
 pub use openexr_sys::CubeMapFace;

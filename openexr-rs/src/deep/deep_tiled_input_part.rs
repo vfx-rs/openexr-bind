@@ -42,7 +42,7 @@ impl<'a> DeepTiledInputPart<'a> {
         })
     }
 
-    /// Access to the file [`Header`](crate::header::Header)
+    /// Access to the file [`Header`](crate::core::header::Header)
     ///
     pub fn header(&self) -> HeaderRef {
         unsafe {

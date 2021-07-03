@@ -95,7 +95,7 @@ impl OutputFile {
     ///
     /// ## Errors
     /// * [`Error::InvalidArgument`] - If the pixel type of the
-    /// [`Channel`](crate::channel_list::Channel)s in the [`Header`]
+    /// [`Channel`](crate::core::channel_list::Channel)s in the [`Header`]
     /// do not match the types in the frame buffer, or if the sampling rates do
     /// not match.
     ///
@@ -147,9 +147,9 @@ impl OutputFile {
     /// # Safety
     /// This method is wildly unsafe as on the C++ side it's reading from
     /// pointers offset from the base pointers supplied by the
-    /// [`crate::frame_buffer::Slice`] in
+    /// [`crate::core::frame_buffer::Slice`] in
     /// the [`FrameBuffer`]. In particular, by setting an
-    /// [`crate::frame_buffer::SliceBuilder::origin`] you can cause `write_pixels`
+    /// [`crate::core::frame_buffer::SliceBuilder::origin`] you can cause `write_pixels`
     /// to read from arbitrary memory locations.
     ///
     pub unsafe fn write_pixels(&self, num_scan_lines: i32) -> Result<()> {

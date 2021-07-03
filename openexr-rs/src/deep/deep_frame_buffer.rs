@@ -163,7 +163,7 @@ impl DeepFrameBuffer {
         Ok(())
     }
 
-    /// Set a [`Frame`](crate::frame_buffer::Frame) to hold the per-pixel sample
+    /// Set a [`Frame`](crate::core::frame_buffer::Frame) to hold the per-pixel sample
     /// counts
     ///
     pub fn set_sample_count_frame(&mut self, frame: Frame) -> Result<()> {

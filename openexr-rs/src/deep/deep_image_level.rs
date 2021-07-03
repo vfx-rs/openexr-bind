@@ -60,7 +60,7 @@ impl DeepImageLevel {
         }
     }
 
-    /// Get the [`DeepImage`](crate::deep_image::DeepImage) to which this level belongs   
+    /// Get the [`DeepImage`](crate::deep::deep_image::DeepImage) to which this level belongs   
     ///
     pub fn deep_image(&self) -> DeepImageRef {
         let mut ptr = std::ptr::null();
@@ -70,7 +70,7 @@ impl DeepImageLevel {
         }
     }
 
-    /// Get a mutable reference to the [`DeepImage`](crate::deep_image::DeepImage) to which this level belongs   
+    /// Get a mutable reference to the [`DeepImage`](crate::deep::deep_image::DeepImage) to which this level belongs   
     ///
     pub fn deep_image_mut(&mut self) -> DeepImageRefMut {
         let mut ptr = std::ptr::null_mut();
@@ -80,7 +80,7 @@ impl DeepImageLevel {
         }
     }
 
-    /// Find a [`DeepChannelF16`](crate::deep_image_channel::DeepChannelF16) with the given name
+    /// Find a [`DeepChannelF16`](crate::deep::deep_image_channel::DeepChannelF16) with the given name
     ///
     pub fn find_channel_f16(&self, name: &str) -> Option<DeepChannelF16Ref> {
         let mut ptr = std::ptr::null();
@@ -99,7 +99,7 @@ impl DeepImageLevel {
         }
     }
 
-    /// Find a [`DeepChannelF16`](crate::deep_image_channel::DeepChannelF16) with the given name and get a mutable reference
+    /// Find a [`DeepChannelF16`](crate::deep::deep_image_channel::DeepChannelF16) with the given name and get a mutable reference
     /// to it
     ///
     pub fn find_channel_f16_mut(
@@ -122,7 +122,7 @@ impl DeepImageLevel {
         }
     }
 
-    /// Find a [`DeepChannelF32`](crate::deep_image_channel::DeepChannelF32) with the given name
+    /// Find a [`DeepChannelF32`](crate::deep::deep_image_channel::DeepChannelF32) with the given name
     ///
     pub fn find_channel_f32(&self, name: &str) -> Option<DeepChannelF32Ref> {
         let mut ptr = std::ptr::null();
@@ -140,7 +140,7 @@ impl DeepImageLevel {
         }
     }
 
-    /// Find a [`DeepChannelF32`](crate::deep_image_channel::DeepChannelF32) with the given name and get a mutable reference
+    /// Find a [`DeepChannelF32`](crate::deep::deep_image_channel::DeepChannelF32) with the given name and get a mutable reference
     /// to it
     ///
     pub fn find_channel_f32_mut(
@@ -162,7 +162,7 @@ impl DeepImageLevel {
         }
     }
 
-    /// Find a [`DeepChannelU32`](crate::deep_image_channel::DeepChannelU32) with the given name
+    /// Find a [`DeepChannelU32`](crate::deep::deep_image_channel::DeepChannelU32) with the given name
     ///
     pub fn find_channel_u32(&self, name: &str) -> Option<DeepChannelU32Ref> {
         let mut ptr = std::ptr::null();
@@ -180,7 +180,7 @@ impl DeepImageLevel {
         }
     }
 
-    /// Find a [`DeepChannelU32`](crate::deep_image_channel::DeepChannelU32) with the given name and get a mutable reference
+    /// Find a [`DeepChannelU32`](crate::deep::deep_image_channel::DeepChannelU32) with the given name and get a mutable reference
     /// to it
     ///
     pub fn find_channel_u32_mut(

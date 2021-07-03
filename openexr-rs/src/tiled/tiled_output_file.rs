@@ -396,7 +396,7 @@ impl TiledOutputFile {
     /// The file's line order attribute determines the order of the tiles
     /// in the file:
     ///
-    /// ## [`LineOrder::IncreasingY`](crate::LineOrder::DecreasingY)
+    /// ## [`LineOrder::IncreasingY`](crate::core::LineOrder)
     /// In the file, the tiles for each level are stored
     /// in a contiguous block.  The levels are ordered
     /// like this:
@@ -422,10 +422,10 @@ impl TiledOutputFile {
     /// where tx = [`num_x_tiles(lx)`](TiledOutputFile::num_x_tiles),
     /// and   ty = [`num_y_tiles(ly)`](TiledOutputFile::num_y_tiles).
     ///
-    /// ## [`LineOrder::DecreasingY`](crate::LineOrder::DecreasingY)
-    /// As for [`LineOrder::IncreasingY`](crate::LineOrder::IncreasingY), the tiles
+    /// ## [`LineOrder::DecreasingY`](crate::core::LineOrder)
+    /// As for [`LineOrder::IncreasingY`](crate::core::LineOrder), the tiles
     /// for each level are stored in a contiguous block.  The levels
-    /// are ordered the same way as for [`LineOrder::IncreasingY`](crate::LineOrder::IncreasingY),
+    /// are ordered the same way as for [`LineOrder::IncreasingY`](crate::core::LineOrder),
     /// but within an individual level, the tiles
     /// are stored in this order:
     ///
@@ -437,7 +437,7 @@ impl TiledOutputFile {
     /// ```
     ///
     ///
-    /// ## [`LineOrder::RandomY`](crate::LineOrder::RandomY)
+    /// ## [`LineOrder::RandomY`](crate::core::LineOrder)
     /// The order of the calls to `write_tile()` determines
     /// the order of the tiles in the file.
     ///
@@ -473,7 +473,7 @@ impl TiledOutputFile {
     /// The file's line order attribute determines the order of the tiles
     /// in the file:
     ///
-    /// ## [`LineOrder::IncreasingY`](crate::LineOrder::IncreasingY)
+    /// ## [`LineOrder::IncreasingY`](crate::core::LineOrder)
     /// In the file, the tiles for each level are stored
     /// in a contiguous block.  The levels are ordered
     /// like this:
@@ -499,10 +499,10 @@ impl TiledOutputFile {
     /// where tx = [`num_x_tiles(lx)`](TiledOutputFile::num_x_tiles),
     /// and   ty = [`num_y_tiles(ly)`](TiledOutputFile::num_y_tiles).
     ///
-    /// ## [`LineOrder::DecreasingY`](crate::LineOrder)
-    /// As for [`LineOrder::IncreasingY`](crate::LineOrder), the tiles
+    /// ## [`LineOrder::DecreasingY`](crate::core::LineOrder)
+    /// As for [`LineOrder::IncreasingY`](crate::core::LineOrder), the tiles
     /// for each level are stored in a contiguous block.  The levels
-    /// are ordered the same way as for [`LineOrder::IncreasingY`](crate::LineOrder),
+    /// are ordered the same way as for [`LineOrder::IncreasingY`](crate::core::LineOrder),
     /// but within an individual level, the tiles
     /// are stored in this order:
     ///
@@ -514,7 +514,7 @@ impl TiledOutputFile {
     /// ```
     ///
     ///
-    /// ## [`LineOrder::RandomY`](crate::LineOrder)
+    /// ## [`LineOrder::RandomY`](crate::core::LineOrder)
     /// The order of the calls to `write_tile()` determines
     /// the order of the tiles in the file.
     ///

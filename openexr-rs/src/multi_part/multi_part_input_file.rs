@@ -10,7 +10,7 @@ type Result<T, E = Error> = std::result::Result<T, E>;
 /// Manages writing multi-part images.
 ///
 /// Multi-part images are essentially just containers around multiple
-/// [`InputFile`](crate::input_file::InputFile)s.
+/// [`InputFile`](crate::core::input_file::InputFile)s.
 ///
 /// Certain attributes are shared between all parts:
 /// * `displayWindow`
@@ -68,7 +68,7 @@ impl MultiPartInputFile {
         v
     }
 
-    /// Get a reference to the [`Header`](crate::header::Header) for part `n`.
+    /// Get a reference to the [`Header`](crate::core::header::Header) for part `n`.
     ///
     /// # Errors
     /// * [`Error::OutOfRange`] - if `n` does not index a part in the file.

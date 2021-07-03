@@ -1,15 +1,14 @@
-use crate::{
-    core::{
-        attribute::TypedAttribute,
-        channel_list::{ChannelListRef, ChannelListRefMut},
-        cppstd::CppString,
-        error::Error,
-        preview_image::PreviewImage,
-        refptr::{OpaquePtr, Ref, RefMut},
-        Compression, LineOrder,
-    },
-    tiled::tile_description::TileDescription,
+use crate::core::{
+    attribute::TypedAttribute,
+    channel_list::{ChannelListRef, ChannelListRefMut},
+    cppstd::CppString,
+    error::Error,
+    preview_image::PreviewImage,
+    refptr::{OpaquePtr, Ref, RefMut},
+    tile_description::TileDescription,
+    Compression, LineOrder,
 };
+
 use openexr_sys as sys;
 
 use imath_traits::{Bound2, Vec2};
@@ -34,7 +33,7 @@ use std::ffi::{CStr, CString};
 /// * [`pixel_aspect_ratio()`](Header::pixel_aspect_ratio) - "pixelAspectRatio" - the ratio of a pixel's
 /// width to height when the image is projected at the correct ratio
 /// * [`channels()`](Header::channels) - "channels" - the description of
-/// [`Channel`](crate::channel_list::Channel)s in the image.
+/// [`Channel`](crate::core::channel_list::Channel)s in the image.
 /// * [`compression()`](Header::compression) - "compression" - which compression method is applied to
 /// the pixel data when it is stored.
 /// * [`line_order()`](Header::line_order) - "lineOrder" - the order in which scan lines are stored
@@ -196,7 +195,7 @@ impl Header {
 
     /// Construct a new [`HeaderSlice`], i.e. an array of `num` [`Header`]s,
     /// suitable for passing to the constructor of e.g.
-    /// [`MultiPartOutputFile`](`crate::MultiPartOutputFile`).
+    /// [`MultiPartOutputFile`](`crate::multi_part::multi_part_output_file::MultiPartOutputFile`).
     ///
     /// All the resulting [`Header`]s are default-initialized so you should
     /// manually iterate over and set their attributes after construction.
@@ -903,7 +902,7 @@ impl Header {
     //! # Tile Description
     //!
     //! The tile description is a
-    //! [`TileDescriptionAttribute`](crate::attribute::TileDescriptionAttribute) whose name is
+    //! [`TileDescriptionAttribute`](crate::core::attribute::TileDescriptionAttribute) whose name is
     //! `"tiles"`. It is mandatory for tiled files. The [`TileDescription`]
     //! describes various properties of the tiles that make up the image file.
 
@@ -942,11 +941,11 @@ impl Header {
 impl Header {
     //! # Preview Image
     //!
-    //! The preview image ias a [`PreviewImageAttribute`](crate::attribute::PreviewImageAttribute) whose name is
+    //! The preview image ias a [`PreviewImageAttribute`](crate::core::attribute::PreviewImageAttribute) whose name is
     //! `"preview"`.
     //! This attribute is special -- while an image file is being written,
     //! the pixels of the preview image can be changed repeatedly by calling
-    //! [`update_preview_image()`](crate::output_file::OutputFile::update_preview_image)
+    //! [`update_preview_image()`](crate::core::output_file::OutputFile::update_preview_image)
 
     /// Get the preview image from the header
     ///

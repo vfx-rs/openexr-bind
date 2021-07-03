@@ -10,7 +10,7 @@ use std::ops::{Deref, DerefMut};
 ///
 /// To be specific, `SysPointee` must be the pointee C++ type and `Pointee` must
 /// be the newtype wrapper, which must be `#[repr(transparent)]`. For example,
-/// for [`Header`](crate::header::Header):
+/// for [`Header`](crate::core::header::Header):
 ///
 /// #[repr(transparent)]
 /// pub struct Header(pub(crate) *mut sys::Imf_Header_t);

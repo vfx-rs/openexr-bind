@@ -530,16 +530,16 @@ mod impl_cgmath {
 }
 
 /// `Frame` attempts to provide a safer API on top of OpenEXR's
-/// [`Slice`](crate::frame_buffer::Slice) type.
+/// [`Slice`](crate::core::frame_buffer::Slice) type.
 ///
 /// Instead of providing a pointer and calculating offsets based on the data
-/// window offset, as [`Slice`](crate::frame_buffer::Slice) does, `Frame` wraps up the data window offset
+/// window offset, as [`Slice`](crate::core::frame_buffer::Slice) does, `Frame` wraps up the data window offset
 /// and handles memory allocation internally so that you can't get it wrong.
 ///
 /// # Examples
 /// ```no_run
 /// # fn foo() -> Result<(), openexr::Error> {
-/// use openexr::{Frame, Rgba, InputFile};
+/// use openexr::prelude::*;
 ///
 /// let file = InputFile::new("test.exr", 4)?;
 /// let data_window: [i32; 4] = *file.header().data_window();

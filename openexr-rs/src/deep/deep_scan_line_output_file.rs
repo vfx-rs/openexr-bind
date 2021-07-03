@@ -101,7 +101,7 @@ impl DeepScanLineOutputFile {
     ///
     /// ## Errors
     /// * [`Error::InvalidArgument`] - If the pixel type of the
-    /// [`Channel`](crate::channel_list::Channel)s in the [`Header`]
+    /// [`Channel`](crate::core::channel_list::Channel)s in the [`Header`]
     /// do not match the types in the frame buffer, or if the sampling rates do
     /// not match.
     ///
@@ -156,7 +156,7 @@ impl DeepScanLineOutputFile {
     /// # Safety
     /// This method is wildly unsafe as on the C++ side it's reading from
     /// pointers offset from the base pointers supplied by the
-    /// [`DeepSlice`](crate::deep_frame_buffer::DeepSlice) in
+    /// [`DeepSlice`](crate::deep::deep_frame_buffer::DeepSlice) in
     /// the [`DeepFrameBuffer`].
     ///
     pub unsafe fn write_pixels(&self, num_scan_lines: i32) -> Result<()> {

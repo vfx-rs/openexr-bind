@@ -53,7 +53,7 @@ type Result<T, E = Error> = std::result::Result<T, E>;
 /// channels.
 ///
 /// An image channel has a name (e.g. "R", "Z", or "xVelocity"), a type
-/// ([`CHANNEL_HALF`](crate::channel_list::CHANNEL_HALF), [`CHANNEL_FLOAT`](crate::channel_list::CHANNEL_FLOAT) or [`CHANNEL_UINT`](crate::channel_list::CHANNEL_UINT)) and x and y sampling
+/// ([`CHANNEL_HALF`](crate::core::channel_list::CHANNEL_HALF), [`CHANNEL_FLOAT`](crate::core::channel_list::CHANNEL_FLOAT) or [`CHANNEL_UINT`](crate::core::channel_list::CHANNEL_UINT)) and x and y sampling
 /// rates. A channel stores samples for a pixel if the pixel is inside the data
 /// window of the level to which the channel belongs, and the x and y coordinates
 /// of the pixel are divisible by the x and y sampling rates of the channel.
@@ -300,7 +300,7 @@ impl FlatImage {
     /// Insert a new channel into the image.
     ///
     /// The arguments to this function are the same as for adding a
-    /// a channel to a [`Header`](crate::header::Header): channel name, x and y sampling
+    /// a channel to a [`Header`](crate::core::header::Header): channel name, x and y sampling
     /// rates, and a "perceptually approximately linear" flag.
     ///
     /// If the image already contains a channel with the same name

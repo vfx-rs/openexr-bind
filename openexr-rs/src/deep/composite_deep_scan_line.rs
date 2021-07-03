@@ -15,8 +15,8 @@ type Result<T, E = Error> = std::result::Result<T, E>;
 ///
 /// ```no_run
 /// # fn cds() -> Result<(), openexr::Error> {
-/// use openexr::{Frame, Header, OutputFile, Rgba, CHANNEL_FLOAT, CHANNEL_HALF,
-/// CompositeDeepScanLine, DeepScanLineInputFile, FrameBuffer};
+/// use openexr::prelude::*;
+/// use openexr::deep::{CompositeDeepScanLine, DeepScanLineInputFile};
 ///
 /// // Open the two input deeps we want to composite
 /// let file_a = DeepScanLineInputFile::new("a.exr", 4)?;

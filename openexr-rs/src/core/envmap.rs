@@ -204,8 +204,7 @@ pub mod cube_map {
     /// finds the position, `pos`, of the corresponding pixel in an
     /// environment map with data window `dw`:
     /// ```no_run
-    /// use openexr::envmap::cube_map;
-    /// use openexr::CubeMapFace;
+    /// use openexr::prelude::*;
     ///
     /// let dir = [0.0f32, 1.0, 0.0];
     /// let dw = [0, 0, 255, 127];

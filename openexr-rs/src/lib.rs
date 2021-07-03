@@ -16,8 +16,30 @@
 //!
 //! # Quick Start
 //!
+//! To use the included C++ OpenEXR source:
+//!
+//! ```bash
+//! cargo add openexr
+//! cargo build
+//! ```
+//!
+//! If you have an existing installation of OpenEXR that you would like to use
+//! instead:
+//!
+//! ```bash
+//! cargo add openexr
+//! IMATH_ROOT=/path/to/imath OPENEXR_ROOT=/path/to/openexr cargo build
+//! ```
+//!
+//! Note that you must take care to ensure that the version of OpenEXR you are
+//! pointing it to is the same as that for this version of the crate, otherwise
+//! you will encounter linker errors since all OpenEXR symbols are versioned.
+//!
+//! The [`prelude`](crate::prelude) pulls in the set of types that you
+//! need for basic file I/O of RGBA and arbitrary channel images:
+//!
 //! ```no_run
-//! use openexr::{Rgba, RgbaInputFile, RgbaOutputFile, Header, RgbaChannels};
+//! use openexr::prelude::*;
 //!
 //! fn write_rgba1(filename: &str, pixels: &[Rgba], width: i32, height: i32)
 //! -> Result<(), Box<dyn std::error::Error>> {
@@ -39,6 +61,8 @@
 //!     use imath_traits::Zero;
 //!
 //!     let mut file = RgbaInputFile::new(path, 1).unwrap();
+//!     // Note that windows in OpenEXR are ***inclusive*** bounds, so a
+//!     // 1920x1080 image has window [0, 0, 1919, 1079].
 //!     let data_window = file.header().data_window::<[i32; 4]>().clone();
 //!     let width = data_window[2] - data_window[0] + 1;
 //!     let height = data_window[3] - data_window[1] + 1;
@@ -49,6 +73,59 @@
 //!
 //!     Ok(())
 //! }
+//! ```
+//!
+//! Beyond that, types related to deep images are in the [`deep`](crate::deep)
+//! module, and tiled images are in the [`tiled`](crate::tiled) module.
+//!
+//! The [Reading and Writing OpenEXR Image Files](crate::doc::reading_and_writing_image_files)
+//! document is a great place to start to explore the full functionality of the
+//! crate. It contains example usage for nearly everything.
+//!
+//! # Math Crate Interoperability
+//! OpenEXR (and much of the rest of the VFX ecosystem) relies on Imath for basic
+//! math primitives like vectors and bounding boxes.
+//!
+//! Rust already has several mature crates for linear algebra targetting graphics
+//! such as [cgmath](https://crates.io/crates/cgmath), [nalgebra](https://crates.io/crates/nalgebra), [nalgebra-glm](https://crates.io/crates/nalgebra-glm) and [glam](https://crates.io/crates/glam). Rather than adding yet another
+//! contender to this crowded field, we instead provide a set of traits that allow
+//! any of these crates to be used with openexr in the form of [imath-traits](https://crates.io/crates/imath-traits). By default, these traits are implemented for arrays and slices, so you will find that the examples in this documentation will tend to use e.g. `[i32; 4]` for bounding boxes:
+//!
+//! ```no_run
+//! # use openexr::prelude::*;
+//! # fn read_rgba1(path: &str) -> Result<(), Box<dyn std::error::Error>> {
+//! #   use imath_traits::Zero;
+//!     let mut file = RgbaInputFile::new(path, 1).unwrap();
+//!     let data_window = file.header().data_window::<[i32; 4]>().clone();
+//!     let width = data_window[2] - data_window[0] + 1;
+//!     let height = data_window[3] - data_window[1] + 1;
+//! #    Ok(())
+//! # }
+//! ```
+//!
+//! To use your preffered math crate instead, simply enable the corresponding feature on openexr,
+//! which will be `imath_<name>`, for example:
+//!
+//! ```bash
+//! cargo build --features=imath_cgmath
+//! ```
+//!
+//! Now you can use types from that crate together with openexr seamlessly. In
+//! the case that the math crate does not provide a bounding box type, one will
+//! be available as `imath_traits::Box2i` and `imath_traits::Box3i`.
+//!
+//! ```no_run
+//! # use openexr::prelude::*;
+//! # fn read_rgba1(path: &str) -> Result<(), Box<dyn std::error::Error>> {
+//! #   use imath_traits::Zero;
+//!     use imath_traits::{Bound2, Box2i};
+//!
+//!     let mut file = RgbaInputFile::new(path, 1).unwrap();
+//!     let data_window = file.header().data_window::<Box2i>().clone();
+//!     let width = data_window.width() + 1;
+//!     let height = data_window.height() + 1;
+//! #    Ok(())
+//! # }
 //! ```
 //!
 //! # Features
@@ -74,27 +151,23 @@
 //! * [Multi-View OpenEXR](crate::doc::multi_view_open_exr) - Representation of multi-view images
 //! in OpenEXR files.
 //!
-//!
-//!
-//! # Building OpenEXR
-//!
-//! By default, the openexr crate will build the C++ OpenEXR and Imath libraries from a submodule.
-//! If you have existing installations of OpenEXR and Imath you would like to use instead, you can
-//! provide their paths to cargo with environment variables, e.g.:
-//! ```bash
-//! IMATH_ROOT=/path/to/imath OPENEXR_ROOT=/path/to/openexr cargo build
-//! ```
-//! Note that when you are doing this, *you* are responsible for ensuring that your C++ library
-//! versions are compatible with the crate version.
-//!
 //! # Building the documentation
 //!
 //! To build the full documentation including long-form docs and KaTeX equations, use the following
 //! command:
+//!
 //! ```bash
-//! RUSTDOCFLAGS="--html-in-header katex-header.html"  cargo +nightly doc --no-deps --features=long-form-docs
+//! cargo +nightly doc --no-deps --features=long-form-docs
 //! ```
-//! Note this is done automatically for docs.rs
+//! Note this is done automatically for docs.rs when publishing.
+//!
+//! To run the doctests in the long-form docs (i.e. make sure the code examples
+//! compile correctly) run:
+//! ```bash
+//! cargo +nightly test --features=long-form-docs
+//! ```
+//!
+//! This should no longer be necessary once Rust 1.54 is released.
 //!
 #![allow(dead_code)]
 
@@ -103,19 +176,17 @@ pub mod deep;
 pub mod doc;
 pub mod flat;
 pub mod multi_part;
+pub mod prelude;
 pub mod rgba;
 pub mod tiled;
 pub mod util;
 
+// Re-export Error type so we can always unambiguously refer to it
+pub use crate::core::error::Error;
+
 #[cfg(test)]
 mod tests {
-    use crate::{
-        core::{error::Error, header::Header, Compression, LineOrder},
-        rgba::{
-            rgba::{Rgba, RgbaChannels},
-            rgba_file::{RgbaInputFile, RgbaOutputFile},
-        },
-    };
+    use crate::prelude::*;
 
     use std::path::PathBuf;
 
@@ -178,7 +249,7 @@ mod tests {
         (pixels, info.width as i32, info.height as i32)
     }
 
-    type Result<T, E = Error> = std::result::Result<T, E>;
+    type Result<T, E = crate::Error> = std::result::Result<T, E>;
 
     fn write_rgba(
         filename: &str,

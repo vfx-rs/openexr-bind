@@ -41,7 +41,7 @@ impl InputFile {
         Ok(InputFile(ptr))
     }
 
-    /// Access to the file [`Header`](crate::header::Header)
+    /// Access to the file [`Header`](crate::core::header::Header)
     ///
     pub fn header(&self) -> HeaderRef {
         unsafe {
@@ -160,9 +160,9 @@ impl InputFile {
     ///
     /// The [`InputFileReader`] provides a safe API for reading data from the
     /// file into memory, by taking ownership of the memory and handling calculating
-    /// [`Slice`](crate::frame_buffer::Slice) offsets internally.
+    /// [`Slice`](crate::core::frame_buffer::Slice) offsets internally.
     ///
-    /// `frames` is a `Vec` of [`Frame`](crate::frame_buffer::Frame) objects, which
+    /// `frames` is a `Vec` of [`Frame`](crate::core::frame_buffer::Frame) objects, which
     /// describe the channels to load from the image, and how they are to be
     /// stored in memory.
     ///
@@ -187,7 +187,7 @@ impl InputFile {
 
 /// `InputFileReader` provides a safe API over `InputFile` by taking ownership
 /// of the storage into which the channel data is to be read and handling all
-/// the [`Slice`](crate::frame_buffer::Slice) pointer offset shenanigans internally.
+/// the [`Slice`](crate::core::frame_buffer::Slice) pointer offset shenanigans internally.
 ///
 pub struct InputFileReader {
     inner: *mut sys::Imf_InputFile_t,
@@ -199,7 +199,7 @@ impl InputFileReader {
     /// frame buffer.
     ///
     /// This consumes the `InputFileReader` and returns the original `InputFile`
-    /// object and the `Vec` of the read [`Frame`](crate::frame_buffer::Frame)s .
+    /// object and the `Vec` of the read [`Frame`](crate::core::frame_buffer::Frame)s .
     ///
     /// # Errors
     /// * [`Error::Base`] - if any error occurs

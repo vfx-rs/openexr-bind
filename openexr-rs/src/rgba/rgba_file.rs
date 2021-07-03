@@ -20,7 +20,7 @@ type Result<T, E = Error> = std::result::Result<T, E>;
 /// # let pixels = vec![];
 /// # let width = 1;
 /// # let height = 1;
-/// use openexr::{Header, RgbaOutputFile, RgbaChannels};
+/// use openexr::prelude::*;
 ///
 /// let header = Header::from_dimensions(width, height);
 ///

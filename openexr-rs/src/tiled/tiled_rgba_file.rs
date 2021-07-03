@@ -19,12 +19,7 @@ type Result<T, E = Error> = std::result::Result<T, E>;
 
 /// A simplified interface for writing a tiled RGBA EXR file
 /// ```no_run
-/// use openexr::{
-///     header::Header,
-///     tiled_rgba_file::TiledRgbaOutputFile,
-///     LevelMode, LevelRoundingMode,
-///     rgba::{Rgba, RgbaChannels},
-/// };
+/// use openexr::prelude::*;
 ///
 /// # use imath_traits::Zero;
 /// # let pixels = vec![Rgba::zero(); 64*64];
@@ -230,7 +225,7 @@ impl TiledRgbaOutputFile {
         }
     }
 
-    /// Get the [`FrameBuffer`](crate::frame_buffer::FrameBuffer)
+    /// Get the [`FrameBuffer`](crate::core::frame_buffer::FrameBuffer)
     ///
     pub fn frame_buffer(&self) -> FrameBufferRef {
         unsafe {
@@ -712,10 +707,7 @@ impl Drop for TiledRgbaOutputFile {
 /// # .join("ferris-tiled.exr");
 ///
 /// use imath_traits::Zero;
-/// use openexr::{
-///     tiled_rgba_file::TiledRgbaInputFile,
-///     rgba::Rgba,
-/// };
+/// use openexr::prelude::*;
 ///
 /// let mut file = TiledRgbaInputFile::new(&path, 1).unwrap();
 /// let data_window = file.header().data_window::<[i32; 4]>().clone();
@@ -860,7 +852,7 @@ impl TiledRgbaInputFile {
         }
     }
 
-    /// Get the [`FrameBuffer`](crate::frame_buffer::FrameBuffer)
+    /// Get the [`FrameBuffer`](crate::core::frame_buffer::FrameBuffer)
     ///
     pub fn frame_buffer(&self) -> FrameBufferRef {
         unsafe {
@@ -1228,7 +1220,7 @@ fn test_write_tiled_rgba1() -> Result<(), Box<dyn std::error::Error>> {
 #[cfg(test)]
 #[test]
 fn test_read_tiled_rgba1() -> Result<(), Box<dyn std::error::Error>> {
-    use crate::rgba::rgba_file::RgbaOutputFile;
+    use crate::prelude::*;
     use imath_traits::Zero;
     use std::path::PathBuf;
 

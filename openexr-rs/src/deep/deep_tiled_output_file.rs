@@ -94,7 +94,7 @@ impl DeepTiledOutputFile {
         }
     }
 
-    /// Get the [`DeepFrameBuffer`](crate::deep_frame_buffer::DeepFrameBuffer)
+    /// Get the [`DeepFrameBuffer`](crate::deep::deep_frame_buffer::DeepFrameBuffer)
     ///
     pub fn frame_buffer(&self) -> DeepFrameBufferRef {
         unsafe {
@@ -384,7 +384,7 @@ impl DeepTiledOutputFile {
     /// The file's line order attribute determines the order of the tiles
     /// in the file:
     ///
-    /// ## [`LineOrder::IncreasingY`](crate::LineOrder::IncreasingY)
+    /// ## [`LineOrder::IncreasingY`](crate::core::LineOrder)
     /// In the file, the tiles for each level are stored
     /// in a contiguous block.  The levels are ordered
     /// like this:
@@ -410,10 +410,10 @@ impl DeepTiledOutputFile {
     /// where tx = [`num_x_tiles(lx)`](DeepTiledOutputFile::num_x_tiles),
     /// and   ty = [`num_y_tiles(ly)`](DeepTiledOutputFile::num_y_tiles).
     ///
-    /// ## [`LineOrder::DecreasingY`](crate::LineOrder::DecreasingY)
-    /// As for [`LineOrder::IncreasingY`](crate::LineOrder::IncreasingY), the tiles
+    /// ## [`LineOrder::DecreasingY`](crate::core::LineOrder)
+    /// As for [`LineOrder::IncreasingY`](crate::core::LineOrder), the tiles
     /// for each level are stored in a contiguous block.  The levels
-    /// are ordered the same way as for [`LineOrder::IncreasingY`](crate::LineOrder::IncreasingY),
+    /// are ordered the same way as for [`LineOrder::IncreasingY`](crate::core::LineOrder),
     /// but within an individual level, the tiles
     /// are stored in this order:
     ///
@@ -425,7 +425,7 @@ impl DeepTiledOutputFile {
     /// ```
     ///
     ///
-    /// ## [`LineOrder::RandomY`](crate::LineOrder::RandomY)
+    /// ## [`LineOrder::RandomY`](crate::core::LineOrder)
     /// The order of the calls to `write_tile()` determines
     /// the order of the tiles in the file.
     ///
@@ -461,7 +461,7 @@ impl DeepTiledOutputFile {
     /// The file's line order attribute determines the order of the tiles
     /// in the file:
     ///
-    /// ## [`LineOrder::IncreasingY`](crate::LineOrder::IncreasingY)
+    /// ## [`LineOrder::IncreasingY`](crate::core::LineOrder)
     /// In the file, the tiles for each level are stored
     /// in a contiguous block.  The levels are ordered
     /// like this:
@@ -487,10 +487,10 @@ impl DeepTiledOutputFile {
     /// where tx = [`num_x_tiles(lx)`](DeepTiledOutputFile::num_x_tiles),
     /// and   ty = [`num_y_tiles(ly)`](DeepTiledOutputFile::num_y_tiles).
     ///
-    /// ## [`LineOrder::DecreasingY`](crate::LineOrder::DecreasingY)
-    /// As for [`LineOrder::IncreasingY`](crate::LineOrder::IncreasingY), the tiles
+    /// ## [`LineOrder::DecreasingY`](crate::core::LineOrder)
+    /// As for [`LineOrder::IncreasingY`](crate::core::LineOrder), the tiles
     /// for each level are stored in a contiguous block.  The levels
-    /// are ordered the same way as for [`LineOrder::IncreasingY`](crate::LineOrder::IncreasingY),
+    /// are ordered the same way as for [`LineOrder::IncreasingY`](crate::core::LineOrder),
     /// but within an individual level, the tiles
     /// are stored in this order:
     ///
@@ -502,7 +502,7 @@ impl DeepTiledOutputFile {
     /// ```
     ///
     ///
-    /// ## [`LineOrder::RandomY`](crate::LineOrder::RandomY)
+    /// ## [`LineOrder::RandomY`](crate::core::LineOrder)
     /// The order of the calls to `write_tile()` determines
     /// the order of the tiles in the file.
     ///
@@ -622,10 +622,10 @@ fn test_write_deep_tiled1() -> Result<()> {
             channel_list::{CHANNEL_FLOAT, CHANNEL_HALF},
             frame_buffer::Frame,
             header::ImageType,
+            tile_description::TileDescription,
             Compression, LineOrder,
         },
         deep::deep_frame_buffer::{DeepFrameBuffer, DeepSlice},
-        tiled::tile_description::TileDescription,
     };
     use half::f16;
 

@@ -133,8 +133,8 @@ pub fn fps_60() -> Rational {
 /// to `fps`.
 ///
 /// ```no_run
-/// use openexr::rational::Rational;
-/// use openexr::frames_per_second::{guess_exact_fps_f64, fps_59_94};
+/// use openexr::core::Rational;
+/// use openexr::core::frames_per_second::{guess_exact_fps_f64, fps_59_94};
 ///
 /// assert_eq!(guess_exact_fps_f64(59.941), fps_59_94());
 /// ```

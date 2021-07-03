@@ -9,11 +9,12 @@ use crate::{
         },
         preview_image::{PreviewImage, PreviewImageRef, PreviewImageRefMut},
         refptr::{OpaquePtr, Ref, RefMut},
+        tile_description::TileDescription,
         Chromaticities, Compression, Envmap, LineOrder,
     },
     deep::DeepImageState,
-    tiled::tile_description::TileDescription,
 };
+
 use imath_traits::{Bound2, Matrix33, Matrix44, Vec2, Vec3};
 
 use std::ffi::CStr;
