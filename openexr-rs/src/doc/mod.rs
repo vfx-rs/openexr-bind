@@ -1,7 +1,8 @@
 //! # Documentation
 //!
 //! This module contains markdown conversions of the long-form PDF documentation
-//! available on <https://www.openexr.com>.
+//! available on <https://www.openexr.com>, giving tutorial- and white-paper-
+//! style articles on all aspects of the OpenEXR library.
 //!
 //! * [Reading and Writing Image Files](crate::doc::reading_and_writing_image_files) - A
 //! tutorial-style guide to the main image reading and writing interfaces.
