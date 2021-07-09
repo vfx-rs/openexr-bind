@@ -124,7 +124,7 @@ part of the `right` view.
 
 A multi-view OpenEXR file is identified by the presence of an attribute
 called `multiView` in the file header. The value of the attribute is of
-type "array of strings" [CppVectorString](crate::cppstd::CppVectorString). The attribute contains a list of view
+type "array of strings" [CppVectorString](crate::core::cppstd::CppVectorString). The attribute contains a list of view
 names, one per array element. View names are arbitrary, except that
 periods and spaces are not permitted within a name. The first listed
 view (array element 0) is always the default view. Other view names may
@@ -185,10 +185,10 @@ interaction or other external information.
 # Library Support
 
 OpenEXR, provides utility functions to
-support reading and writing multi-view files. The [`standard_attributes`](crate::standard_attributes) module
+support reading and writing multi-view files. The [`standard_attributes`](crate::core::standard_attributes) module
  defines functions to add a `multiView` attribute to a file header, to test if a file header contains a
 `multiView` attribute, and to access the value of the `multiView`
-attribute. Module [`multi_view`](crate::multi_view) defines functions related to
+attribute. Module [`multi_view`](crate::core::multi_view) defines functions related to
 accessing channels and views, such as finding all channels in a given
 view, or finding the same channel in all views.
 
