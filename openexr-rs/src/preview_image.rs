@@ -1,4 +1,5 @@
 use crate::Error;
+use half::f16;
 use openexr_sys as sys;
 
 use crate::refptr::{OpaquePtr, Ref, RefMut};
@@ -78,13 +79,11 @@ impl PreviewImage {
     ///
     fn width(&self) -> u32 {
         let mut value = 0;
-
         unsafe {
             sys::Imf_PreviewImage_width(self.0, &mut value)
                 .into_result()
                 .expect("Error getting 'width' property");
         }
-
         value
     }
 
@@ -123,7 +122,7 @@ impl PreviewImage {
 
     /// Get the image pixels as a mutable slice
     ///
-    fn mut_pixels<'a>(&'a self) -> &'a mut [PreviewRgba] {
+    fn mut_pixels<'a>(&'a mut self) -> &'a mut [PreviewRgba] {
         let mut pixels = std::ptr::null_mut();
 
         unsafe {
@@ -232,6 +231,16 @@ impl PreviewRgba {
     pub fn from_u8(r: u8, g: u8, b: u8, a: u8) -> PreviewRgba {
         PreviewRgba { r, g, b, a }
     }
+    /// Creates a `PreviewRgba` from RGB and Alpha `u8` values
+    ///
+    pub fn from_f16(r: f16, g: f16, b: f16, a: f16) -> PreviewRgba {
+        PreviewRgba {
+            r: (f16::to_f32(r) * 255f32) as u8,
+            g: (f16::to_f32(g) * 255f32) as u8,
+            b: (f16::to_f32(b) * 255f32) as u8,
+            a: (f16::to_f32(a) * 255f32) as u8,
+        }
+    }
 
     /// Creates a `PreviewRgba` where all components have value 0 (zero)
     ///
@@ -316,9 +325,10 @@ mod tests {
             std::env::var("CARGO_MANIFEST_DIR")
                 .expect("CARGO_MANIFEST_DIR not set"),
         )
-        .join("imf_preview1.exr");
+        .join("images")
+        .join("comp_piz.exr");
 
-        let mut file = crate::RgbaInputFile::new(&path, 1).unwrap();
+        let file = crate::RgbaInputFile::new(&path, 1).unwrap();
 
         assert_eq!(file.header().has_preview_image(), false);
 
@@ -326,26 +336,127 @@ mod tests {
     }
 
     #[test]
-    fn test_read_empty_file() -> Result<()> {
+    fn test_read_file_with_preview() -> Result<()> {
         const PREVIEW_WIDTH: u32 = 128;
-        const PREVIEW_HEIGHT: u32 = 64;
+        const PREVIEW_HEIGHT: u32 = 85;
 
         let path = PathBuf::from(
             std::env::var("CARGO_MANIFEST_DIR")
                 .expect("CARGO_MANIFEST_DIR not set"),
         )
-        .join("imf_preview1.exr");
+        .join("images")
+        .join("ferris-preview.exr");
 
-        let file1 = RgbaInputFile::new(&path, 1).unwrap();
+        let file = crate::RgbaInputFile::new(&path, 1).unwrap();
 
-        let header1 = file1.header();
+        let header = file.header();
 
-        let preview_image = PreviewImage::with_dimensions(PREVIEW_WIDTH, PREVIEW_HEIGHT)?;
+        assert!(header.has_preview_image());
 
-        todo!();
+        let preview_image = header.preview_image().unwrap();
 
-        // header1.set_preview_image(&preview_image);
+        assert_eq!(preview_image.width(), PREVIEW_WIDTH);
+        assert_eq!(preview_image.height(), PREVIEW_HEIGHT);
 
-        // Ok(())
+        assert!(preview_image
+            .pixels()
+            .iter()
+            .any(|&x| x != PreviewRgba::zero()));
+
+        Ok(())
+    }
+
+    #[test]
+    fn test_preview_roundtrip() -> Result<()> {
+        use crate::tests::load_ferris;
+
+        const ROUNDTRIP_FILE: &str = "preview_rtrip.exr";
+        const PREVIEW_WIDTH: u32 = 128;
+        const PREVIEW_HEIGHT: u32 = 64;
+
+        let (pixels, width, height) = load_ferris();
+
+        let mut preview_image = PreviewImage::with_dimensions(
+            PREVIEW_WIDTH as u32,
+            PREVIEW_HEIGHT as u32,
+        )?;
+
+        let preview_pixels = preview_image.mut_pixels();
+        for y in 0..PREVIEW_HEIGHT {
+            for x in 0..PREVIEW_WIDTH {
+                let pixel = &pixels[(x + PREVIEW_WIDTH * y) as usize];
+
+                preview_pixels[(x + PREVIEW_WIDTH * y) as usize] =
+                    PreviewRgba::from_f16(pixel.r, pixel.g, pixel.b, pixel.a);
+            }
+        }
+
+        let mut header = Header::from_dimensions(width, height);
+
+        header.set_preview_image(&preview_image);
+
+        let mut output_file = RgbaOutputFile::new(
+            ROUNDTRIP_FILE,
+            &header,
+            RgbaChannels::WriteRgba,
+            1,
+        )?;
+
+        output_file.set_frame_buffer(&pixels, 1, width as usize)?;
+        output_file.write_pixels(height)?;
+
+        std::mem::drop(output_file);
+
+        let input_file = RgbaInputFile::new(ROUNDTRIP_FILE, 4)?;
+
+        let header = input_file.header();
+
+        assert!(header.has_preview_image());
+
+        let preview_image = header.preview_image().unwrap();
+
+        assert_eq!(preview_image.width(), PREVIEW_WIDTH);
+        assert_eq!(preview_image.height(), PREVIEW_HEIGHT);
+
+        let preview_pixels = preview_image.pixels();
+
+        assert_eq!(
+            preview_pixels.len(),
+            (PREVIEW_WIDTH * PREVIEW_HEIGHT) as usize
+        );
+
+        for y in 0..PREVIEW_HEIGHT {
+            for x in 0..PREVIEW_WIDTH {
+                let file_preview_pixel =
+                    &preview_pixels[(x + PREVIEW_WIDTH * y) as usize];
+
+                let pixel = &pixels[(x + PREVIEW_WIDTH * y) as usize];
+                let computed_preview_pixel =
+                    PreviewRgba::from_f16(pixel.r, pixel.g, pixel.b, pixel.a);
+
+                assert_eq!(
+                    file_preview_pixel.r, computed_preview_pixel.r,
+                    "Red value not matching for pixel at x: {} y: {}",
+                    x, y
+                );
+                assert_eq!(
+                    file_preview_pixel.g, computed_preview_pixel.g,
+                    "Green value not matching for pixel at x: {} y: {}",
+                    x, y
+                );
+                assert_eq!(
+                    file_preview_pixel.b, computed_preview_pixel.b,
+                    "Blue value not matching for pixel at x: {} y: {}",
+                    x, y
+                );
+                assert_eq!(
+                    file_preview_pixel.a, computed_preview_pixel.a,
+                    "Alpha value not matching for pixel at x: {} y: {}",
+                    x, y
+                );
+            }
+        }
+
+        Ok(())
     }
 }
