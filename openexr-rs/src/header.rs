@@ -1,6 +1,7 @@
 use crate::{
     channel_list::{ChannelListRef, ChannelListRefMut},
     cppstd::CppString,
+    preview_image::PreviewImageRef,
     refptr::{Ref, RefMut},
     Compression, Error, LineOrder, PreviewImage, TileDescription,
     TypedAttribute,
@@ -945,13 +946,18 @@ impl Header {
 
     /// Get the preview image from the header
     ///
-    pub fn preview_image(&self) -> Result<&PreviewImage> {
-        let mut ptr = std::ptr::null();
+    pub fn preview_image(&self) -> Option<PreviewImageRef> {
+        if !self.has_preview_image() {
+            return None;
+        }
+
         unsafe {
+            let mut ptr = std::ptr::null();
             sys::Imf_Header_previewImage_const(self.0.as_ref(), &mut ptr)
                 .into_result()
-                .map(|_| &*(ptr as *const PreviewImage))
-                .map_err(Error::from)
+                .unwrap();
+
+            Some(PreviewImageRef::new(ptr))
         }
     }
 
@@ -1327,7 +1333,7 @@ fn header_rtrip1() -> Result<()> {
 
     assert!(file.header().version().is_err());
     assert!(file.header().image_type().is_err());
-    assert!(file.header().preview_image().is_err());
+    assert!(file.header().preview_image().is_none());
     assert!(file.header().name().is_err());
     assert!(file.header().view().is_err());
 
