@@ -15,6 +15,7 @@ struct Rgba {
     Rgba(Imath::half r, Imath::half g, Imath::half b, Imath::half a);
     Rgba(const Imf::Rgba& rhs);
     Rgba(Imf::Rgba&& rhs);
+    Imf::Rgba& operator=(const Imf::Rgba& rhs) CPPMM_IGNORE;
     ~Rgba();
 
 } CPPMM_VALUETYPE;

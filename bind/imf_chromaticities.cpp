@@ -19,6 +19,8 @@ public:
     Chromaticities(const Imf::Chromaticities& rhs);
     Chromaticities(Imf::Chromaticities&& rhs);
 
+    Imf::Chromaticities& operator=(const Imf::Chromaticities& rhs) CPPMM_IGNORE;
+
     //---------
     // Equality
     //---------
