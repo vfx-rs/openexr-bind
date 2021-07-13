@@ -1,8 +1,16 @@
-fn build_imath() -> std::string::String {
+use regex::Regex;
+use std::path::Path;
+
+const PRJ_NAME: &str = "PROJECT_NAME";
+const MJR_VERSION: u32 = MAJOR_VERSION;
+const MNR_VERSION: u32 = MINOR_VERSION;
+
+fn build_imath(target_dir: &Path) -> std::string::String {
     // We need to set this to Release or else the openexr symlinks will be incorrect.
     // Fixed by
     cmake::Config::new("thirdparty/Imath")
         .profile("Release")
+        .define("CMAKE_INSTALL_PREFIX", target_dir.to_str().unwrap())
         .define("IMATH_IS_SUBPROJECT", "ON")
         .define("BUILD_TESTING", "OFF")
         .define("BUILD_SHARED_LIBS", "ON")
@@ -12,12 +20,14 @@ fn build_imath() -> std::string::String {
         .to_string()
 }
 
-fn build_openexr(imath_root: &str) -> std::string::String {
+fn build_openexr(target_dir: &Path) -> std::string::String {
     // We need to set this to Release or else the openexr symlinks will be incorrect.
     // Fixed by
+    let cmake_prefix_path = target_dir.join("lib").join("cmake");
     cmake::Config::new("thirdparty/openexr")
-        .define("CMAKE_PREFIX_PATH", &imath_root)
         .profile("Release")
+        .define("CMAKE_INSTALL_PREFIX", target_dir.to_str().unwrap())
+        .define("CMAKE_PREFIX_PATH", cmake_prefix_path.to_str().unwrap())
         .define("OPENEXR_IS_SUBPROJECT", "ON")
         .define("BUILD_TESTING", "OFF")
         .define("OPENEXR_INSTALL_EXAMPLES", "OFF")
@@ -27,9 +37,6 @@ fn build_openexr(imath_root: &str) -> std::string::String {
         .expect("Unable to convert openexr_root to str")
         .to_string()
 }
-
-use regex::Regex;
-use std::path::Path;
 
 #[derive(Debug)]
 struct DylibPathInfo {
@@ -84,35 +91,6 @@ fn get_linking_from_cmake(link_txt_path: &Path) -> Vec<DylibPathInfo> {
     link_txt.filter_map(|s| is_dylib_path(s, &re)).collect()
 }
 
-fn create_symlinks(target_dir: &Path, d: &DylibPathInfo) {
-    // If the so isn't versioned, no need to symlink
-    if d.basename.ends_with(".so") {
-        return;
-    }
-
-    // otherwise, check if we've got at least 4 dots...
-    if d.basename.matches(".").count() < 4 {
-        panic!("so basename has bad number of periods: {}", d.basename);
-    }
-
-    // assuming we've got at least 4 dots, then the so is named in the form libLib.so.1.2.3
-    // we want to create the following links:
-    // libLib.so.1 -> libLib.so.1.2.3
-    // libLib.so -> libLib.so.1
-    let toks: Vec<&str> = d.basename.split('.').collect();
-
-    let symname = target_dir.join(format!("lib{}.so", &d.libname));
-    let symname1 = format!("{}", toks[0..toks.len() - 2].join("."));
-
-    if !target_dir.join(&symname1).exists() {
-        std::os::unix::fs::symlink(&d.basename, &target_dir.join(&symname1))
-            .unwrap();
-    }
-    if !symname.exists() {
-        std::os::unix::fs::symlink(&symname1, &symname).unwrap();
-    }
-}
-
 fn main() {
     // If the user has set CMAKE_PREFIX_PATH then we don't want to build the
     // bundled libraries, *unless* they have also set OPENEXR_BUILD_LIBRARIES=1
@@ -126,18 +104,23 @@ fn main() {
         true
     };
 
-    let clib_name = "PROJECT_NAME-c";
-    let clib_versioned_name = "PROJECT_NAME-c-MAJOR_VERSION_MINOR_VERSION";
+    let out_dir = std::env::var("OUT_DIR").unwrap();
+    println!("cargo:warning=out dir is {}", out_dir);
+    let target_dir = Path::new(&out_dir).ancestors().skip(3).next().unwrap();
+    println!("cargo:warning=target dir is {}", target_dir.display());
 
+    let clib_name = format!("{}-c", PRJ_NAME);
+    let clib_versioned_name =
+        format!("{}-c-{}_{}", PRJ_NAME, MJR_VERSION, MNR_VERSION);
+
+    let lib_path = target_dir.join("lib");
+    let cmake_prefix_path = lib_path.join("cmake");
     let dst = if build_libraries {
-        let imath_root = build_imath();
-        let openexr_root = build_openexr(&imath_root);
+        let _ = build_imath(&target_dir);
+        let _ = build_openexr(&target_dir);
         cmake::Config::new(clib_name)
             .define("CMAKE_EXPORT_COMPILE_COMMANDS", "ON")
-            .define(
-                "CMAKE_PREFIX_PATH",
-                format!("{}/lib/cmake;{}/lib/cmake", imath_root, openexr_root),
-            )
+            .define("CMAKE_PREFIX_PATH", cmake_prefix_path.to_str().unwrap())
             .build()
     } else {
         cmake::Config::new(clib_name)
@@ -151,9 +134,6 @@ fn main() {
         .join(format!("{}-shared.dir", clib_versioned_name))
         .join("link.txt");
 
-    let target_dir = dst.parent().unwrap().parent().unwrap().parent().unwrap();
-    // println!("cargo:warning=target-dir: {:?}", target_dir.display());
-
     let dylibs = get_linking_from_cmake(&link_txt_path);
     // println!("cargo:warning=linklibs: {:?}", dylibs);
 
@@ -164,17 +144,10 @@ fn main() {
     if build_libraries {
         // now copy the build dylibs to the top-level target directory and link from
         // there
-        println!("cargo:rustc-link-search=native={}", target_dir.display());
-        println!("cargo:warning=adding link path {}", target_dir.display());
+        println!("cargo:rustc-link-search=native={}", lib_path.display());
+        println!("cargo:warning=adding link path {}", lib_path.display());
 
         for d in dylibs {
-            let to = target_dir.join(&d.basename);
-            std::fs::copy(&d.path, &to).unwrap();
-
-            // now symlink...
-            #[cfg(target_os = "linux")]
-            create_symlinks(&target_dir, &d);
-
             println!("cargo:rustc-link-lib=dylib={}", &d.libname);
             println!("cargo:warning=linking to {}", &d.libname);
         }
@@ -182,9 +155,9 @@ fn main() {
         // finally, set LD_LIBRARY_PATH to the target directory when running things
         // from cargo. If you want to install somewhere, you're on your own for now...
         #[cfg(target_os = "linux")]
-        println!("cargo:rustc-env=LD_LIBRARY_PATH={}", target_dir.display());
+        println!("cargo:rustc-env=LD_LIBRARY_PATH={}", lib_path.display());
         #[cfg(target_os = "macos")]
-        println!("cargo:rustc-env=DYLD_LIBRARY_PATH={}", target_dir.display());
+        println!("cargo:rustc-env=DYLD_LIBRARY_PATH={}", lib_path.display());
     } else {
         // If we're not building the libraries we don't want to go copying them
         // around, so just link to where CMake found them
