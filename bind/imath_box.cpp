@@ -22,6 +22,8 @@ public:
     Box(const ::Imath::Box<V>& rhs);
     Box(::Imath::Box<V>&& rhs);
 
+    ::Imath::Box<V>& operator=(const ::Imath::Box<V>& rhs) CPPMM_IGNORE;
+
     ~Box();
 
     bool operator==(const Imath::Box<V>& src) const;

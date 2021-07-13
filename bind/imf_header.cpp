@@ -925,6 +925,13 @@ Imf::Header::findTypedAttribute(const char name[]);
 extern template const Imf::TypedAttribute<Imf::Rational>*
 Imf::Header::findTypedAttribute(const char name[]) const;
 
+// ------------ TypedAttribute<Imf::TileDescription> ---------------------
+extern template Imf::TypedAttribute<Imf::TileDescription>*
+Imf::Header::findTypedAttribute(const char name[]);
+
+extern template const Imf::TypedAttribute<Imf::TileDescription>*
+Imf::Header::findTypedAttribute(const char name[]) const;
+
 // ------------ TypedAttribute<Imf::TimeCode> ---------------------
 extern template Imf::TypedAttribute<Imf::TimeCode>*
 Imf::Header::findTypedAttribute(const char name[]);
