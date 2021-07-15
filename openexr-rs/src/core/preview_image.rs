@@ -77,7 +77,7 @@ impl PreviewImage {
 
     /// Returns the 'width' of the 'PreviewImage'
     ///
-    fn width(&self) -> u32 {
+    pub fn width(&self) -> u32 {
         let mut value = 0;
         unsafe {
             sys::Imf_PreviewImage_width(self.0, &mut value)
@@ -89,7 +89,7 @@ impl PreviewImage {
 
     /// Returns the 'height' of the 'PreviewImage'
     ///
-    fn height(&self) -> u32 {
+    pub fn height(&self) -> u32 {
         let mut value = 0;
 
         unsafe {
@@ -103,7 +103,7 @@ impl PreviewImage {
 
     /// Get the image pixels as a slice
     ///
-    fn pixels<'a>(&'a self) -> &'a [PreviewRgba] {
+    pub fn pixels<'a>(&'a self) -> &'a [PreviewRgba] {
         let mut pixels = std::ptr::null();
 
         unsafe {
@@ -122,7 +122,7 @@ impl PreviewImage {
 
     /// Get the image pixels as a mutable slice
     ///
-    fn mut_pixels<'a>(&'a mut self) -> &'a mut [PreviewRgba] {
+    pub fn mut_pixels<'a>(&'a mut self) -> &'a mut [PreviewRgba] {
         let mut pixels = std::ptr::null_mut();
 
         unsafe {
@@ -145,7 +145,7 @@ impl PreviewImage {
     /// * [`Error::OutOfRange`] - If the coordinates are outside of the image size
     /// * [`Error::Base`] - If an error occurs
     ///
-    fn set_pixel(&mut self, x: u32, y: u32, value: PreviewRgba) -> Result<()> {
+    pub fn set_pixel(&mut self, x: u32, y: u32, value: PreviewRgba) -> Result<()> {
         unsafe {
             let mut pixel = std::ptr::null_mut();
 
@@ -167,7 +167,7 @@ impl PreviewImage {
     /// Returns `None` if the coordinates are outside of the image size,
     /// or some other error ocurred
     ///
-    fn get_pixel(&self, x: u32, y: u32) -> Option<PreviewRgba> {
+    pub fn get_pixel(&self, x: u32, y: u32) -> Option<PreviewRgba> {
         unsafe {
             let pixel = std::ptr::null_mut();
 
