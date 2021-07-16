@@ -75,7 +75,7 @@ impl PreviewImage {
         Ok(PreviewImage(_inner))
     }
 
-    /// Returns the 'width' of the 'PreviewImage'
+    /// Returns the `width` of the `PreviewImage`
     ///
     pub fn width(&self) -> u32 {
         let mut value = 0;
@@ -87,7 +87,7 @@ impl PreviewImage {
         value
     }
 
-    /// Returns the 'height' of the 'PreviewImage'
+    /// Returns the `height` of the `PreviewImage`
     ///
     pub fn height(&self) -> u32 {
         let mut value = 0;
@@ -170,6 +170,10 @@ impl PreviewImage {
     pub fn get_pixel(&self, x: u32, y: u32) -> Option<PreviewRgba> {
         unsafe {
             let pixel = std::ptr::null_mut();
+
+            if x >= self.width() || y >= self.height() {
+                return None;
+            }
 
             match sys::Imf_PreviewImage_pixel_const(self.0, pixel, x, y)
                 .into_result()
