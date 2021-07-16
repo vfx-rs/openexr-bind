@@ -28,7 +28,7 @@
 //!
 //! ```bash
 //! cargo add openexr
-//! IMATH_ROOT=/path/to/imath OPENEXR_ROOT=/path/to/openexr cargo build
+//! CMAKE_PREFIX_PATH=/path/to/cmake/configs cargo build
 //! ```
 //!
 //! Note that you must take care to ensure that the version of OpenEXR you are

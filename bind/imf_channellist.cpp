@@ -17,6 +17,7 @@ public:
 
     Channel(const Imf::Channel& rhs);
     Channel(Imf::Channel&& rhs);
+    Imf::Channel& operator=(const Imf::Channel& rhs) CPPMM_IGNORE;
     ~Channel();
 
     IMF_EXPORT
@@ -31,6 +32,8 @@ public:
     ~ChannelList();
     ChannelList(const Imf::ChannelList& rhs) CPPMM_RENAME(copy);
     ChannelList(Imf::ChannelList&& rhs) CPPMM_IGNORE;
+
+    Imf::ChannelList& operator=(const Imf::ChannelList& rhs) CPPMM_IGNORE;
 
     IMF_EXPORT
     void insert(const char name[], const Imf::Channel& channel);

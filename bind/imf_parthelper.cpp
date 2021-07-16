@@ -14,6 +14,8 @@ struct MultiViewChannelName {
     MultiViewChannelName();
     MultiViewChannelName(const Imf::MultiViewChannelName&);
     MultiViewChannelName(Imf::MultiViewChannelName&&);
+    Imf::MultiViewChannelName&
+    operator=(const Imf::MultiViewChannelName&) CPPMM_IGNORE;
     ~MultiViewChannelName();
 
     // FIXME: re-enable these once we've got moves figured out

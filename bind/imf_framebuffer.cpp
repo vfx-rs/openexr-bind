@@ -33,6 +33,7 @@ struct Slice {
             CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     Slice(const Imf::Slice&);
+    Imf::Slice& operator=(const Imf::Slice&) CPPMM_IGNORE;
     Slice(Imf::Slice&&) CPPMM_IGNORE;
     ~Slice();
 
@@ -44,6 +45,7 @@ struct FrameBuffer {
     FrameBuffer() CPPMM_RENAME(ctor);
     FrameBuffer(const Imf::FrameBuffer&) CPPMM_RENAME(copy);
     FrameBuffer(Imf::FrameBuffer&&) CPPMM_IGNORE;
+    Imf::FrameBuffer& operator=(const Imf::FrameBuffer&) CPPMM_IGNORE;
     ~FrameBuffer();
 
     void insert(const char name[], const Imf::Slice& slice)

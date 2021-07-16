@@ -1,0 +1,19 @@
+[package]
+name = "PROJECT_NAME-sys"
+version = "MAJOR_VERSION.MINOR_VERSION.PATCH_VERSION"
+description="test package"
+license="Apache-2.0"
+authors = ["Anders Langlands <anderslanglands@gmail.com>"]
+edition = "2018"
+exclude = [
+    "thirdparty/Imath/src/ImathTest",
+    "thirdparty/Imath/src/PyImath",
+    "thirdparty/openexr/src/examples",
+    "thirdparty/openexr/src/test",
+    "thirdparty/openexr/docs",
+]
+
+[build-dependencies]
+cmake = "0.1"
+regex = "1.5.4"
+

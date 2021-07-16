@@ -19,6 +19,8 @@ struct DeepSlice {
     DeepSlice(const Imf::DeepSlice& rhs);
     DeepSlice(Imf::DeepSlice&& rhs) CPPMM_IGNORE;
 
+    Imf::DeepSlice& operator=(const Imf::DeepSlice&) CPPMM_IGNORE;
+
     IMF_EXPORT
     static Imf::Slice Make(Imf::PixelType type, const void* ptr,
                            const Imath::V2i& origin, int64_t w, int64_t h,
@@ -44,6 +46,9 @@ struct DeepFrameBuffer {
 
     DeepFrameBuffer(const Imf::DeepFrameBuffer& rhs) CPPMM_RENAME(copy);
     DeepFrameBuffer(Imf::DeepFrameBuffer&& rhs) CPPMM_IGNORE;
+
+    Imf::DeepFrameBuffer&
+    operator=(const Imf::DeepFrameBuffer& rhs) CPPMM_IGNORE;
 
     ~DeepFrameBuffer();
 
