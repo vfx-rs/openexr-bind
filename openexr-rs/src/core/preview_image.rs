@@ -401,7 +401,7 @@ mod tests {
 
         let mut header = Header::from_dimensions(width, height);
 
-        header.set_preview_image(&preview_image);
+        header.set_preview_image(&preview_image)?;
 
         let mut output_file = RgbaOutputFile::new(
             ROUNDTRIP_FILE,
