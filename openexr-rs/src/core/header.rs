@@ -949,26 +949,31 @@ impl Header {
 
     /// Get the preview image from the header
     ///
-    pub fn preview_image(&self) -> Option<PreviewImageRef> {
-        if !self.has_preview_image() {
-            return None;
-        }
-
+    /// # Errors
+    /// * [`Error::InvalidType`] - If the preview image attribute is not of the expected type
+    /// * [`Error::Base`] - If any other error occurs
+    ///
+    pub fn preview_image(&self) -> Result<PreviewImageRef> {
         unsafe {
             let mut ptr = std::ptr::null();
             sys::Imf_Header_previewImage_const(self.0.as_ref(), &mut ptr)
-                .into_result()
-                .unwrap();
+                .into_result()?;
 
-            Some(PreviewImageRef::new(ptr))
+            Ok(PreviewImageRef::new(ptr))
         }
     }
 
     /// Set the preview image in the header
     ///
-    pub fn set_preview_image(&mut self, pi: &PreviewImage) {
+    /// # Errors
+    /// * [`Error::InvalidType`] - If the preview image attribute can not be assigned the expected type
+    /// * [`Error::Base`] - If any other error occurs
+    pub fn set_preview_image(&mut self, pi: &PreviewImage) -> Result<()> {
         unsafe {
-            sys::Imf_Header_setPreviewImage(self.0.as_mut(), pi.0);
+            sys::Imf_Header_setPreviewImage(self.0.as_mut(), pi.0)
+                .into_result()?;
+
+            Ok(())
         }
     }
 
@@ -1344,7 +1349,7 @@ fn header_rtrip1() -> Result<()> {
 
     assert!(file.header().version().is_err());
     assert!(file.header().image_type().is_err());
-    assert!(file.header().preview_image().is_none());
+    assert!(file.header().preview_image().is_err());
     assert!(file.header().name().is_err());
     assert!(file.header().view().is_err());
 
