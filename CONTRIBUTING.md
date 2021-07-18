@@ -95,7 +95,7 @@ Legal Requirements
 License
 -------
 
-The openexr-bind project is licensed under the [Apache 2 license](LICENSE).
+The openexr-bind project is licensed under the [BSD 3 clause license](LICENSE).
 Contributions to the library should abide by that standard license.
 
 Getting Started
