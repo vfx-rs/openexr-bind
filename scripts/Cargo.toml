@@ -2,7 +2,7 @@
 name = "PROJECT_NAME-sys"
 version = "MAJOR_VERSION.MINOR_VERSION.PATCH_VERSION"
 description="test package"
-license="Apache-2.0"
+license="BSD-3-Clause"
 authors = ["Anders Langlands <anderslanglands@gmail.com>"]
 edition = "2018"
 exclude = [
@@ -16,4 +16,3 @@ exclude = [
 [build-dependencies]
 cmake = "0.1"
 regex = "1.5.4"
-
