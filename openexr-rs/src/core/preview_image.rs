@@ -137,7 +137,7 @@ impl PreviewImage {
             if pixels.is_null() {
                 panic!("Pixels pointer is null");
             }
-    
+
             let pixel_count = (self.width() * self.height()) as usize;
 
             std::slice::from_raw_parts_mut(
@@ -153,7 +153,12 @@ impl PreviewImage {
     /// * [`Error::OutOfRange`] - If the coordinates are outside of the image size
     /// * [`Error::Base`] - If an error occurs
     ///
-    pub fn set_pixel(&mut self, x: u32, y: u32, value: PreviewRgba) -> Result<()> {
+    pub fn set_pixel(
+        &mut self,
+        x: u32,
+        y: u32,
+        value: PreviewRgba,
+    ) -> Result<()> {
         unsafe {
             let mut pixel = std::ptr::null_mut();
 
@@ -270,13 +275,13 @@ impl Default for PreviewRgba {
 #[cfg(test)]
 mod tests {
     use super::Result;
-    use crate::tests::load_ferris;
     use crate::core::header::Header;
     use crate::core::preview_image::{PreviewImage, PreviewRgba};
     use crate::rgba::{
         rgba::RgbaChannels,
         rgba_file::{RgbaInputFile, RgbaOutputFile},
     };
+    use crate::tests::load_ferris;
     use std::path::PathBuf;
 
     #[test]
