@@ -111,6 +111,10 @@ impl PreviewImage {
                 .into_result()
                 .expect("Error getting pixels");
 
+            if pixels.is_null() {
+                panic!("Pixels pointer is null");
+            }
+
             let pixel_count = (self.width() * self.height()) as usize;
 
             std::slice::from_raw_parts(
@@ -130,6 +134,10 @@ impl PreviewImage {
                 .into_result()
                 .expect("Error getting mutable pixels");
 
+            if pixels.is_null() {
+                panic!("Pixels pointer is null");
+            }
+    
             let pixel_count = (self.width() * self.height()) as usize;
 
             std::slice::from_raw_parts_mut(
