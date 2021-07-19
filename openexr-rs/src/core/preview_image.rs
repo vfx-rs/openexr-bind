@@ -109,7 +109,7 @@ impl PreviewImage {
         unsafe {
             sys::Imf_PreviewImage_pixels_const(self.0, &mut pixels)
                 .into_result()
-                .expect("Error getting 'height' property");
+                .expect("Error getting pixels");
 
             let pixel_count = (self.width() * self.height()) as usize;
 
