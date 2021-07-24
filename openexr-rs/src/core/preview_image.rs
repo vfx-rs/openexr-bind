@@ -248,14 +248,62 @@ impl PreviewRgba {
     pub fn from_u8(r: u8, g: u8, b: u8, a: u8) -> PreviewRgba {
         PreviewRgba { r, g, b, a }
     }
-    /// Creates a `PreviewRgba` from RGB and Alpha `u8` values
+
+    /// Creates a `PreviewRgba` from RGB and Alpha `f16` values
+    ///
+    /// ## Note
+    /// This function applies a gamma correction with the formula
+    /// `clamp( pow(5.5555 * max(0, x), 0.4545) * 84.66), 0, 255)`
     ///
     pub fn from_f16(r: f16, g: f16, b: f16, a: f16) -> PreviewRgba {
+        PreviewRgba::from_f32(
+            f16::to_f32(r),
+            f16::to_f32(g),
+            f16::to_f32(b),
+            f16::to_f32(a),
+        )
+    }
+
+    /// Creates a `PreviewRgba` from RGB and Alpha `f32` values
+    ///
+    /// ## Note
+    /// This function applies a gamma correction with the formula
+    /// `clamp( pow(5.5555 * max(0, x), 0.4545) * 84.66), 0, 255)`
+    ///
+    pub fn from_f32(r: f32, g: f32, b: f32, a: f32) -> PreviewRgba {
         PreviewRgba {
-            r: (f16::to_f32(r) * 255f32) as u8,
-            g: (f16::to_f32(g) * 255f32) as u8,
-            b: (f16::to_f32(b) * 255f32) as u8,
-            a: (f16::to_f32(a) * 255f32) as u8,
+            r: PreviewRgba::gamma(r),
+            g: PreviewRgba::gamma(g),
+            b: PreviewRgba::gamma(b),
+            a: (f32::clamp(a * 255f32, 0f32, 255f32) + 0.5f32) as u8,
+        }
+    }
+
+    /// Creates a `PreviewRgba` from RGB and Alpha `f16` values
+    ///
+    /// ## Note
+    /// This function does not apply any gamma correction
+    ///
+    pub fn from_f16_linear(r: f16, g: f16, b: f16, a: f16) -> PreviewRgba {
+        PreviewRgba::from_f32(
+            f16::to_f32(r),
+            f16::to_f32(g),
+            f16::to_f32(b),
+            f16::to_f32(a),
+        )
+    }
+
+    /// Creates a `PreviewRgba` from RGB and Alpha `f32` values
+    ///
+    /// ## Note
+    /// This function does not apply any gamma correction
+    ///
+    pub fn from_f32_linear(r: f32, g: f32, b: f32, a: f32) -> PreviewRgba {
+        PreviewRgba {
+            r: PreviewRgba::gamma(r),
+            g: PreviewRgba::gamma(g),
+            b: PreviewRgba::gamma(b),
+            a: (f32::clamp(a * 255f32, 0f32, 255f32) + 0.5f32) as u8,
         }
     }
 
@@ -263,6 +311,27 @@ impl PreviewRgba {
     ///
     pub fn zero() -> PreviewRgba {
         PreviewRgba::from_u8(0u8, 0u8, 0u8, 0u8)
+    }
+
+    /// Convert a floating-point pixel value to an 8-bit gamma-2.2
+    /// preview pixel.  (This routine is a simplified version of
+    /// how the exrdisplay program transforms floating-point pixel
+    /// values in order to display them on the screen.)
+    ///
+    /// ## Note
+    /// Adapted from `previewImageExamples.cpp`
+    ///
+    fn gamma(linear: f32) -> u8 {
+        let gamma =
+            f32::powf(5.5555f32 * f32::max(0f32, linear), 0.4545f32) * 84.66f32;
+
+        f32::clamp(gamma, 0f32, 255f32) as u8
+    }
+}
+
+impl From<crate::rgba::Rgba> for PreviewRgba {
+    fn from(rgba: crate::rgba::Rgba) -> Self {
+        PreviewRgba::from_f16(rgba.r, rgba.g, rgba.b, rgba.a)
     }
 }
 
@@ -282,6 +351,7 @@ mod tests {
         rgba_file::{RgbaInputFile, RgbaOutputFile},
     };
     use crate::tests::load_ferris;
+    use half::f16;
     use std::path::PathBuf;
 
     #[test]
@@ -479,5 +549,185 @@ mod tests {
         }
 
         Ok(())
+    }
+
+    #[test]
+    fn test_preview_rgba_f32_gamma_conversion() {
+        let preview_black = PreviewRgba::from_f32(0f32, 0f32, 0f32, 0f32);
+
+        assert_eq!(
+            preview_black.r, 0,
+            "Mismatch red channel value on black pixel"
+        );
+        assert_eq!(
+            preview_black.g, 0,
+            "Mismatch green channel value on black pixel"
+        );
+        assert_eq!(
+            preview_black.b, 0,
+            "Mismatch blue channel value on black pixel"
+        );
+        assert_eq!(
+            preview_black.a, 0,
+            "Mismatch alpha channel value on black pixel"
+        );
+
+        let preview_white = PreviewRgba::from_f32(1f32, 1f32, 1f32, 1f32);
+
+        assert_eq!(
+            preview_white.r, 184,
+            "Mismatch red channel value on white pixel"
+        );
+        assert_eq!(
+            preview_white.g, 184,
+            "Mismatch green channel value on white pixel"
+        );
+        assert_eq!(
+            preview_white.b, 184,
+            "Mismatch blue channel value on white pixel"
+        );
+        assert_eq!(
+            preview_white.a, 255,
+            "Mismatch alpha channel value on white pixel"
+        );
+
+        let preview_bright_white =
+            PreviewRgba::from_f32(2.037f32, 2.037f32, 2.037f32, 1f32);
+
+        assert_eq!(
+            preview_bright_white.r, 255,
+            "Mismatch red channel value on bright white pixel"
+        );
+        assert_eq!(
+            preview_bright_white.g, 255,
+            "Mismatch green channel value on bright white pixel"
+        );
+        assert_eq!(
+            preview_bright_white.b, 255,
+            "Mismatch blue channel value on bright white pixel"
+        );
+        assert_eq!(
+            preview_bright_white.a, 255,
+            "Mismatch alpha channel value on white pixel"
+        );
+
+        let preview_grey =
+            PreviewRgba::from_f32(0.5f32, 0.5f32, 0.5f32, 0.5f32);
+
+        assert_eq!(
+            preview_grey.r, 134,
+            "Mismatch red channel value on grey pixel"
+        );
+        assert_eq!(
+            preview_grey.g, 134,
+            "Mismatch green channel value on grey pixel"
+        );
+        assert_eq!(
+            preview_grey.b, 134,
+            "Mismatch blue channel value on grey pixel"
+        );
+        assert_eq!(
+            preview_grey.a, 128,
+            "Mismatch alpha channel value on grey pixel"
+        );
+    }
+
+    #[test]
+    fn test_preview_rgba_f16_gamma_conversion() {
+        let preview_black = PreviewRgba::from_f16(
+            f16::from_f32(0f32),
+            f16::from_f32(0f32),
+            f16::from_f32(0f32),
+            f16::from_f32(0f32),
+        );
+
+        assert_eq!(
+            preview_black.r, 0,
+            "Mismatch red channel value on black pixel"
+        );
+        assert_eq!(
+            preview_black.g, 0,
+            "Mismatch green channel value on black pixel"
+        );
+        assert_eq!(
+            preview_black.b, 0,
+            "Mismatch blue channel value on black pixel"
+        );
+        assert_eq!(
+            preview_black.a, 0,
+            "Mismatch alpha channel value on black pixel"
+        );
+
+        let preview_white = PreviewRgba::from_f16(
+            f16::from_f32(1f32),
+            f16::from_f32(1f32),
+            f16::from_f32(1f32),
+            f16::from_f32(1f32),
+        );
+
+        assert_eq!(
+            preview_white.r, 184,
+            "Mismatch red channel value on white pixel"
+        );
+        assert_eq!(
+            preview_white.g, 184,
+            "Mismatch green channel value on white pixel"
+        );
+        assert_eq!(
+            preview_white.b, 184,
+            "Mismatch blue channel value on white pixel"
+        );
+        assert_eq!(
+            preview_white.a, 255,
+            "Mismatch alpha channel value on white pixel"
+        );
+
+        let preview_bright_white = PreviewRgba::from_f16(
+            f16::from_f32(2.037f32),
+            f16::from_f32(2.037f32),
+            f16::from_f32(2.037f32),
+            f16::from_f32(1f32),
+        );
+
+        assert_eq!(
+            preview_bright_white.r, 255,
+            "Mismatch red channel value on bright white pixel"
+        );
+        assert_eq!(
+            preview_bright_white.g, 255,
+            "Mismatch green channel value on bright white pixel"
+        );
+        assert_eq!(
+            preview_bright_white.b, 255,
+            "Mismatch blue channel value on bright white pixel"
+        );
+        assert_eq!(
+            preview_bright_white.a, 255,
+            "Mismatch alpha channel value on white pixel"
+        );
+
+        let preview_grey = PreviewRgba::from_f16(
+            f16::from_f32(0.5f32),
+            f16::from_f32(0.5f32),
+            f16::from_f32(0.5f32),
+            f16::from_f32(0.5f32),
+        );
+
+        assert_eq!(
+            preview_grey.r, 134,
+            "Mismatch red channel value on grey pixel"
+        );
+        assert_eq!(
+            preview_grey.g, 134,
+            "Mismatch green channel value on grey pixel"
+        );
+        assert_eq!(
+            preview_grey.b, 134,
+            "Mismatch blue channel value on grey pixel"
+        );
+        assert_eq!(
+            preview_grey.a, 128,
+            "Mismatch alpha channel value on grey pixel"
+        );
     }
 }
