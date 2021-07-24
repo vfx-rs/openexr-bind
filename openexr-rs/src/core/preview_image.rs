@@ -20,7 +20,7 @@ pub type PreviewImageRef<'a, P = PreviewImage> = Ref<'a, P>;
 pub type PreviewImageRefMut<'a, P = PreviewImage> = RefMut<'a, P>;
 
 impl PreviewImage {
-    /// Creates a new `PreviewImage` with dimensions width = 0 and height = 0
+    /// Creates a new [`PreviewImage`] with dimensions width = 0 and height = 0
     ///
     /// ## Errors
     /// * [`Error::Base`] - If an error occurs
@@ -29,7 +29,7 @@ impl PreviewImage {
         PreviewImage::with_dimensions(0, 0)
     }
 
-    /// Creates a new `PreviewImage` with the provided dimensions
+    /// Creates a new [`PreviewImage`] with the provided dimensions
     ///
     /// ## Errors
     /// * [`Error::Overflow`] - If the size of the image is bigger than the supported size
@@ -50,7 +50,7 @@ impl PreviewImage {
         Ok(PreviewImage(_inner))
     }
 
-    /// Creates a new `PreviewImage` with the provided dimensions and pixels
+    /// Creates a new [`PreviewImage`] with the provided dimensions and pixels
     ///
     /// ## Errors
     /// * [`Error::Overflow`] - If the size of the image is bigger than the supported size
@@ -75,7 +75,7 @@ impl PreviewImage {
         Ok(PreviewImage(_inner))
     }
 
-    /// Returns the `width` of the `PreviewImage`
+    /// Returns the width of the [`PreviewImage`]
     ///
     pub fn width(&self) -> u32 {
         let mut value = 0;
@@ -87,7 +87,7 @@ impl PreviewImage {
         value
     }
 
-    /// Returns the `height` of the `PreviewImage`
+    /// Returns the height of the [`PreviewImage`]
     ///
     pub fn height(&self) -> u32 {
         let mut value = 0;
@@ -177,7 +177,7 @@ impl PreviewImage {
 
     /// Gets the pixel value at the specified coordinates
     ///
-    /// Returns `None` if the coordinates are outside of the image size,
+    /// Returns [`None`] if the coordinates are outside of the image size,
     /// or some other error ocurred
     ///
     pub fn get_pixel(&self, x: u32, y: u32) -> Option<PreviewRgba> {
@@ -243,16 +243,16 @@ pub struct PreviewRgba {
 }
 
 impl PreviewRgba {
-    /// Creates a `PreviewRgba` from RGB and Alpha `u8` values
+    /// Creates a [`PreviewRgba`] from RGB and Alpha [`u8`] values
     ///
     pub fn from_u8(r: u8, g: u8, b: u8, a: u8) -> PreviewRgba {
         PreviewRgba { r, g, b, a }
     }
 
-    /// Creates a `PreviewRgba` from RGB and Alpha `f16` values
+    /// Creates a [`PreviewRgba`] from RGB and Alpha [`f16`] values
     ///
     /// ## Note
-    /// This function applies a gamma correction with the formula
+    /// Applies gamma correction with the formula
     /// `clamp( pow(5.5555 * max(0, x), 0.4545) * 84.66), 0, 255)`
     ///
     pub fn from_f16(r: f16, g: f16, b: f16, a: f16) -> PreviewRgba {
@@ -264,10 +264,10 @@ impl PreviewRgba {
         )
     }
 
-    /// Creates a `PreviewRgba` from RGB and Alpha `f32` values
+    /// Creates a [`PreviewRgba`] from RGB and Alpha [`f32`] values
     ///
     /// ## Note
-    /// This function applies a gamma correction with the formula
+    /// Applies gamma correction with the formula
     /// `clamp( pow(5.5555 * max(0, x), 0.4545) * 84.66), 0, 255)`
     ///
     pub fn from_f32(r: f32, g: f32, b: f32, a: f32) -> PreviewRgba {
@@ -279,10 +279,10 @@ impl PreviewRgba {
         }
     }
 
-    /// Creates a `PreviewRgba` from RGB and Alpha `f16` values
+    /// Creates a [`PreviewRgba`] from RGB and Alpha [`f16`] values
     ///
     /// ## Note
-    /// This function does not apply any gamma correction
+    /// Does not apply gamma correction
     ///
     pub fn from_f16_linear(r: f16, g: f16, b: f16, a: f16) -> PreviewRgba {
         PreviewRgba::from_f32(
@@ -293,10 +293,10 @@ impl PreviewRgba {
         )
     }
 
-    /// Creates a `PreviewRgba` from RGB and Alpha `f32` values
+    /// Creates a [`PreviewRgba`] from RGB and Alpha [`f32`] values
     ///
     /// ## Note
-    /// This function does not apply any gamma correction
+    /// Does not apply gamma correction
     ///
     pub fn from_f32_linear(r: f32, g: f32, b: f32, a: f32) -> PreviewRgba {
         PreviewRgba {
@@ -307,7 +307,7 @@ impl PreviewRgba {
         }
     }
 
-    /// Creates a `PreviewRgba` where all components have value 0 (zero)
+    /// Creates a [`PreviewRgba`] where all components have value 0 (zero)
     ///
     pub fn zero() -> PreviewRgba {
         PreviewRgba::from_u8(0u8, 0u8, 0u8, 0u8)
