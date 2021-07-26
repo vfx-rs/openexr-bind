@@ -221,25 +221,25 @@ impl Drop for PreviewImage {
 
 /// Holds the value of a PreviewImage pixel
 ///
-/// Intensity is proportional to pow(x/255, 2.2) for r, g, and b components.
+/// Intensity is proportional to `pow(x/255, 2.2)` for `r`, `g`, and `b` components.
 #[repr(C)]
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub struct PreviewRgba {
     /// Red component of the pixel's color.
-    /// Intensity is proportional to pow(x/255, 2.2).
-    r: u8,
+    /// Intensity is proportional to `pow(x/255, 2.2)`.
+    pub r: u8,
 
     /// Green component of the pixel's color.
-    /// Intensity is proportional to pow(x/255, 2.2).
-    g: u8,
+    /// Intensity is proportional to `pow(x/255, 2.2)`.
+    pub g: u8,
 
     /// Blue component of the pixel's color.
-    /// Intensity is proportional to pow(x/255, 2.2).
-    b: u8,
+    /// Intensity is proportional to `pow(x/255, 2.2)`.
+    pub b: u8,
 
     /// The pixel's alpha.
-    /// 0 == transparent, 255 == opaque.
-    a: u8,
+    /// Transparent -> 0. Opaque -> 255.
+    pub a: u8,
 }
 
 impl PreviewRgba {
