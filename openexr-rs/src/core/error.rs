@@ -10,6 +10,8 @@ pub enum Error {
     Input(String),
     #[error("Logic error: {0}")]
     LogicError(String),
+    #[error("Overflow: {0}")]
+    Overflow(String),
     #[error("Out of memory: {0}")]
     OutOfMemory(String),
     #[error("Invalid type: {0}")]
@@ -29,6 +31,7 @@ impl From<sys::Error> for Error {
             E::IexBase(s) => Error::Base(s),
             E::IexInput(s) => Error::Input(s),
             E::IexLogicError(s) => Error::LogicError(s),
+            E::IexOverflow(s) => Error::Overflow(s),
             E::IexOutOfMemory(s) => Error::OutOfMemory(s),
             E::IexInvalidType(s) => Error::InvalidType(s),
             E::IexInvalidArgument(s) => Error::InvalidArgument(s),
