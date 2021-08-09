@@ -1,3 +1,4 @@
+#include <OpenEXR/IexMathExc.h>
 #include <OpenEXR/ImfPreviewImage.h>
 
 #include <cppmm_bind.hpp>
@@ -20,10 +21,13 @@ struct PreviewImage {
 
     IMF_EXPORT
     PreviewImage(unsigned int width = 0, unsigned int height = 0,
-                 const Imf::PreviewRgba pixels[] = 0);
+                 const Imf::PreviewRgba pixels[] = 0)
+        CPPMM_THROWS(Iex::OverflowExc, IEX_OVERFLOW);
 
     IMF_EXPORT
-    PreviewImage(const Imf::PreviewImage& other);
+    PreviewImage(const Imf::PreviewImage& other)
+        CPPMM_RENAME(copy);
+
     IMF_EXPORT
     ~PreviewImage();
 

@@ -3,7 +3,7 @@ use crate::core::{
     channel_list::{ChannelListRef, ChannelListRefMut},
     cppstd::CppString,
     error::Error,
-    preview_image::PreviewImage,
+    preview_image::{PreviewImage, PreviewImageRef},
     refptr::{OpaquePtr, Ref, RefMut},
     tile_description::TileDescription,
     Compression, LineOrder,
@@ -949,21 +949,31 @@ impl Header {
 
     /// Get the preview image from the header
     ///
-    pub fn preview_image(&self) -> Result<&PreviewImage> {
-        let mut ptr = std::ptr::null();
+    /// # Errors
+    /// * [`Error::InvalidType`] - If the preview image attribute is not of the expected type
+    /// * [`Error::Base`] - If any other error occurs
+    ///
+    pub fn preview_image(&self) -> Result<PreviewImageRef> {
         unsafe {
+            let mut ptr = std::ptr::null();
             sys::Imf_Header_previewImage_const(self.0.as_ref(), &mut ptr)
-                .into_result()
-                .map(|_| &*(ptr as *const PreviewImage))
-                .map_err(Error::from)
+                .into_result()?;
+
+            Ok(PreviewImageRef::new(ptr))
         }
     }
 
     /// Set the preview image in the header
     ///
-    pub fn set_preview_image(&mut self, pi: &PreviewImage) {
+    /// # Errors
+    /// * [`Error::InvalidType`] - If the preview image attribute can not be assigned the expected type
+    /// * [`Error::Base`] - If any other error occurs
+    pub fn set_preview_image(&mut self, pi: &PreviewImage) -> Result<()> {
         unsafe {
-            sys::Imf_Header_setPreviewImage(self.0.as_mut(), pi.0);
+            sys::Imf_Header_setPreviewImage(self.0.as_mut(), pi.0)
+                .into_result()?;
+
+            Ok(())
         }
     }
 

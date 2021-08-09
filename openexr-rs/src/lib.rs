@@ -116,6 +116,7 @@
 //!
 //! ```no_run
 //! # use openexr::prelude::*;
+//! #[cfg(feature = "imath_cgmath")]
 //! # fn read_rgba1(path: &str) -> Result<(), Box<dyn std::error::Error>> {
 //! #   use imath_traits::Zero;
 //!     use imath_traits::Box2i;
