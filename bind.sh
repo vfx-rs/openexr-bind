@@ -10,7 +10,7 @@ trap 'echo "\"${last_command}\" exited with code $?."' ERR
 
 rm -rf build
 
-project_name="vfxpreopenexr"
+project_name="openexr"
 major_version=0
 minor_version=0
 patch_version=1
