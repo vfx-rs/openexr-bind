@@ -16,7 +16,6 @@ type Result<T, E = Error> = std::result::Result<T, E>;
 pub struct DeepFrameBuffer {
     pub(crate) ptr: *mut sys::Imf_DeepFrameBuffer_t,
     pub(crate) sample_count_frame: Option<Frame>,
-    pub(crate) frames: Option<Vec<DeepFrame>>,
 }
 
 unsafe impl OpaquePtr for DeepFrameBuffer {
@@ -36,7 +35,6 @@ impl DeepFrameBuffer {
         DeepFrameBuffer {
             ptr,
             sample_count_frame: None,
-            frames: Some(Vec::new()),
         }
     }
 
@@ -198,38 +196,6 @@ impl DeepFrameBuffer {
         }
 
         SliceRef::new(ptr)
-    }
-
-    pub fn insert_deep_frame(&mut self, frame: DeepFrame) -> Result<()> {
-        let ptr = frame.ptr;
-        let data_window = frame.data_window;
-        let data_width = data_window[2] - data_window[0] + 1;
-        let offset = (-data_window[0] - data_window[1] * data_width) as isize;
-
-        unsafe {
-            self.insert(
-                &frame.channel_name,
-                &DeepSlice::builder(
-                    frame.channel_type,
-                    ptr.offset(offset) as *mut i8,
-                )
-                .x_stride(std::mem::size_of::<*const u8>())
-                .y_stride(
-                    std::mem::size_of::<*const u8>() * data_width as usize,
-                )
-                .sample_stride(frame.stride)
-                .build()?,
-            )?;
-        }
-
-        match &mut self.frames {
-            Some(v) => {
-                v.push(frame);
-            }
-            _ => unreachable!(),
-        }
-
-        Ok(())
     }
 }
 
@@ -484,92 +450,4 @@ impl DeepSample for f32 {
 impl DeepSample for u32 {
     type Type = Self;
     const CHANNEL_TYPE: PixelType = PixelType::Uint;
-}
-
-pub struct DeepFrame {
-    pub(crate) channel_type: PixelType,
-    pub(crate) data_window: [i32; 4],
-    pub(crate) channel_name: String,
-    pub(crate) stride: usize,
-    pub(crate) ptr: *mut *mut u8,
-    pub(crate) len: usize,
-    pub(crate) byte_len: usize,
-    pub(crate) align: usize,
-    allocated: bool,
-}
-
-use std::alloc::{GlobalAlloc, Layout, System};
-impl DeepFrame {
-    pub fn new<T: DeepSample, B: Bound2<i32>>(
-        channel_name: &str,
-        data_window: B,
-    ) -> Result<DeepFrame> {
-        let data_window = *data_window.as_slice();
-        let w = data_window[2] - data_window[0] + 1;
-        let h = data_window[3] - data_window[1] + 1;
-        let len = (w * h) as usize;
-
-        let ptr = unsafe {
-            // FIXME: this needs to be MaybeUninit
-            System.alloc(Layout::array::<*mut u8>(len).unwrap()) as *mut *mut u8
-        };
-
-        Ok(DeepFrame {
-            channel_type: T::CHANNEL_TYPE,
-            data_window,
-            channel_name: channel_name.to_string(),
-            stride: T::STRIDE,
-            ptr,
-            len,
-            byte_len: len * std::mem::size_of::<*mut T>(),
-            align: std::mem::align_of::<*mut T>(),
-            allocated: false,
-        })
-    }
-
-    pub(crate) unsafe fn allocate_pixel_storage(
-        &mut self,
-        x: i32,
-        y: i32,
-        count: u32,
-    ) {
-        // if we're out of bounds, just ignore it. We expect to be called in a
-        // loop over the union of all windows
-        if x < self.data_window[0]
-            || x >= self.data_window[2]
-            || y < self.data_window[1]
-            || y >= self.data_window[3]
-        {
-            return;
-        }
-
-        let w = self.data_window[2] - self.data_window[0] + 1;
-
-        // offset index back to data window corner
-        let x = x - self.data_window[0];
-        let y = y - self.data_window[2];
-
-        // allocate the storage
-        let ptr = System
-            .alloc(Layout::array::<u8>(count as usize * self.stride).unwrap());
-
-        // set the sample pointer at the pixel location
-        let offset = (y * w + x) as isize;
-        *self.ptr.offset(offset) = ptr;
-    }
-}
-
-impl Drop for DeepFrame {
-    fn drop(&mut self) {
-        unsafe {
-            if self.allocated {
-                // TODO:
-            }
-
-            System.dealloc(
-                self.ptr as *mut u8,
-                Layout::array::<*mut u8>(self.len).unwrap(),
-            );
-        }
-    }
 }
