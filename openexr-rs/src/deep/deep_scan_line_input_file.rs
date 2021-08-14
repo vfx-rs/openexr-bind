@@ -1,8 +1,8 @@
 use openexr_sys as sys;
 
 use crate::{
-    core::{error::Error, frame_buffer::Frame, header::HeaderRef},
-    deep::deep_frame_buffer::{DeepFrame, DeepFrameBuffer, DeepFrameBufferRef},
+    core::{error::Error, header::HeaderRef},
+    deep::deep_frame_buffer::{DeepFrameBuffer, DeepFrameBufferRef},
 };
 
 use std::ffi::CString;
@@ -155,66 +155,6 @@ impl DeepScanLineInputFile {
         }
 
         Ok(())
-    }
-
-    pub fn into_reader(
-        mut self,
-        frames: Vec<DeepFrame>,
-    ) -> Result<DeepScanLineInputFileReader> {
-        // we need to know the union of all the frames passed in to know which
-        // pixels to read sample counts for
-        let mut data_window =
-            [std::i32::MAX, std::i32::MAX, std::i32::MIN, std::i32::MIN];
-        for f in &frames {
-            data_window[0] = data_window[0].min(f.data_window[0]);
-            data_window[1] = data_window[1].min(f.data_window[1]);
-            data_window[2] = data_window[2].max(f.data_window[2]);
-            data_window[3] = data_window[3].max(f.data_window[3]);
-        }
-
-        // create a Frame for the sample counts, which we'll need to
-        // allocate storage for the DeepFrames
-        let sample_count_frame =
-            Frame::new::<u32, _, _>(&["sampleCounts"], data_window).unwrap();
-
-        let mut frame_buffer = DeepFrameBuffer::new();
-
-        // insert the sample count and all user-provided frames
-        frame_buffer
-            .set_sample_count_frame(sample_count_frame)
-            .unwrap();
-
-        for f in frames {
-            frame_buffer.insert_deep_frame(f)?;
-        }
-
-        // read the sample counts and get a slice to them
-        self.read_pixel_sample_counts(data_window[0], data_window[2])?;
-
-        let DeepFrameBuffer {
-            ref sample_count_frame,
-            ref mut frames,
-            ..
-        } = frame_buffer;
-        let counts = sample_count_frame.as_ref().unwrap().as_slice();
-
-        // Now allocate sample storage for each frame's pixels
-        let mut i = 0;
-        for y in data_window[1]..=data_window[3] {
-            for x in data_window[0]..=data_window[2] {
-                let v = frames.as_mut().unwrap();
-                for f in v {
-                    let count = counts[i];
-                    unsafe { f.allocate_pixel_storage(x, y, count) };
-                }
-                i += 1;
-            }
-        }
-
-        Ok(DeepScanLineInputFileReader {
-            inner: self.0,
-            frame_buffer,
-        })
     }
 }
 

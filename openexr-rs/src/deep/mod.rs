@@ -15,7 +15,7 @@ pub mod deep_tiled_output_part;
 pub mod sample_count_channel;
 
 pub use composite_deep_scan_line::CompositeDeepScanLine;
-pub use deep_frame_buffer::{DeepFrame, DeepFrameBuffer, DeepSlice};
+pub use deep_frame_buffer::{DeepFrameBuffer, DeepSlice};
 pub use deep_image::DeepImage;
 pub use deep_image_channel::{DeepChannelF16, DeepChannelF32, DeepChannelU32};
 pub use deep_image_io::{
