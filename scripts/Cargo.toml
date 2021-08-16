@@ -3,7 +3,7 @@ name = "PROJECT_NAME-sys"
 version = "MAJOR_VERSION.MINOR_VERSION.PATCH_VERSION"
 description="test package"
 license="BSD-3-Clause"
-authors = ["Anders Langlands <anderslanglands@gmail.com>"]
+authors = ["Anders Langlands <anderslanglands@gmail.com>", "Scott Wilson <scott@propersquid.com>", "Luke Titley <from+openexr_rs@luketitley.com>"]
 edition = "2018"
 exclude = [
     "thirdparty/Imath/src/ImathTest",

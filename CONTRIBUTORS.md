@@ -5,3 +5,4 @@ If there are any missing names, please feel free to open a [GitHub issue](https:
 - Anders Langlands (committer)
 - Luke Titley (committer)
 - Scott Wilson (committer)
+- Tiago Carvalho (committer)
