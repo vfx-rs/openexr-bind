@@ -1,7 +1,10 @@
 [package]
 name = "openexr"
 version = "3.0.1"
-authors = ["Anders Langlands <anderslanglands@gmail.com>", "Scott Wilson <scott@propersquid.com>"]
+authors = ["Anders Langlands <anderslanglands@gmail.com>",
+           "Luke Titley <from+openexr_rs@luketitley.com>",
+           "Scott Wilson <scott@propersquid.com>",
+           "Tiago Carvalho <tiago.carvalho@loquattech.com>"]
 edition = "2018"
 
 [package.metadata.docs.rs]
