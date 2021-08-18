@@ -243,10 +243,6 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepImage_renameChannel(
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
         return 6;
-    } catch (std::exception& e) {
-        TLG_EXCEPTION_STRING = e.what();
-        return -1;
-    }
 }
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepImage_renameChannels(
@@ -262,10 +258,6 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepImage_renameChannels(
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
         return 6;
-    } catch (std::exception& e) {
-        TLG_EXCEPTION_STRING = e.what();
-        return -1;
-    }
 }
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepImage_default(

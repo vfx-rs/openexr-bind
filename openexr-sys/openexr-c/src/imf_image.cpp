@@ -261,10 +261,6 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__Image_renameChannel(
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
         return 6;
-    } catch (std::exception& e) {
-        TLG_EXCEPTION_STRING = e.what();
-        return -1;
-    }
 }
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0__Image_renameChannels(
@@ -280,10 +276,6 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__Image_renameChannels(
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
         return 6;
-    } catch (std::exception& e) {
-        TLG_EXCEPTION_STRING = e.what();
-        return -1;
-    }
 }
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0__Image_level(
