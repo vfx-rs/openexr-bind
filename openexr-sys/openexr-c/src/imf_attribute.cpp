@@ -215,7 +215,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__OpaqueAttribute_newAttribute(
     , char const * typeName)
 {
     try {
-        to_c(return_, Imf_3_0::Attribute::newAttribute(typeName));
+        to_c(return_, Imf_3_0::OpaqueAttribute::newAttribute(typeName));
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -228,7 +228,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__OpaqueAttribute_knownType(
     , char const * typeName)
 {
     try {
-        *(return_) = Imf_3_0::Attribute::knownType(typeName);
+        *(return_) = Imf_3_0::OpaqueAttribute::knownType(typeName);
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -373,7 +373,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_int__newAttribute(
     , char const * typeName)
 {
     try {
-        to_c(return_, Imf_3_0::Attribute::newAttribute(typeName));
+        to_c(return_, Imf_3_0::TypedAttribute<int>::newAttribute(typeName));
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -386,7 +386,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_int__knownType(
     , char const * typeName)
 {
     try {
-        *(return_) = Imf_3_0::Attribute::knownType(typeName);
+        *(return_) = Imf_3_0::TypedAttribute<int>::knownType(typeName);
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -667,7 +667,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_float__newAttribute(
     , char const * typeName)
 {
     try {
-        to_c(return_, Imf_3_0::Attribute::newAttribute(typeName));
+        to_c(return_, Imf_3_0::TypedAttribute<float>::newAttribute(typeName));
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -680,7 +680,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_float__knownType(
     , char const * typeName)
 {
     try {
-        *(return_) = Imf_3_0::Attribute::knownType(typeName);
+        *(return_) = Imf_3_0::TypedAttribute<float>::knownType(typeName);
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -961,7 +961,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_double__newAttribute(
     , char const * typeName)
 {
     try {
-        to_c(return_, Imf_3_0::Attribute::newAttribute(typeName));
+        to_c(return_, Imf_3_0::TypedAttribute<double>::newAttribute(typeName));
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -974,7 +974,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_double__knownType(
     , char const * typeName)
 {
     try {
-        *(return_) = Imf_3_0::Attribute::knownType(typeName);
+        *(return_) = Imf_3_0::TypedAttribute<double>::knownType(typeName);
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -1255,7 +1255,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__Box2i__newAttribut
     , char const * typeName)
 {
     try {
-        to_c(return_, Imf_3_0::Attribute::newAttribute(typeName));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::Box2i>::newAttribute(typeName));
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -1268,7 +1268,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__Box2i__knownType(
     , char const * typeName)
 {
     try {
-        *(return_) = Imf_3_0::Attribute::knownType(typeName);
+        *(return_) = Imf_3_0::TypedAttribute<Imath::Box2i>::knownType(typeName);
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -1370,7 +1370,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__Box2i__staticTypeN
     char const * * return_)
 {
     try {
-        *(return_) = Imf_3_0::TypedAttribute<Imath_3_0::Box<Imath_3_0::Vec2<int>>>::staticTypeName();
+        *(return_) = Imf_3_0::TypedAttribute<Imath::Box2i>::staticTypeName();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -1382,7 +1382,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__Box2i__makeNewAttr
     Imf_Attribute_t * * return_)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Box<Imath_3_0::Vec2<int>>>::makeNewAttribute());
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::Box2i>::makeNewAttribute());
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -1395,7 +1395,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__Box2i__cast_ptr(
     , Imf_Attribute_t * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Box<Imath_3_0::Vec2<int>>>::cast(to_cpp(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::Box2i>::cast(to_cpp(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -1411,7 +1411,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__Box2i__cast_ptr_co
     , Imf_Attribute_t const * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Box<Imath_3_0::Vec2<int>>>::cast(to_cpp(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::Box2i>::cast(to_cpp(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -1427,7 +1427,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__Box2i__cast(
     , Imf_Attribute_t * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Box<Imath_3_0::Vec2<int>>>::cast(to_cpp_ref(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::Box2i>::cast(to_cpp_ref(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -1443,7 +1443,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__Box2i__cast_const(
     , Imf_Attribute_t const * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Box<Imath_3_0::Vec2<int>>>::cast(to_cpp_ref(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::Box2i>::cast(to_cpp_ref(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -1457,7 +1457,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__Box2i__cast_const(
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__Box2i__registerAttributeType()
 {
     try {
-        Imf_3_0::TypedAttribute<Imath_3_0::Box<Imath_3_0::Vec2<int>>>::registerAttributeType();
+        Imf_3_0::TypedAttribute<Imath::Box2i>::registerAttributeType();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -1468,7 +1468,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__Box2i__registerAtt
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__Box2i__unRegisterAttributeType()
 {
     try {
-        Imf_3_0::TypedAttribute<Imath_3_0::Box<Imath_3_0::Vec2<int>>>::unRegisterAttributeType();
+        Imf_3_0::TypedAttribute<Imath::Box2i>::unRegisterAttributeType();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -1549,7 +1549,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__Box2f__newAttribut
     , char const * typeName)
 {
     try {
-        to_c(return_, Imf_3_0::Attribute::newAttribute(typeName));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::Box2f>::newAttribute(typeName));
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -1562,7 +1562,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__Box2f__knownType(
     , char const * typeName)
 {
     try {
-        *(return_) = Imf_3_0::Attribute::knownType(typeName);
+        *(return_) = Imf_3_0::TypedAttribute<Imath::Box2f>::knownType(typeName);
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -1664,7 +1664,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__Box2f__staticTypeN
     char const * * return_)
 {
     try {
-        *(return_) = Imf_3_0::TypedAttribute<Imath_3_0::Box<Imath_3_0::Vec2<float>>>::staticTypeName();
+        *(return_) = Imf_3_0::TypedAttribute<Imath::Box2f>::staticTypeName();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -1676,7 +1676,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__Box2f__makeNewAttr
     Imf_Attribute_t * * return_)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Box<Imath_3_0::Vec2<float>>>::makeNewAttribute());
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::Box2f>::makeNewAttribute());
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -1689,7 +1689,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__Box2f__cast_ptr(
     , Imf_Attribute_t * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Box<Imath_3_0::Vec2<float>>>::cast(to_cpp(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::Box2f>::cast(to_cpp(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -1705,7 +1705,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__Box2f__cast_ptr_co
     , Imf_Attribute_t const * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Box<Imath_3_0::Vec2<float>>>::cast(to_cpp(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::Box2f>::cast(to_cpp(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -1721,7 +1721,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__Box2f__cast(
     , Imf_Attribute_t * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Box<Imath_3_0::Vec2<float>>>::cast(to_cpp_ref(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::Box2f>::cast(to_cpp_ref(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -1737,7 +1737,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__Box2f__cast_const(
     , Imf_Attribute_t const * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Box<Imath_3_0::Vec2<float>>>::cast(to_cpp_ref(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::Box2f>::cast(to_cpp_ref(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -1751,7 +1751,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__Box2f__cast_const(
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__Box2f__registerAttributeType()
 {
     try {
-        Imf_3_0::TypedAttribute<Imath_3_0::Box<Imath_3_0::Vec2<float>>>::registerAttributeType();
+        Imf_3_0::TypedAttribute<Imath::Box2f>::registerAttributeType();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -1762,7 +1762,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__Box2f__registerAtt
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__Box2f__unRegisterAttributeType()
 {
     try {
-        Imf_3_0::TypedAttribute<Imath_3_0::Box<Imath_3_0::Vec2<float>>>::unRegisterAttributeType();
+        Imf_3_0::TypedAttribute<Imath::Box2f>::unRegisterAttributeType();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -1843,7 +1843,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__ChannelList__new
     , char const * typeName)
 {
     try {
-        to_c(return_, Imf_3_0::Attribute::newAttribute(typeName));
+        to_c(return_, Imf_3_0::TypedAttribute<Imf_3_0::ChannelList>::newAttribute(typeName));
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -1856,7 +1856,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__ChannelList__kno
     , char const * typeName)
 {
     try {
-        *(return_) = Imf_3_0::Attribute::knownType(typeName);
+        *(return_) = Imf_3_0::TypedAttribute<Imf_3_0::ChannelList>::knownType(typeName);
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -2137,7 +2137,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__Chromaticities__
     , char const * typeName)
 {
     try {
-        to_c(return_, Imf_3_0::Attribute::newAttribute(typeName));
+        to_c(return_, Imf_3_0::TypedAttribute<Imf_3_0::Chromaticities>::newAttribute(typeName));
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -2150,7 +2150,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__Chromaticities__
     , char const * typeName)
 {
     try {
-        *(return_) = Imf_3_0::Attribute::knownType(typeName);
+        *(return_) = Imf_3_0::TypedAttribute<Imf_3_0::Chromaticities>::knownType(typeName);
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -2431,7 +2431,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__Compression__new
     , char const * typeName)
 {
     try {
-        to_c(return_, Imf_3_0::Attribute::newAttribute(typeName));
+        to_c(return_, Imf_3_0::TypedAttribute<Imf_3_0::Compression>::newAttribute(typeName));
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -2444,7 +2444,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__Compression__kno
     , char const * typeName)
 {
     try {
-        *(return_) = Imf_3_0::Attribute::knownType(typeName);
+        *(return_) = Imf_3_0::TypedAttribute<Imf_3_0::Compression>::knownType(typeName);
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -2725,7 +2725,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__DeepImageState__
     , char const * typeName)
 {
     try {
-        to_c(return_, Imf_3_0::Attribute::newAttribute(typeName));
+        to_c(return_, Imf_3_0::TypedAttribute<Imf_3_0::DeepImageState>::newAttribute(typeName));
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -2738,7 +2738,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__DeepImageState__
     , char const * typeName)
 {
     try {
-        *(return_) = Imf_3_0::Attribute::knownType(typeName);
+        *(return_) = Imf_3_0::TypedAttribute<Imf_3_0::DeepImageState>::knownType(typeName);
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -3019,7 +3019,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__Envmap__newAttri
     , char const * typeName)
 {
     try {
-        to_c(return_, Imf_3_0::Attribute::newAttribute(typeName));
+        to_c(return_, Imf_3_0::TypedAttribute<Imf_3_0::Envmap>::newAttribute(typeName));
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -3032,7 +3032,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__Envmap__knownTyp
     , char const * typeName)
 {
     try {
-        *(return_) = Imf_3_0::Attribute::knownType(typeName);
+        *(return_) = Imf_3_0::TypedAttribute<Imf_3_0::Envmap>::knownType(typeName);
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -3313,7 +3313,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__FloatVector__new
     , char const * typeName)
 {
     try {
-        to_c(return_, Imf_3_0::Attribute::newAttribute(typeName));
+        to_c(return_, Imf_3_0::TypedAttribute<Imf_3_0::FloatVector>::newAttribute(typeName));
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -3326,7 +3326,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__FloatVector__kno
     , char const * typeName)
 {
     try {
-        *(return_) = Imf_3_0::Attribute::knownType(typeName);
+        *(return_) = Imf_3_0::TypedAttribute<Imf_3_0::FloatVector>::knownType(typeName);
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -3428,7 +3428,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__FloatVector__sta
     char const * * return_)
 {
     try {
-        *(return_) = Imf_3_0::TypedAttribute<std::vector<float, std::allocator<float>>>::staticTypeName();
+        *(return_) = Imf_3_0::TypedAttribute<Imf_3_0::FloatVector>::staticTypeName();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -3440,7 +3440,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__FloatVector__mak
     Imf_Attribute_t * * return_)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<std::vector<float, std::allocator<float>>>::makeNewAttribute());
+        to_c(return_, Imf_3_0::TypedAttribute<Imf_3_0::FloatVector>::makeNewAttribute());
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -3453,7 +3453,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__FloatVector__cas
     , Imf_Attribute_t * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<std::vector<float, std::allocator<float>>>::cast(to_cpp(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imf_3_0::FloatVector>::cast(to_cpp(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -3469,7 +3469,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__FloatVector__cas
     , Imf_Attribute_t const * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<std::vector<float, std::allocator<float>>>::cast(to_cpp(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imf_3_0::FloatVector>::cast(to_cpp(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -3485,7 +3485,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__FloatVector__cas
     , Imf_Attribute_t * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<std::vector<float, std::allocator<float>>>::cast(to_cpp_ref(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imf_3_0::FloatVector>::cast(to_cpp_ref(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -3501,7 +3501,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__FloatVector__cas
     , Imf_Attribute_t const * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<std::vector<float, std::allocator<float>>>::cast(to_cpp_ref(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imf_3_0::FloatVector>::cast(to_cpp_ref(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -3515,7 +3515,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__FloatVector__cas
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__FloatVector__registerAttributeType()
 {
     try {
-        Imf_3_0::TypedAttribute<std::vector<float, std::allocator<float>>>::registerAttributeType();
+        Imf_3_0::TypedAttribute<Imf_3_0::FloatVector>::registerAttributeType();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -3526,7 +3526,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__FloatVector__reg
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__FloatVector__unRegisterAttributeType()
 {
     try {
-        Imf_3_0::TypedAttribute<std::vector<float, std::allocator<float>>>::unRegisterAttributeType();
+        Imf_3_0::TypedAttribute<Imf_3_0::FloatVector>::unRegisterAttributeType();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -3607,7 +3607,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__StringVector__ne
     , char const * typeName)
 {
     try {
-        to_c(return_, Imf_3_0::Attribute::newAttribute(typeName));
+        to_c(return_, Imf_3_0::TypedAttribute<Imf_3_0::StringVector>::newAttribute(typeName));
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -3620,7 +3620,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__StringVector__kn
     , char const * typeName)
 {
     try {
-        *(return_) = Imf_3_0::Attribute::knownType(typeName);
+        *(return_) = Imf_3_0::TypedAttribute<Imf_3_0::StringVector>::knownType(typeName);
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -3722,7 +3722,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__StringVector__st
     char const * * return_)
 {
     try {
-        *(return_) = Imf_3_0::TypedAttribute<std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char>>>>::staticTypeName();
+        *(return_) = Imf_3_0::TypedAttribute<Imf_3_0::StringVector>::staticTypeName();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -3734,7 +3734,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__StringVector__ma
     Imf_Attribute_t * * return_)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char>>>>::makeNewAttribute());
+        to_c(return_, Imf_3_0::TypedAttribute<Imf_3_0::StringVector>::makeNewAttribute());
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -3747,7 +3747,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__StringVector__ca
     , Imf_Attribute_t * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char>>>>::cast(to_cpp(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imf_3_0::StringVector>::cast(to_cpp(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -3763,7 +3763,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__StringVector__ca
     , Imf_Attribute_t const * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char>>>>::cast(to_cpp(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imf_3_0::StringVector>::cast(to_cpp(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -3779,7 +3779,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__StringVector__ca
     , Imf_Attribute_t * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char>>>>::cast(to_cpp_ref(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imf_3_0::StringVector>::cast(to_cpp_ref(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -3795,7 +3795,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__StringVector__ca
     , Imf_Attribute_t const * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char>>>>::cast(to_cpp_ref(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imf_3_0::StringVector>::cast(to_cpp_ref(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -3809,7 +3809,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__StringVector__ca
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__StringVector__registerAttributeType()
 {
     try {
-        Imf_3_0::TypedAttribute<std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char>>>>::registerAttributeType();
+        Imf_3_0::TypedAttribute<Imf_3_0::StringVector>::registerAttributeType();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -3820,7 +3820,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__StringVector__re
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__StringVector__unRegisterAttributeType()
 {
     try {
-        Imf_3_0::TypedAttribute<std::vector<std::__cxx11::basic_string<char>, std::allocator<std::__cxx11::basic_string<char>>>>::unRegisterAttributeType();
+        Imf_3_0::TypedAttribute<Imf_3_0::StringVector>::unRegisterAttributeType();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -3901,7 +3901,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_std__string__newAttribute
     , char const * typeName)
 {
     try {
-        to_c(return_, Imf_3_0::Attribute::newAttribute(typeName));
+        to_c(return_, Imf_3_0::TypedAttribute<std::string>::newAttribute(typeName));
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -3914,7 +3914,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_std__string__knownType(
     , char const * typeName)
 {
     try {
-        *(return_) = Imf_3_0::Attribute::knownType(typeName);
+        *(return_) = Imf_3_0::TypedAttribute<std::string>::knownType(typeName);
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -4016,7 +4016,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_std__string__staticTypeNa
     char const * * return_)
 {
     try {
-        *(return_) = Imf_3_0::TypedAttribute<std::__cxx11::basic_string<char>>::staticTypeName();
+        *(return_) = Imf_3_0::TypedAttribute<std::string>::staticTypeName();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -4028,7 +4028,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_std__string__makeNewAttri
     Imf_Attribute_t * * return_)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<std::__cxx11::basic_string<char>>::makeNewAttribute());
+        to_c(return_, Imf_3_0::TypedAttribute<std::string>::makeNewAttribute());
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -4041,7 +4041,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_std__string__cast_ptr(
     , Imf_Attribute_t * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<std::__cxx11::basic_string<char>>::cast(to_cpp(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<std::string>::cast(to_cpp(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -4057,7 +4057,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_std__string__cast_ptr_con
     , Imf_Attribute_t const * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<std::__cxx11::basic_string<char>>::cast(to_cpp(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<std::string>::cast(to_cpp(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -4073,7 +4073,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_std__string__cast(
     , Imf_Attribute_t * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<std::__cxx11::basic_string<char>>::cast(to_cpp_ref(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<std::string>::cast(to_cpp_ref(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -4089,7 +4089,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_std__string__cast_const(
     , Imf_Attribute_t const * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<std::__cxx11::basic_string<char>>::cast(to_cpp_ref(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<std::string>::cast(to_cpp_ref(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -4103,7 +4103,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_std__string__cast_const(
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_std__string__registerAttributeType()
 {
     try {
-        Imf_3_0::TypedAttribute<std::__cxx11::basic_string<char>>::registerAttributeType();
+        Imf_3_0::TypedAttribute<std::string>::registerAttributeType();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -4114,7 +4114,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_std__string__registerAttr
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_std__string__unRegisterAttributeType()
 {
     try {
-        Imf_3_0::TypedAttribute<std::__cxx11::basic_string<char>>::unRegisterAttributeType();
+        Imf_3_0::TypedAttribute<std::string>::unRegisterAttributeType();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -4195,7 +4195,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__KeyCode__newAttr
     , char const * typeName)
 {
     try {
-        to_c(return_, Imf_3_0::Attribute::newAttribute(typeName));
+        to_c(return_, Imf_3_0::TypedAttribute<Imf_3_0::KeyCode>::newAttribute(typeName));
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -4208,7 +4208,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__KeyCode__knownTy
     , char const * typeName)
 {
     try {
-        *(return_) = Imf_3_0::Attribute::knownType(typeName);
+        *(return_) = Imf_3_0::TypedAttribute<Imf_3_0::KeyCode>::knownType(typeName);
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -4489,7 +4489,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__LineOrder__newAt
     , char const * typeName)
 {
     try {
-        to_c(return_, Imf_3_0::Attribute::newAttribute(typeName));
+        to_c(return_, Imf_3_0::TypedAttribute<Imf_3_0::LineOrder>::newAttribute(typeName));
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -4502,7 +4502,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__LineOrder__known
     , char const * typeName)
 {
     try {
-        *(return_) = Imf_3_0::Attribute::knownType(typeName);
+        *(return_) = Imf_3_0::TypedAttribute<Imf_3_0::LineOrder>::knownType(typeName);
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -4783,7 +4783,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M33f__newAttribute
     , char const * typeName)
 {
     try {
-        to_c(return_, Imf_3_0::Attribute::newAttribute(typeName));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::M33f>::newAttribute(typeName));
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -4796,7 +4796,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M33f__knownType(
     , char const * typeName)
 {
     try {
-        *(return_) = Imf_3_0::Attribute::knownType(typeName);
+        *(return_) = Imf_3_0::TypedAttribute<Imath::M33f>::knownType(typeName);
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -4898,7 +4898,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M33f__staticTypeNa
     char const * * return_)
 {
     try {
-        *(return_) = Imf_3_0::TypedAttribute<Imath_3_0::Matrix33<float>>::staticTypeName();
+        *(return_) = Imf_3_0::TypedAttribute<Imath::M33f>::staticTypeName();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -4910,7 +4910,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M33f__makeNewAttri
     Imf_Attribute_t * * return_)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Matrix33<float>>::makeNewAttribute());
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::M33f>::makeNewAttribute());
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -4923,7 +4923,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M33f__cast_ptr(
     , Imf_Attribute_t * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Matrix33<float>>::cast(to_cpp(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::M33f>::cast(to_cpp(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -4939,7 +4939,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M33f__cast_ptr_con
     , Imf_Attribute_t const * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Matrix33<float>>::cast(to_cpp(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::M33f>::cast(to_cpp(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -4955,7 +4955,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M33f__cast(
     , Imf_Attribute_t * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Matrix33<float>>::cast(to_cpp_ref(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::M33f>::cast(to_cpp_ref(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -4971,7 +4971,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M33f__cast_const(
     , Imf_Attribute_t const * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Matrix33<float>>::cast(to_cpp_ref(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::M33f>::cast(to_cpp_ref(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -4985,7 +4985,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M33f__cast_const(
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M33f__registerAttributeType()
 {
     try {
-        Imf_3_0::TypedAttribute<Imath_3_0::Matrix33<float>>::registerAttributeType();
+        Imf_3_0::TypedAttribute<Imath::M33f>::registerAttributeType();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -4996,7 +4996,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M33f__registerAttr
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M33f__unRegisterAttributeType()
 {
     try {
-        Imf_3_0::TypedAttribute<Imath_3_0::Matrix33<float>>::unRegisterAttributeType();
+        Imf_3_0::TypedAttribute<Imath::M33f>::unRegisterAttributeType();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -5077,7 +5077,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M33d__newAttribute
     , char const * typeName)
 {
     try {
-        to_c(return_, Imf_3_0::Attribute::newAttribute(typeName));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::M33d>::newAttribute(typeName));
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -5090,7 +5090,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M33d__knownType(
     , char const * typeName)
 {
     try {
-        *(return_) = Imf_3_0::Attribute::knownType(typeName);
+        *(return_) = Imf_3_0::TypedAttribute<Imath::M33d>::knownType(typeName);
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -5192,7 +5192,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M33d__staticTypeNa
     char const * * return_)
 {
     try {
-        *(return_) = Imf_3_0::TypedAttribute<Imath_3_0::Matrix33<double>>::staticTypeName();
+        *(return_) = Imf_3_0::TypedAttribute<Imath::M33d>::staticTypeName();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -5204,7 +5204,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M33d__makeNewAttri
     Imf_Attribute_t * * return_)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Matrix33<double>>::makeNewAttribute());
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::M33d>::makeNewAttribute());
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -5217,7 +5217,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M33d__cast_ptr(
     , Imf_Attribute_t * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Matrix33<double>>::cast(to_cpp(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::M33d>::cast(to_cpp(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -5233,7 +5233,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M33d__cast_ptr_con
     , Imf_Attribute_t const * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Matrix33<double>>::cast(to_cpp(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::M33d>::cast(to_cpp(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -5249,7 +5249,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M33d__cast(
     , Imf_Attribute_t * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Matrix33<double>>::cast(to_cpp_ref(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::M33d>::cast(to_cpp_ref(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -5265,7 +5265,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M33d__cast_const(
     , Imf_Attribute_t const * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Matrix33<double>>::cast(to_cpp_ref(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::M33d>::cast(to_cpp_ref(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -5279,7 +5279,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M33d__cast_const(
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M33d__registerAttributeType()
 {
     try {
-        Imf_3_0::TypedAttribute<Imath_3_0::Matrix33<double>>::registerAttributeType();
+        Imf_3_0::TypedAttribute<Imath::M33d>::registerAttributeType();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -5290,7 +5290,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M33d__registerAttr
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M33d__unRegisterAttributeType()
 {
     try {
-        Imf_3_0::TypedAttribute<Imath_3_0::Matrix33<double>>::unRegisterAttributeType();
+        Imf_3_0::TypedAttribute<Imath::M33d>::unRegisterAttributeType();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -5371,7 +5371,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M44f__newAttribute
     , char const * typeName)
 {
     try {
-        to_c(return_, Imf_3_0::Attribute::newAttribute(typeName));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::M44f>::newAttribute(typeName));
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -5384,7 +5384,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M44f__knownType(
     , char const * typeName)
 {
     try {
-        *(return_) = Imf_3_0::Attribute::knownType(typeName);
+        *(return_) = Imf_3_0::TypedAttribute<Imath::M44f>::knownType(typeName);
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -5486,7 +5486,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M44f__staticTypeNa
     char const * * return_)
 {
     try {
-        *(return_) = Imf_3_0::TypedAttribute<Imath_3_0::Matrix44<float>>::staticTypeName();
+        *(return_) = Imf_3_0::TypedAttribute<Imath::M44f>::staticTypeName();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -5498,7 +5498,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M44f__makeNewAttri
     Imf_Attribute_t * * return_)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Matrix44<float>>::makeNewAttribute());
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::M44f>::makeNewAttribute());
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -5511,7 +5511,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M44f__cast_ptr(
     , Imf_Attribute_t * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Matrix44<float>>::cast(to_cpp(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::M44f>::cast(to_cpp(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -5527,7 +5527,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M44f__cast_ptr_con
     , Imf_Attribute_t const * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Matrix44<float>>::cast(to_cpp(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::M44f>::cast(to_cpp(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -5543,7 +5543,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M44f__cast(
     , Imf_Attribute_t * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Matrix44<float>>::cast(to_cpp_ref(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::M44f>::cast(to_cpp_ref(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -5559,7 +5559,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M44f__cast_const(
     , Imf_Attribute_t const * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Matrix44<float>>::cast(to_cpp_ref(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::M44f>::cast(to_cpp_ref(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -5573,7 +5573,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M44f__cast_const(
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M44f__registerAttributeType()
 {
     try {
-        Imf_3_0::TypedAttribute<Imath_3_0::Matrix44<float>>::registerAttributeType();
+        Imf_3_0::TypedAttribute<Imath::M44f>::registerAttributeType();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -5584,7 +5584,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M44f__registerAttr
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M44f__unRegisterAttributeType()
 {
     try {
-        Imf_3_0::TypedAttribute<Imath_3_0::Matrix44<float>>::unRegisterAttributeType();
+        Imf_3_0::TypedAttribute<Imath::M44f>::unRegisterAttributeType();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -5665,7 +5665,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M44d__newAttribute
     , char const * typeName)
 {
     try {
-        to_c(return_, Imf_3_0::Attribute::newAttribute(typeName));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::M44d>::newAttribute(typeName));
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -5678,7 +5678,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M44d__knownType(
     , char const * typeName)
 {
     try {
-        *(return_) = Imf_3_0::Attribute::knownType(typeName);
+        *(return_) = Imf_3_0::TypedAttribute<Imath::M44d>::knownType(typeName);
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -5780,7 +5780,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M44d__staticTypeNa
     char const * * return_)
 {
     try {
-        *(return_) = Imf_3_0::TypedAttribute<Imath_3_0::Matrix44<double>>::staticTypeName();
+        *(return_) = Imf_3_0::TypedAttribute<Imath::M44d>::staticTypeName();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -5792,7 +5792,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M44d__makeNewAttri
     Imf_Attribute_t * * return_)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Matrix44<double>>::makeNewAttribute());
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::M44d>::makeNewAttribute());
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -5805,7 +5805,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M44d__cast_ptr(
     , Imf_Attribute_t * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Matrix44<double>>::cast(to_cpp(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::M44d>::cast(to_cpp(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -5821,7 +5821,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M44d__cast_ptr_con
     , Imf_Attribute_t const * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Matrix44<double>>::cast(to_cpp(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::M44d>::cast(to_cpp(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -5837,7 +5837,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M44d__cast(
     , Imf_Attribute_t * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Matrix44<double>>::cast(to_cpp_ref(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::M44d>::cast(to_cpp_ref(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -5853,7 +5853,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M44d__cast_const(
     , Imf_Attribute_t const * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Matrix44<double>>::cast(to_cpp_ref(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::M44d>::cast(to_cpp_ref(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -5867,7 +5867,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M44d__cast_const(
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M44d__registerAttributeType()
 {
     try {
-        Imf_3_0::TypedAttribute<Imath_3_0::Matrix44<double>>::registerAttributeType();
+        Imf_3_0::TypedAttribute<Imath::M44d>::registerAttributeType();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -5878,7 +5878,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M44d__registerAttr
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__M44d__unRegisterAttributeType()
 {
     try {
-        Imf_3_0::TypedAttribute<Imath_3_0::Matrix44<double>>::unRegisterAttributeType();
+        Imf_3_0::TypedAttribute<Imath::M44d>::unRegisterAttributeType();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -5959,7 +5959,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__PreviewImage__ne
     , char const * typeName)
 {
     try {
-        to_c(return_, Imf_3_0::Attribute::newAttribute(typeName));
+        to_c(return_, Imf_3_0::TypedAttribute<Imf_3_0::PreviewImage>::newAttribute(typeName));
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -5972,7 +5972,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__PreviewImage__kn
     , char const * typeName)
 {
     try {
-        *(return_) = Imf_3_0::Attribute::knownType(typeName);
+        *(return_) = Imf_3_0::TypedAttribute<Imf_3_0::PreviewImage>::knownType(typeName);
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -6253,7 +6253,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__Rational__newAtt
     , char const * typeName)
 {
     try {
-        to_c(return_, Imf_3_0::Attribute::newAttribute(typeName));
+        to_c(return_, Imf_3_0::TypedAttribute<Imf_3_0::Rational>::newAttribute(typeName));
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -6266,7 +6266,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__Rational__knownT
     , char const * typeName)
 {
     try {
-        *(return_) = Imf_3_0::Attribute::knownType(typeName);
+        *(return_) = Imf_3_0::TypedAttribute<Imf_3_0::Rational>::knownType(typeName);
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -6547,7 +6547,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__TileDescription_
     , char const * typeName)
 {
     try {
-        to_c(return_, Imf_3_0::Attribute::newAttribute(typeName));
+        to_c(return_, Imf_3_0::TypedAttribute<Imf_3_0::TileDescription>::newAttribute(typeName));
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -6560,7 +6560,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__TileDescription_
     , char const * typeName)
 {
     try {
-        *(return_) = Imf_3_0::Attribute::knownType(typeName);
+        *(return_) = Imf_3_0::TypedAttribute<Imf_3_0::TileDescription>::knownType(typeName);
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -6841,7 +6841,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__TimeCode__newAtt
     , char const * typeName)
 {
     try {
-        to_c(return_, Imf_3_0::Attribute::newAttribute(typeName));
+        to_c(return_, Imf_3_0::TypedAttribute<Imf_3_0::TimeCode>::newAttribute(typeName));
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -6854,7 +6854,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imf_3_0__TimeCode__knownT
     , char const * typeName)
 {
     try {
-        *(return_) = Imf_3_0::Attribute::knownType(typeName);
+        *(return_) = Imf_3_0::TypedAttribute<Imf_3_0::TimeCode>::knownType(typeName);
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -7135,7 +7135,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2i__newAttribute(
     , char const * typeName)
 {
     try {
-        to_c(return_, Imf_3_0::Attribute::newAttribute(typeName));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V2i>::newAttribute(typeName));
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -7148,7 +7148,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2i__knownType(
     , char const * typeName)
 {
     try {
-        *(return_) = Imf_3_0::Attribute::knownType(typeName);
+        *(return_) = Imf_3_0::TypedAttribute<Imath::V2i>::knownType(typeName);
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -7250,7 +7250,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2i__staticTypeNam
     char const * * return_)
 {
     try {
-        *(return_) = Imf_3_0::TypedAttribute<Imath_3_0::Vec2<int>>::staticTypeName();
+        *(return_) = Imf_3_0::TypedAttribute<Imath::V2i>::staticTypeName();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -7262,7 +7262,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2i__makeNewAttrib
     Imf_Attribute_t * * return_)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Vec2<int>>::makeNewAttribute());
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V2i>::makeNewAttribute());
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -7275,7 +7275,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2i__cast_ptr(
     , Imf_Attribute_t * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Vec2<int>>::cast(to_cpp(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V2i>::cast(to_cpp(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -7291,7 +7291,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2i__cast_ptr_cons
     , Imf_Attribute_t const * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Vec2<int>>::cast(to_cpp(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V2i>::cast(to_cpp(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -7307,7 +7307,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2i__cast(
     , Imf_Attribute_t * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Vec2<int>>::cast(to_cpp_ref(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V2i>::cast(to_cpp_ref(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -7323,7 +7323,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2i__cast_const(
     , Imf_Attribute_t const * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Vec2<int>>::cast(to_cpp_ref(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V2i>::cast(to_cpp_ref(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -7337,7 +7337,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2i__cast_const(
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2i__registerAttributeType()
 {
     try {
-        Imf_3_0::TypedAttribute<Imath_3_0::Vec2<int>>::registerAttributeType();
+        Imf_3_0::TypedAttribute<Imath::V2i>::registerAttributeType();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -7348,7 +7348,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2i__registerAttri
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2i__unRegisterAttributeType()
 {
     try {
-        Imf_3_0::TypedAttribute<Imath_3_0::Vec2<int>>::unRegisterAttributeType();
+        Imf_3_0::TypedAttribute<Imath::V2i>::unRegisterAttributeType();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -7429,7 +7429,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2f__newAttribute(
     , char const * typeName)
 {
     try {
-        to_c(return_, Imf_3_0::Attribute::newAttribute(typeName));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V2f>::newAttribute(typeName));
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -7442,7 +7442,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2f__knownType(
     , char const * typeName)
 {
     try {
-        *(return_) = Imf_3_0::Attribute::knownType(typeName);
+        *(return_) = Imf_3_0::TypedAttribute<Imath::V2f>::knownType(typeName);
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -7544,7 +7544,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2f__staticTypeNam
     char const * * return_)
 {
     try {
-        *(return_) = Imf_3_0::TypedAttribute<Imath_3_0::Vec2<float>>::staticTypeName();
+        *(return_) = Imf_3_0::TypedAttribute<Imath::V2f>::staticTypeName();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -7556,7 +7556,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2f__makeNewAttrib
     Imf_Attribute_t * * return_)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Vec2<float>>::makeNewAttribute());
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V2f>::makeNewAttribute());
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -7569,7 +7569,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2f__cast_ptr(
     , Imf_Attribute_t * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Vec2<float>>::cast(to_cpp(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V2f>::cast(to_cpp(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -7585,7 +7585,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2f__cast_ptr_cons
     , Imf_Attribute_t const * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Vec2<float>>::cast(to_cpp(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V2f>::cast(to_cpp(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -7601,7 +7601,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2f__cast(
     , Imf_Attribute_t * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Vec2<float>>::cast(to_cpp_ref(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V2f>::cast(to_cpp_ref(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -7617,7 +7617,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2f__cast_const(
     , Imf_Attribute_t const * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Vec2<float>>::cast(to_cpp_ref(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V2f>::cast(to_cpp_ref(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -7631,7 +7631,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2f__cast_const(
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2f__registerAttributeType()
 {
     try {
-        Imf_3_0::TypedAttribute<Imath_3_0::Vec2<float>>::registerAttributeType();
+        Imf_3_0::TypedAttribute<Imath::V2f>::registerAttributeType();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -7642,7 +7642,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2f__registerAttri
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2f__unRegisterAttributeType()
 {
     try {
-        Imf_3_0::TypedAttribute<Imath_3_0::Vec2<float>>::unRegisterAttributeType();
+        Imf_3_0::TypedAttribute<Imath::V2f>::unRegisterAttributeType();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -7723,7 +7723,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2d__newAttribute(
     , char const * typeName)
 {
     try {
-        to_c(return_, Imf_3_0::Attribute::newAttribute(typeName));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V2d>::newAttribute(typeName));
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -7736,7 +7736,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2d__knownType(
     , char const * typeName)
 {
     try {
-        *(return_) = Imf_3_0::Attribute::knownType(typeName);
+        *(return_) = Imf_3_0::TypedAttribute<Imath::V2d>::knownType(typeName);
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -7838,7 +7838,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2d__staticTypeNam
     char const * * return_)
 {
     try {
-        *(return_) = Imf_3_0::TypedAttribute<Imath_3_0::Vec2<double>>::staticTypeName();
+        *(return_) = Imf_3_0::TypedAttribute<Imath::V2d>::staticTypeName();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -7850,7 +7850,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2d__makeNewAttrib
     Imf_Attribute_t * * return_)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Vec2<double>>::makeNewAttribute());
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V2d>::makeNewAttribute());
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -7863,7 +7863,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2d__cast_ptr(
     , Imf_Attribute_t * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Vec2<double>>::cast(to_cpp(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V2d>::cast(to_cpp(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -7879,7 +7879,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2d__cast_ptr_cons
     , Imf_Attribute_t const * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Vec2<double>>::cast(to_cpp(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V2d>::cast(to_cpp(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -7895,7 +7895,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2d__cast(
     , Imf_Attribute_t * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Vec2<double>>::cast(to_cpp_ref(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V2d>::cast(to_cpp_ref(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -7911,7 +7911,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2d__cast_const(
     , Imf_Attribute_t const * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Vec2<double>>::cast(to_cpp_ref(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V2d>::cast(to_cpp_ref(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -7925,7 +7925,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2d__cast_const(
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2d__registerAttributeType()
 {
     try {
-        Imf_3_0::TypedAttribute<Imath_3_0::Vec2<double>>::registerAttributeType();
+        Imf_3_0::TypedAttribute<Imath::V2d>::registerAttributeType();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -7936,7 +7936,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2d__registerAttri
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V2d__unRegisterAttributeType()
 {
     try {
-        Imf_3_0::TypedAttribute<Imath_3_0::Vec2<double>>::unRegisterAttributeType();
+        Imf_3_0::TypedAttribute<Imath::V2d>::unRegisterAttributeType();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -8017,7 +8017,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3i__newAttribute(
     , char const * typeName)
 {
     try {
-        to_c(return_, Imf_3_0::Attribute::newAttribute(typeName));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V3i>::newAttribute(typeName));
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -8030,7 +8030,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3i__knownType(
     , char const * typeName)
 {
     try {
-        *(return_) = Imf_3_0::Attribute::knownType(typeName);
+        *(return_) = Imf_3_0::TypedAttribute<Imath::V3i>::knownType(typeName);
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -8132,7 +8132,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3i__staticTypeNam
     char const * * return_)
 {
     try {
-        *(return_) = Imf_3_0::TypedAttribute<Imath_3_0::Vec3<int>>::staticTypeName();
+        *(return_) = Imf_3_0::TypedAttribute<Imath::V3i>::staticTypeName();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -8144,7 +8144,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3i__makeNewAttrib
     Imf_Attribute_t * * return_)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Vec3<int>>::makeNewAttribute());
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V3i>::makeNewAttribute());
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -8157,7 +8157,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3i__cast_ptr(
     , Imf_Attribute_t * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Vec3<int>>::cast(to_cpp(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V3i>::cast(to_cpp(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -8173,7 +8173,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3i__cast_ptr_cons
     , Imf_Attribute_t const * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Vec3<int>>::cast(to_cpp(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V3i>::cast(to_cpp(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -8189,7 +8189,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3i__cast(
     , Imf_Attribute_t * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Vec3<int>>::cast(to_cpp_ref(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V3i>::cast(to_cpp_ref(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -8205,7 +8205,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3i__cast_const(
     , Imf_Attribute_t const * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Vec3<int>>::cast(to_cpp_ref(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V3i>::cast(to_cpp_ref(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -8219,7 +8219,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3i__cast_const(
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3i__registerAttributeType()
 {
     try {
-        Imf_3_0::TypedAttribute<Imath_3_0::Vec3<int>>::registerAttributeType();
+        Imf_3_0::TypedAttribute<Imath::V3i>::registerAttributeType();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -8230,7 +8230,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3i__registerAttri
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3i__unRegisterAttributeType()
 {
     try {
-        Imf_3_0::TypedAttribute<Imath_3_0::Vec3<int>>::unRegisterAttributeType();
+        Imf_3_0::TypedAttribute<Imath::V3i>::unRegisterAttributeType();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -8311,7 +8311,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3f__newAttribute(
     , char const * typeName)
 {
     try {
-        to_c(return_, Imf_3_0::Attribute::newAttribute(typeName));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V3f>::newAttribute(typeName));
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -8324,7 +8324,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3f__knownType(
     , char const * typeName)
 {
     try {
-        *(return_) = Imf_3_0::Attribute::knownType(typeName);
+        *(return_) = Imf_3_0::TypedAttribute<Imath::V3f>::knownType(typeName);
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -8426,7 +8426,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3f__staticTypeNam
     char const * * return_)
 {
     try {
-        *(return_) = Imf_3_0::TypedAttribute<Imath_3_0::Vec3<float>>::staticTypeName();
+        *(return_) = Imf_3_0::TypedAttribute<Imath::V3f>::staticTypeName();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -8438,7 +8438,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3f__makeNewAttrib
     Imf_Attribute_t * * return_)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Vec3<float>>::makeNewAttribute());
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V3f>::makeNewAttribute());
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -8451,7 +8451,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3f__cast_ptr(
     , Imf_Attribute_t * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Vec3<float>>::cast(to_cpp(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V3f>::cast(to_cpp(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -8467,7 +8467,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3f__cast_ptr_cons
     , Imf_Attribute_t const * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Vec3<float>>::cast(to_cpp(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V3f>::cast(to_cpp(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -8483,7 +8483,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3f__cast(
     , Imf_Attribute_t * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Vec3<float>>::cast(to_cpp_ref(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V3f>::cast(to_cpp_ref(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -8499,7 +8499,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3f__cast_const(
     , Imf_Attribute_t const * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Vec3<float>>::cast(to_cpp_ref(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V3f>::cast(to_cpp_ref(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -8513,7 +8513,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3f__cast_const(
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3f__registerAttributeType()
 {
     try {
-        Imf_3_0::TypedAttribute<Imath_3_0::Vec3<float>>::registerAttributeType();
+        Imf_3_0::TypedAttribute<Imath::V3f>::registerAttributeType();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -8524,7 +8524,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3f__registerAttri
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3f__unRegisterAttributeType()
 {
     try {
-        Imf_3_0::TypedAttribute<Imath_3_0::Vec3<float>>::unRegisterAttributeType();
+        Imf_3_0::TypedAttribute<Imath::V3f>::unRegisterAttributeType();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -8605,7 +8605,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3d__newAttribute(
     , char const * typeName)
 {
     try {
-        to_c(return_, Imf_3_0::Attribute::newAttribute(typeName));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V3d>::newAttribute(typeName));
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -8618,7 +8618,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3d__knownType(
     , char const * typeName)
 {
     try {
-        *(return_) = Imf_3_0::Attribute::knownType(typeName);
+        *(return_) = Imf_3_0::TypedAttribute<Imath::V3d>::knownType(typeName);
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -8720,7 +8720,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3d__staticTypeNam
     char const * * return_)
 {
     try {
-        *(return_) = Imf_3_0::TypedAttribute<Imath_3_0::Vec3<double>>::staticTypeName();
+        *(return_) = Imf_3_0::TypedAttribute<Imath::V3d>::staticTypeName();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -8732,7 +8732,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3d__makeNewAttrib
     Imf_Attribute_t * * return_)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Vec3<double>>::makeNewAttribute());
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V3d>::makeNewAttribute());
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -8745,7 +8745,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3d__cast_ptr(
     , Imf_Attribute_t * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Vec3<double>>::cast(to_cpp(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V3d>::cast(to_cpp(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -8761,7 +8761,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3d__cast_ptr_cons
     , Imf_Attribute_t const * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Vec3<double>>::cast(to_cpp(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V3d>::cast(to_cpp(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -8777,7 +8777,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3d__cast(
     , Imf_Attribute_t * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Vec3<double>>::cast(to_cpp_ref(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V3d>::cast(to_cpp_ref(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -8793,7 +8793,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3d__cast_const(
     , Imf_Attribute_t const * attribute)
 {
     try {
-        to_c(return_, Imf_3_0::TypedAttribute<Imath_3_0::Vec3<double>>::cast(to_cpp_ref(attribute)));
+        to_c(return_, Imf_3_0::TypedAttribute<Imath::V3d>::cast(to_cpp_ref(attribute)));
         return 0;
     } catch (Iex::TypeExc& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -8807,7 +8807,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3d__cast_const(
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3d__registerAttributeType()
 {
     try {
-        Imf_3_0::TypedAttribute<Imath_3_0::Vec3<double>>::registerAttributeType();
+        Imf_3_0::TypedAttribute<Imath::V3d>::registerAttributeType();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
@@ -8818,7 +8818,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3d__registerAttri
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedAttribute_Imath__V3d__unRegisterAttributeType()
 {
     try {
-        Imf_3_0::TypedAttribute<Imath_3_0::Vec3<double>>::unRegisterAttributeType();
+        Imf_3_0::TypedAttribute<Imath::V3d>::unRegisterAttributeType();
         return 0;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
