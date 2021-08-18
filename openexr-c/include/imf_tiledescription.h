@@ -26,11 +26,11 @@ typedef struct Imf_3_0__TileDescription_t_s {
     unsigned int ySize;
     Imf_LevelMode mode;
     Imf_LevelRoundingMode roundingMode;
-} OPENEXR_ALIGN(4) Imf_3_0__TileDescription_t;
+} OPENEXR_CPPMM_ALIGN(4) Imf_3_0__TileDescription_t;
 typedef Imf_3_0__TileDescription_t Imf_TileDescription_t;
 
 
-OPENEXR_API unsigned int Imf_3_0__TileDescription_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TileDescription_ctor(
     Imf_TileDescription_t * this_
     , unsigned int xs
     , unsigned int ys
@@ -39,7 +39,7 @@ OPENEXR_API unsigned int Imf_3_0__TileDescription_ctor(
 #define Imf_TileDescription_ctor Imf_3_0__TileDescription_ctor
 
 
-OPENEXR_API unsigned int Imf_3_0__TileDescription__eq(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TileDescription__eq(
     Imf_TileDescription_t const * this_
     , _Bool * return_
     , Imf_TileDescription_t const * other);

@@ -14,7 +14,7 @@ typedef Imf_3_0__Header_t Imf_Header_t;
 typedef struct Imf_3_0__DeepImage_t_s Imf_3_0__DeepImage_t;
 typedef Imf_3_0__DeepImage_t Imf_DeepImage_t;
 
-OPENEXR_API unsigned int Imf_3_0_saveDeepImage_with_header(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_saveDeepImage_with_header(
     std_string_t const * fileName
     , Imf_Header_t const * hdr
     , Imf_DeepImage_t const * img
@@ -22,26 +22,26 @@ OPENEXR_API unsigned int Imf_3_0_saveDeepImage_with_header(
 #define Imf_saveDeepImage_with_header Imf_3_0_saveDeepImage_with_header
 
 
-OPENEXR_API unsigned int Imf_3_0_saveDeepImage(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_saveDeepImage(
     std_string_t const * fileName
     , Imf_DeepImage_t const * img);
 #define Imf_saveDeepImage Imf_3_0_saveDeepImage
 
 
-OPENEXR_API unsigned int Imf_3_0_loadDeepImage_with_header(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_loadDeepImage_with_header(
     std_string_t const * fileName
     , Imf_Header_t * hdr
     , Imf_DeepImage_t * img);
 #define Imf_loadDeepImage_with_header Imf_3_0_loadDeepImage_with_header
 
 
-OPENEXR_API unsigned int Imf_3_0_loadDeepImage(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_loadDeepImage(
     std_string_t const * fileName
     , Imf_DeepImage_t * img);
 #define Imf_loadDeepImage Imf_3_0_loadDeepImage
 
 
-OPENEXR_API unsigned int Imf_3_0_saveDeepScanLineImage_with_header(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_saveDeepScanLineImage_with_header(
     std_string_t const * fileName
     , Imf_Header_t const * hdr
     , Imf_DeepImage_t const * img
@@ -49,26 +49,26 @@ OPENEXR_API unsigned int Imf_3_0_saveDeepScanLineImage_with_header(
 #define Imf_saveDeepScanLineImage_with_header Imf_3_0_saveDeepScanLineImage_with_header
 
 
-OPENEXR_API unsigned int Imf_3_0_saveDeepScanLineImage(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_saveDeepScanLineImage(
     std_string_t const * fileName
     , Imf_DeepImage_t const * img);
 #define Imf_saveDeepScanLineImage Imf_3_0_saveDeepScanLineImage
 
 
-OPENEXR_API unsigned int Imf_3_0_loadDeepScanLineImage_with_header(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_loadDeepScanLineImage_with_header(
     std_string_t const * fileName
     , Imf_Header_t * hdr
     , Imf_DeepImage_t * img);
 #define Imf_loadDeepScanLineImage_with_header Imf_3_0_loadDeepScanLineImage_with_header
 
 
-OPENEXR_API unsigned int Imf_3_0_loadDeepScanLineImage(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_loadDeepScanLineImage(
     std_string_t const * fileName
     , Imf_DeepImage_t * img);
 #define Imf_loadDeepScanLineImage Imf_3_0_loadDeepScanLineImage
 
 
-OPENEXR_API unsigned int Imf_3_0_saveDeepTiledImage_with_header(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_saveDeepTiledImage_with_header(
     std_string_t const * fileName
     , Imf_Header_t const * hdr
     , Imf_DeepImage_t const * img
@@ -76,20 +76,20 @@ OPENEXR_API unsigned int Imf_3_0_saveDeepTiledImage_with_header(
 #define Imf_saveDeepTiledImage_with_header Imf_3_0_saveDeepTiledImage_with_header
 
 
-OPENEXR_API unsigned int Imf_3_0_saveDeepTiledImage(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_saveDeepTiledImage(
     std_string_t const * fileName
     , Imf_DeepImage_t const * img);
 #define Imf_saveDeepTiledImage Imf_3_0_saveDeepTiledImage
 
 
-OPENEXR_API unsigned int Imf_3_0_loadDeepTiledImage_with_header(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_loadDeepTiledImage_with_header(
     std_string_t const * fileName
     , Imf_Header_t * hdr
     , Imf_DeepImage_t * img);
 #define Imf_loadDeepTiledImage_with_header Imf_3_0_loadDeepTiledImage_with_header
 
 
-OPENEXR_API unsigned int Imf_3_0_loadDeepTiledImage(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_loadDeepTiledImage(
     std_string_t const * fileName
     , Imf_DeepImage_t * img);
 #define Imf_loadDeepTiledImage Imf_3_0_loadDeepTiledImage

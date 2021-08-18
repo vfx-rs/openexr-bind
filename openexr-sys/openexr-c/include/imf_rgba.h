@@ -27,16 +27,16 @@ typedef struct Imf_3_0__Rgba_t_s {
     Imath_half_t g;
     Imath_half_t b;
     Imath_half_t a;
-} OPENEXR_ALIGN(2) Imf_3_0__Rgba_t;
+} OPENEXR_CPPMM_ALIGN(2) Imf_3_0__Rgba_t;
 typedef Imf_3_0__Rgba_t Imf_Rgba_t;
 
 
-OPENEXR_API unsigned int Imf_3_0__Rgba_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__Rgba_ctor(
     Imf_Rgba_t * this_);
 #define Imf_Rgba_ctor Imf_3_0__Rgba_ctor
 
 
-OPENEXR_API unsigned int Imf_3_0__Rgba_ctor_1(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__Rgba_ctor_1(
     Imf_Rgba_t * this_
     , Imath_half_t r
     , Imath_half_t g
@@ -45,19 +45,19 @@ OPENEXR_API unsigned int Imf_3_0__Rgba_ctor_1(
 #define Imf_Rgba_ctor_1 Imf_3_0__Rgba_ctor_1
 
 
-OPENEXR_API unsigned int Imf_3_0__Rgba_copy(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__Rgba_copy(
     Imf_Rgba_t * this_
     , Imf_Rgba_t const * rhs);
 #define Imf_Rgba_copy Imf_3_0__Rgba_copy
 
 
-OPENEXR_API unsigned int Imf_3_0__Rgba_move(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__Rgba_move(
     Imf_Rgba_t * this_
     , Imf_Rgba_t * rhs);
 #define Imf_Rgba_move Imf_3_0__Rgba_move
 
 
-OPENEXR_API unsigned int Imf_3_0__Rgba_dtor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__Rgba_dtor(
     Imf_Rgba_t * this_);
 #define Imf_Rgba_dtor Imf_3_0__Rgba_dtor
 

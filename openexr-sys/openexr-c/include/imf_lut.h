@@ -17,16 +17,16 @@ typedef Imf_3_0__Slice_t Imf_Slice_t;
 
 typedef struct Imf_3_0__HalfLut_t_s {
     char _unused;
-} OPENEXR_ALIGN(8) Imf_3_0__HalfLut_t;
+} OPENEXR_CPPMM_ALIGN(8) Imf_3_0__HalfLut_t;
 typedef Imf_3_0__HalfLut_t Imf_HalfLut_t;
 
 typedef struct Imf_3_0__RgbaLut_t_s {
     char _unused;
-} OPENEXR_ALIGN(8) Imf_3_0__RgbaLut_t;
+} OPENEXR_CPPMM_ALIGN(8) Imf_3_0__RgbaLut_t;
 typedef Imf_3_0__RgbaLut_t Imf_RgbaLut_t;
 
 
-OPENEXR_API unsigned int Imf_3_0__HalfLut_apply(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__HalfLut_apply(
     Imf_HalfLut_t const * this_
     , Imath_half_t * data
     , int nData
@@ -34,19 +34,19 @@ OPENEXR_API unsigned int Imf_3_0__HalfLut_apply(
 #define Imf_HalfLut_apply Imf_3_0__HalfLut_apply
 
 
-OPENEXR_API unsigned int Imf_3_0__HalfLut_apply_1(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__HalfLut_apply_1(
     Imf_HalfLut_t const * this_
     , Imf_Slice_t const * data
     , Imath_Box2i_t const * dataWindow);
 #define Imf_HalfLut_apply_1 Imf_3_0__HalfLut_apply_1
 
 
-OPENEXR_API unsigned int Imf_3_0__HalfLut_dtor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__HalfLut_dtor(
     Imf_HalfLut_t * this_);
 #define Imf_HalfLut_dtor Imf_3_0__HalfLut_dtor
 
 
-OPENEXR_API unsigned int Imf_3_0__RgbaLut_apply(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaLut_apply(
     Imf_RgbaLut_t const * this_
     , Imf_Rgba_t * data
     , int nData
@@ -54,7 +54,7 @@ OPENEXR_API unsigned int Imf_3_0__RgbaLut_apply(
 #define Imf_RgbaLut_apply Imf_3_0__RgbaLut_apply
 
 
-OPENEXR_API unsigned int Imf_3_0__RgbaLut_apply_1(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaLut_apply_1(
     Imf_RgbaLut_t const * this_
     , Imf_Rgba_t * base
     , int xStride
@@ -63,7 +63,7 @@ OPENEXR_API unsigned int Imf_3_0__RgbaLut_apply_1(
 #define Imf_RgbaLut_apply_1 Imf_3_0__RgbaLut_apply_1
 
 
-OPENEXR_API unsigned int Imf_3_0__RgbaLut_dtor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaLut_dtor(
     Imf_RgbaLut_t * this_);
 #define Imf_RgbaLut_dtor Imf_3_0__RgbaLut_dtor
 
