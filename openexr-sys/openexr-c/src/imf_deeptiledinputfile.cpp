@@ -241,7 +241,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputFile_isValidLevel(
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputFile_totalTiles(
     Imf_DeepTiledInputFile_t const * this_
-    , unsigned long * return_)
+    , size_t * return_)
 {
     try {
         *(return_) = (to_cpp(this_)) -> totalTiles();

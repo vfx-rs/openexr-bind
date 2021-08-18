@@ -9,12 +9,12 @@
 extern "C" {
 #endif
 
+typedef struct Imf_3_0__IStream_t_s Imf_3_0__IStream_t;
+typedef Imf_3_0__IStream_t Imf_IStream_t;
 typedef struct Imf_3_0__Header_t_s Imf_3_0__Header_t;
 typedef Imf_3_0__Header_t Imf_Header_t;
 typedef struct Imf_3_0__FrameBuffer_t_s Imf_3_0__FrameBuffer_t;
 typedef Imf_3_0__FrameBuffer_t Imf_FrameBuffer_t;
-typedef struct Imf_3_0__IStream_t_s Imf_3_0__IStream_t;
-typedef Imf_3_0__IStream_t Imf_IStream_t;
 
 typedef struct Imf_3_0__TiledInputFile_t_s {
     char _unused;

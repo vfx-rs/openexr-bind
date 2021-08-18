@@ -27,7 +27,7 @@ pub fn Imf_3_0__TiledRgbaOutputFile_with_dimensions(this_: *mut *mut Imf_TiledRg
 
 pub fn Imf_3_0__TiledRgbaOutputFile_dtor(this_: *mut Imf_TiledRgbaOutputFile_t) -> Exception;
 
-pub fn Imf_3_0__TiledRgbaOutputFile_setFrameBuffer(this_: *mut Imf_TiledRgbaOutputFile_t, base: *const Imf_Rgba_t, x_stride: c_ulong, y_stride: c_ulong) -> Exception;
+pub fn Imf_3_0__TiledRgbaOutputFile_setFrameBuffer(this_: *mut Imf_TiledRgbaOutputFile_t, base: *const Imf_Rgba_t, x_stride: usize, y_stride: usize) -> Exception;
 
 pub fn Imf_3_0__TiledRgbaOutputFile_header(this_: *const Imf_TiledRgbaOutputFile_t, return_: *mut *const Imf_Header_t) -> Exception;
 
@@ -93,7 +93,7 @@ pub fn Imf_3_0__TiledRgbaInputFile_from_stream_with_layer(this_: *mut *mut Imf_T
 
 pub fn Imf_3_0__TiledRgbaInputFile_dtor(this_: *mut Imf_TiledRgbaInputFile_t) -> Exception;
 
-pub fn Imf_3_0__TiledRgbaInputFile_setFrameBuffer(this_: *mut Imf_TiledRgbaInputFile_t, base: *mut Imf_Rgba_t, x_stride: c_ulong, y_stride: c_ulong) -> Exception;
+pub fn Imf_3_0__TiledRgbaInputFile_setFrameBuffer(this_: *mut Imf_TiledRgbaInputFile_t, base: *mut Imf_Rgba_t, x_stride: usize, y_stride: usize) -> Exception;
 
 pub fn Imf_3_0__TiledRgbaInputFile_setLayerName(this_: *mut Imf_TiledRgbaInputFile_t, layer_name: *const std_string_t) -> Exception;
 

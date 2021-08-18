@@ -86,11 +86,11 @@ pub fn Imf_3_0__Slice_sizeof() -> usize;
 
 pub fn Imf_3_0__Slice_alignof() -> usize;
 
-pub fn Imf_3_0__Slice_ctor(this_: *mut Imf_Slice_t, type_: Imf_PixelType, base: *mut c_char, x_stride: c_ulong, y_stride: c_ulong, x_sampling: c_int, y_sampling: c_int, fill_value: c_double, x_tile_coords: bool, y_tile_coords: bool) -> Exception;
+pub fn Imf_3_0__Slice_ctor(this_: *mut Imf_Slice_t, type_: Imf_PixelType, base: *mut c_char, x_stride: usize, y_stride: usize, x_sampling: c_int, y_sampling: c_int, fill_value: c_double, x_tile_coords: bool, y_tile_coords: bool) -> Exception;
 
-pub fn Imf_3_0__Slice_with_origin(return_: *mut Imf_Slice_t, type_: Imf_PixelType, ptr: *const c_void, origin: *const Imath_V2i_t, w: c_long, h: c_long, x_stride: c_ulong, y_stride: c_ulong, x_sampling: c_int, y_sampling: c_int, fill_value: c_double, x_tile_coords: bool, y_tile_coords: bool) -> Exception;
+pub fn Imf_3_0__Slice_with_origin(return_: *mut Imf_Slice_t, type_: Imf_PixelType, ptr: *const c_void, origin: *const Imath_V2i_t, w: c_long, h: c_long, x_stride: usize, y_stride: usize, x_sampling: c_int, y_sampling: c_int, fill_value: c_double, x_tile_coords: bool, y_tile_coords: bool) -> Exception;
 
-pub fn Imf_3_0__Slice_with_window(return_: *mut Imf_Slice_t, type_: Imf_PixelType, ptr: *const c_void, data_window: *const Imath_Box2i_t, x_stride: c_ulong, y_stride: c_ulong, x_sampling: c_int, y_sampling: c_int, fill_value: c_double, x_tile_coords: bool, y_tile_coords: bool) -> Exception;
+pub fn Imf_3_0__Slice_with_window(return_: *mut Imf_Slice_t, type_: Imf_PixelType, ptr: *const c_void, data_window: *const Imath_Box2i_t, x_stride: usize, y_stride: usize, x_sampling: c_int, y_sampling: c_int, fill_value: c_double, x_tile_coords: bool, y_tile_coords: bool) -> Exception;
 
 pub fn Imf_3_0__Slice_dtor(this_: *mut Imf_Slice_t) -> Exception;
 

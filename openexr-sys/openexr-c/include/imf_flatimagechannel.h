@@ -5,17 +5,18 @@
 #include <imf_framebuffer.h>
 #include <imf_pixeltype.h>
 #include <stdbool.h>
+#include <stddef.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-typedef struct Imf_3_0__ImageLevel_t_s Imf_3_0__ImageLevel_t;
-typedef Imf_3_0__ImageLevel_t Imf_ImageLevel_t;
-typedef struct Imf_3_0__FlatImageLevel_t_s Imf_3_0__FlatImageLevel_t;
-typedef Imf_3_0__FlatImageLevel_t Imf_FlatImageLevel_t;
 typedef struct Imath_3_0__half_t_s Imath_3_0__half_t;
 typedef Imath_3_0__half_t Imath_half_t;
+typedef struct Imf_3_0__FlatImageLevel_t_s Imf_3_0__FlatImageLevel_t;
+typedef Imf_3_0__FlatImageLevel_t Imf_FlatImageLevel_t;
+typedef struct Imf_3_0__ImageLevel_t_s Imf_3_0__ImageLevel_t;
+typedef Imf_3_0__ImageLevel_t Imf_ImageLevel_t;
 
 typedef struct Imf_3_0__FlatImageChannel_t_s {
     char _unused;
@@ -82,7 +83,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageChannel_pixelsPerColumn(
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageChannel_numPixels(
     Imf_FlatImageChannel_t const * this_
-    , unsigned long * return_);
+    , size_t * return_);
 #define Imf_FlatImageChannel_numPixels Imf_3_0__FlatImageChannel_numPixels
 
 
@@ -160,7 +161,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedFlatImageChannel_half__pixelsPerCol
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedFlatImageChannel_half__numPixels(
     Imf_FlatHalfChannel_t const * this_
-    , unsigned long * return_);
+    , size_t * return_);
 #define Imf_FlatHalfChannel_numPixels Imf_3_0__TypedFlatImageChannel_half__numPixels
 
 
@@ -272,7 +273,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedFlatImageChannel_float__pixelsPerCo
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedFlatImageChannel_float__numPixels(
     Imf_FlatFloatChannel_t const * this_
-    , unsigned long * return_);
+    , size_t * return_);
 #define Imf_FlatFloatChannel_numPixels Imf_3_0__TypedFlatImageChannel_float__numPixels
 
 
@@ -384,7 +385,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedFlatImageChannel_unsignedint__pixel
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedFlatImageChannel_unsignedint__numPixels(
     Imf_FlatUIntChannel_t const * this_
-    , unsigned long * return_);
+    , size_t * return_);
 #define Imf_FlatUIntChannel_numPixels Imf_3_0__TypedFlatImageChannel_unsignedint__numPixels
 
 

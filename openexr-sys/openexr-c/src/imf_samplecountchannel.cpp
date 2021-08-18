@@ -102,7 +102,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_pixelsPerColumn(
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_numPixels(
     Imf_SampleCountChannel_t const * this_
-    , unsigned long * return_)
+    , size_t * return_)
 {
     try {
         *(return_) = (to_cpp(this_)) -> numPixels();
@@ -325,7 +325,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_sampleListSizes(
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_sampleListPositions(
     Imf_SampleCountChannel_t const * this_
-    , unsigned long const * * return_)
+    , size_t const * * return_)
 {
     try {
         *(return_) = (to_cpp(this_)) -> sampleListPositions();
@@ -338,7 +338,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_sampleListPositions(
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_sampleBufferSize(
     Imf_SampleCountChannel_t const * this_
-    , unsigned long * return_)
+    , size_t * return_)
 {
     try {
         *(return_) = (to_cpp(this_)) -> sampleBufferSize();

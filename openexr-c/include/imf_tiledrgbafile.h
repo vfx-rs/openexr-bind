@@ -8,27 +8,28 @@
 #include <imf_rgba.h>
 #include <imf_tiledescription.h>
 #include <stdbool.h>
+#include <stddef.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-typedef struct Imath_3_0__Box_Imath_3_0__Vec2_int___t_s Imath_3_0__Box_Imath_3_0__Vec2_int___t;
-typedef Imath_3_0__Box_Imath_3_0__Vec2_int___t Imath_Box2i_t;
-typedef struct Imf_3_0__PreviewRgba_t_s Imf_3_0__PreviewRgba_t;
-typedef Imf_3_0__PreviewRgba_t Imf_PreviewRgba_t;
-typedef struct Imf_3_0__Rgba_t_s Imf_3_0__Rgba_t;
-typedef Imf_3_0__Rgba_t Imf_Rgba_t;
-typedef struct std__string_t_s std__string_t;
-typedef std__string_t std_string_t;
-typedef struct Imf_3_0__Header_t_s Imf_3_0__Header_t;
-typedef Imf_3_0__Header_t Imf_Header_t;
-typedef struct Imf_3_0__FrameBuffer_t_s Imf_3_0__FrameBuffer_t;
-typedef Imf_3_0__FrameBuffer_t Imf_FrameBuffer_t;
 typedef struct Imf_3_0__OStream_t_s Imf_3_0__OStream_t;
 typedef Imf_3_0__OStream_t Imf_OStream_t;
 typedef struct Imf_3_0__IStream_t_s Imf_3_0__IStream_t;
 typedef Imf_3_0__IStream_t Imf_IStream_t;
+typedef struct Imath_3_0__Box_Imath_3_0__Vec2_int___t_s Imath_3_0__Box_Imath_3_0__Vec2_int___t;
+typedef Imath_3_0__Box_Imath_3_0__Vec2_int___t Imath_Box2i_t;
+typedef struct std__string_t_s std__string_t;
+typedef std__string_t std_string_t;
+typedef struct Imf_3_0__PreviewRgba_t_s Imf_3_0__PreviewRgba_t;
+typedef Imf_3_0__PreviewRgba_t Imf_PreviewRgba_t;
+typedef struct Imf_3_0__Header_t_s Imf_3_0__Header_t;
+typedef Imf_3_0__Header_t Imf_Header_t;
+typedef struct Imf_3_0__Rgba_t_s Imf_3_0__Rgba_t;
+typedef Imf_3_0__Rgba_t Imf_Rgba_t;
+typedef struct Imf_3_0__FrameBuffer_t_s Imf_3_0__FrameBuffer_t;
+typedef Imf_3_0__FrameBuffer_t Imf_FrameBuffer_t;
 
 typedef struct Imf_3_0__TiledRgbaOutputFile_t_s {
     char _unused;
@@ -113,8 +114,8 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_dtor(
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_setFrameBuffer(
     Imf_TiledRgbaOutputFile_t * this_
     , Imf_Rgba_t const * base
-    , unsigned long xStride
-    , unsigned long yStride);
+    , size_t xStride
+    , size_t yStride);
 #define Imf_TiledRgbaOutputFile_setFrameBuffer Imf_3_0__TiledRgbaOutputFile_setFrameBuffer
 
 
@@ -338,8 +339,8 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_dtor(
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_setFrameBuffer(
     Imf_TiledRgbaInputFile_t * this_
     , Imf_Rgba_t * base
-    , unsigned long xStride
-    , unsigned long yStride);
+    , size_t xStride
+    , size_t yStride);
 #define Imf_TiledRgbaInputFile_setFrameBuffer Imf_3_0__TiledRgbaInputFile_setFrameBuffer
 
 

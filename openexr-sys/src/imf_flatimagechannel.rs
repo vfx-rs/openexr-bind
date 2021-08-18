@@ -39,7 +39,7 @@ pub fn Imf_3_0__FlatImageChannel_pixelsPerRow(this_: *const Imf_FlatImageChannel
 
 pub fn Imf_3_0__FlatImageChannel_pixelsPerColumn(this_: *const Imf_FlatImageChannel_t, return_: *mut c_int) -> Exception;
 
-pub fn Imf_3_0__FlatImageChannel_numPixels(this_: *const Imf_FlatImageChannel_t, return_: *mut c_ulong) -> Exception;
+pub fn Imf_3_0__FlatImageChannel_numPixels(this_: *const Imf_FlatImageChannel_t, return_: *mut usize) -> Exception;
 
 pub fn Imf_3_0__FlatImageChannel_level(this_: *mut Imf_FlatImageChannel_t, return_: *mut *mut Imf_ImageLevel_t) -> Exception;
 
@@ -65,7 +65,7 @@ pub fn Imf_3_0__TypedFlatImageChannel_half__pixelsPerRow(this_: *const Imf_FlatH
 
 pub fn Imf_3_0__TypedFlatImageChannel_half__pixelsPerColumn(this_: *const Imf_FlatHalfChannel_t, return_: *mut c_int) -> Exception;
 
-pub fn Imf_3_0__TypedFlatImageChannel_half__numPixels(this_: *const Imf_FlatHalfChannel_t, return_: *mut c_ulong) -> Exception;
+pub fn Imf_3_0__TypedFlatImageChannel_half__numPixels(this_: *const Imf_FlatHalfChannel_t, return_: *mut usize) -> Exception;
 
 pub fn Imf_3_0__TypedFlatImageChannel_half__slice(this_: *const Imf_FlatHalfChannel_t, return_: *mut Imf_Slice_t) -> Exception;
 
@@ -99,7 +99,7 @@ pub fn Imf_3_0__TypedFlatImageChannel_float__pixelsPerRow(this_: *const Imf_Flat
 
 pub fn Imf_3_0__TypedFlatImageChannel_float__pixelsPerColumn(this_: *const Imf_FlatFloatChannel_t, return_: *mut c_int) -> Exception;
 
-pub fn Imf_3_0__TypedFlatImageChannel_float__numPixels(this_: *const Imf_FlatFloatChannel_t, return_: *mut c_ulong) -> Exception;
+pub fn Imf_3_0__TypedFlatImageChannel_float__numPixels(this_: *const Imf_FlatFloatChannel_t, return_: *mut usize) -> Exception;
 
 pub fn Imf_3_0__TypedFlatImageChannel_float__slice(this_: *const Imf_FlatFloatChannel_t, return_: *mut Imf_Slice_t) -> Exception;
 
@@ -133,7 +133,7 @@ pub fn Imf_3_0__TypedFlatImageChannel_unsignedint__pixelsPerRow(this_: *const Im
 
 pub fn Imf_3_0__TypedFlatImageChannel_unsignedint__pixelsPerColumn(this_: *const Imf_FlatUIntChannel_t, return_: *mut c_int) -> Exception;
 
-pub fn Imf_3_0__TypedFlatImageChannel_unsignedint__numPixels(this_: *const Imf_FlatUIntChannel_t, return_: *mut c_ulong) -> Exception;
+pub fn Imf_3_0__TypedFlatImageChannel_unsignedint__numPixels(this_: *const Imf_FlatUIntChannel_t, return_: *mut usize) -> Exception;
 
 pub fn Imf_3_0__TypedFlatImageChannel_unsignedint__slice(this_: *const Imf_FlatUIntChannel_t, return_: *mut Imf_Slice_t) -> Exception;
 

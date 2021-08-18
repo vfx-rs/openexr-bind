@@ -39,7 +39,7 @@ pub fn Imf_3_0__DeepImageChannel_pixelsPerRow(this_: *const Imf_DeepImageChannel
 
 pub fn Imf_3_0__DeepImageChannel_pixelsPerColumn(this_: *const Imf_DeepImageChannel_t, return_: *mut c_int) -> Exception;
 
-pub fn Imf_3_0__DeepImageChannel_numPixels(this_: *const Imf_DeepImageChannel_t, return_: *mut c_ulong) -> Exception;
+pub fn Imf_3_0__DeepImageChannel_numPixels(this_: *const Imf_DeepImageChannel_t, return_: *mut usize) -> Exception;
 
 pub fn Imf_3_0__DeepImageChannel_level(this_: *mut Imf_DeepImageChannel_t, return_: *mut *mut Imf_ImageLevel_t) -> Exception;
 
@@ -69,7 +69,7 @@ pub fn Imf_3_0__TypedDeepImageChannel_half__pixelsPerRow(this_: *const Imf_DeepH
 
 pub fn Imf_3_0__TypedDeepImageChannel_half__pixelsPerColumn(this_: *const Imf_DeepHalfChannel_t, return_: *mut c_int) -> Exception;
 
-pub fn Imf_3_0__TypedDeepImageChannel_half__numPixels(this_: *const Imf_DeepHalfChannel_t, return_: *mut c_ulong) -> Exception;
+pub fn Imf_3_0__TypedDeepImageChannel_half__numPixels(this_: *const Imf_DeepHalfChannel_t, return_: *mut usize) -> Exception;
 
 pub fn Imf_3_0__TypedDeepImageChannel_half__level(this_: *mut Imf_DeepHalfChannel_t, return_: *mut *mut Imf_ImageLevel_t) -> Exception;
 
@@ -107,7 +107,7 @@ pub fn Imf_3_0__TypedDeepImageChannel_float__pixelsPerRow(this_: *const Imf_Deep
 
 pub fn Imf_3_0__TypedDeepImageChannel_float__pixelsPerColumn(this_: *const Imf_DeepFloatChannel_t, return_: *mut c_int) -> Exception;
 
-pub fn Imf_3_0__TypedDeepImageChannel_float__numPixels(this_: *const Imf_DeepFloatChannel_t, return_: *mut c_ulong) -> Exception;
+pub fn Imf_3_0__TypedDeepImageChannel_float__numPixels(this_: *const Imf_DeepFloatChannel_t, return_: *mut usize) -> Exception;
 
 pub fn Imf_3_0__TypedDeepImageChannel_float__level(this_: *mut Imf_DeepFloatChannel_t, return_: *mut *mut Imf_ImageLevel_t) -> Exception;
 
@@ -145,7 +145,7 @@ pub fn Imf_3_0__TypedDeepImageChannel_unsignedint__pixelsPerRow(this_: *const Im
 
 pub fn Imf_3_0__TypedDeepImageChannel_unsignedint__pixelsPerColumn(this_: *const Imf_DeepUIntChannel_t, return_: *mut c_int) -> Exception;
 
-pub fn Imf_3_0__TypedDeepImageChannel_unsignedint__numPixels(this_: *const Imf_DeepUIntChannel_t, return_: *mut c_ulong) -> Exception;
+pub fn Imf_3_0__TypedDeepImageChannel_unsignedint__numPixels(this_: *const Imf_DeepUIntChannel_t, return_: *mut usize) -> Exception;
 
 pub fn Imf_3_0__TypedDeepImageChannel_unsignedint__level(this_: *mut Imf_DeepUIntChannel_t, return_: *mut *mut Imf_ImageLevel_t) -> Exception;
 

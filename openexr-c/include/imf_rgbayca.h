@@ -8,12 +8,12 @@
 extern "C" {
 #endif
 
-typedef struct Imf_3_0__Rgba_t_s Imf_3_0__Rgba_t;
-typedef Imf_3_0__Rgba_t Imf_Rgba_t;
-typedef struct Imath_3_0__Vec3_float__t_s Imath_3_0__Vec3_float__t;
-typedef Imath_3_0__Vec3_float__t Imath_V3f_t;
 typedef struct Imf_3_0__Chromaticities_t_s Imf_3_0__Chromaticities_t;
 typedef Imf_3_0__Chromaticities_t Imf_Chromaticities_t;
+typedef struct Imath_3_0__Vec3_float__t_s Imath_3_0__Vec3_float__t;
+typedef Imath_3_0__Vec3_float__t Imath_V3f_t;
+typedef struct Imf_3_0__Rgba_t_s Imf_3_0__Rgba_t;
+typedef Imf_3_0__Rgba_t Imf_Rgba_t;
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0_RgbaYca_computeYw(
     Imath_V3f_t * return_

@@ -45,14 +45,6 @@ OPENEXR_CPPMM_API unsigned int std__set_std__string__cend(
         return 0;
 }
 
-OPENEXR_CPPMM_API unsigned int std__set_std__string__size(
-    std_set_string_t const * this_
-    , unsigned long * return_)
-{
-        *(return_) = (to_cpp(this_)) -> size();
-        return 0;
-}
-
 OPENEXR_CPPMM_API unsigned int std__set_std__string___const_iterator_sizeof()
 {
         return sizeof(std::set<std::string>::const_iterator);

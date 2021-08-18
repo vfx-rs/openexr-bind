@@ -6,8 +6,6 @@
 extern "C" {
 #endif
 
-typedef struct Imf_3_0__FlatImageChannel_t_s Imf_3_0__FlatImageChannel_t;
-typedef Imf_3_0__FlatImageChannel_t Imf_FlatImageChannel_t;
 typedef struct Imf_3_0__TypedFlatImageChannel_half__t_s Imf_3_0__TypedFlatImageChannel_half__t;
 typedef Imf_3_0__TypedFlatImageChannel_half__t Imf_FlatHalfChannel_t;
 typedef struct Imf_3_0__TypedFlatImageChannel_float__t_s Imf_3_0__TypedFlatImageChannel_float__t;
@@ -20,6 +18,8 @@ typedef struct std__string_t_s std__string_t;
 typedef std__string_t std_string_t;
 typedef struct Imf_3_0__FlatImage_t_s Imf_3_0__FlatImage_t;
 typedef Imf_3_0__FlatImage_t Imf_FlatImage_t;
+typedef struct Imf_3_0__FlatImageChannel_t_s Imf_3_0__FlatImageChannel_t;
+typedef Imf_3_0__FlatImageChannel_t Imf_FlatImageChannel_t;
 
 typedef struct Imf_3_0__FlatImageLevel_t_s {
     char _unused;

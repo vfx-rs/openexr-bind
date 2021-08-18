@@ -4,18 +4,19 @@
 #include <imath_box.h>
 #include <imf_tiledescription.h>
 #include <stdbool.h>
+#include <stddef.h>
 #include <stdint.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+typedef struct Imf_3_0__IStream_t_s Imf_3_0__IStream_t;
+typedef Imf_3_0__IStream_t Imf_IStream_t;
 typedef struct Imf_3_0__DeepFrameBuffer_t_s Imf_3_0__DeepFrameBuffer_t;
 typedef Imf_3_0__DeepFrameBuffer_t Imf_DeepFrameBuffer_t;
 typedef struct Imf_3_0__Header_t_s Imf_3_0__Header_t;
 typedef Imf_3_0__Header_t Imf_Header_t;
-typedef struct Imf_3_0__IStream_t_s Imf_3_0__IStream_t;
-typedef Imf_3_0__IStream_t Imf_IStream_t;
 
 typedef struct Imf_3_0__DeepTiledInputFile_t_s {
     char _unused;
@@ -130,7 +131,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputFile_isValidLevel(
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputFile_totalTiles(
     Imf_DeepTiledInputFile_t const * this_
-    , unsigned long * return_);
+    , size_t * return_);
 #define Imf_DeepTiledInputFile_totalTiles Imf_3_0__DeepTiledInputFile_totalTiles
 
 

@@ -82,8 +82,8 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__AcesOutputFile_dtor(
 OPENEXR_CPPMM_API unsigned int Imf_3_0__AcesOutputFile_setFrameBuffer(
     Imf_AcesOutputFile_t * this_
     , Imf_Rgba_t const * base
-    , unsigned long xStride
-    , unsigned long yStride)
+    , size_t xStride
+    , size_t yStride)
 {
     try {
         (to_cpp(this_)) -> setFrameBuffer(to_cpp(base), xStride, yStride);
@@ -293,8 +293,8 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__AcesInputFile_dtor(
 OPENEXR_CPPMM_API unsigned int Imf_3_0__AcesInputFile_setFrameBuffer(
     Imf_AcesInputFile_t * this_
     , Imf_Rgba_t * base
-    , unsigned long xStride
-    , unsigned long yStride)
+    , size_t xStride
+    , size_t yStride)
 {
     try {
         (to_cpp(this_)) -> setFrameBuffer(to_cpp(base), xStride, yStride);

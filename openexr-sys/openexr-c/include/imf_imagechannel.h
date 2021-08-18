@@ -4,6 +4,7 @@
 #include <imf_channellist.h>
 #include <imf_pixeltype.h>
 #include <stdbool.h>
+#include <stddef.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -62,7 +63,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__ImageChannel_pixelsPerColumn(
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0__ImageChannel_numPixels(
     Imf_ImageChannel_t const * this_
-    , unsigned long * return_);
+    , size_t * return_);
 #define Imf_ImageChannel_numPixels Imf_3_0__ImageChannel_numPixels
 
 

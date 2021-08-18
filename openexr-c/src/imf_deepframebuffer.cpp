@@ -20,9 +20,9 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepSlice_ctor(
     Imf_DeepSlice_t * this_
     , Imf_PixelType type
     , char * base
-    , unsigned long xStride
-    , unsigned long yStride
-    , unsigned long sampleStride
+    , size_t xStride
+    , size_t yStride
+    , size_t sampleStride
     , int xSampling
     , int ySampling
     , double fillValue

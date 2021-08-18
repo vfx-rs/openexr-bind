@@ -47,7 +47,7 @@ pub fn Imf_3_0__DeepTiledInputFile_numYLevels(this_: *const Imf_DeepTiledInputFi
 
 pub fn Imf_3_0__DeepTiledInputFile_isValidLevel(this_: *const Imf_DeepTiledInputFile_t, return_: *mut bool, lx: c_int, ly: c_int) -> Exception;
 
-pub fn Imf_3_0__DeepTiledInputFile_totalTiles(this_: *const Imf_DeepTiledInputFile_t, return_: *mut c_ulong) -> Exception;
+pub fn Imf_3_0__DeepTiledInputFile_totalTiles(this_: *const Imf_DeepTiledInputFile_t, return_: *mut usize) -> Exception;
 
 pub fn Imf_3_0__DeepTiledInputFile_levelWidth(this_: *const Imf_DeepTiledInputFile_t, return_: *mut c_int, lx: c_int) -> Exception;
 

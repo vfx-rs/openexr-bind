@@ -5,19 +5,20 @@
 #include <imf_deepframebuffer.h>
 #include <imf_pixeltype.h>
 #include <stdbool.h>
+#include <stddef.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-typedef struct Imf_3_0__DeepImageLevel_t_s Imf_3_0__DeepImageLevel_t;
-typedef Imf_3_0__DeepImageLevel_t Imf_DeepImageLevel_t;
 typedef struct Imf_3_0__SampleCountChannel_t_s Imf_3_0__SampleCountChannel_t;
 typedef Imf_3_0__SampleCountChannel_t Imf_SampleCountChannel_t;
-typedef struct Imf_3_0__ImageLevel_t_s Imf_3_0__ImageLevel_t;
-typedef Imf_3_0__ImageLevel_t Imf_ImageLevel_t;
 typedef struct Imath_3_0__half_t_s Imath_3_0__half_t;
 typedef Imath_3_0__half_t Imath_half_t;
+typedef struct Imf_3_0__ImageLevel_t_s Imf_3_0__ImageLevel_t;
+typedef Imf_3_0__ImageLevel_t Imf_ImageLevel_t;
+typedef struct Imf_3_0__DeepImageLevel_t_s Imf_3_0__DeepImageLevel_t;
+typedef Imf_3_0__DeepImageLevel_t Imf_DeepImageLevel_t;
 
 typedef struct Imf_3_0__DeepImageChannel_t_s {
     char _unused;
@@ -84,7 +85,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepImageChannel_pixelsPerColumn(
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepImageChannel_numPixels(
     Imf_DeepImageChannel_t const * this_
-    , unsigned long * return_);
+    , size_t * return_);
 #define Imf_DeepImageChannel_numPixels Imf_3_0__DeepImageChannel_numPixels
 
 
@@ -174,7 +175,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedDeepImageChannel_half__pixelsPerCol
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedDeepImageChannel_half__numPixels(
     Imf_DeepHalfChannel_t const * this_
-    , unsigned long * return_);
+    , size_t * return_);
 #define Imf_DeepHalfChannel_numPixels Imf_3_0__TypedDeepImageChannel_half__numPixels
 
 
@@ -296,7 +297,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedDeepImageChannel_float__pixelsPerCo
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedDeepImageChannel_float__numPixels(
     Imf_DeepFloatChannel_t const * this_
-    , unsigned long * return_);
+    , size_t * return_);
 #define Imf_DeepFloatChannel_numPixels Imf_3_0__TypedDeepImageChannel_float__numPixels
 
 
@@ -418,7 +419,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedDeepImageChannel_unsignedint__pixel
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedDeepImageChannel_unsignedint__numPixels(
     Imf_DeepUIntChannel_t const * this_
-    , unsigned long * return_);
+    , size_t * return_);
 #define Imf_DeepUIntChannel_numPixels Imf_3_0__TypedDeepImageChannel_unsignedint__numPixels
 
 

@@ -21,8 +21,8 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__Slice_ctor(
     Imf_Slice_t * this_
     , Imf_PixelType type
     , char * base
-    , unsigned long xStride
-    , unsigned long yStride
+    , size_t xStride
+    , size_t yStride
     , int xSampling
     , int ySampling
     , double fillValue
@@ -45,8 +45,8 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__Slice_with_origin(
     , Imath_V2i_t const * origin
     , long w
     , long h
-    , unsigned long xStride
-    , unsigned long yStride
+    , size_t xStride
+    , size_t yStride
     , int xSampling
     , int ySampling
     , double fillValue
@@ -70,8 +70,8 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__Slice_with_window(
     , Imf_PixelType type
     , void const * ptr
     , Imath_Box2i_t const * dataWindow
-    , unsigned long xStride
-    , unsigned long yStride
+    , size_t xStride
+    , size_t yStride
     , int xSampling
     , int ySampling
     , double fillValue

@@ -44,8 +44,6 @@ pub fn std__set_std__string__cbegin(this_: *const std_set_string_t, return_: *mu
 
 pub fn std__set_std__string__cend(this_: *const std_set_string_t, return_: *mut std_set_string_iterator_t) -> Exception;
 
-pub fn std__set_std__string__size(this_: *const std_set_string_t, return_: *mut c_ulong) -> Exception;
-
 pub fn std__set_std__string___const_iterator_sizeof() -> usize;
 
 pub fn std__set_std__string___const_iterator_alignof() -> usize;

@@ -129,8 +129,8 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaOutputFile_dtor(
 OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaOutputFile_setFrameBuffer(
     Imf_RgbaOutputFile_t * this_
     , Imf_Rgba_t const * base
-    , unsigned long xStride
-    , unsigned long yStride)
+    , size_t xStride
+    , size_t yStride)
 {
     try {
         (to_cpp(this_)) -> setFrameBuffer(to_cpp(base), xStride, yStride);
@@ -436,8 +436,8 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaInputFile_dtor(
 OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaInputFile_setFrameBuffer(
     Imf_RgbaInputFile_t * this_
     , Imf_Rgba_t * base
-    , unsigned long xStride
-    , unsigned long yStride)
+    , size_t xStride
+    , size_t yStride)
 {
     try {
         (to_cpp(this_)) -> setFrameBuffer(to_cpp(base), xStride, yStride);

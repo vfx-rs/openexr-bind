@@ -103,7 +103,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepImageChannel_pixelsPerColumn(
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepImageChannel_numPixels(
     Imf_DeepImageChannel_t const * this_
-    , unsigned long * return_)
+    , size_t * return_)
 {
     try {
         *(return_) = (to_cpp(this_)) -> numPixels();
@@ -298,7 +298,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedDeepImageChannel_half__pixelsPerCol
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedDeepImageChannel_half__numPixels(
     Imf_DeepHalfChannel_t const * this_
-    , unsigned long * return_)
+    , size_t * return_)
 {
     try {
         *(return_) = (to_cpp(this_)) -> numPixels();
@@ -559,7 +559,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedDeepImageChannel_float__pixelsPerCo
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedDeepImageChannel_float__numPixels(
     Imf_DeepFloatChannel_t const * this_
-    , unsigned long * return_)
+    , size_t * return_)
 {
     try {
         *(return_) = (to_cpp(this_)) -> numPixels();
@@ -820,7 +820,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedDeepImageChannel_unsignedint__pixel
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0__TypedDeepImageChannel_unsignedint__numPixels(
     Imf_DeepUIntChannel_t const * this_
-    , unsigned long * return_)
+    , size_t * return_)
 {
     try {
         *(return_) = (to_cpp(this_)) -> numPixels();

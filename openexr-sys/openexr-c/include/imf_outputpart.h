@@ -6,18 +6,18 @@
 extern "C" {
 #endif
 
-typedef struct Imf_3_0__PreviewRgba_t_s Imf_3_0__PreviewRgba_t;
-typedef Imf_3_0__PreviewRgba_t Imf_PreviewRgba_t;
-typedef struct Imf_3_0__MultiPartOutputFile_t_s Imf_3_0__MultiPartOutputFile_t;
-typedef Imf_3_0__MultiPartOutputFile_t Imf_MultiPartOutputFile_t;
-typedef struct Imf_3_0__Header_t_s Imf_3_0__Header_t;
-typedef Imf_3_0__Header_t Imf_Header_t;
-typedef struct Imf_3_0__InputPart_t_s Imf_3_0__InputPart_t;
-typedef Imf_3_0__InputPart_t Imf_InputPart_t;
-typedef struct Imf_3_0__FrameBuffer_t_s Imf_3_0__FrameBuffer_t;
-typedef Imf_3_0__FrameBuffer_t Imf_FrameBuffer_t;
 typedef struct Imf_3_0__InputFile_t_s Imf_3_0__InputFile_t;
 typedef Imf_3_0__InputFile_t Imf_InputFile_t;
+typedef struct Imf_3_0__InputPart_t_s Imf_3_0__InputPart_t;
+typedef Imf_3_0__InputPart_t Imf_InputPart_t;
+typedef struct Imf_3_0__PreviewRgba_t_s Imf_3_0__PreviewRgba_t;
+typedef Imf_3_0__PreviewRgba_t Imf_PreviewRgba_t;
+typedef struct Imf_3_0__Header_t_s Imf_3_0__Header_t;
+typedef Imf_3_0__Header_t Imf_Header_t;
+typedef struct Imf_3_0__MultiPartOutputFile_t_s Imf_3_0__MultiPartOutputFile_t;
+typedef Imf_3_0__MultiPartOutputFile_t Imf_MultiPartOutputFile_t;
+typedef struct Imf_3_0__FrameBuffer_t_s Imf_3_0__FrameBuffer_t;
+typedef Imf_3_0__FrameBuffer_t Imf_FrameBuffer_t;
 
 typedef struct Imf_3_0__OutputPart_t_s {
     char data[8];

@@ -31,7 +31,7 @@ pub fn Imf_3_0__SampleCountChannel_pixelsPerRow(this_: *const Imf_SampleCountCha
 
 pub fn Imf_3_0__SampleCountChannel_pixelsPerColumn(this_: *const Imf_SampleCountChannel_t, return_: *mut c_int) -> Exception;
 
-pub fn Imf_3_0__SampleCountChannel_numPixels(this_: *const Imf_SampleCountChannel_t, return_: *mut c_ulong) -> Exception;
+pub fn Imf_3_0__SampleCountChannel_numPixels(this_: *const Imf_SampleCountChannel_t, return_: *mut usize) -> Exception;
 
 pub fn Imf_3_0__SampleCountChannel_level(this_: *mut Imf_SampleCountChannel_t, return_: *mut *mut Imf_ImageLevel_t) -> Exception;
 
@@ -63,9 +63,9 @@ pub fn Imf_3_0__SampleCountChannel_numSamples(this_: *const Imf_SampleCountChann
 
 pub fn Imf_3_0__SampleCountChannel_sampleListSizes(this_: *const Imf_SampleCountChannel_t, return_: *mut *const c_uint) -> Exception;
 
-pub fn Imf_3_0__SampleCountChannel_sampleListPositions(this_: *const Imf_SampleCountChannel_t, return_: *mut *const c_ulong) -> Exception;
+pub fn Imf_3_0__SampleCountChannel_sampleListPositions(this_: *const Imf_SampleCountChannel_t, return_: *mut *const usize) -> Exception;
 
-pub fn Imf_3_0__SampleCountChannel_sampleBufferSize(this_: *const Imf_SampleCountChannel_t, return_: *mut c_ulong) -> Exception;
+pub fn Imf_3_0__SampleCountChannel_sampleBufferSize(this_: *const Imf_SampleCountChannel_t, return_: *mut usize) -> Exception;
 
 pub fn Imf_3_0__SampleCountChannel__Edit_ctor(this_: *mut *mut Imf_SampleCountChannel_Edit_t, level: *mut Imf_SampleCountChannel_t) -> Exception;
 

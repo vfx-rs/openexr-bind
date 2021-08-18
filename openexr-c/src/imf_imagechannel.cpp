@@ -99,7 +99,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__ImageChannel_pixelsPerColumn(
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0__ImageChannel_numPixels(
     Imf_ImageChannel_t const * this_
-    , unsigned long * return_)
+    , size_t * return_)
 {
     try {
         *(return_) = (to_cpp(this_)) -> numPixels();

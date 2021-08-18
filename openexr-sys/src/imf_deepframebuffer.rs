@@ -86,7 +86,7 @@ pub fn Imf_3_0__DeepSlice_sizeof() -> usize;
 
 pub fn Imf_3_0__DeepSlice_alignof() -> usize;
 
-pub fn Imf_3_0__DeepSlice_ctor(this_: *mut Imf_DeepSlice_t, type_: Imf_PixelType, base: *mut c_char, x_stride: c_ulong, y_stride: c_ulong, sample_stride: c_ulong, x_sampling: c_int, y_sampling: c_int, fill_value: c_double, x_tile_coords: bool, y_tile_coords: bool) -> Exception;
+pub fn Imf_3_0__DeepSlice_ctor(this_: *mut Imf_DeepSlice_t, type_: Imf_PixelType, base: *mut c_char, x_stride: usize, y_stride: usize, sample_stride: usize, x_sampling: c_int, y_sampling: c_int, fill_value: c_double, x_tile_coords: bool, y_tile_coords: bool) -> Exception;
 
 pub fn Imf_3_0__DeepSlice_dtor(this_: *mut Imf_DeepSlice_t) -> Exception;
 

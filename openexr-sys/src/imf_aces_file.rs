@@ -25,7 +25,7 @@ pub fn Imf_3_0__AcesOutputFile_new_with_header(this_: *mut *mut Imf_AcesOutputFi
 
 pub fn Imf_3_0__AcesOutputFile_dtor(this_: *mut Imf_AcesOutputFile_t) -> Exception;
 
-pub fn Imf_3_0__AcesOutputFile_setFrameBuffer(this_: *mut Imf_AcesOutputFile_t, base: *const Imf_Rgba_t, x_stride: c_ulong, y_stride: c_ulong) -> Exception;
+pub fn Imf_3_0__AcesOutputFile_setFrameBuffer(this_: *mut Imf_AcesOutputFile_t, base: *const Imf_Rgba_t, x_stride: usize, y_stride: usize) -> Exception;
 
 pub fn Imf_3_0__AcesOutputFile_writePixels(this_: *mut Imf_AcesOutputFile_t, num_scan_lines: c_int) -> Exception;
 
@@ -57,7 +57,7 @@ pub fn Imf_3_0__AcesInputFile_new_with_stream(this_: *mut *mut Imf_AcesInputFile
 
 pub fn Imf_3_0__AcesInputFile_dtor(this_: *mut Imf_AcesInputFile_t) -> Exception;
 
-pub fn Imf_3_0__AcesInputFile_setFrameBuffer(this_: *mut Imf_AcesInputFile_t, base: *mut Imf_Rgba_t, x_stride: c_ulong, y_stride: c_ulong) -> Exception;
+pub fn Imf_3_0__AcesInputFile_setFrameBuffer(this_: *mut Imf_AcesInputFile_t, base: *mut Imf_Rgba_t, x_stride: usize, y_stride: usize) -> Exception;
 
 pub fn Imf_3_0__AcesInputFile_readPixels(this_: *mut Imf_AcesInputFile_t, scan_line1: c_int, scan_line2: c_int) -> Exception;
 

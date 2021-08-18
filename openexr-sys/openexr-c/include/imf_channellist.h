@@ -8,10 +8,10 @@
 extern "C" {
 #endif
 
-typedef struct std__set_std__string__t_s std__set_std__string__t;
-typedef std__set_std__string__t std_set_string_t;
 typedef struct std__string_t_s std__string_t;
 typedef std__string_t std_string_t;
+typedef struct std__set_std__string__t_s std__set_std__string__t;
+typedef std__set_std__string__t std_set_string_t;
 
 typedef struct Imf_3_0__Channel_t_s {
     Imf_PixelType type;

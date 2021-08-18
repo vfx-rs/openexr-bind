@@ -27,7 +27,7 @@ pub fn Imf_3_0__ImageChannel_pixelsPerRow(this_: *const Imf_ImageChannel_t, retu
 
 pub fn Imf_3_0__ImageChannel_pixelsPerColumn(this_: *const Imf_ImageChannel_t, return_: *mut c_int) -> Exception;
 
-pub fn Imf_3_0__ImageChannel_numPixels(this_: *const Imf_ImageChannel_t, return_: *mut c_ulong) -> Exception;
+pub fn Imf_3_0__ImageChannel_numPixels(this_: *const Imf_ImageChannel_t, return_: *mut usize) -> Exception;
 
 pub fn Imf_3_0__ImageChannel_level(this_: *mut Imf_ImageChannel_t, return_: *mut *mut Imf_ImageLevel_t) -> Exception;
 

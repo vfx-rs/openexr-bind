@@ -5,15 +5,16 @@
 #include <imf_framebuffer.h>
 #include <imf_pixeltype.h>
 #include <stdbool.h>
+#include <stddef.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-typedef struct Imf_3_0__DeepImageLevel_t_s Imf_3_0__DeepImageLevel_t;
-typedef Imf_3_0__DeepImageLevel_t Imf_DeepImageLevel_t;
 typedef struct Imf_3_0__ImageLevel_t_s Imf_3_0__ImageLevel_t;
 typedef Imf_3_0__ImageLevel_t Imf_ImageLevel_t;
+typedef struct Imf_3_0__DeepImageLevel_t_s Imf_3_0__DeepImageLevel_t;
+typedef Imf_3_0__DeepImageLevel_t Imf_DeepImageLevel_t;
 
 typedef struct Imf_3_0__SampleCountChannel_t_s {
     char _unused;
@@ -70,7 +71,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_pixelsPerColumn(
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_numPixels(
     Imf_SampleCountChannel_t const * this_
-    , unsigned long * return_);
+    , size_t * return_);
 #define Imf_SampleCountChannel_numPixels Imf_3_0__SampleCountChannel_numPixels
 
 
@@ -172,13 +173,13 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_sampleListSizes(
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_sampleListPositions(
     Imf_SampleCountChannel_t const * this_
-    , unsigned long const * * return_);
+    , size_t const * * return_);
 #define Imf_SampleCountChannel_sampleListPositions Imf_3_0__SampleCountChannel_sampleListPositions
 
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_sampleBufferSize(
     Imf_SampleCountChannel_t const * this_
-    , unsigned long * return_);
+    , size_t * return_);
 #define Imf_SampleCountChannel_sampleBufferSize Imf_3_0__SampleCountChannel_sampleBufferSize
 
 

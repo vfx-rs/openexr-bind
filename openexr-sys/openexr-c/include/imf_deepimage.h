@@ -11,12 +11,12 @@ extern "C" {
 
 typedef struct Imath_3_0__Box_Imath_3_0__Vec2_int___t_s Imath_3_0__Box_Imath_3_0__Vec2_int___t;
 typedef Imath_3_0__Box_Imath_3_0__Vec2_int___t Imath_Box2i_t;
-typedef struct Imf_3_0__DeepImageLevel_t_s Imf_3_0__DeepImageLevel_t;
-typedef Imf_3_0__DeepImageLevel_t Imf_DeepImageLevel_t;
 typedef struct std__string_t_s std__string_t;
 typedef std__string_t std_string_t;
 typedef struct std__map_std__string_std__string__t_s std__map_std__string_std__string__t;
 typedef std__map_std__string_std__string__t std_map_string_string_t;
+typedef struct Imf_3_0__DeepImageLevel_t_s Imf_3_0__DeepImageLevel_t;
+typedef Imf_3_0__DeepImageLevel_t Imf_DeepImageLevel_t;
 
 typedef struct Imf_3_0__DeepImage_t_s {
     char _unused;
