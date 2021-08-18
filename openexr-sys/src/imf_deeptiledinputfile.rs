@@ -65,7 +65,7 @@ pub fn Imf_3_0__DeepTiledInputFile_readTile(this_: *mut Imf_DeepTiledInputFile_t
 
 pub fn Imf_3_0__DeepTiledInputFile_readTiles(this_: *mut Imf_DeepTiledInputFile_t, dx1: c_int, dx2: c_int, dy1: c_int, dy2: c_int, lx: c_int, ly: c_int) -> Exception;
 
-pub fn Imf_3_0__DeepTiledInputFile_rawTileData(this_: *const Imf_DeepTiledInputFile_t, dx: *mut c_int, dy: *mut c_int, lx: *mut c_int, ly: *mut c_int, pixel_data: *mut c_char, data_size: *mut c_ulong) -> Exception;
+pub fn Imf_3_0__DeepTiledInputFile_rawTileData(this_: *const Imf_DeepTiledInputFile_t, dx: *mut c_int, dy: *mut c_int, lx: *mut c_int, ly: *mut c_int, pixel_data: *mut c_char, data_size: *mut u64) -> Exception;
 
 pub fn Imf_3_0__DeepTiledInputFile_readPixelSampleCount(this_: *mut Imf_DeepTiledInputFile_t, dx: c_int, dy: c_int, lx: c_int, ly: c_int) -> Exception;
 

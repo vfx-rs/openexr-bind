@@ -388,7 +388,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputPart_rawTileData(
     , int * lx
     , int * ly
     , char * data
-    , unsigned long * dataSize)
+    , uint64_t * dataSize)
 {
     try {
         (to_cpp(this_)) -> rawTileData(*(dx), *(dy), *(lx), *(ly), data, *(dataSize));

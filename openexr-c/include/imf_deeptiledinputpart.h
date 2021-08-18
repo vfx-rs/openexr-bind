@@ -4,6 +4,7 @@
 #include <imath_box.h>
 #include <imf_tiledescription.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -198,7 +199,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputPart_rawTileData(
     , int * lx
     , int * ly
     , char * data
-    , unsigned long * dataSize);
+    , uint64_t * dataSize);
 #define Imf_DeepTiledInputPart_rawTileData Imf_3_0__DeepTiledInputPart_rawTileData
 
 

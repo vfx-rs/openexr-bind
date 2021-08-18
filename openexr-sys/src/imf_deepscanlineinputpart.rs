@@ -54,7 +54,7 @@ pub fn Imf_3_0__DeepScanLineInputPart_readPixels(this_: *mut Imf_DeepScanLineInp
 
 pub fn Imf_3_0__DeepScanLineInputPart_readPixels_from_frame_buffer(this_: *const Imf_DeepScanLineInputPart_t, raw_pixel_data: *const c_char, frame_buffer: *const Imf_DeepFrameBuffer_t, scan_line1: c_int, scan_line2: c_int) -> Exception;
 
-pub fn Imf_3_0__DeepScanLineInputPart_rawPixelData(this_: *mut Imf_DeepScanLineInputPart_t, first_scan_line: c_int, pixel_data: *mut c_char, pixel_data_size: *mut c_ulong) -> Exception;
+pub fn Imf_3_0__DeepScanLineInputPart_rawPixelData(this_: *mut Imf_DeepScanLineInputPart_t, first_scan_line: c_int, pixel_data: *mut c_char, pixel_data_size: *mut u64) -> Exception;
 
 pub fn Imf_3_0__DeepScanLineInputPart_readPixelSampleCounts(this_: *mut Imf_DeepScanLineInputPart_t, scanline1: c_int, scanline2: c_int) -> Exception;
 

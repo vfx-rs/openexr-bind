@@ -2,6 +2,7 @@
 #include "openexr-api-export.h"
 
 #include <stdbool.h>
+#include <stdint.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -93,7 +94,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepScanLineInputPart_rawPixelData(
     Imf_DeepScanLineInputPart_t * this_
     , int firstScanLine
     , char * pixelData
-    , unsigned long * pixelDataSize);
+    , uint64_t * pixelDataSize);
 #define Imf_DeepScanLineInputPart_rawPixelData Imf_3_0__DeepScanLineInputPart_rawPixelData
 
 

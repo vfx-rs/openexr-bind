@@ -193,7 +193,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepScanLineInputFile_rawPixelData(
     Imf_DeepScanLineInputFile_t * this_
     , int firstScanLine
     , char * pixelData
-    , unsigned long * pixelDataSize)
+    , uint64_t * pixelDataSize)
 {
     try {
         (to_cpp(this_)) -> rawPixelData(firstScanLine, pixelData, *(pixelDataSize));
