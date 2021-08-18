@@ -242,6 +242,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImage_renameChannel(
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
         return 6;
+    }
 }
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImage_default(
