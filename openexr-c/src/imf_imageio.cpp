@@ -7,7 +7,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0_saveImage(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_saveImage(
     std_string_t const * fileName
     , Imf_Header_t const * hdr
     , Imf_Image_t const * img
@@ -22,7 +22,7 @@ unsigned int Imf_3_0_saveImage(
     }
 }
 
-unsigned int Imf_3_0_saveImage_1(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_saveImage_1(
     std_string_t const * fileName
     , Imf_Image_t const * img)
 {
@@ -35,7 +35,7 @@ unsigned int Imf_3_0_saveImage_1(
     }
 }
 
-unsigned int Imf_3_0_loadImage(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_loadImage(
     Imf_Image_t * * return_
     , std_string_t const * fileName
     , Imf_Header_t * hdr)
@@ -49,7 +49,7 @@ unsigned int Imf_3_0_loadImage(
     }
 }
 
-unsigned int Imf_3_0_loadImage_1(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_loadImage_1(
     Imf_Image_t * * return_
     , std_string_t const * fileName)
 {

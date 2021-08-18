@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0_isOpenExrFile(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_isOpenExrFile(
     _Bool * return_
     , char const * fileName
     , _Bool * isTiled
@@ -20,7 +20,7 @@ unsigned int Imf_3_0_isOpenExrFile(
     }
 }
 
-unsigned int Imf_3_0_isTiledOpenExrFile(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_isTiledOpenExrFile(
     _Bool * return_
     , char const * fileName)
 {
@@ -33,7 +33,7 @@ unsigned int Imf_3_0_isTiledOpenExrFile(
     }
 }
 
-unsigned int Imf_3_0_isDeepOpenExrFile(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_isDeepOpenExrFile(
     _Bool * return_
     , char const * fileName)
 {
@@ -46,7 +46,7 @@ unsigned int Imf_3_0_isDeepOpenExrFile(
     }
 }
 
-unsigned int Imf_3_0_isMultiPartOpenExrFile(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_isMultiPartOpenExrFile(
     _Bool * return_
     , char const * fileName)
 {
@@ -59,7 +59,7 @@ unsigned int Imf_3_0_isMultiPartOpenExrFile(
     }
 }
 
-unsigned int Imf_3_0_stream_is_openexr_file(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_stream_is_openexr_file(
     _Bool * return_
     , Imf_IStream_t * is
     , _Bool * isTiled
@@ -75,7 +75,7 @@ unsigned int Imf_3_0_stream_is_openexr_file(
     }
 }
 
-unsigned int Imf_3_0_stream_is_tiled_openexr_file(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_stream_is_tiled_openexr_file(
     _Bool * return_
     , Imf_IStream_t * is)
 {
@@ -88,7 +88,7 @@ unsigned int Imf_3_0_stream_is_tiled_openexr_file(
     }
 }
 
-unsigned int Imf_3_0_stream_is_deep_openexr_file(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_stream_is_deep_openexr_file(
     _Bool * return_
     , Imf_IStream_t * is)
 {
@@ -101,7 +101,7 @@ unsigned int Imf_3_0_stream_is_deep_openexr_file(
     }
 }
 
-unsigned int Imf_3_0_stream_is_multi_part_openexr_file(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_stream_is_multi_part_openexr_file(
     _Bool * return_
     , Imf_IStream_t * is)
 {

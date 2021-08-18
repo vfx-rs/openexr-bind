@@ -12,7 +12,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0__DeepTiledOutputFile_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledOutputFile_ctor(
     Imf_DeepTiledOutputFile_t * * this_
     , char const * fileName
     , Imf_Header_t const * header
@@ -30,7 +30,7 @@ unsigned int Imf_3_0__DeepTiledOutputFile_ctor(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledOutputFile_from_stream(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledOutputFile_from_stream(
     Imf_DeepTiledOutputFile_t * * this_
     , Imf_OStream_t * os
     , Imf_Header_t const * header
@@ -48,7 +48,7 @@ unsigned int Imf_3_0__DeepTiledOutputFile_from_stream(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledOutputFile_dtor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledOutputFile_dtor(
     Imf_DeepTiledOutputFile_t * this_)
 {
     try {
@@ -60,7 +60,7 @@ unsigned int Imf_3_0__DeepTiledOutputFile_dtor(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledOutputFile_fileName(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledOutputFile_fileName(
     Imf_DeepTiledOutputFile_t const * this_
     , char const * * return_)
 {
@@ -73,7 +73,7 @@ unsigned int Imf_3_0__DeepTiledOutputFile_fileName(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledOutputFile_header(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledOutputFile_header(
     Imf_DeepTiledOutputFile_t const * this_
     , Imf_Header_t const * * return_)
 {
@@ -86,7 +86,7 @@ unsigned int Imf_3_0__DeepTiledOutputFile_header(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledOutputFile_setFrameBuffer(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledOutputFile_setFrameBuffer(
     Imf_DeepTiledOutputFile_t * this_
     , Imf_DeepFrameBuffer_t const * frameBuffer)
 {
@@ -102,7 +102,7 @@ unsigned int Imf_3_0__DeepTiledOutputFile_setFrameBuffer(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledOutputFile_frameBuffer(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledOutputFile_frameBuffer(
     Imf_DeepTiledOutputFile_t const * this_
     , Imf_DeepFrameBuffer_t const * * return_)
 {
@@ -115,7 +115,7 @@ unsigned int Imf_3_0__DeepTiledOutputFile_frameBuffer(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledOutputFile_tileXSize(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledOutputFile_tileXSize(
     Imf_DeepTiledOutputFile_t const * this_
     , unsigned int * return_)
 {
@@ -128,7 +128,7 @@ unsigned int Imf_3_0__DeepTiledOutputFile_tileXSize(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledOutputFile_tileYSize(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledOutputFile_tileYSize(
     Imf_DeepTiledOutputFile_t const * this_
     , unsigned int * return_)
 {
@@ -141,7 +141,7 @@ unsigned int Imf_3_0__DeepTiledOutputFile_tileYSize(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledOutputFile_levelMode(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledOutputFile_levelMode(
     Imf_DeepTiledOutputFile_t const * this_
     , Imf_LevelMode * return_)
 {
@@ -154,7 +154,7 @@ unsigned int Imf_3_0__DeepTiledOutputFile_levelMode(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledOutputFile_levelRoundingMode(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledOutputFile_levelRoundingMode(
     Imf_DeepTiledOutputFile_t const * this_
     , Imf_LevelRoundingMode * return_)
 {
@@ -167,7 +167,7 @@ unsigned int Imf_3_0__DeepTiledOutputFile_levelRoundingMode(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledOutputFile_numLevels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledOutputFile_numLevels(
     Imf_DeepTiledOutputFile_t const * this_
     , int * return_)
 {
@@ -180,7 +180,7 @@ unsigned int Imf_3_0__DeepTiledOutputFile_numLevels(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledOutputFile_numXLevels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledOutputFile_numXLevels(
     Imf_DeepTiledOutputFile_t const * this_
     , int * return_)
 {
@@ -193,7 +193,7 @@ unsigned int Imf_3_0__DeepTiledOutputFile_numXLevels(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledOutputFile_numYLevels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledOutputFile_numYLevels(
     Imf_DeepTiledOutputFile_t const * this_
     , int * return_)
 {
@@ -206,7 +206,7 @@ unsigned int Imf_3_0__DeepTiledOutputFile_numYLevels(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledOutputFile_isValidLevel(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledOutputFile_isValidLevel(
     Imf_DeepTiledOutputFile_t const * this_
     , _Bool * return_
     , int lx
@@ -221,7 +221,7 @@ unsigned int Imf_3_0__DeepTiledOutputFile_isValidLevel(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledOutputFile_levelWidth(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledOutputFile_levelWidth(
     Imf_DeepTiledOutputFile_t const * this_
     , int * return_
     , int lx)
@@ -238,7 +238,7 @@ unsigned int Imf_3_0__DeepTiledOutputFile_levelWidth(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledOutputFile_levelHeight(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledOutputFile_levelHeight(
     Imf_DeepTiledOutputFile_t const * this_
     , int * return_
     , int ly)
@@ -255,7 +255,7 @@ unsigned int Imf_3_0__DeepTiledOutputFile_levelHeight(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledOutputFile_numXTiles(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledOutputFile_numXTiles(
     Imf_DeepTiledOutputFile_t const * this_
     , int * return_
     , int lx)
@@ -272,7 +272,7 @@ unsigned int Imf_3_0__DeepTiledOutputFile_numXTiles(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledOutputFile_numYTiles(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledOutputFile_numYTiles(
     Imf_DeepTiledOutputFile_t const * this_
     , int * return_
     , int ly)
@@ -289,7 +289,7 @@ unsigned int Imf_3_0__DeepTiledOutputFile_numYTiles(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledOutputFile_dataWindowForLevel(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledOutputFile_dataWindowForLevel(
     Imf_DeepTiledOutputFile_t const * this_
     , Imath_Box2i_t * return_
     , int lx
@@ -307,7 +307,7 @@ unsigned int Imf_3_0__DeepTiledOutputFile_dataWindowForLevel(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledOutputFile_dataWindowForTile(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledOutputFile_dataWindowForTile(
     Imf_DeepTiledOutputFile_t const * this_
     , Imath_Box2i_t * return_
     , int dx
@@ -330,7 +330,7 @@ unsigned int Imf_3_0__DeepTiledOutputFile_dataWindowForTile(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledOutputFile_writeTile(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledOutputFile_writeTile(
     Imf_DeepTiledOutputFile_t * this_
     , int dx
     , int dy
@@ -352,7 +352,7 @@ unsigned int Imf_3_0__DeepTiledOutputFile_writeTile(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledOutputFile_writeTiles(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledOutputFile_writeTiles(
     Imf_DeepTiledOutputFile_t * this_
     , int dx1
     , int dx2
@@ -376,7 +376,7 @@ unsigned int Imf_3_0__DeepTiledOutputFile_writeTiles(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledOutputFile_copyPixels_from_file(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledOutputFile_copyPixels_from_file(
     Imf_DeepTiledOutputFile_t * this_
     , Imf_DeepTiledInputFile_t * in)
 {
@@ -398,7 +398,7 @@ unsigned int Imf_3_0__DeepTiledOutputFile_copyPixels_from_file(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledOutputFile_copyPixels_from_part(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledOutputFile_copyPixels_from_part(
     Imf_DeepTiledOutputFile_t * this_
     , Imf_DeepTiledInputPart_t * in)
 {
@@ -420,7 +420,7 @@ unsigned int Imf_3_0__DeepTiledOutputFile_copyPixels_from_part(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledOutputFile_updatePreviewImage(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledOutputFile_updatePreviewImage(
     Imf_DeepTiledOutputFile_t * this_
     , Imf_PreviewRgba_t const * newPixels)
 {
@@ -433,7 +433,7 @@ unsigned int Imf_3_0__DeepTiledOutputFile_updatePreviewImage(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledOutputFile_breakTile(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledOutputFile_breakTile(
     Imf_DeepTiledOutputFile_t * this_
     , int dx
     , int dy

@@ -5,7 +5,7 @@
 
 #include <stdexcept>
 
-unsigned int std__set_std__string__ctor(
+OPENEXR_CPPMM_API unsigned int std__set_std__string__ctor(
     std_set_string_t * * this_)
 {
     try {
@@ -17,7 +17,7 @@ unsigned int std__set_std__string__ctor(
     }
 }
 
-unsigned int std__set_std__string__dtor(
+OPENEXR_CPPMM_API unsigned int std__set_std__string__dtor(
     std_set_string_t * this_)
 {
     try {
@@ -29,7 +29,7 @@ unsigned int std__set_std__string__dtor(
     }
 }
 
-unsigned int std__set_std__string__cbegin(
+OPENEXR_CPPMM_API unsigned int std__set_std__string__cbegin(
     std_set_string_t const * this_
     , std_set_string_iterator_t * return_)
 {
@@ -37,7 +37,7 @@ unsigned int std__set_std__string__cbegin(
         return 0;
 }
 
-unsigned int std__set_std__string__cend(
+OPENEXR_CPPMM_API unsigned int std__set_std__string__cend(
     std_set_string_t const * this_
     , std_set_string_iterator_t * return_)
 {
@@ -45,7 +45,7 @@ unsigned int std__set_std__string__cend(
         return 0;
 }
 
-unsigned int std__set_std__string__size(
+OPENEXR_CPPMM_API unsigned int std__set_std__string__size(
     std_set_string_t const * this_
     , unsigned long * return_)
 {
@@ -53,17 +53,17 @@ unsigned int std__set_std__string__size(
         return 0;
 }
 
-unsigned int std__set_std__string___const_iterator_sizeof()
+OPENEXR_CPPMM_API unsigned int std__set_std__string___const_iterator_sizeof()
 {
         return sizeof(std::set<std::string>::const_iterator);
 }
 
-unsigned int std__set_std__string___const_iterator_alignof()
+OPENEXR_CPPMM_API unsigned int std__set_std__string___const_iterator_alignof()
 {
         return alignof(std::set<std::string>::const_iterator);
 }
 
-unsigned int std__set_std__string___const_iterator_deref(
+OPENEXR_CPPMM_API unsigned int std__set_std__string___const_iterator_deref(
     std_set_string_iterator_t const * this_
     , std_string_t const * * return_)
 {
@@ -71,7 +71,7 @@ unsigned int std__set_std__string___const_iterator_deref(
         return 0;
 }
 
-unsigned int std__set_std__string___const_iterator_inc(
+OPENEXR_CPPMM_API unsigned int std__set_std__string___const_iterator_inc(
     std_set_string_iterator_t * this_
     , std_set_string_iterator_t * * return_)
 {
@@ -79,7 +79,7 @@ unsigned int std__set_std__string___const_iterator_inc(
         return 0;
 }
 
-unsigned int std_set_string_const_iterator_eq(
+OPENEXR_CPPMM_API unsigned int std_set_string_const_iterator_eq(
     _Bool * return_
     , std_set_string_iterator_t const * __x
     , std_set_string_iterator_t const * __y)

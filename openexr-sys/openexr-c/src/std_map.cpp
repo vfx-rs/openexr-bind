@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 
-unsigned int std__map_std__string_std__string__ctor(
+OPENEXR_CPPMM_API unsigned int std__map_std__string_std__string__ctor(
     std_map_string_string_t * * this_)
 {
     try {
@@ -16,7 +16,7 @@ unsigned int std__map_std__string_std__string__ctor(
     }
 }
 
-unsigned int std__map_std__string_std__string__dtor(
+OPENEXR_CPPMM_API unsigned int std__map_std__string_std__string__dtor(
     std_map_string_string_t * this_)
 {
     try {

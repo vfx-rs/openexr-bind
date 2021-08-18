@@ -3,7 +3,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0_wav2Encode(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_wav2Encode(
     unsigned short * in
     , int nx
     , int ox
@@ -20,7 +20,7 @@ unsigned int Imf_3_0_wav2Encode(
     }
 }
 
-unsigned int Imf_3_0_wav2Decode(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_wav2Decode(
     unsigned short * in
     , int nx
     , int ox

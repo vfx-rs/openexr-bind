@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0__DeepCompositing_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepCompositing_ctor(
     Imf_DeepCompositing_t * * this_)
 {
     try {
@@ -16,7 +16,7 @@ unsigned int Imf_3_0__DeepCompositing_ctor(
     }
 }
 
-unsigned int Imf_3_0__DeepCompositing_dtor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepCompositing_dtor(
     Imf_DeepCompositing_t * this_)
 {
     try {
@@ -28,7 +28,7 @@ unsigned int Imf_3_0__DeepCompositing_dtor(
     }
 }
 
-unsigned int Imf_3_0__DeepCompositing_composite_pixel(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepCompositing_composite_pixel(
     Imf_DeepCompositing_t * this_
     , float * outputs
     , float const * * inputs
@@ -46,7 +46,7 @@ unsigned int Imf_3_0__DeepCompositing_composite_pixel(
     }
 }
 
-unsigned int Imf_3_0__DeepCompositing_sort(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepCompositing_sort(
     Imf_DeepCompositing_t * this_
     , int * order
     , float const * * inputs
@@ -64,7 +64,7 @@ unsigned int Imf_3_0__DeepCompositing_sort(
     }
 }
 
-unsigned int Imf_3_0__DeepCompositing__assign(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepCompositing__assign(
     Imf_DeepCompositing_t * this_
     , Imf_DeepCompositing_t * * return_
     , Imf_DeepCompositing_t const * rhs)

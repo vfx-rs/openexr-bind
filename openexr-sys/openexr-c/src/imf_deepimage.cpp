@@ -10,7 +10,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0__DeepImage_levelMode(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepImage_levelMode(
     Imf_DeepImage_t const * this_
     , Imf_LevelMode * return_)
 {
@@ -23,7 +23,7 @@ unsigned int Imf_3_0__DeepImage_levelMode(
     }
 }
 
-unsigned int Imf_3_0__DeepImage_levelRoundingMode(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepImage_levelRoundingMode(
     Imf_DeepImage_t const * this_
     , Imf_LevelRoundingMode * return_)
 {
@@ -36,7 +36,7 @@ unsigned int Imf_3_0__DeepImage_levelRoundingMode(
     }
 }
 
-unsigned int Imf_3_0__DeepImage_numLevels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepImage_numLevels(
     Imf_DeepImage_t const * this_
     , int * return_)
 {
@@ -52,7 +52,7 @@ unsigned int Imf_3_0__DeepImage_numLevels(
     }
 }
 
-unsigned int Imf_3_0__DeepImage_numXLevels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepImage_numXLevels(
     Imf_DeepImage_t const * this_
     , int * return_)
 {
@@ -68,7 +68,7 @@ unsigned int Imf_3_0__DeepImage_numXLevels(
     }
 }
 
-unsigned int Imf_3_0__DeepImage_numYLevels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepImage_numYLevels(
     Imf_DeepImage_t const * this_
     , int * return_)
 {
@@ -84,7 +84,7 @@ unsigned int Imf_3_0__DeepImage_numYLevels(
     }
 }
 
-unsigned int Imf_3_0__DeepImage_dataWindow(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepImage_dataWindow(
     Imf_DeepImage_t const * this_
     , Imath_Box2i_t const * * return_)
 {
@@ -97,7 +97,7 @@ unsigned int Imf_3_0__DeepImage_dataWindow(
     }
 }
 
-unsigned int Imf_3_0__DeepImage_dataWindowForLevel(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepImage_dataWindowForLevel(
     Imf_DeepImage_t const * this_
     , Imath_Box2i_t const * * return_
     , int lx
@@ -115,7 +115,7 @@ unsigned int Imf_3_0__DeepImage_dataWindowForLevel(
     }
 }
 
-unsigned int Imf_3_0__DeepImage_levelWidth(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepImage_levelWidth(
     Imf_DeepImage_t const * this_
     , int * return_
     , int lx)
@@ -132,7 +132,7 @@ unsigned int Imf_3_0__DeepImage_levelWidth(
     }
 }
 
-unsigned int Imf_3_0__DeepImage_levelHeight(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepImage_levelHeight(
     Imf_DeepImage_t const * this_
     , int * return_
     , int ly)
@@ -149,7 +149,7 @@ unsigned int Imf_3_0__DeepImage_levelHeight(
     }
 }
 
-unsigned int Imf_3_0__DeepImage_resize(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepImage_resize(
     Imf_DeepImage_t * this_
     , Imath_Box2i_t const * dataWindow
     , Imf_LevelMode levelMode
@@ -167,7 +167,7 @@ unsigned int Imf_3_0__DeepImage_resize(
     }
 }
 
-unsigned int Imf_3_0__DeepImage_shiftPixels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepImage_shiftPixels(
     Imf_DeepImage_t * this_
     , int dx
     , int dy)
@@ -184,7 +184,7 @@ unsigned int Imf_3_0__DeepImage_shiftPixels(
     }
 }
 
-unsigned int Imf_3_0__DeepImage_insertChannel(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepImage_insertChannel(
     Imf_DeepImage_t * this_
     , std_string_t const * name
     , Imf_PixelType type
@@ -204,7 +204,7 @@ unsigned int Imf_3_0__DeepImage_insertChannel(
     }
 }
 
-unsigned int Imf_3_0__DeepImage_eraseChannel(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepImage_eraseChannel(
     Imf_DeepImage_t * this_
     , std_string_t const * name)
 {
@@ -217,7 +217,7 @@ unsigned int Imf_3_0__DeepImage_eraseChannel(
     }
 }
 
-unsigned int Imf_3_0__DeepImage_clearChannels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepImage_clearChannels(
     Imf_DeepImage_t * this_)
 {
     try {
@@ -229,7 +229,7 @@ unsigned int Imf_3_0__DeepImage_clearChannels(
     }
 }
 
-unsigned int Imf_3_0__DeepImage_renameChannel(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepImage_renameChannel(
     Imf_DeepImage_t * this_
     , std_string_t const * oldName
     , std_string_t const * newName)
@@ -249,7 +249,7 @@ unsigned int Imf_3_0__DeepImage_renameChannel(
     }
 }
 
-unsigned int Imf_3_0__DeepImage_renameChannels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepImage_renameChannels(
     Imf_DeepImage_t * this_
     , std_map_string_string_t const * oldToNewNames)
 {
@@ -268,7 +268,7 @@ unsigned int Imf_3_0__DeepImage_renameChannels(
     }
 }
 
-unsigned int Imf_3_0__DeepImage_default(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepImage_default(
     Imf_DeepImage_t * * this_)
 {
     try {
@@ -280,7 +280,7 @@ unsigned int Imf_3_0__DeepImage_default(
     }
 }
 
-unsigned int Imf_3_0__DeepImage_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepImage_ctor(
     Imf_DeepImage_t * * this_
     , Imath_Box2i_t const * dataWindow
     , Imf_LevelMode levelMode
@@ -295,7 +295,7 @@ unsigned int Imf_3_0__DeepImage_ctor(
     }
 }
 
-unsigned int Imf_3_0__DeepImage_dtor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepImage_dtor(
     Imf_DeepImage_t * this_)
 {
     try {
@@ -307,7 +307,7 @@ unsigned int Imf_3_0__DeepImage_dtor(
     }
 }
 
-unsigned int Imf_3_0__DeepImage_level(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepImage_level(
     Imf_DeepImage_t * this_
     , Imf_DeepImageLevel_t * * return_
     , int lx
@@ -322,7 +322,7 @@ unsigned int Imf_3_0__DeepImage_level(
     }
 }
 
-unsigned int Imf_3_0__DeepImage_level_const(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepImage_level_const(
     Imf_DeepImage_t const * this_
     , Imf_DeepImageLevel_t const * * return_
     , int lx

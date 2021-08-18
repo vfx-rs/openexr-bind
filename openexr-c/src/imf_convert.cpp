@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0_halfToUint(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_halfToUint(
     unsigned int * return_
     , Imath_half_t h)
 {
@@ -17,7 +17,7 @@ unsigned int Imf_3_0_halfToUint(
     }
 }
 
-unsigned int Imf_3_0_floatToUint(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_floatToUint(
     unsigned int * return_
     , float f)
 {
@@ -30,7 +30,7 @@ unsigned int Imf_3_0_floatToUint(
     }
 }
 
-unsigned int Imf_3_0_uintToHalf(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_uintToHalf(
     Imath_half_t * return_
     , unsigned int ui)
 {
@@ -43,7 +43,7 @@ unsigned int Imf_3_0_uintToHalf(
     }
 }
 
-unsigned int Imf_3_0_floatToHalf(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_floatToHalf(
     Imath_half_t * return_
     , float f)
 {

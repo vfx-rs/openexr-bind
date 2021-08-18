@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0__TileDescription_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TileDescription_ctor(
     Imf_TileDescription_t * this_
     , unsigned int xs
     , unsigned int ys
@@ -20,7 +20,7 @@ unsigned int Imf_3_0__TileDescription_ctor(
     }
 }
 
-unsigned int Imf_3_0__TileDescription__eq(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TileDescription__eq(
     Imf_TileDescription_t const * this_
     , _Bool * return_
     , Imf_TileDescription_t const * other)

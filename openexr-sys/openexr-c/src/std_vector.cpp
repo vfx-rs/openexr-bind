@@ -5,7 +5,7 @@
 
 #include <stdexcept>
 
-unsigned int std__vector_std__string__ctor(
+OPENEXR_CPPMM_API unsigned int std__vector_std__string__ctor(
     std_vector_string_t * * this_)
 {
     try {
@@ -17,14 +17,14 @@ unsigned int std__vector_std__string__ctor(
     }
 }
 
-unsigned int std__vector_std__string__dtor(
+OPENEXR_CPPMM_API unsigned int std__vector_std__string__dtor(
     std_vector_string_t * this_)
 {
         delete to_cpp(this_);
         return 0;
 }
 
-unsigned int std__vector_std__string__size(
+OPENEXR_CPPMM_API unsigned int std__vector_std__string__size(
     std_vector_string_t const * this_
     , unsigned long * return_)
 {
@@ -32,7 +32,7 @@ unsigned int std__vector_std__string__size(
         return 0;
 }
 
-unsigned int std__vector_std__string__index(
+OPENEXR_CPPMM_API unsigned int std__vector_std__string__index(
     std_vector_string_t const * this_
     , std_string_t const * * return_
     , unsigned long pos)
@@ -41,7 +41,7 @@ unsigned int std__vector_std__string__index(
         return 0;
 }
 
-unsigned int std__vector_std__string__data(
+OPENEXR_CPPMM_API unsigned int std__vector_std__string__data(
     std_vector_string_t * this_
     , std_string_t * * return_)
 {
@@ -49,7 +49,7 @@ unsigned int std__vector_std__string__data(
         return 0;
 }
 
-unsigned int std__vector_std__string__data_const(
+OPENEXR_CPPMM_API unsigned int std__vector_std__string__data_const(
     std_vector_string_t const * this_
     , std_string_t const * * return_)
 {
@@ -57,7 +57,7 @@ unsigned int std__vector_std__string__data_const(
         return 0;
 }
 
-unsigned int std__vector_std__string__push_back(
+OPENEXR_CPPMM_API unsigned int std__vector_std__string__push_back(
     std_vector_string_t * this_
     , std_string_t const * value)
 {
@@ -70,7 +70,7 @@ unsigned int std__vector_std__string__push_back(
     }
 }
 
-unsigned int std__vector_float__ctor(
+OPENEXR_CPPMM_API unsigned int std__vector_float__ctor(
     std_vector_float_t * * this_)
 {
     try {
@@ -82,14 +82,14 @@ unsigned int std__vector_float__ctor(
     }
 }
 
-unsigned int std__vector_float__dtor(
+OPENEXR_CPPMM_API unsigned int std__vector_float__dtor(
     std_vector_float_t * this_)
 {
         delete to_cpp(this_);
         return 0;
 }
 
-unsigned int std__vector_float__size(
+OPENEXR_CPPMM_API unsigned int std__vector_float__size(
     std_vector_float_t const * this_
     , unsigned long * return_)
 {
@@ -97,7 +97,7 @@ unsigned int std__vector_float__size(
         return 0;
 }
 
-unsigned int std__vector_float__index(
+OPENEXR_CPPMM_API unsigned int std__vector_float__index(
     std_vector_float_t const * this_
     , float const * * return_
     , unsigned long pos)
@@ -106,7 +106,7 @@ unsigned int std__vector_float__index(
         return 0;
 }
 
-unsigned int std__vector_float__data(
+OPENEXR_CPPMM_API unsigned int std__vector_float__data(
     std_vector_float_t * this_
     , float * * return_)
 {
@@ -114,7 +114,7 @@ unsigned int std__vector_float__data(
         return 0;
 }
 
-unsigned int std__vector_float__data_const(
+OPENEXR_CPPMM_API unsigned int std__vector_float__data_const(
     std_vector_float_t const * this_
     , float const * * return_)
 {
@@ -122,7 +122,7 @@ unsigned int std__vector_float__data_const(
         return 0;
 }
 
-unsigned int std__vector_float__push_back(
+OPENEXR_CPPMM_API unsigned int std__vector_float__push_back(
     std_vector_float_t * this_
     , float const * value)
 {

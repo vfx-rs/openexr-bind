@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0__Rational_default(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__Rational_default(
     Imf_Rational_t * this_)
 {
     try {
@@ -16,7 +16,7 @@ unsigned int Imf_3_0__Rational_default(
     }
 }
 
-unsigned int Imf_3_0__Rational_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__Rational_ctor(
     Imf_Rational_t * this_
     , int n
     , int d)
@@ -30,7 +30,7 @@ unsigned int Imf_3_0__Rational_ctor(
     }
 }
 
-unsigned int Imf_3_0__Rational_from_f64(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__Rational_from_f64(
     Imf_Rational_t * this_
     , double x)
 {
@@ -43,7 +43,7 @@ unsigned int Imf_3_0__Rational_from_f64(
     }
 }
 
-unsigned int Imf_3_0__Rational_as_f64(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__Rational_as_f64(
     Imf_Rational_t const * this_
     , double * return_)
 {

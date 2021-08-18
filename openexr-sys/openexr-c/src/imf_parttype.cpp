@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0_part_isImage(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_part_isImage(
     _Bool * return_
     , std_string_t const * name)
 {
@@ -17,7 +17,7 @@ unsigned int Imf_3_0_part_isImage(
     }
 }
 
-unsigned int Imf_3_0_part_isTiled(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_part_isTiled(
     _Bool * return_
     , std_string_t const * name)
 {
@@ -30,7 +30,7 @@ unsigned int Imf_3_0_part_isTiled(
     }
 }
 
-unsigned int Imf_3_0_part_isDeepData(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_part_isDeepData(
     _Bool * return_
     , std_string_t const * name)
 {
@@ -43,7 +43,7 @@ unsigned int Imf_3_0_part_isDeepData(
     }
 }
 
-unsigned int Imf_3_0_part_isSupportedType(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_part_isSupportedType(
     _Bool * return_
     , std_string_t const * name)
 {

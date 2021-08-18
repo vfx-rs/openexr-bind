@@ -5,7 +5,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0_LatLongMap_latlong_from_direction(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_LatLongMap_latlong_from_direction(
     Imath_V2f_t * return_
     , Imath_V3f_t const * direction)
 {
@@ -18,7 +18,7 @@ unsigned int Imf_3_0_LatLongMap_latlong_from_direction(
     }
 }
 
-unsigned int Imf_3_0_LatLongMap_latlong_from_pixel_position(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_LatLongMap_latlong_from_pixel_position(
     Imath_V2f_t * return_
     , Imath_Box2i_t const * dataWindow
     , Imath_V2f_t const * pixelPosition)
@@ -32,7 +32,7 @@ unsigned int Imf_3_0_LatLongMap_latlong_from_pixel_position(
     }
 }
 
-unsigned int Imf_3_0_LatLongMap_pixelPosition_from_latlong(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_LatLongMap_pixelPosition_from_latlong(
     Imath_V2f_t * return_
     , Imath_Box2i_t const * dataWindow
     , Imath_V2f_t const * latLong)
@@ -46,7 +46,7 @@ unsigned int Imf_3_0_LatLongMap_pixelPosition_from_latlong(
     }
 }
 
-unsigned int Imf_3_0_LatLongMap_pixelPosition_from_direction(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_LatLongMap_pixelPosition_from_direction(
     Imath_V2f_t * return_
     , Imath_Box2i_t const * dataWindow
     , Imath_V3f_t const * direction)
@@ -60,7 +60,7 @@ unsigned int Imf_3_0_LatLongMap_pixelPosition_from_direction(
     }
 }
 
-unsigned int Imf_3_0_LatLongMap_direction_from_pixel_position(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_LatLongMap_direction_from_pixel_position(
     Imath_V3f_t * return_
     , Imath_Box2i_t const * dataWindow
     , Imath_V2f_t const * pixelPosition)
@@ -74,7 +74,7 @@ unsigned int Imf_3_0_LatLongMap_direction_from_pixel_position(
     }
 }
 
-unsigned int Imf_3_0_CubeMap_sizeOfFace(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_CubeMap_sizeOfFace(
     int * return_
     , Imath_Box2i_t const * dataWindow)
 {
@@ -87,7 +87,7 @@ unsigned int Imf_3_0_CubeMap_sizeOfFace(
     }
 }
 
-unsigned int Imf_3_0_CubeMap_dataWindowForFace(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_CubeMap_dataWindowForFace(
     Imath_Box2i_t * return_
     , Imf_CubeMapFace face
     , Imath_Box2i_t const * dataWindow)
@@ -101,7 +101,7 @@ unsigned int Imf_3_0_CubeMap_dataWindowForFace(
     }
 }
 
-unsigned int Imf_3_0_CubeMap_pixelPosition_from_position_in_face(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_CubeMap_pixelPosition_from_position_in_face(
     Imath_V2f_t * return_
     , Imf_CubeMapFace face
     , Imath_Box2i_t const * dataWindow
@@ -116,7 +116,7 @@ unsigned int Imf_3_0_CubeMap_pixelPosition_from_position_in_face(
     }
 }
 
-unsigned int Imf_3_0_CubeMap_faceAndPixelPosition_from_direction(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_CubeMap_faceAndPixelPosition_from_direction(
     Imath_V3f_t const * direction
     , Imath_Box2i_t const * dataWindow
     , Imf_CubeMapFace * face
@@ -131,7 +131,7 @@ unsigned int Imf_3_0_CubeMap_faceAndPixelPosition_from_direction(
     }
 }
 
-unsigned int Imf_3_0_CubeMap_direction_from_position_in_face(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_CubeMap_direction_from_position_in_face(
     Imath_V3f_t * return_
     , Imf_CubeMapFace face
     , Imath_Box2i_t const * dataWindow

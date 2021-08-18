@@ -8,7 +8,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0__FlatImageLevel_xLevelNumber(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel_xLevelNumber(
     Imf_FlatImageLevel_t const * this_
     , int * return_)
 {
@@ -21,7 +21,7 @@ unsigned int Imf_3_0__FlatImageLevel_xLevelNumber(
     }
 }
 
-unsigned int Imf_3_0__FlatImageLevel_yLevelNumber(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel_yLevelNumber(
     Imf_FlatImageLevel_t const * this_
     , int * return_)
 {
@@ -34,7 +34,7 @@ unsigned int Imf_3_0__FlatImageLevel_yLevelNumber(
     }
 }
 
-unsigned int Imf_3_0__FlatImageLevel_dataWindow(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel_dataWindow(
     Imf_FlatImageLevel_t const * this_
     , Imath_Box2i_t const * * return_)
 {
@@ -47,7 +47,7 @@ unsigned int Imf_3_0__FlatImageLevel_dataWindow(
     }
 }
 
-unsigned int Imf_3_0__FlatImageLevel_flatImage(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel_flatImage(
     Imf_FlatImageLevel_t * this_
     , Imf_FlatImage_t * * return_)
 {
@@ -60,7 +60,7 @@ unsigned int Imf_3_0__FlatImageLevel_flatImage(
     }
 }
 
-unsigned int Imf_3_0__FlatImageLevel_flatImage_const(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel_flatImage_const(
     Imf_FlatImageLevel_t const * this_
     , Imf_FlatImage_t const * * return_)
 {
@@ -73,7 +73,7 @@ unsigned int Imf_3_0__FlatImageLevel_flatImage_const(
     }
 }
 
-unsigned int Imf_3_0__FlatImageLevel_findChannel(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel_findChannel(
     Imf_FlatImageLevel_t * this_
     , Imf_FlatImageChannel_t * * return_
     , std_string_t const * name)
@@ -87,7 +87,7 @@ unsigned int Imf_3_0__FlatImageLevel_findChannel(
     }
 }
 
-unsigned int Imf_3_0__FlatImageLevel_findChannel_const(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel_findChannel_const(
     Imf_FlatImageLevel_t const * this_
     , Imf_FlatImageChannel_t const * * return_
     , std_string_t const * name)
@@ -101,7 +101,7 @@ unsigned int Imf_3_0__FlatImageLevel_findChannel_const(
     }
 }
 
-unsigned int Imf_3_0__FlatImageLevel_channel(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel_channel(
     Imf_FlatImageLevel_t * this_
     , Imf_FlatImageChannel_t * * return_
     , std_string_t const * name)
@@ -118,7 +118,7 @@ unsigned int Imf_3_0__FlatImageLevel_channel(
     }
 }
 
-unsigned int Imf_3_0__FlatImageLevel_channel_const(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel_channel_const(
     Imf_FlatImageLevel_t const * this_
     , Imf_FlatImageChannel_t const * * return_
     , std_string_t const * name)
@@ -135,7 +135,7 @@ unsigned int Imf_3_0__FlatImageLevel_channel_const(
     }
 }
 
-unsigned int Imf_3_0__FlatImageLevel_findTypedChannel_half(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel_findTypedChannel_half(
     Imf_FlatImageLevel_t * this_
     , Imf_FlatHalfChannel_t * * return_
     , std_string_t const * name)
@@ -149,7 +149,7 @@ unsigned int Imf_3_0__FlatImageLevel_findTypedChannel_half(
     }
 }
 
-unsigned int Imf_3_0__FlatImageLevel_findTypedChannel_float(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel_findTypedChannel_float(
     Imf_FlatImageLevel_t * this_
     , Imf_FlatFloatChannel_t * * return_
     , std_string_t const * name)
@@ -163,7 +163,7 @@ unsigned int Imf_3_0__FlatImageLevel_findTypedChannel_float(
     }
 }
 
-unsigned int Imf_3_0__FlatImageLevel_findTypedChannel_uint(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel_findTypedChannel_uint(
     Imf_FlatImageLevel_t * this_
     , Imf_FlatUIntChannel_t * * return_
     , std_string_t const * name)
@@ -177,7 +177,7 @@ unsigned int Imf_3_0__FlatImageLevel_findTypedChannel_uint(
     }
 }
 
-unsigned int Imf_3_0__FlatImageLevel_findTypedChannel_half_const(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel_findTypedChannel_half_const(
     Imf_FlatImageLevel_t const * this_
     , Imf_FlatHalfChannel_t const * * return_
     , std_string_t const * name)
@@ -191,7 +191,7 @@ unsigned int Imf_3_0__FlatImageLevel_findTypedChannel_half_const(
     }
 }
 
-unsigned int Imf_3_0__FlatImageLevel_findTypedChannel_float_const(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel_findTypedChannel_float_const(
     Imf_FlatImageLevel_t const * this_
     , Imf_FlatFloatChannel_t const * * return_
     , std_string_t const * name)
@@ -205,7 +205,7 @@ unsigned int Imf_3_0__FlatImageLevel_findTypedChannel_float_const(
     }
 }
 
-unsigned int Imf_3_0__FlatImageLevel_findTypedChannel_uint_const(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel_findTypedChannel_uint_const(
     Imf_FlatImageLevel_t const * this_
     , Imf_FlatUIntChannel_t const * * return_
     , std_string_t const * name)
@@ -219,7 +219,7 @@ unsigned int Imf_3_0__FlatImageLevel_findTypedChannel_uint_const(
     }
 }
 
-unsigned int Imf_3_0__FlatImageLevel_begin(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel_begin(
     Imf_FlatImageLevel_t * this_
     , Imf_FlatImageLevel_Iterator_t * return_)
 {
@@ -232,7 +232,7 @@ unsigned int Imf_3_0__FlatImageLevel_begin(
     }
 }
 
-unsigned int Imf_3_0__FlatImageLevel_begin_const(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel_begin_const(
     Imf_FlatImageLevel_t const * this_
     , Imf_FlatImageLevel_ConstIterator_t * return_)
 {
@@ -245,7 +245,7 @@ unsigned int Imf_3_0__FlatImageLevel_begin_const(
     }
 }
 
-unsigned int Imf_3_0__FlatImageLevel_end(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel_end(
     Imf_FlatImageLevel_t * this_
     , Imf_FlatImageLevel_Iterator_t * return_)
 {
@@ -258,7 +258,7 @@ unsigned int Imf_3_0__FlatImageLevel_end(
     }
 }
 
-unsigned int Imf_3_0__FlatImageLevel_end_const(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel_end_const(
     Imf_FlatImageLevel_t const * this_
     , Imf_FlatImageLevel_ConstIterator_t * return_)
 {
@@ -271,17 +271,17 @@ unsigned int Imf_3_0__FlatImageLevel_end_const(
     }
 }
 
-unsigned int Imf_3_0__FlatImageLevel__Iterator_sizeof()
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel__Iterator_sizeof()
 {
         return sizeof(Imf_3_0::FlatImageLevel::Iterator);
 }
 
-unsigned int Imf_3_0__FlatImageLevel__Iterator_alignof()
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel__Iterator_alignof()
 {
         return alignof(Imf_3_0::FlatImageLevel::Iterator);
 }
 
-unsigned int Imf_3_0__FlatImageLevel__Iterator_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel__Iterator_ctor(
     Imf_FlatImageLevel_Iterator_t * this_)
 {
     try {
@@ -293,7 +293,7 @@ unsigned int Imf_3_0__FlatImageLevel__Iterator_ctor(
     }
 }
 
-unsigned int Imf_3_0__FlatImageLevel__Iterator_inc(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel__Iterator_inc(
     Imf_FlatImageLevel_Iterator_t * this_
     , Imf_FlatImageLevel_Iterator_t * * return_)
 {
@@ -306,7 +306,7 @@ unsigned int Imf_3_0__FlatImageLevel__Iterator_inc(
     }
 }
 
-unsigned int Imf_3_0__FlatImageLevel__Iterator_name(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel__Iterator_name(
     Imf_FlatImageLevel_Iterator_t const * this_
     , std_string_t const * * return_)
 {
@@ -319,7 +319,7 @@ unsigned int Imf_3_0__FlatImageLevel__Iterator_name(
     }
 }
 
-unsigned int Imf_3_0__FlatImageLevel__Iterator_channel(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel__Iterator_channel(
     Imf_FlatImageLevel_Iterator_t const * this_
     , Imf_FlatImageChannel_t * * return_)
 {
@@ -332,7 +332,7 @@ unsigned int Imf_3_0__FlatImageLevel__Iterator_channel(
     }
 }
 
-unsigned int Imf_3_0__FlatImageLevel__Iterator_copy(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel__Iterator_copy(
     Imf_FlatImageLevel_Iterator_t * this_
     , Imf_FlatImageLevel_Iterator_t const * rhs)
 {
@@ -340,17 +340,17 @@ unsigned int Imf_3_0__FlatImageLevel__Iterator_copy(
         return 0;
 }
 
-unsigned int Imf_3_0__FlatImageLevel__ConstIterator_sizeof()
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel__ConstIterator_sizeof()
 {
         return sizeof(Imf_3_0::FlatImageLevel::ConstIterator);
 }
 
-unsigned int Imf_3_0__FlatImageLevel__ConstIterator_alignof()
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel__ConstIterator_alignof()
 {
         return alignof(Imf_3_0::FlatImageLevel::ConstIterator);
 }
 
-unsigned int Imf_3_0__FlatImageLevel__ConstIterator_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel__ConstIterator_ctor(
     Imf_FlatImageLevel_ConstIterator_t * this_)
 {
     try {
@@ -362,7 +362,7 @@ unsigned int Imf_3_0__FlatImageLevel__ConstIterator_ctor(
     }
 }
 
-unsigned int Imf_3_0__FlatImageLevel__ConstIterator_from_mut(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel__ConstIterator_from_mut(
     Imf_FlatImageLevel_ConstIterator_t * this_
     , Imf_FlatImageLevel_Iterator_t const * rhs)
 {
@@ -375,7 +375,7 @@ unsigned int Imf_3_0__FlatImageLevel__ConstIterator_from_mut(
     }
 }
 
-unsigned int Imf_3_0__FlatImageLevel__ConstIterator_inc(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel__ConstIterator_inc(
     Imf_FlatImageLevel_ConstIterator_t * this_
     , Imf_FlatImageLevel_ConstIterator_t * * return_)
 {
@@ -388,7 +388,7 @@ unsigned int Imf_3_0__FlatImageLevel__ConstIterator_inc(
     }
 }
 
-unsigned int Imf_3_0__FlatImageLevel__ConstIterator_name(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel__ConstIterator_name(
     Imf_FlatImageLevel_ConstIterator_t const * this_
     , std_string_t const * * return_)
 {
@@ -401,7 +401,7 @@ unsigned int Imf_3_0__FlatImageLevel__ConstIterator_name(
     }
 }
 
-unsigned int Imf_3_0__FlatImageLevel__ConstIterator_channel(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel__ConstIterator_channel(
     Imf_FlatImageLevel_ConstIterator_t const * this_
     , Imf_FlatImageChannel_t const * * return_)
 {
@@ -414,7 +414,7 @@ unsigned int Imf_3_0__FlatImageLevel__ConstIterator_channel(
     }
 }
 
-unsigned int Imf_3_0__FlatImageLevel__ConstIterator_copy(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel__ConstIterator_copy(
     Imf_FlatImageLevel_ConstIterator_t * this_
     , Imf_FlatImageLevel_ConstIterator_t const * rhs)
 {
@@ -422,7 +422,7 @@ unsigned int Imf_3_0__FlatImageLevel__ConstIterator_copy(
         return 0;
 }
 
-unsigned int Imf_3_0__FlatImageLevel__ConstIterator_move(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImageLevel__ConstIterator_move(
     Imf_FlatImageLevel_ConstIterator_t * this_
     , Imf_FlatImageLevel_ConstIterator_t * rhs)
 {

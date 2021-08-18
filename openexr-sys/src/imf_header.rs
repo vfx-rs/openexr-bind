@@ -322,7 +322,7 @@ pub fn Imf_3_0__Header_setMaxTileSize(max_width: c_int, max_height: c_int) -> Ex
 
 pub fn Imf_3_0__Header_readsNothing(this_: *mut Imf_Header_t, return_: *mut bool) -> Exception;
 
-pub fn Imf_3_0__Header_writeTo(this_: *const Imf_Header_t, return_: *mut c_ulong, os: *mut Imf_OStream_t, is_tiled: bool) -> Exception;
+pub fn Imf_3_0__Header_writeTo(this_: *const Imf_Header_t, return_: *mut u64, os: *mut Imf_OStream_t, is_tiled: bool) -> Exception;
 
 pub fn Imf_3_0__Header_readFrom(this_: *mut Imf_Header_t, is: *mut Imf_IStream_t, version: *mut c_int) -> Exception;
 

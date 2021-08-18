@@ -4,17 +4,17 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0__TimeCode_sizeof()
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode_sizeof()
 {
         return sizeof(Imf_3_0::TimeCode);
 }
 
-unsigned int Imf_3_0__TimeCode_alignof()
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode_alignof()
 {
         return alignof(Imf_3_0::TimeCode);
 }
 
-unsigned int Imf_3_0__TimeCode_default(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode_default(
     Imf_TimeCode_t * this_)
 {
     try {
@@ -26,7 +26,7 @@ unsigned int Imf_3_0__TimeCode_default(
     }
 }
 
-unsigned int Imf_3_0__TimeCode_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode_ctor(
     Imf_TimeCode_t * this_
     , int hours
     , int minutes
@@ -56,7 +56,7 @@ unsigned int Imf_3_0__TimeCode_ctor(
     }
 }
 
-unsigned int Imf_3_0__TimeCode_from_time_and_flags(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode_from_time_and_flags(
     Imf_TimeCode_t * this_
     , unsigned int timeAndFlags
     , unsigned int userData
@@ -71,7 +71,7 @@ unsigned int Imf_3_0__TimeCode_from_time_and_flags(
     }
 }
 
-unsigned int Imf_3_0__TimeCode_copy(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode_copy(
     Imf_TimeCode_t * this_
     , Imf_TimeCode_t const * other)
 {
@@ -84,7 +84,7 @@ unsigned int Imf_3_0__TimeCode_copy(
     }
 }
 
-unsigned int Imf_3_0__TimeCode_dtor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode_dtor(
     Imf_TimeCode_t * this_)
 {
     try {
@@ -96,7 +96,7 @@ unsigned int Imf_3_0__TimeCode_dtor(
     }
 }
 
-unsigned int Imf_3_0__TimeCode__assign(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode__assign(
     Imf_TimeCode_t * this_
     , Imf_TimeCode_t * * return_
     , Imf_TimeCode_t const * other)
@@ -110,7 +110,7 @@ unsigned int Imf_3_0__TimeCode__assign(
     }
 }
 
-unsigned int Imf_3_0__TimeCode_hours(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode_hours(
     Imf_TimeCode_t const * this_
     , int * return_)
 {
@@ -123,7 +123,7 @@ unsigned int Imf_3_0__TimeCode_hours(
     }
 }
 
-unsigned int Imf_3_0__TimeCode_setHours(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode_setHours(
     Imf_TimeCode_t * this_
     , int value)
 {
@@ -139,7 +139,7 @@ unsigned int Imf_3_0__TimeCode_setHours(
     }
 }
 
-unsigned int Imf_3_0__TimeCode_minutes(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode_minutes(
     Imf_TimeCode_t const * this_
     , int * return_)
 {
@@ -152,7 +152,7 @@ unsigned int Imf_3_0__TimeCode_minutes(
     }
 }
 
-unsigned int Imf_3_0__TimeCode_setMinutes(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode_setMinutes(
     Imf_TimeCode_t * this_
     , int value)
 {
@@ -168,7 +168,7 @@ unsigned int Imf_3_0__TimeCode_setMinutes(
     }
 }
 
-unsigned int Imf_3_0__TimeCode_seconds(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode_seconds(
     Imf_TimeCode_t const * this_
     , int * return_)
 {
@@ -181,7 +181,7 @@ unsigned int Imf_3_0__TimeCode_seconds(
     }
 }
 
-unsigned int Imf_3_0__TimeCode_setSeconds(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode_setSeconds(
     Imf_TimeCode_t * this_
     , int value)
 {
@@ -197,7 +197,7 @@ unsigned int Imf_3_0__TimeCode_setSeconds(
     }
 }
 
-unsigned int Imf_3_0__TimeCode_frame(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode_frame(
     Imf_TimeCode_t const * this_
     , int * return_)
 {
@@ -210,7 +210,7 @@ unsigned int Imf_3_0__TimeCode_frame(
     }
 }
 
-unsigned int Imf_3_0__TimeCode_setFrame(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode_setFrame(
     Imf_TimeCode_t * this_
     , int value)
 {
@@ -226,7 +226,7 @@ unsigned int Imf_3_0__TimeCode_setFrame(
     }
 }
 
-unsigned int Imf_3_0__TimeCode_dropFrame(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode_dropFrame(
     Imf_TimeCode_t const * this_
     , _Bool * return_)
 {
@@ -239,7 +239,7 @@ unsigned int Imf_3_0__TimeCode_dropFrame(
     }
 }
 
-unsigned int Imf_3_0__TimeCode_setDropFrame(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode_setDropFrame(
     Imf_TimeCode_t * this_
     , _Bool value)
 {
@@ -252,7 +252,7 @@ unsigned int Imf_3_0__TimeCode_setDropFrame(
     }
 }
 
-unsigned int Imf_3_0__TimeCode_colorFrame(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode_colorFrame(
     Imf_TimeCode_t const * this_
     , _Bool * return_)
 {
@@ -265,7 +265,7 @@ unsigned int Imf_3_0__TimeCode_colorFrame(
     }
 }
 
-unsigned int Imf_3_0__TimeCode_setColorFrame(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode_setColorFrame(
     Imf_TimeCode_t * this_
     , _Bool value)
 {
@@ -278,7 +278,7 @@ unsigned int Imf_3_0__TimeCode_setColorFrame(
     }
 }
 
-unsigned int Imf_3_0__TimeCode_fieldPhase(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode_fieldPhase(
     Imf_TimeCode_t const * this_
     , _Bool * return_)
 {
@@ -291,7 +291,7 @@ unsigned int Imf_3_0__TimeCode_fieldPhase(
     }
 }
 
-unsigned int Imf_3_0__TimeCode_setFieldPhase(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode_setFieldPhase(
     Imf_TimeCode_t * this_
     , _Bool value)
 {
@@ -304,7 +304,7 @@ unsigned int Imf_3_0__TimeCode_setFieldPhase(
     }
 }
 
-unsigned int Imf_3_0__TimeCode_bgf0(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode_bgf0(
     Imf_TimeCode_t const * this_
     , _Bool * return_)
 {
@@ -317,7 +317,7 @@ unsigned int Imf_3_0__TimeCode_bgf0(
     }
 }
 
-unsigned int Imf_3_0__TimeCode_setBgf0(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode_setBgf0(
     Imf_TimeCode_t * this_
     , _Bool value)
 {
@@ -330,7 +330,7 @@ unsigned int Imf_3_0__TimeCode_setBgf0(
     }
 }
 
-unsigned int Imf_3_0__TimeCode_bgf1(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode_bgf1(
     Imf_TimeCode_t const * this_
     , _Bool * return_)
 {
@@ -343,7 +343,7 @@ unsigned int Imf_3_0__TimeCode_bgf1(
     }
 }
 
-unsigned int Imf_3_0__TimeCode_setBgf1(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode_setBgf1(
     Imf_TimeCode_t * this_
     , _Bool value)
 {
@@ -356,7 +356,7 @@ unsigned int Imf_3_0__TimeCode_setBgf1(
     }
 }
 
-unsigned int Imf_3_0__TimeCode_bgf2(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode_bgf2(
     Imf_TimeCode_t const * this_
     , _Bool * return_)
 {
@@ -369,7 +369,7 @@ unsigned int Imf_3_0__TimeCode_bgf2(
     }
 }
 
-unsigned int Imf_3_0__TimeCode_setBgf2(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode_setBgf2(
     Imf_TimeCode_t * this_
     , _Bool value)
 {
@@ -382,7 +382,7 @@ unsigned int Imf_3_0__TimeCode_setBgf2(
     }
 }
 
-unsigned int Imf_3_0__TimeCode_binaryGroup(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode_binaryGroup(
     Imf_TimeCode_t const * this_
     , int * return_
     , int group)
@@ -399,7 +399,7 @@ unsigned int Imf_3_0__TimeCode_binaryGroup(
     }
 }
 
-unsigned int Imf_3_0__TimeCode_setBinaryGroup(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode_setBinaryGroup(
     Imf_TimeCode_t * this_
     , int group
     , int value)
@@ -416,7 +416,7 @@ unsigned int Imf_3_0__TimeCode_setBinaryGroup(
     }
 }
 
-unsigned int Imf_3_0__TimeCode_timeAndFlags(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode_timeAndFlags(
     Imf_TimeCode_t const * this_
     , unsigned int * return_
     , Imf_TimeCode_Packing packing)
@@ -430,7 +430,7 @@ unsigned int Imf_3_0__TimeCode_timeAndFlags(
     }
 }
 
-unsigned int Imf_3_0__TimeCode_setTimeAndFlags(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode_setTimeAndFlags(
     Imf_TimeCode_t * this_
     , unsigned int value
     , Imf_TimeCode_Packing packing)
@@ -444,7 +444,7 @@ unsigned int Imf_3_0__TimeCode_setTimeAndFlags(
     }
 }
 
-unsigned int Imf_3_0__TimeCode_userData(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode_userData(
     Imf_TimeCode_t const * this_
     , unsigned int * return_)
 {
@@ -457,7 +457,7 @@ unsigned int Imf_3_0__TimeCode_userData(
     }
 }
 
-unsigned int Imf_3_0__TimeCode_setUserData(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode_setUserData(
     Imf_TimeCode_t * this_
     , unsigned int value)
 {
@@ -470,7 +470,7 @@ unsigned int Imf_3_0__TimeCode_setUserData(
     }
 }
 
-unsigned int Imf_3_0__TimeCode__eq(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode__eq(
     Imf_TimeCode_t const * this_
     , _Bool * return_
     , Imf_TimeCode_t const * v)
@@ -484,7 +484,7 @@ unsigned int Imf_3_0__TimeCode__eq(
     }
 }
 
-unsigned int Imf_3_0__TimeCode__ne(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TimeCode__ne(
     Imf_TimeCode_t const * this_
     , _Bool * return_
     , Imf_TimeCode_t const * v)

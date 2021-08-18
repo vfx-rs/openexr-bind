@@ -9,7 +9,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0__CompositeDeepScanLine_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__CompositeDeepScanLine_ctor(
     Imf_CompositeDeepScanLine_t * * this_)
 {
     try {
@@ -21,7 +21,7 @@ unsigned int Imf_3_0__CompositeDeepScanLine_ctor(
     }
 }
 
-unsigned int Imf_3_0__CompositeDeepScanLine_dtor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__CompositeDeepScanLine_dtor(
     Imf_CompositeDeepScanLine_t * this_)
 {
     try {
@@ -33,7 +33,7 @@ unsigned int Imf_3_0__CompositeDeepScanLine_dtor(
     }
 }
 
-unsigned int Imf_3_0__CompositeDeepScanLine_addSource_part(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__CompositeDeepScanLine_addSource_part(
     Imf_CompositeDeepScanLine_t * this_
     , Imf_DeepScanLineInputPart_t * part)
 {
@@ -49,7 +49,7 @@ unsigned int Imf_3_0__CompositeDeepScanLine_addSource_part(
     }
 }
 
-unsigned int Imf_3_0__CompositeDeepScanLine_addSource_file(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__CompositeDeepScanLine_addSource_file(
     Imf_CompositeDeepScanLine_t * this_
     , Imf_DeepScanLineInputFile_t * file)
 {
@@ -65,7 +65,7 @@ unsigned int Imf_3_0__CompositeDeepScanLine_addSource_file(
     }
 }
 
-unsigned int Imf_3_0__CompositeDeepScanLine_setFrameBuffer(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__CompositeDeepScanLine_setFrameBuffer(
     Imf_CompositeDeepScanLine_t * this_
     , Imf_FrameBuffer_t const * fr)
 {
@@ -78,7 +78,7 @@ unsigned int Imf_3_0__CompositeDeepScanLine_setFrameBuffer(
     }
 }
 
-unsigned int Imf_3_0__CompositeDeepScanLine_frameBuffer(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__CompositeDeepScanLine_frameBuffer(
     Imf_CompositeDeepScanLine_t const * this_
     , Imf_FrameBuffer_t const * * return_)
 {
@@ -91,7 +91,7 @@ unsigned int Imf_3_0__CompositeDeepScanLine_frameBuffer(
     }
 }
 
-unsigned int Imf_3_0__CompositeDeepScanLine_readPixels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__CompositeDeepScanLine_readPixels(
     Imf_CompositeDeepScanLine_t * this_
     , int start
     , int end)
@@ -105,7 +105,7 @@ unsigned int Imf_3_0__CompositeDeepScanLine_readPixels(
     }
 }
 
-unsigned int Imf_3_0__CompositeDeepScanLine_sources(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__CompositeDeepScanLine_sources(
     Imf_CompositeDeepScanLine_t const * this_
     , int * return_)
 {
@@ -118,7 +118,7 @@ unsigned int Imf_3_0__CompositeDeepScanLine_sources(
     }
 }
 
-unsigned int Imf_3_0__CompositeDeepScanLine_dataWindow(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__CompositeDeepScanLine_dataWindow(
     Imf_CompositeDeepScanLine_t const * this_
     , Imath_Box2i_t const * * return_)
 {
@@ -131,7 +131,7 @@ unsigned int Imf_3_0__CompositeDeepScanLine_dataWindow(
     }
 }
 
-unsigned int Imf_3_0__CompositeDeepScanLine_setCompositing(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__CompositeDeepScanLine_setCompositing(
     Imf_CompositeDeepScanLine_t * this_
     , Imf_DeepCompositing_t * compositing)
 {

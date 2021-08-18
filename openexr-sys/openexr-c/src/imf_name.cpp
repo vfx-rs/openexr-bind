@@ -4,17 +4,17 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0__Name_sizeof()
+OPENEXR_CPPMM_API unsigned int Imf_3_0__Name_sizeof()
 {
         return sizeof(Imf_3_0::Name);
 }
 
-unsigned int Imf_3_0__Name_alignof()
+OPENEXR_CPPMM_API unsigned int Imf_3_0__Name_alignof()
 {
         return alignof(Imf_3_0::Name);
 }
 
-unsigned int Imf_3_0__Name_default(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__Name_default(
     Imf_Name_t * this_)
 {
     try {
@@ -26,7 +26,7 @@ unsigned int Imf_3_0__Name_default(
     }
 }
 
-unsigned int Imf_3_0__Name_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__Name_ctor(
     Imf_Name_t * this_
     , char const * text)
 {
@@ -39,7 +39,7 @@ unsigned int Imf_3_0__Name_ctor(
     }
 }
 
-unsigned int Imf_3_0__Name_copy(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__Name_copy(
     Imf_Name_t * this_
     , Imf_Name_t const * rhs)
 {
@@ -52,7 +52,7 @@ unsigned int Imf_3_0__Name_copy(
     }
 }
 
-unsigned int Imf_3_0__Name_move(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__Name_move(
     Imf_Name_t * this_
     , Imf_Name_t * rhs)
 {
@@ -65,7 +65,7 @@ unsigned int Imf_3_0__Name_move(
     }
 }
 
-unsigned int Imf_3_0__Name_dtor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__Name_dtor(
     Imf_Name_t * this_)
 {
     try {
@@ -77,7 +77,7 @@ unsigned int Imf_3_0__Name_dtor(
     }
 }
 
-unsigned int Imf_3_0__Name__assign(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__Name__assign(
     Imf_Name_t * this_
     , Imf_Name_t * * return_
     , Imf_Name_t const * rhs)
@@ -91,7 +91,7 @@ unsigned int Imf_3_0__Name__assign(
     }
 }
 
-unsigned int Imf_3_0__Name__assign_1(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__Name__assign_1(
     Imf_Name_t * this_
     , Imf_Name_t * * return_
     , char const * text)
@@ -105,7 +105,7 @@ unsigned int Imf_3_0__Name__assign_1(
     }
 }
 
-unsigned int Imf_3_0__Name_text(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__Name_text(
     Imf_Name_t const * this_
     , char const * * return_)
 {

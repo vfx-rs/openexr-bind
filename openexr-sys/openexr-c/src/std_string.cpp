@@ -4,14 +4,14 @@
 
 #include <stdexcept>
 
-unsigned int std__string_ctor(
+OPENEXR_CPPMM_API unsigned int std__string_ctor(
     std_string_t * * this_)
 {
         to_c(this_, new std::string());
         return 0;
 }
 
-unsigned int std__string_copy(
+OPENEXR_CPPMM_API unsigned int std__string_copy(
     std_string_t * * this_
     , std_string_t const * rhs)
 {
@@ -24,7 +24,7 @@ unsigned int std__string_copy(
     }
 }
 
-unsigned int std__string_dtor(
+OPENEXR_CPPMM_API unsigned int std__string_dtor(
     std_string_t * this_)
 {
     try {
@@ -36,7 +36,7 @@ unsigned int std__string_dtor(
     }
 }
 
-unsigned int std__string_assign(
+OPENEXR_CPPMM_API unsigned int std__string_assign(
     std_string_t * this_
     , std_string_t * * return_
     , char const * s
@@ -51,7 +51,7 @@ unsigned int std__string_assign(
     }
 }
 
-unsigned int std__string_c_str(
+OPENEXR_CPPMM_API unsigned int std__string_c_str(
     std_string_t const * this_
     , char const * * return_)
 {

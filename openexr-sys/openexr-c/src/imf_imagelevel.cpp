@@ -5,7 +5,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0__ImageLevel_image(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__ImageLevel_image(
     Imf_ImageLevel_t * this_
     , Imf_Image_t * * return_)
 {
@@ -18,7 +18,7 @@ unsigned int Imf_3_0__ImageLevel_image(
     }
 }
 
-unsigned int Imf_3_0__ImageLevel_image_const(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__ImageLevel_image_const(
     Imf_ImageLevel_t const * this_
     , Imf_Image_t const * * return_)
 {
@@ -31,7 +31,7 @@ unsigned int Imf_3_0__ImageLevel_image_const(
     }
 }
 
-unsigned int Imf_3_0__ImageLevel_xLevelNumber(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__ImageLevel_xLevelNumber(
     Imf_ImageLevel_t const * this_
     , int * return_)
 {
@@ -44,7 +44,7 @@ unsigned int Imf_3_0__ImageLevel_xLevelNumber(
     }
 }
 
-unsigned int Imf_3_0__ImageLevel_yLevelNumber(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__ImageLevel_yLevelNumber(
     Imf_ImageLevel_t const * this_
     , int * return_)
 {
@@ -57,7 +57,7 @@ unsigned int Imf_3_0__ImageLevel_yLevelNumber(
     }
 }
 
-unsigned int Imf_3_0__ImageLevel_dataWindow(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__ImageLevel_dataWindow(
     Imf_ImageLevel_t const * this_
     , Imath_Box2i_t const * * return_)
 {

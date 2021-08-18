@@ -6,7 +6,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0_RgbaYca_computeYw(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_RgbaYca_computeYw(
     Imath_V3f_t * return_
     , Imf_Chromaticities_t const * cr)
 {
@@ -19,7 +19,7 @@ unsigned int Imf_3_0_RgbaYca_computeYw(
     }
 }
 
-unsigned int Imf_3_0_RgbaYca_RGBAtoYCA(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_RgbaYca_RGBAtoYCA(
     Imath_V3f_t const * yw
     , int n
     , _Bool aIsValid
@@ -35,7 +35,7 @@ unsigned int Imf_3_0_RgbaYca_RGBAtoYCA(
     }
 }
 
-unsigned int Imf_3_0_RgbaYca_decimateChromaHoriz(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_RgbaYca_decimateChromaHoriz(
     int n
     , Imf_Rgba_t const * ycaIn
     , Imf_Rgba_t * ycaOut)
@@ -49,7 +49,7 @@ unsigned int Imf_3_0_RgbaYca_decimateChromaHoriz(
     }
 }
 
-unsigned int Imf_3_0_RgbaYca_roundYCA(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_RgbaYca_roundYCA(
     int n
     , unsigned int roundY
     , unsigned int roundC
@@ -65,7 +65,7 @@ unsigned int Imf_3_0_RgbaYca_roundYCA(
     }
 }
 
-unsigned int Imf_3_0_RgbaYca_reconstructChromaHoriz(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_RgbaYca_reconstructChromaHoriz(
     int n
     , Imf_Rgba_t const * ycaIn
     , Imf_Rgba_t * ycaOut)
@@ -79,7 +79,7 @@ unsigned int Imf_3_0_RgbaYca_reconstructChromaHoriz(
     }
 }
 
-unsigned int Imf_3_0_RgbaYca_YCAtoRGBA(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_RgbaYca_YCAtoRGBA(
     Imath_V3f_t const * yw
     , int n
     , Imf_Rgba_t const * ycaIn

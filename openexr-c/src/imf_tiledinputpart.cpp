@@ -9,17 +9,17 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0__TiledInputPart_sizeof()
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputPart_sizeof()
 {
         return sizeof(Imf_3_0::TiledInputPart);
 }
 
-unsigned int Imf_3_0__TiledInputPart_alignof()
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputPart_alignof()
 {
         return alignof(Imf_3_0::TiledInputPart);
 }
 
-unsigned int Imf_3_0__TiledInputPart_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputPart_ctor(
     Imf_TiledInputPart_t * this_
     , Imf_MultiPartInputFile_t * multiPartFile
     , int partNumber)
@@ -33,7 +33,7 @@ unsigned int Imf_3_0__TiledInputPart_ctor(
     }
 }
 
-unsigned int Imf_3_0__TiledInputPart_fileName(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputPart_fileName(
     Imf_TiledInputPart_t const * this_
     , char const * * return_)
 {
@@ -46,7 +46,7 @@ unsigned int Imf_3_0__TiledInputPart_fileName(
     }
 }
 
-unsigned int Imf_3_0__TiledInputPart_header(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputPart_header(
     Imf_TiledInputPart_t const * this_
     , Imf_Header_t const * * return_)
 {
@@ -59,7 +59,7 @@ unsigned int Imf_3_0__TiledInputPart_header(
     }
 }
 
-unsigned int Imf_3_0__TiledInputPart_version(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputPart_version(
     Imf_TiledInputPart_t const * this_
     , int * return_)
 {
@@ -72,7 +72,7 @@ unsigned int Imf_3_0__TiledInputPart_version(
     }
 }
 
-unsigned int Imf_3_0__TiledInputPart_setFrameBuffer(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputPart_setFrameBuffer(
     Imf_TiledInputPart_t * this_
     , Imf_FrameBuffer_t const * frameBuffer)
 {
@@ -88,7 +88,7 @@ unsigned int Imf_3_0__TiledInputPart_setFrameBuffer(
     }
 }
 
-unsigned int Imf_3_0__TiledInputPart_frameBuffer(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputPart_frameBuffer(
     Imf_TiledInputPart_t const * this_
     , Imf_FrameBuffer_t const * * return_)
 {
@@ -101,7 +101,7 @@ unsigned int Imf_3_0__TiledInputPart_frameBuffer(
     }
 }
 
-unsigned int Imf_3_0__TiledInputPart_isComplete(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputPart_isComplete(
     Imf_TiledInputPart_t const * this_
     , _Bool * return_)
 {
@@ -114,7 +114,7 @@ unsigned int Imf_3_0__TiledInputPart_isComplete(
     }
 }
 
-unsigned int Imf_3_0__TiledInputPart_tileXSize(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputPart_tileXSize(
     Imf_TiledInputPart_t const * this_
     , unsigned int * return_)
 {
@@ -127,7 +127,7 @@ unsigned int Imf_3_0__TiledInputPart_tileXSize(
     }
 }
 
-unsigned int Imf_3_0__TiledInputPart_tileYSize(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputPart_tileYSize(
     Imf_TiledInputPart_t const * this_
     , unsigned int * return_)
 {
@@ -140,7 +140,7 @@ unsigned int Imf_3_0__TiledInputPart_tileYSize(
     }
 }
 
-unsigned int Imf_3_0__TiledInputPart_levelMode(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputPart_levelMode(
     Imf_TiledInputPart_t const * this_
     , Imf_LevelMode * return_)
 {
@@ -153,7 +153,7 @@ unsigned int Imf_3_0__TiledInputPart_levelMode(
     }
 }
 
-unsigned int Imf_3_0__TiledInputPart_levelRoundingMode(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputPart_levelRoundingMode(
     Imf_TiledInputPart_t const * this_
     , Imf_LevelRoundingMode * return_)
 {
@@ -166,7 +166,7 @@ unsigned int Imf_3_0__TiledInputPart_levelRoundingMode(
     }
 }
 
-unsigned int Imf_3_0__TiledInputPart_numLevels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputPart_numLevels(
     Imf_TiledInputPart_t const * this_
     , int * return_)
 {
@@ -182,7 +182,7 @@ unsigned int Imf_3_0__TiledInputPart_numLevels(
     }
 }
 
-unsigned int Imf_3_0__TiledInputPart_numXLevels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputPart_numXLevels(
     Imf_TiledInputPart_t const * this_
     , int * return_)
 {
@@ -195,7 +195,7 @@ unsigned int Imf_3_0__TiledInputPart_numXLevels(
     }
 }
 
-unsigned int Imf_3_0__TiledInputPart_numYLevels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputPart_numYLevels(
     Imf_TiledInputPart_t const * this_
     , int * return_)
 {
@@ -208,7 +208,7 @@ unsigned int Imf_3_0__TiledInputPart_numYLevels(
     }
 }
 
-unsigned int Imf_3_0__TiledInputPart_isValidLevel(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputPart_isValidLevel(
     Imf_TiledInputPart_t const * this_
     , _Bool * return_
     , int lx
@@ -223,7 +223,7 @@ unsigned int Imf_3_0__TiledInputPart_isValidLevel(
     }
 }
 
-unsigned int Imf_3_0__TiledInputPart_levelWidth(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputPart_levelWidth(
     Imf_TiledInputPart_t const * this_
     , int * return_
     , int lx)
@@ -240,7 +240,7 @@ unsigned int Imf_3_0__TiledInputPart_levelWidth(
     }
 }
 
-unsigned int Imf_3_0__TiledInputPart_levelHeight(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputPart_levelHeight(
     Imf_TiledInputPart_t const * this_
     , int * return_
     , int ly)
@@ -257,7 +257,7 @@ unsigned int Imf_3_0__TiledInputPart_levelHeight(
     }
 }
 
-unsigned int Imf_3_0__TiledInputPart_numXTiles(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputPart_numXTiles(
     Imf_TiledInputPart_t const * this_
     , int * return_
     , int lx)
@@ -274,7 +274,7 @@ unsigned int Imf_3_0__TiledInputPart_numXTiles(
     }
 }
 
-unsigned int Imf_3_0__TiledInputPart_numYTiles(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputPart_numYTiles(
     Imf_TiledInputPart_t const * this_
     , int * return_
     , int ly)
@@ -291,7 +291,7 @@ unsigned int Imf_3_0__TiledInputPart_numYTiles(
     }
 }
 
-unsigned int Imf_3_0__TiledInputPart_dataWindowForLevel(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputPart_dataWindowForLevel(
     Imf_TiledInputPart_t const * this_
     , Imath_Box2i_t * return_
     , int lx
@@ -312,7 +312,7 @@ unsigned int Imf_3_0__TiledInputPart_dataWindowForLevel(
     }
 }
 
-unsigned int Imf_3_0__TiledInputPart_dataWindowForTile(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputPart_dataWindowForTile(
     Imf_TiledInputPart_t const * this_
     , Imath_Box2i_t * return_
     , int dx
@@ -335,7 +335,7 @@ unsigned int Imf_3_0__TiledInputPart_dataWindowForTile(
     }
 }
 
-unsigned int Imf_3_0__TiledInputPart_readTile(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputPart_readTile(
     Imf_TiledInputPart_t * this_
     , int dx
     , int dy
@@ -360,7 +360,7 @@ unsigned int Imf_3_0__TiledInputPart_readTile(
     }
 }
 
-unsigned int Imf_3_0__TiledInputPart_readTiles(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputPart_readTiles(
     Imf_TiledInputPart_t * this_
     , int dx1
     , int dx2
@@ -387,7 +387,7 @@ unsigned int Imf_3_0__TiledInputPart_readTiles(
     }
 }
 
-unsigned int Imf_3_0__TiledInputPart_rawTileData(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputPart_rawTileData(
     Imf_TiledInputPart_t * this_
     , int * dx
     , int * dy

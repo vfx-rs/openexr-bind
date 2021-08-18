@@ -7,7 +7,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0__InputFile_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__InputFile_ctor(
     Imf_InputFile_t * * this_
     , char const * fileName
     , int numThreads)
@@ -24,7 +24,7 @@ unsigned int Imf_3_0__InputFile_ctor(
     }
 }
 
-unsigned int Imf_3_0__InputFile_from_stream(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__InputFile_from_stream(
     Imf_InputFile_t * * this_
     , Imf_IStream_t * is
     , int numThreads)
@@ -38,7 +38,7 @@ unsigned int Imf_3_0__InputFile_from_stream(
     }
 }
 
-unsigned int Imf_3_0__InputFile_dtor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__InputFile_dtor(
     Imf_InputFile_t * this_)
 {
     try {
@@ -50,7 +50,7 @@ unsigned int Imf_3_0__InputFile_dtor(
     }
 }
 
-unsigned int Imf_3_0__InputFile_fileName(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__InputFile_fileName(
     Imf_InputFile_t const * this_
     , char const * * return_)
 {
@@ -63,7 +63,7 @@ unsigned int Imf_3_0__InputFile_fileName(
     }
 }
 
-unsigned int Imf_3_0__InputFile_header(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__InputFile_header(
     Imf_InputFile_t const * this_
     , Imf_Header_t const * * return_)
 {
@@ -76,7 +76,7 @@ unsigned int Imf_3_0__InputFile_header(
     }
 }
 
-unsigned int Imf_3_0__InputFile_version(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__InputFile_version(
     Imf_InputFile_t const * this_
     , int * return_)
 {
@@ -89,7 +89,7 @@ unsigned int Imf_3_0__InputFile_version(
     }
 }
 
-unsigned int Imf_3_0__InputFile_setFrameBuffer(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__InputFile_setFrameBuffer(
     Imf_InputFile_t * this_
     , Imf_FrameBuffer_t const * frameBuffer)
 {
@@ -105,7 +105,7 @@ unsigned int Imf_3_0__InputFile_setFrameBuffer(
     }
 }
 
-unsigned int Imf_3_0__InputFile_frameBuffer(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__InputFile_frameBuffer(
     Imf_InputFile_t const * this_
     , Imf_FrameBuffer_t const * * return_)
 {
@@ -118,7 +118,7 @@ unsigned int Imf_3_0__InputFile_frameBuffer(
     }
 }
 
-unsigned int Imf_3_0__InputFile_isComplete(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__InputFile_isComplete(
     Imf_InputFile_t const * this_
     , _Bool * return_)
 {
@@ -131,7 +131,7 @@ unsigned int Imf_3_0__InputFile_isComplete(
     }
 }
 
-unsigned int Imf_3_0__InputFile_isOptimizationEnabled(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__InputFile_isOptimizationEnabled(
     Imf_InputFile_t const * this_
     , _Bool * return_)
 {
@@ -147,7 +147,7 @@ unsigned int Imf_3_0__InputFile_isOptimizationEnabled(
     }
 }
 
-unsigned int Imf_3_0__InputFile_readPixels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__InputFile_readPixels(
     Imf_InputFile_t * this_
     , int scanLine1
     , int scanLine2)
@@ -167,7 +167,7 @@ unsigned int Imf_3_0__InputFile_readPixels(
     }
 }
 
-unsigned int Imf_3_0__InputFile_rawPixelData(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__InputFile_rawPixelData(
     Imf_InputFile_t * this_
     , int firstScanLine
     , char const * * pixelData
@@ -182,7 +182,7 @@ unsigned int Imf_3_0__InputFile_rawPixelData(
     }
 }
 
-unsigned int Imf_3_0__InputFile_rawPixelDataToBuffer(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__InputFile_rawPixelDataToBuffer(
     Imf_InputFile_t const * this_
     , int scanLine
     , char * pixelData
@@ -197,7 +197,7 @@ unsigned int Imf_3_0__InputFile_rawPixelDataToBuffer(
     }
 }
 
-unsigned int Imf_3_0__InputFile_rawTileData(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__InputFile_rawTileData(
     Imf_InputFile_t * this_
     , int * dx
     , int * dy
@@ -215,7 +215,7 @@ unsigned int Imf_3_0__InputFile_rawTileData(
     }
 }
 
-unsigned int Imf_3_0__GenericInputFile_dtor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__GenericInputFile_dtor(
     Imf_GenericInputFile_t * this_)
 {
     try {
@@ -227,7 +227,7 @@ unsigned int Imf_3_0__GenericInputFile_dtor(
     }
 }
 
-unsigned int Imf_3_0__GenericInputFile__assign(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__GenericInputFile__assign(
     Imf_GenericInputFile_t * this_
     , Imf_GenericInputFile_t * * return_
     , Imf_GenericInputFile_t const * rhs)
@@ -241,7 +241,7 @@ unsigned int Imf_3_0__GenericInputFile__assign(
     }
 }
 
-unsigned int Imf_3_0__GenericInputFile_copy(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__GenericInputFile_copy(
     Imf_GenericInputFile_t * * this_
     , Imf_GenericInputFile_t const * rhs)
 {

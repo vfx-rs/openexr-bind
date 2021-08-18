@@ -9,7 +9,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0__FlatImage_levelMode(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImage_levelMode(
     Imf_FlatImage_t const * this_
     , Imf_LevelMode * return_)
 {
@@ -22,7 +22,7 @@ unsigned int Imf_3_0__FlatImage_levelMode(
     }
 }
 
-unsigned int Imf_3_0__FlatImage_levelRoundingMode(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImage_levelRoundingMode(
     Imf_FlatImage_t const * this_
     , Imf_LevelRoundingMode * return_)
 {
@@ -35,7 +35,7 @@ unsigned int Imf_3_0__FlatImage_levelRoundingMode(
     }
 }
 
-unsigned int Imf_3_0__FlatImage_numLevels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImage_numLevels(
     Imf_FlatImage_t const * this_
     , int * return_)
 {
@@ -51,7 +51,7 @@ unsigned int Imf_3_0__FlatImage_numLevels(
     }
 }
 
-unsigned int Imf_3_0__FlatImage_numXLevels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImage_numXLevels(
     Imf_FlatImage_t const * this_
     , int * return_)
 {
@@ -67,7 +67,7 @@ unsigned int Imf_3_0__FlatImage_numXLevels(
     }
 }
 
-unsigned int Imf_3_0__FlatImage_numYLevels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImage_numYLevels(
     Imf_FlatImage_t const * this_
     , int * return_)
 {
@@ -83,7 +83,7 @@ unsigned int Imf_3_0__FlatImage_numYLevels(
     }
 }
 
-unsigned int Imf_3_0__FlatImage_dataWindow(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImage_dataWindow(
     Imf_FlatImage_t const * this_
     , Imath_Box2i_t const * * return_)
 {
@@ -96,7 +96,7 @@ unsigned int Imf_3_0__FlatImage_dataWindow(
     }
 }
 
-unsigned int Imf_3_0__FlatImage_dataWindowForLevel(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImage_dataWindowForLevel(
     Imf_FlatImage_t const * this_
     , Imath_Box2i_t const * * return_
     , int lx
@@ -114,7 +114,7 @@ unsigned int Imf_3_0__FlatImage_dataWindowForLevel(
     }
 }
 
-unsigned int Imf_3_0__FlatImage_levelWidth(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImage_levelWidth(
     Imf_FlatImage_t const * this_
     , int * return_
     , int lx)
@@ -131,7 +131,7 @@ unsigned int Imf_3_0__FlatImage_levelWidth(
     }
 }
 
-unsigned int Imf_3_0__FlatImage_levelHeight(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImage_levelHeight(
     Imf_FlatImage_t const * this_
     , int * return_
     , int ly)
@@ -148,7 +148,7 @@ unsigned int Imf_3_0__FlatImage_levelHeight(
     }
 }
 
-unsigned int Imf_3_0__FlatImage_resize(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImage_resize(
     Imf_FlatImage_t * this_
     , Imath_Box2i_t const * dataWindow
     , Imf_LevelMode levelMode
@@ -166,7 +166,7 @@ unsigned int Imf_3_0__FlatImage_resize(
     }
 }
 
-unsigned int Imf_3_0__FlatImage_shiftPixels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImage_shiftPixels(
     Imf_FlatImage_t * this_
     , int dx
     , int dy)
@@ -183,7 +183,7 @@ unsigned int Imf_3_0__FlatImage_shiftPixels(
     }
 }
 
-unsigned int Imf_3_0__FlatImage_insertChannel(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImage_insertChannel(
     Imf_FlatImage_t * this_
     , std_string_t const * name
     , Imf_PixelType type
@@ -203,7 +203,7 @@ unsigned int Imf_3_0__FlatImage_insertChannel(
     }
 }
 
-unsigned int Imf_3_0__FlatImage_eraseChannel(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImage_eraseChannel(
     Imf_FlatImage_t * this_
     , std_string_t const * name)
 {
@@ -216,7 +216,7 @@ unsigned int Imf_3_0__FlatImage_eraseChannel(
     }
 }
 
-unsigned int Imf_3_0__FlatImage_clearChannels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImage_clearChannels(
     Imf_FlatImage_t * this_)
 {
     try {
@@ -228,7 +228,7 @@ unsigned int Imf_3_0__FlatImage_clearChannels(
     }
 }
 
-unsigned int Imf_3_0__FlatImage_renameChannel(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImage_renameChannel(
     Imf_FlatImage_t * this_
     , std_string_t const * oldName
     , std_string_t const * newName)
@@ -248,7 +248,7 @@ unsigned int Imf_3_0__FlatImage_renameChannel(
     }
 }
 
-unsigned int Imf_3_0__FlatImage_default(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImage_default(
     Imf_FlatImage_t * * this_)
 {
     try {
@@ -260,7 +260,7 @@ unsigned int Imf_3_0__FlatImage_default(
     }
 }
 
-unsigned int Imf_3_0__FlatImage_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImage_ctor(
     Imf_FlatImage_t * * this_
     , Imath_Box2i_t const * dataWindow
     , Imf_LevelMode levelMode
@@ -278,7 +278,7 @@ unsigned int Imf_3_0__FlatImage_ctor(
     }
 }
 
-unsigned int Imf_3_0__FlatImage_dtor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImage_dtor(
     Imf_FlatImage_t * this_)
 {
     try {
@@ -290,7 +290,7 @@ unsigned int Imf_3_0__FlatImage_dtor(
     }
 }
 
-unsigned int Imf_3_0__FlatImage_level(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImage_level(
     Imf_FlatImage_t * this_
     , Imf_FlatImageLevel_t * * return_
     , int lx
@@ -308,7 +308,7 @@ unsigned int Imf_3_0__FlatImage_level(
     }
 }
 
-unsigned int Imf_3_0__FlatImage_level_const(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__FlatImage_level_const(
     Imf_FlatImage_t const * this_
     , Imf_FlatImageLevel_t const * * return_
     , int lx

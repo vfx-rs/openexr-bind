@@ -4,24 +4,24 @@
 
 #include <stdexcept>
 
-unsigned int Imath_3_0__half_sizeof()
+OPENEXR_CPPMM_API unsigned int Imath_3_0__half_sizeof()
 {
         return sizeof(Imath_3_0::half);
 }
 
-unsigned int Imath_3_0__half_alignof()
+OPENEXR_CPPMM_API unsigned int Imath_3_0__half_alignof()
 {
         return alignof(Imath_3_0::half);
 }
 
-unsigned int Imath_3_0__half_ctor(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__half_ctor(
     Imath_half_t * this_)
 {
         new (this_) Imath_3_0::half();
         return 0;
 }
 
-unsigned int Imath_3_0__half_from_float(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__half_from_float(
     Imath_half_t * this_
     , float f)
 {
@@ -29,7 +29,7 @@ unsigned int Imath_3_0__half_from_float(
         return 0;
 }
 
-unsigned int Imath_3_0__half_ctor_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__half_ctor_1(
     Imath_half_t * this_
     , Imath_half_FromBitsTag tag
     , unsigned short bits)
@@ -38,7 +38,7 @@ unsigned int Imath_3_0__half_ctor_1(
         return 0;
 }
 
-unsigned int Imath_3_0__half_copy(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__half_copy(
     Imath_half_t * this_
     , Imath_half_t const * rhs)
 {
@@ -46,14 +46,14 @@ unsigned int Imath_3_0__half_copy(
         return 0;
 }
 
-unsigned int Imath_3_0__half_dtor(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__half_dtor(
     Imath_half_t * this_)
 {
         (to_cpp(this_)) -> Imath_3_0::half::~half();
         return 0;
 }
 
-unsigned int Imath_3_0__half_operatorfloat(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__half_operatorfloat(
     Imath_half_t const * this_
     , float * return_)
 {
@@ -61,7 +61,7 @@ unsigned int Imath_3_0__half_operatorfloat(
         return 0;
 }
 
-unsigned int Imath_3_0__half__op_sub(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__half__op_sub(
     Imath_half_t const * this_
     , Imath_half_t * return_)
 {
@@ -69,7 +69,7 @@ unsigned int Imath_3_0__half__op_sub(
         return 0;
 }
 
-unsigned int Imath_3_0__half__assign(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__half__assign(
     Imath_half_t * this_
     , Imath_half_t * * return_
     , Imath_half_t const * h)
@@ -78,7 +78,7 @@ unsigned int Imath_3_0__half__assign(
         return 0;
 }
 
-unsigned int Imath_3_0__half__assign_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__half__assign_1(
     Imath_half_t * this_
     , Imath_half_t * * return_
     , float f)
@@ -87,7 +87,7 @@ unsigned int Imath_3_0__half__assign_1(
         return 0;
 }
 
-unsigned int Imath_3_0__half__op_iadd(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__half__op_iadd(
     Imath_half_t * this_
     , Imath_half_t * * return_
     , Imath_half_t h)
@@ -96,7 +96,7 @@ unsigned int Imath_3_0__half__op_iadd(
         return 0;
 }
 
-unsigned int Imath_3_0__half__op_iadd_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__half__op_iadd_1(
     Imath_half_t * this_
     , Imath_half_t * * return_
     , float f)
@@ -105,7 +105,7 @@ unsigned int Imath_3_0__half__op_iadd_1(
         return 0;
 }
 
-unsigned int Imath_3_0__half__op_isub(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__half__op_isub(
     Imath_half_t * this_
     , Imath_half_t * * return_
     , Imath_half_t h)
@@ -114,7 +114,7 @@ unsigned int Imath_3_0__half__op_isub(
         return 0;
 }
 
-unsigned int Imath_3_0__half__op_isub_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__half__op_isub_1(
     Imath_half_t * this_
     , Imath_half_t * * return_
     , float f)
@@ -123,7 +123,7 @@ unsigned int Imath_3_0__half__op_isub_1(
         return 0;
 }
 
-unsigned int Imath_3_0__half__op_imul(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__half__op_imul(
     Imath_half_t * this_
     , Imath_half_t * * return_
     , Imath_half_t h)
@@ -132,7 +132,7 @@ unsigned int Imath_3_0__half__op_imul(
         return 0;
 }
 
-unsigned int Imath_3_0__half__op_imul_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__half__op_imul_1(
     Imath_half_t * this_
     , Imath_half_t * * return_
     , float f)
@@ -141,7 +141,7 @@ unsigned int Imath_3_0__half__op_imul_1(
         return 0;
 }
 
-unsigned int Imath_3_0__half__op_idiv(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__half__op_idiv(
     Imath_half_t * this_
     , Imath_half_t * * return_
     , Imath_half_t h)
@@ -150,7 +150,7 @@ unsigned int Imath_3_0__half__op_idiv(
         return 0;
 }
 
-unsigned int Imath_3_0__half__op_idiv_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__half__op_idiv_1(
     Imath_half_t * this_
     , Imath_half_t * * return_
     , float f)
@@ -159,7 +159,7 @@ unsigned int Imath_3_0__half__op_idiv_1(
         return 0;
 }
 
-unsigned int Imath_3_0__half_round(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__half_round(
     Imath_half_t const * this_
     , Imath_half_t * return_
     , unsigned int n)
@@ -168,7 +168,7 @@ unsigned int Imath_3_0__half_round(
         return 0;
 }
 
-unsigned int Imath_3_0__half_isFinite(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__half_isFinite(
     Imath_half_t const * this_
     , _Bool * return_)
 {
@@ -176,7 +176,7 @@ unsigned int Imath_3_0__half_isFinite(
         return 0;
 }
 
-unsigned int Imath_3_0__half_isNormalized(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__half_isNormalized(
     Imath_half_t const * this_
     , _Bool * return_)
 {
@@ -184,7 +184,7 @@ unsigned int Imath_3_0__half_isNormalized(
         return 0;
 }
 
-unsigned int Imath_3_0__half_isDenormalized(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__half_isDenormalized(
     Imath_half_t const * this_
     , _Bool * return_)
 {
@@ -192,7 +192,7 @@ unsigned int Imath_3_0__half_isDenormalized(
         return 0;
 }
 
-unsigned int Imath_3_0__half_isZero(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__half_isZero(
     Imath_half_t const * this_
     , _Bool * return_)
 {
@@ -200,7 +200,7 @@ unsigned int Imath_3_0__half_isZero(
         return 0;
 }
 
-unsigned int Imath_3_0__half_isNan(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__half_isNan(
     Imath_half_t const * this_
     , _Bool * return_)
 {
@@ -208,7 +208,7 @@ unsigned int Imath_3_0__half_isNan(
         return 0;
 }
 
-unsigned int Imath_3_0__half_isInfinity(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__half_isInfinity(
     Imath_half_t const * this_
     , _Bool * return_)
 {
@@ -216,7 +216,7 @@ unsigned int Imath_3_0__half_isInfinity(
         return 0;
 }
 
-unsigned int Imath_3_0__half_isNegative(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__half_isNegative(
     Imath_half_t const * this_
     , _Bool * return_)
 {
@@ -224,35 +224,35 @@ unsigned int Imath_3_0__half_isNegative(
         return 0;
 }
 
-unsigned int Imath_3_0__half_posInf(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__half_posInf(
     Imath_half_t * return_)
 {
         to_c_copy(return_, Imath_3_0::half::posInf());
         return 0;
 }
 
-unsigned int Imath_3_0__half_negInf(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__half_negInf(
     Imath_half_t * return_)
 {
         to_c_copy(return_, Imath_3_0::half::negInf());
         return 0;
 }
 
-unsigned int Imath_3_0__half_qNan(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__half_qNan(
     Imath_half_t * return_)
 {
         to_c_copy(return_, Imath_3_0::half::qNan());
         return 0;
 }
 
-unsigned int Imath_3_0__half_sNan(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__half_sNan(
     Imath_half_t * return_)
 {
         to_c_copy(return_, Imath_3_0::half::sNan());
         return 0;
 }
 
-unsigned int Imath_3_0__half_bits(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__half_bits(
     Imath_half_t const * this_
     , unsigned short * return_)
 {
@@ -260,7 +260,7 @@ unsigned int Imath_3_0__half_bits(
         return 0;
 }
 
-unsigned int Imath_3_0__half_setBits(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__half_setBits(
     Imath_half_t * this_
     , unsigned short bits)
 {

@@ -10,17 +10,17 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0__OutputPart_sizeof()
+OPENEXR_CPPMM_API unsigned int Imf_3_0__OutputPart_sizeof()
 {
         return sizeof(Imf_3_0::OutputPart);
 }
 
-unsigned int Imf_3_0__OutputPart_alignof()
+OPENEXR_CPPMM_API unsigned int Imf_3_0__OutputPart_alignof()
 {
         return alignof(Imf_3_0::OutputPart);
 }
 
-unsigned int Imf_3_0__OutputPart_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__OutputPart_ctor(
     Imf_OutputPart_t * this_
     , Imf_MultiPartOutputFile_t * multiPartFile
     , int partNumber)
@@ -34,7 +34,7 @@ unsigned int Imf_3_0__OutputPart_ctor(
     }
 }
 
-unsigned int Imf_3_0__OutputPart_fileName(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__OutputPart_fileName(
     Imf_OutputPart_t const * this_
     , char const * * return_)
 {
@@ -47,7 +47,7 @@ unsigned int Imf_3_0__OutputPart_fileName(
     }
 }
 
-unsigned int Imf_3_0__OutputPart_header(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__OutputPart_header(
     Imf_OutputPart_t const * this_
     , Imf_Header_t const * * return_)
 {
@@ -60,7 +60,7 @@ unsigned int Imf_3_0__OutputPart_header(
     }
 }
 
-unsigned int Imf_3_0__OutputPart_setFrameBuffer(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__OutputPart_setFrameBuffer(
     Imf_OutputPart_t * this_
     , Imf_FrameBuffer_t const * frameBuffer)
 {
@@ -73,7 +73,7 @@ unsigned int Imf_3_0__OutputPart_setFrameBuffer(
     }
 }
 
-unsigned int Imf_3_0__OutputPart_frameBuffer(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__OutputPart_frameBuffer(
     Imf_OutputPart_t const * this_
     , Imf_FrameBuffer_t const * * return_)
 {
@@ -86,7 +86,7 @@ unsigned int Imf_3_0__OutputPart_frameBuffer(
     }
 }
 
-unsigned int Imf_3_0__OutputPart_writePixels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__OutputPart_writePixels(
     Imf_OutputPart_t * this_
     , int numScanLines)
 {
@@ -99,7 +99,7 @@ unsigned int Imf_3_0__OutputPart_writePixels(
     }
 }
 
-unsigned int Imf_3_0__OutputPart_currentScanLine(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__OutputPart_currentScanLine(
     Imf_OutputPart_t const * this_
     , int * return_)
 {
@@ -112,7 +112,7 @@ unsigned int Imf_3_0__OutputPart_currentScanLine(
     }
 }
 
-unsigned int Imf_3_0__OutputPart_copyPixels_from_file(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__OutputPart_copyPixels_from_file(
     Imf_OutputPart_t * this_
     , Imf_InputFile_t * in)
 {
@@ -125,7 +125,7 @@ unsigned int Imf_3_0__OutputPart_copyPixels_from_file(
     }
 }
 
-unsigned int Imf_3_0__OutputPart_copyPixels_from_part(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__OutputPart_copyPixels_from_part(
     Imf_OutputPart_t * this_
     , Imf_InputPart_t * in)
 {
@@ -138,7 +138,7 @@ unsigned int Imf_3_0__OutputPart_copyPixels_from_part(
     }
 }
 
-unsigned int Imf_3_0__OutputPart_updatePreviewImage(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__OutputPart_updatePreviewImage(
     Imf_OutputPart_t * this_
     , Imf_PreviewRgba_t const * newPixels)
 {
@@ -151,7 +151,7 @@ unsigned int Imf_3_0__OutputPart_updatePreviewImage(
     }
 }
 
-unsigned int Imf_3_0__OutputPart_breakScanLine(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__OutputPart_breakScanLine(
     Imf_OutputPart_t * this_
     , int y
     , int offset

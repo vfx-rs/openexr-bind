@@ -6,7 +6,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0__MultiPartInputFile_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__MultiPartInputFile_ctor(
     Imf_MultiPartInputFile_t * * this_
     , char const * fileName
     , int numThreads
@@ -24,7 +24,7 @@ unsigned int Imf_3_0__MultiPartInputFile_ctor(
     }
 }
 
-unsigned int Imf_3_0__MultiPartInputFile_from_stream(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__MultiPartInputFile_from_stream(
     Imf_MultiPartInputFile_t * * this_
     , Imf_IStream_t * is
     , int numThreads
@@ -39,7 +39,7 @@ unsigned int Imf_3_0__MultiPartInputFile_from_stream(
     }
 }
 
-unsigned int Imf_3_0__MultiPartInputFile_dtor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__MultiPartInputFile_dtor(
     Imf_MultiPartInputFile_t * this_)
 {
     try {
@@ -51,7 +51,7 @@ unsigned int Imf_3_0__MultiPartInputFile_dtor(
     }
 }
 
-unsigned int Imf_3_0__MultiPartInputFile_parts(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__MultiPartInputFile_parts(
     Imf_MultiPartInputFile_t const * this_
     , int * return_)
 {
@@ -64,7 +64,7 @@ unsigned int Imf_3_0__MultiPartInputFile_parts(
     }
 }
 
-unsigned int Imf_3_0__MultiPartInputFile_header(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__MultiPartInputFile_header(
     Imf_MultiPartInputFile_t const * this_
     , Imf_Header_t const * * return_
     , int n)
@@ -78,7 +78,7 @@ unsigned int Imf_3_0__MultiPartInputFile_header(
     }
 }
 
-unsigned int Imf_3_0__MultiPartInputFile_version(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__MultiPartInputFile_version(
     Imf_MultiPartInputFile_t const * this_
     , int * return_)
 {
@@ -91,7 +91,7 @@ unsigned int Imf_3_0__MultiPartInputFile_version(
     }
 }
 
-unsigned int Imf_3_0__MultiPartInputFile_partComplete(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__MultiPartInputFile_partComplete(
     Imf_MultiPartInputFile_t const * this_
     , _Bool * return_
     , int part)
@@ -105,7 +105,7 @@ unsigned int Imf_3_0__MultiPartInputFile_partComplete(
     }
 }
 
-unsigned int Imf_3_0__MultiPartInputFile_flushPartCache(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__MultiPartInputFile_flushPartCache(
     Imf_MultiPartInputFile_t * this_)
 {
     try {

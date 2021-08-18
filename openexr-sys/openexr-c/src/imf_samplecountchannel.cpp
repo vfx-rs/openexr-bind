@@ -9,7 +9,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0__SampleCountChannel_pixelType(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_pixelType(
     Imf_SampleCountChannel_t const * this_
     , Imf_PixelType * return_)
 {
@@ -22,7 +22,7 @@ unsigned int Imf_3_0__SampleCountChannel_pixelType(
     }
 }
 
-unsigned int Imf_3_0__SampleCountChannel_channel(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_channel(
     Imf_SampleCountChannel_t const * this_
     , Imf_Channel_t * return_)
 {
@@ -35,7 +35,7 @@ unsigned int Imf_3_0__SampleCountChannel_channel(
     }
 }
 
-unsigned int Imf_3_0__SampleCountChannel_xSampling(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_xSampling(
     Imf_SampleCountChannel_t const * this_
     , int * return_)
 {
@@ -48,7 +48,7 @@ unsigned int Imf_3_0__SampleCountChannel_xSampling(
     }
 }
 
-unsigned int Imf_3_0__SampleCountChannel_ySampling(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_ySampling(
     Imf_SampleCountChannel_t const * this_
     , int * return_)
 {
@@ -61,7 +61,7 @@ unsigned int Imf_3_0__SampleCountChannel_ySampling(
     }
 }
 
-unsigned int Imf_3_0__SampleCountChannel_pLinear(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_pLinear(
     Imf_SampleCountChannel_t const * this_
     , _Bool * return_)
 {
@@ -74,7 +74,7 @@ unsigned int Imf_3_0__SampleCountChannel_pLinear(
     }
 }
 
-unsigned int Imf_3_0__SampleCountChannel_pixelsPerRow(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_pixelsPerRow(
     Imf_SampleCountChannel_t const * this_
     , int * return_)
 {
@@ -87,7 +87,7 @@ unsigned int Imf_3_0__SampleCountChannel_pixelsPerRow(
     }
 }
 
-unsigned int Imf_3_0__SampleCountChannel_pixelsPerColumn(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_pixelsPerColumn(
     Imf_SampleCountChannel_t const * this_
     , int * return_)
 {
@@ -100,7 +100,7 @@ unsigned int Imf_3_0__SampleCountChannel_pixelsPerColumn(
     }
 }
 
-unsigned int Imf_3_0__SampleCountChannel_numPixels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_numPixels(
     Imf_SampleCountChannel_t const * this_
     , unsigned long * return_)
 {
@@ -113,7 +113,7 @@ unsigned int Imf_3_0__SampleCountChannel_numPixels(
     }
 }
 
-unsigned int Imf_3_0__SampleCountChannel_level(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_level(
     Imf_SampleCountChannel_t * this_
     , Imf_ImageLevel_t * * return_)
 {
@@ -126,7 +126,7 @@ unsigned int Imf_3_0__SampleCountChannel_level(
     }
 }
 
-unsigned int Imf_3_0__SampleCountChannel_level_1(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_level_1(
     Imf_SampleCountChannel_t const * this_
     , Imf_ImageLevel_t const * * return_)
 {
@@ -139,7 +139,7 @@ unsigned int Imf_3_0__SampleCountChannel_level_1(
     }
 }
 
-unsigned int Imf_3_0__SampleCountChannel_slice(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_slice(
     Imf_SampleCountChannel_t const * this_
     , Imf_Slice_t * return_)
 {
@@ -152,7 +152,7 @@ unsigned int Imf_3_0__SampleCountChannel_slice(
     }
 }
 
-unsigned int Imf_3_0__SampleCountChannel_deepLevel(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_deepLevel(
     Imf_SampleCountChannel_t * this_
     , Imf_DeepImageLevel_t * * return_)
 {
@@ -165,7 +165,7 @@ unsigned int Imf_3_0__SampleCountChannel_deepLevel(
     }
 }
 
-unsigned int Imf_3_0__SampleCountChannel_deepLevel_const(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_deepLevel_const(
     Imf_SampleCountChannel_t const * this_
     , Imf_DeepImageLevel_t const * * return_)
 {
@@ -178,7 +178,7 @@ unsigned int Imf_3_0__SampleCountChannel_deepLevel_const(
     }
 }
 
-unsigned int Imf_3_0__SampleCountChannel_index(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_index(
     Imf_SampleCountChannel_t const * this_
     , unsigned int const * * return_
     , int x
@@ -193,7 +193,7 @@ unsigned int Imf_3_0__SampleCountChannel_index(
     }
 }
 
-unsigned int Imf_3_0__SampleCountChannel_at(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_at(
     Imf_SampleCountChannel_t const * this_
     , unsigned int const * * return_
     , int x
@@ -211,7 +211,7 @@ unsigned int Imf_3_0__SampleCountChannel_at(
     }
 }
 
-unsigned int Imf_3_0__SampleCountChannel_row(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_row(
     Imf_SampleCountChannel_t const * this_
     , unsigned int const * * return_
     , int r)
@@ -225,7 +225,7 @@ unsigned int Imf_3_0__SampleCountChannel_row(
     }
 }
 
-unsigned int Imf_3_0__SampleCountChannel_set(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_set(
     Imf_SampleCountChannel_t * this_
     , int x
     , int y
@@ -243,7 +243,7 @@ unsigned int Imf_3_0__SampleCountChannel_set(
     }
 }
 
-unsigned int Imf_3_0__SampleCountChannel_set_row(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_set_row(
     Imf_SampleCountChannel_t * this_
     , int r
     , unsigned int * newNumSamples)
@@ -260,7 +260,7 @@ unsigned int Imf_3_0__SampleCountChannel_set_row(
     }
 }
 
-unsigned int Imf_3_0__SampleCountChannel_clear(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_clear(
     Imf_SampleCountChannel_t * this_)
 {
     try {
@@ -272,7 +272,7 @@ unsigned int Imf_3_0__SampleCountChannel_clear(
     }
 }
 
-unsigned int Imf_3_0__SampleCountChannel_beginEdit(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_beginEdit(
     Imf_SampleCountChannel_t * this_
     , unsigned int * * return_)
 {
@@ -285,7 +285,7 @@ unsigned int Imf_3_0__SampleCountChannel_beginEdit(
     }
 }
 
-unsigned int Imf_3_0__SampleCountChannel_endEdit(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_endEdit(
     Imf_SampleCountChannel_t * this_)
 {
     try {
@@ -297,7 +297,7 @@ unsigned int Imf_3_0__SampleCountChannel_endEdit(
     }
 }
 
-unsigned int Imf_3_0__SampleCountChannel_numSamples(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_numSamples(
     Imf_SampleCountChannel_t const * this_
     , unsigned int const * * return_)
 {
@@ -310,7 +310,7 @@ unsigned int Imf_3_0__SampleCountChannel_numSamples(
     }
 }
 
-unsigned int Imf_3_0__SampleCountChannel_sampleListSizes(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_sampleListSizes(
     Imf_SampleCountChannel_t const * this_
     , unsigned int const * * return_)
 {
@@ -323,7 +323,7 @@ unsigned int Imf_3_0__SampleCountChannel_sampleListSizes(
     }
 }
 
-unsigned int Imf_3_0__SampleCountChannel_sampleListPositions(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_sampleListPositions(
     Imf_SampleCountChannel_t const * this_
     , unsigned long const * * return_)
 {
@@ -336,7 +336,7 @@ unsigned int Imf_3_0__SampleCountChannel_sampleListPositions(
     }
 }
 
-unsigned int Imf_3_0__SampleCountChannel_sampleBufferSize(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel_sampleBufferSize(
     Imf_SampleCountChannel_t const * this_
     , unsigned long * return_)
 {
@@ -349,7 +349,7 @@ unsigned int Imf_3_0__SampleCountChannel_sampleBufferSize(
     }
 }
 
-unsigned int Imf_3_0__SampleCountChannel__Edit_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel__Edit_ctor(
     Imf_SampleCountChannel_Edit_t * * this_
     , Imf_SampleCountChannel_t * level)
 {
@@ -362,7 +362,7 @@ unsigned int Imf_3_0__SampleCountChannel__Edit_ctor(
     }
 }
 
-unsigned int Imf_3_0__SampleCountChannel__Edit_dtor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel__Edit_dtor(
     Imf_SampleCountChannel_Edit_t * this_)
 {
     try {
@@ -374,7 +374,7 @@ unsigned int Imf_3_0__SampleCountChannel__Edit_dtor(
     }
 }
 
-unsigned int Imf_3_0__SampleCountChannel__Edit_sampleCounts(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__SampleCountChannel__Edit_sampleCounts(
     Imf_SampleCountChannel_Edit_t const * this_
     , unsigned int * * return_)
 {

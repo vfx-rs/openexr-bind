@@ -7,17 +7,17 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0__DeepScanLineInputPart_sizeof()
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepScanLineInputPart_sizeof()
 {
         return sizeof(Imf_3_0::DeepScanLineInputPart);
 }
 
-unsigned int Imf_3_0__DeepScanLineInputPart_alignof()
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepScanLineInputPart_alignof()
 {
         return alignof(Imf_3_0::DeepScanLineInputPart);
 }
 
-unsigned int Imf_3_0__DeepScanLineInputPart_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepScanLineInputPart_ctor(
     Imf_DeepScanLineInputPart_t * this_
     , Imf_MultiPartInputFile_t * file
     , int partNumber)
@@ -31,7 +31,7 @@ unsigned int Imf_3_0__DeepScanLineInputPart_ctor(
     }
 }
 
-unsigned int Imf_3_0__DeepScanLineInputPart_fileName(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepScanLineInputPart_fileName(
     Imf_DeepScanLineInputPart_t const * this_
     , char const * * return_)
 {
@@ -44,7 +44,7 @@ unsigned int Imf_3_0__DeepScanLineInputPart_fileName(
     }
 }
 
-unsigned int Imf_3_0__DeepScanLineInputPart_header(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepScanLineInputPart_header(
     Imf_DeepScanLineInputPart_t const * this_
     , Imf_Header_t const * * return_)
 {
@@ -57,7 +57,7 @@ unsigned int Imf_3_0__DeepScanLineInputPart_header(
     }
 }
 
-unsigned int Imf_3_0__DeepScanLineInputPart_version(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepScanLineInputPart_version(
     Imf_DeepScanLineInputPart_t const * this_
     , int * return_)
 {
@@ -70,7 +70,7 @@ unsigned int Imf_3_0__DeepScanLineInputPart_version(
     }
 }
 
-unsigned int Imf_3_0__DeepScanLineInputPart_setFrameBuffer(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepScanLineInputPart_setFrameBuffer(
     Imf_DeepScanLineInputPart_t * this_
     , Imf_DeepFrameBuffer_t const * frameBuffer)
 {
@@ -86,7 +86,7 @@ unsigned int Imf_3_0__DeepScanLineInputPart_setFrameBuffer(
     }
 }
 
-unsigned int Imf_3_0__DeepScanLineInputPart_frameBuffer(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepScanLineInputPart_frameBuffer(
     Imf_DeepScanLineInputPart_t const * this_
     , Imf_DeepFrameBuffer_t const * * return_)
 {
@@ -99,7 +99,7 @@ unsigned int Imf_3_0__DeepScanLineInputPart_frameBuffer(
     }
 }
 
-unsigned int Imf_3_0__DeepScanLineInputPart_isComplete(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepScanLineInputPart_isComplete(
     Imf_DeepScanLineInputPart_t const * this_
     , _Bool * return_)
 {
@@ -112,7 +112,7 @@ unsigned int Imf_3_0__DeepScanLineInputPart_isComplete(
     }
 }
 
-unsigned int Imf_3_0__DeepScanLineInputPart_readPixels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepScanLineInputPart_readPixels(
     Imf_DeepScanLineInputPart_t * this_
     , int scanLine1
     , int scanLine2)
@@ -132,7 +132,7 @@ unsigned int Imf_3_0__DeepScanLineInputPart_readPixels(
     }
 }
 
-unsigned int Imf_3_0__DeepScanLineInputPart_readPixels_from_frame_buffer(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepScanLineInputPart_readPixels_from_frame_buffer(
     Imf_DeepScanLineInputPart_t const * this_
     , char const * rawPixelData
     , Imf_DeepFrameBuffer_t const * frameBuffer
@@ -154,7 +154,7 @@ unsigned int Imf_3_0__DeepScanLineInputPart_readPixels_from_frame_buffer(
     }
 }
 
-unsigned int Imf_3_0__DeepScanLineInputPart_rawPixelData(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepScanLineInputPart_rawPixelData(
     Imf_DeepScanLineInputPart_t * this_
     , int firstScanLine
     , char * pixelData
@@ -169,7 +169,7 @@ unsigned int Imf_3_0__DeepScanLineInputPart_rawPixelData(
     }
 }
 
-unsigned int Imf_3_0__DeepScanLineInputPart_readPixelSampleCounts(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepScanLineInputPart_readPixelSampleCounts(
     Imf_DeepScanLineInputPart_t * this_
     , int scanline1
     , int scanline2)
@@ -186,7 +186,7 @@ unsigned int Imf_3_0__DeepScanLineInputPart_readPixelSampleCounts(
     }
 }
 
-unsigned int Imf_3_0__DeepScanLineInputPart_readPixelSampleCounts_into_frame_buffer(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepScanLineInputPart_readPixelSampleCounts_into_frame_buffer(
     Imf_DeepScanLineInputPart_t const * this_
     , char const * rawdata
     , Imf_DeepFrameBuffer_t const * frameBuffer
@@ -205,7 +205,7 @@ unsigned int Imf_3_0__DeepScanLineInputPart_readPixelSampleCounts_into_frame_buf
     }
 }
 
-unsigned int Imf_3_0__DeepScanLineInputPart_firstScanLineInChunk(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepScanLineInputPart_firstScanLineInChunk(
     Imf_DeepScanLineInputPart_t const * this_
     , int * return_
     , int y)
@@ -219,7 +219,7 @@ unsigned int Imf_3_0__DeepScanLineInputPart_firstScanLineInChunk(
     }
 }
 
-unsigned int Imf_3_0__DeepScanLineInputPart_lastScanLineInChunk(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepScanLineInputPart_lastScanLineInChunk(
     Imf_DeepScanLineInputPart_t const * this_
     , int * return_
     , int y)

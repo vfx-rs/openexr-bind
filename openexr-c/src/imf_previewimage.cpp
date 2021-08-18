@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0__PreviewRgba_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__PreviewRgba_ctor(
     Imf_PreviewRgba_t * this_
     , unsigned char r
     , unsigned char g
@@ -20,7 +20,7 @@ unsigned int Imf_3_0__PreviewRgba_ctor(
     }
 }
 
-unsigned int Imf_3_0__PreviewImage_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__PreviewImage_ctor(
     Imf_PreviewImage_t * * this_
     , unsigned int width
     , unsigned int height
@@ -38,7 +38,7 @@ unsigned int Imf_3_0__PreviewImage_ctor(
     }
 }
 
-unsigned int Imf_3_0__PreviewImage_copy(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__PreviewImage_copy(
     Imf_PreviewImage_t * * this_
     , Imf_PreviewImage_t const * other)
 {
@@ -51,7 +51,7 @@ unsigned int Imf_3_0__PreviewImage_copy(
     }
 }
 
-unsigned int Imf_3_0__PreviewImage_dtor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__PreviewImage_dtor(
     Imf_PreviewImage_t * this_)
 {
     try {
@@ -63,7 +63,7 @@ unsigned int Imf_3_0__PreviewImage_dtor(
     }
 }
 
-unsigned int Imf_3_0__PreviewImage__assign(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__PreviewImage__assign(
     Imf_PreviewImage_t * this_
     , Imf_PreviewImage_t * * return_
     , Imf_PreviewImage_t const * other)
@@ -77,7 +77,7 @@ unsigned int Imf_3_0__PreviewImage__assign(
     }
 }
 
-unsigned int Imf_3_0__PreviewImage_width(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__PreviewImage_width(
     Imf_PreviewImage_t const * this_
     , unsigned int * return_)
 {
@@ -90,7 +90,7 @@ unsigned int Imf_3_0__PreviewImage_width(
     }
 }
 
-unsigned int Imf_3_0__PreviewImage_height(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__PreviewImage_height(
     Imf_PreviewImage_t const * this_
     , unsigned int * return_)
 {
@@ -103,7 +103,7 @@ unsigned int Imf_3_0__PreviewImage_height(
     }
 }
 
-unsigned int Imf_3_0__PreviewImage_pixels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__PreviewImage_pixels(
     Imf_PreviewImage_t * this_
     , Imf_PreviewRgba_t * * return_)
 {
@@ -116,7 +116,7 @@ unsigned int Imf_3_0__PreviewImage_pixels(
     }
 }
 
-unsigned int Imf_3_0__PreviewImage_pixels_const(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__PreviewImage_pixels_const(
     Imf_PreviewImage_t const * this_
     , Imf_PreviewRgba_t const * * return_)
 {
@@ -129,7 +129,7 @@ unsigned int Imf_3_0__PreviewImage_pixels_const(
     }
 }
 
-unsigned int Imf_3_0__PreviewImage_pixel(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__PreviewImage_pixel(
     Imf_PreviewImage_t * this_
     , Imf_PreviewRgba_t * * return_
     , unsigned int x
@@ -144,7 +144,7 @@ unsigned int Imf_3_0__PreviewImage_pixel(
     }
 }
 
-unsigned int Imf_3_0__PreviewImage_pixel_const(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__PreviewImage_pixel_const(
     Imf_PreviewImage_t const * this_
     , Imf_PreviewRgba_t const * * return_
     , unsigned int x

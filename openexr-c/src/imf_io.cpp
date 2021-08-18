@@ -3,7 +3,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0__OStream_dtor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__OStream_dtor(
     Imf_OStream_t * this_)
 {
     try {
@@ -15,7 +15,7 @@ unsigned int Imf_3_0__OStream_dtor(
     }
 }
 
-unsigned int Imf_3_0__OStream_write(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__OStream_write(
     Imf_OStream_t * this_
     , char const * c
     , int n)
@@ -29,9 +29,9 @@ unsigned int Imf_3_0__OStream_write(
     }
 }
 
-unsigned int Imf_3_0__OStream_tellp(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__OStream_tellp(
     Imf_OStream_t * this_
-    , unsigned long * return_)
+    , uint64_t * return_)
 {
     try {
         *(return_) = (to_cpp(this_)) -> tellp();
@@ -42,9 +42,9 @@ unsigned int Imf_3_0__OStream_tellp(
     }
 }
 
-unsigned int Imf_3_0__OStream_seekp(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__OStream_seekp(
     Imf_OStream_t * this_
-    , unsigned long pos)
+    , uint64_t pos)
 {
     try {
         (to_cpp(this_)) -> seekp(pos);
@@ -55,7 +55,7 @@ unsigned int Imf_3_0__OStream_seekp(
     }
 }
 
-unsigned int Imf_3_0__OStream_fileName(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__OStream_fileName(
     Imf_OStream_t const * this_
     , char const * * return_)
 {
@@ -68,7 +68,7 @@ unsigned int Imf_3_0__OStream_fileName(
     }
 }
 
-unsigned int Imf_3_0__IStream_dtor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__IStream_dtor(
     Imf_IStream_t * this_)
 {
     try {
@@ -80,7 +80,7 @@ unsigned int Imf_3_0__IStream_dtor(
     }
 }
 
-unsigned int Imf_3_0__IStream_isMemoryMapped(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__IStream_isMemoryMapped(
     Imf_IStream_t const * this_
     , _Bool * return_)
 {
@@ -93,7 +93,7 @@ unsigned int Imf_3_0__IStream_isMemoryMapped(
     }
 }
 
-unsigned int Imf_3_0__IStream_read(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__IStream_read(
     Imf_IStream_t * this_
     , _Bool * return_
     , char * c
@@ -108,7 +108,7 @@ unsigned int Imf_3_0__IStream_read(
     }
 }
 
-unsigned int Imf_3_0__IStream_readMemoryMapped(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__IStream_readMemoryMapped(
     Imf_IStream_t * this_
     , char * * return_
     , int n)
@@ -122,9 +122,9 @@ unsigned int Imf_3_0__IStream_readMemoryMapped(
     }
 }
 
-unsigned int Imf_3_0__IStream_tellg(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__IStream_tellg(
     Imf_IStream_t * this_
-    , unsigned long * return_)
+    , uint64_t * return_)
 {
     try {
         *(return_) = (to_cpp(this_)) -> tellg();
@@ -135,9 +135,9 @@ unsigned int Imf_3_0__IStream_tellg(
     }
 }
 
-unsigned int Imf_3_0__IStream_seekg(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__IStream_seekg(
     Imf_IStream_t * this_
-    , unsigned long pos)
+    , uint64_t pos)
 {
     try {
         (to_cpp(this_)) -> seekg(pos);
@@ -148,7 +148,7 @@ unsigned int Imf_3_0__IStream_seekg(
     }
 }
 
-unsigned int Imf_3_0__IStream_clear(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__IStream_clear(
     Imf_IStream_t * this_)
 {
     try {
@@ -160,7 +160,7 @@ unsigned int Imf_3_0__IStream_clear(
     }
 }
 
-unsigned int Imf_3_0__IStream_fileName(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__IStream_fileName(
     Imf_IStream_t const * this_
     , char const * * return_)
 {

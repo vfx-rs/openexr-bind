@@ -5,7 +5,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0__Rgba_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__Rgba_ctor(
     Imf_Rgba_t * this_)
 {
     try {
@@ -17,7 +17,7 @@ unsigned int Imf_3_0__Rgba_ctor(
     }
 }
 
-unsigned int Imf_3_0__Rgba_ctor_1(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__Rgba_ctor_1(
     Imf_Rgba_t * this_
     , Imath_half_t r
     , Imath_half_t g
@@ -33,7 +33,7 @@ unsigned int Imf_3_0__Rgba_ctor_1(
     }
 }
 
-unsigned int Imf_3_0__Rgba_copy(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__Rgba_copy(
     Imf_Rgba_t * this_
     , Imf_Rgba_t const * rhs)
 {
@@ -46,7 +46,7 @@ unsigned int Imf_3_0__Rgba_copy(
     }
 }
 
-unsigned int Imf_3_0__Rgba_move(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__Rgba_move(
     Imf_Rgba_t * this_
     , Imf_Rgba_t * rhs)
 {
@@ -59,7 +59,7 @@ unsigned int Imf_3_0__Rgba_move(
     }
 }
 
-unsigned int Imf_3_0__Rgba_dtor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__Rgba_dtor(
     Imf_Rgba_t * this_)
 {
     try {

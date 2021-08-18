@@ -14,7 +14,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0__RgbaOutputFile_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaOutputFile_ctor(
     Imf_RgbaOutputFile_t * * this_
     , char const * name
     , Imf_Header_t const * header
@@ -36,7 +36,7 @@ unsigned int Imf_3_0__RgbaOutputFile_ctor(
     }
 }
 
-unsigned int Imf_3_0__RgbaOutputFile_from_stream(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaOutputFile_from_stream(
     Imf_RgbaOutputFile_t * * this_
     , Imf_OStream_t * os
     , Imf_Header_t const * header
@@ -58,7 +58,7 @@ unsigned int Imf_3_0__RgbaOutputFile_from_stream(
     }
 }
 
-unsigned int Imf_3_0__RgbaOutputFile_with_windows(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaOutputFile_with_windows(
     Imf_RgbaOutputFile_t * * this_
     , char const * name
     , Imath_Box2i_t const * displayWindow
@@ -86,7 +86,7 @@ unsigned int Imf_3_0__RgbaOutputFile_with_windows(
     }
 }
 
-unsigned int Imf_3_0__RgbaOutputFile_with_dimensions(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaOutputFile_with_dimensions(
     Imf_RgbaOutputFile_t * * this_
     , char const * name
     , int width
@@ -114,7 +114,7 @@ unsigned int Imf_3_0__RgbaOutputFile_with_dimensions(
     }
 }
 
-unsigned int Imf_3_0__RgbaOutputFile_dtor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaOutputFile_dtor(
     Imf_RgbaOutputFile_t * this_)
 {
     try {
@@ -126,7 +126,7 @@ unsigned int Imf_3_0__RgbaOutputFile_dtor(
     }
 }
 
-unsigned int Imf_3_0__RgbaOutputFile_setFrameBuffer(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaOutputFile_setFrameBuffer(
     Imf_RgbaOutputFile_t * this_
     , Imf_Rgba_t const * base
     , unsigned long xStride
@@ -144,7 +144,7 @@ unsigned int Imf_3_0__RgbaOutputFile_setFrameBuffer(
     }
 }
 
-unsigned int Imf_3_0__RgbaOutputFile_writePixels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaOutputFile_writePixels(
     Imf_RgbaOutputFile_t * this_
     , int numScanLines)
 {
@@ -163,7 +163,7 @@ unsigned int Imf_3_0__RgbaOutputFile_writePixels(
     }
 }
 
-unsigned int Imf_3_0__RgbaOutputFile_currentScanLine(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaOutputFile_currentScanLine(
     Imf_RgbaOutputFile_t const * this_
     , int * return_)
 {
@@ -176,7 +176,7 @@ unsigned int Imf_3_0__RgbaOutputFile_currentScanLine(
     }
 }
 
-unsigned int Imf_3_0__RgbaOutputFile_header(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaOutputFile_header(
     Imf_RgbaOutputFile_t const * this_
     , Imf_Header_t const * * return_)
 {
@@ -189,7 +189,7 @@ unsigned int Imf_3_0__RgbaOutputFile_header(
     }
 }
 
-unsigned int Imf_3_0__RgbaOutputFile_frameBuffer(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaOutputFile_frameBuffer(
     Imf_RgbaOutputFile_t const * this_
     , Imf_FrameBuffer_t const * * return_)
 {
@@ -202,7 +202,7 @@ unsigned int Imf_3_0__RgbaOutputFile_frameBuffer(
     }
 }
 
-unsigned int Imf_3_0__RgbaOutputFile_displayWindow(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaOutputFile_displayWindow(
     Imf_RgbaOutputFile_t const * this_
     , Imath_Box2i_t const * * return_)
 {
@@ -215,7 +215,7 @@ unsigned int Imf_3_0__RgbaOutputFile_displayWindow(
     }
 }
 
-unsigned int Imf_3_0__RgbaOutputFile_dataWindow(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaOutputFile_dataWindow(
     Imf_RgbaOutputFile_t const * this_
     , Imath_Box2i_t const * * return_)
 {
@@ -228,7 +228,7 @@ unsigned int Imf_3_0__RgbaOutputFile_dataWindow(
     }
 }
 
-unsigned int Imf_3_0__RgbaOutputFile_pixelAspectRatio(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaOutputFile_pixelAspectRatio(
     Imf_RgbaOutputFile_t const * this_
     , float * return_)
 {
@@ -241,7 +241,7 @@ unsigned int Imf_3_0__RgbaOutputFile_pixelAspectRatio(
     }
 }
 
-unsigned int Imf_3_0__RgbaOutputFile_screenWindowCenter(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaOutputFile_screenWindowCenter(
     Imf_RgbaOutputFile_t const * this_
     , Imath_V2f_t * return_)
 {
@@ -254,7 +254,7 @@ unsigned int Imf_3_0__RgbaOutputFile_screenWindowCenter(
     }
 }
 
-unsigned int Imf_3_0__RgbaOutputFile_screenWindowWidth(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaOutputFile_screenWindowWidth(
     Imf_RgbaOutputFile_t const * this_
     , float * return_)
 {
@@ -267,7 +267,7 @@ unsigned int Imf_3_0__RgbaOutputFile_screenWindowWidth(
     }
 }
 
-unsigned int Imf_3_0__RgbaOutputFile_lineOrder(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaOutputFile_lineOrder(
     Imf_RgbaOutputFile_t const * this_
     , Imf_LineOrder * return_)
 {
@@ -280,7 +280,7 @@ unsigned int Imf_3_0__RgbaOutputFile_lineOrder(
     }
 }
 
-unsigned int Imf_3_0__RgbaOutputFile_compression(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaOutputFile_compression(
     Imf_RgbaOutputFile_t const * this_
     , Imf_Compression * return_)
 {
@@ -293,7 +293,7 @@ unsigned int Imf_3_0__RgbaOutputFile_compression(
     }
 }
 
-unsigned int Imf_3_0__RgbaOutputFile_channels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaOutputFile_channels(
     Imf_RgbaOutputFile_t const * this_
     , Imf_RgbaChannels * return_)
 {
@@ -306,7 +306,7 @@ unsigned int Imf_3_0__RgbaOutputFile_channels(
     }
 }
 
-unsigned int Imf_3_0__RgbaOutputFile_updatePreviewImage(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaOutputFile_updatePreviewImage(
     Imf_RgbaOutputFile_t * this_
     , Imf_PreviewRgba_t const * preview)
 {
@@ -325,7 +325,7 @@ unsigned int Imf_3_0__RgbaOutputFile_updatePreviewImage(
     }
 }
 
-unsigned int Imf_3_0__RgbaOutputFile_setYCRounding(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaOutputFile_setYCRounding(
     Imf_RgbaOutputFile_t * this_
     , unsigned int roundY
     , unsigned int roundC)
@@ -339,7 +339,7 @@ unsigned int Imf_3_0__RgbaOutputFile_setYCRounding(
     }
 }
 
-unsigned int Imf_3_0__RgbaInputFile_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaInputFile_ctor(
     Imf_RgbaInputFile_t * * this_
     , char const * name
     , int numThreads)
@@ -359,7 +359,7 @@ unsigned int Imf_3_0__RgbaInputFile_ctor(
     }
 }
 
-unsigned int Imf_3_0__RgbaInputFile_from_stream(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaInputFile_from_stream(
     Imf_RgbaInputFile_t * * this_
     , Imf_IStream_t * is
     , int numThreads)
@@ -379,7 +379,7 @@ unsigned int Imf_3_0__RgbaInputFile_from_stream(
     }
 }
 
-unsigned int Imf_3_0__RgbaInputFile_with_layer(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaInputFile_with_layer(
     Imf_RgbaInputFile_t * * this_
     , char const * name
     , std_string_t const * layerName
@@ -400,7 +400,7 @@ unsigned int Imf_3_0__RgbaInputFile_with_layer(
     }
 }
 
-unsigned int Imf_3_0__RgbaInputFile_from_stream_with_layer(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaInputFile_from_stream_with_layer(
     Imf_RgbaInputFile_t * * this_
     , Imf_IStream_t * is
     , std_string_t const * layerName
@@ -421,7 +421,7 @@ unsigned int Imf_3_0__RgbaInputFile_from_stream_with_layer(
     }
 }
 
-unsigned int Imf_3_0__RgbaInputFile_dtor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaInputFile_dtor(
     Imf_RgbaInputFile_t * this_)
 {
     try {
@@ -433,7 +433,7 @@ unsigned int Imf_3_0__RgbaInputFile_dtor(
     }
 }
 
-unsigned int Imf_3_0__RgbaInputFile_setFrameBuffer(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaInputFile_setFrameBuffer(
     Imf_RgbaInputFile_t * this_
     , Imf_Rgba_t * base
     , unsigned long xStride
@@ -451,7 +451,7 @@ unsigned int Imf_3_0__RgbaInputFile_setFrameBuffer(
     }
 }
 
-unsigned int Imf_3_0__RgbaInputFile_setLayerName(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaInputFile_setLayerName(
     Imf_RgbaInputFile_t * this_
     , std_string_t const * layerName)
 {
@@ -464,7 +464,7 @@ unsigned int Imf_3_0__RgbaInputFile_setLayerName(
     }
 }
 
-unsigned int Imf_3_0__RgbaInputFile_readPixels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaInputFile_readPixels(
     Imf_RgbaInputFile_t * this_
     , int scanLine1
     , int scanLine2)
@@ -481,7 +481,7 @@ unsigned int Imf_3_0__RgbaInputFile_readPixels(
     }
 }
 
-unsigned int Imf_3_0__RgbaInputFile_header(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaInputFile_header(
     Imf_RgbaInputFile_t const * this_
     , Imf_Header_t const * * return_)
 {
@@ -494,7 +494,7 @@ unsigned int Imf_3_0__RgbaInputFile_header(
     }
 }
 
-unsigned int Imf_3_0__RgbaInputFile_frameBuffer(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaInputFile_frameBuffer(
     Imf_RgbaInputFile_t const * this_
     , Imf_FrameBuffer_t const * * return_)
 {
@@ -507,7 +507,7 @@ unsigned int Imf_3_0__RgbaInputFile_frameBuffer(
     }
 }
 
-unsigned int Imf_3_0__RgbaInputFile_displayWindow(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaInputFile_displayWindow(
     Imf_RgbaInputFile_t const * this_
     , Imath_Box2i_t const * * return_)
 {
@@ -520,7 +520,7 @@ unsigned int Imf_3_0__RgbaInputFile_displayWindow(
     }
 }
 
-unsigned int Imf_3_0__RgbaInputFile_dataWindow(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaInputFile_dataWindow(
     Imf_RgbaInputFile_t const * this_
     , Imath_Box2i_t const * * return_)
 {
@@ -533,7 +533,7 @@ unsigned int Imf_3_0__RgbaInputFile_dataWindow(
     }
 }
 
-unsigned int Imf_3_0__RgbaInputFile_pixelAspectRatio(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaInputFile_pixelAspectRatio(
     Imf_RgbaInputFile_t const * this_
     , float * return_)
 {
@@ -546,7 +546,7 @@ unsigned int Imf_3_0__RgbaInputFile_pixelAspectRatio(
     }
 }
 
-unsigned int Imf_3_0__RgbaInputFile_screenWindowCenter(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaInputFile_screenWindowCenter(
     Imf_RgbaInputFile_t const * this_
     , Imath_V2f_t * return_)
 {
@@ -559,7 +559,7 @@ unsigned int Imf_3_0__RgbaInputFile_screenWindowCenter(
     }
 }
 
-unsigned int Imf_3_0__RgbaInputFile_screenWindowWidth(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaInputFile_screenWindowWidth(
     Imf_RgbaInputFile_t const * this_
     , float * return_)
 {
@@ -572,7 +572,7 @@ unsigned int Imf_3_0__RgbaInputFile_screenWindowWidth(
     }
 }
 
-unsigned int Imf_3_0__RgbaInputFile_lineOrder(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaInputFile_lineOrder(
     Imf_RgbaInputFile_t const * this_
     , Imf_LineOrder * return_)
 {
@@ -585,7 +585,7 @@ unsigned int Imf_3_0__RgbaInputFile_lineOrder(
     }
 }
 
-unsigned int Imf_3_0__RgbaInputFile_compression(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaInputFile_compression(
     Imf_RgbaInputFile_t const * this_
     , Imf_Compression * return_)
 {
@@ -598,7 +598,7 @@ unsigned int Imf_3_0__RgbaInputFile_compression(
     }
 }
 
-unsigned int Imf_3_0__RgbaInputFile_channels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaInputFile_channels(
     Imf_RgbaInputFile_t const * this_
     , Imf_RgbaChannels * return_)
 {
@@ -611,7 +611,7 @@ unsigned int Imf_3_0__RgbaInputFile_channels(
     }
 }
 
-unsigned int Imf_3_0__RgbaInputFile_fileName(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaInputFile_fileName(
     Imf_RgbaInputFile_t const * this_
     , char const * * return_)
 {
@@ -624,7 +624,7 @@ unsigned int Imf_3_0__RgbaInputFile_fileName(
     }
 }
 
-unsigned int Imf_3_0__RgbaInputFile_isComplete(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaInputFile_isComplete(
     Imf_RgbaInputFile_t const * this_
     , _Bool * return_)
 {
@@ -637,7 +637,7 @@ unsigned int Imf_3_0__RgbaInputFile_isComplete(
     }
 }
 
-unsigned int Imf_3_0__RgbaInputFile_version(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaInputFile_version(
     Imf_RgbaInputFile_t const * this_
     , int * return_)
 {
@@ -650,7 +650,7 @@ unsigned int Imf_3_0__RgbaInputFile_version(
     }
 }
 
-unsigned int Imf_3_0_ComputeBasePointer(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_ComputeBasePointer(
     Imf_Rgba_t * * return_
     , Imf_Rgba_t * ptr
     , Imath_Box2i_t const * dataWindow)

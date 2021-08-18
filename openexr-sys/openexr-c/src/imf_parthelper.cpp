@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0__MultiViewChannelName_copy(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__MultiViewChannelName_copy(
     Imf_MultiViewChannelName_t * * this_
     , Imf_MultiViewChannelName_t const * rhs)
 {
@@ -17,7 +17,7 @@ unsigned int Imf_3_0__MultiViewChannelName_copy(
     }
 }
 
-unsigned int Imf_3_0__MultiViewChannelName_move(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__MultiViewChannelName_move(
     Imf_MultiViewChannelName_t * * this_
     , Imf_MultiViewChannelName_t * rhs)
 {
@@ -30,14 +30,14 @@ unsigned int Imf_3_0__MultiViewChannelName_move(
     }
 }
 
-unsigned int Imf_3_0__MultiViewChannelName_dtor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__MultiViewChannelName_dtor(
     Imf_MultiViewChannelName_t * this_)
 {
         delete to_cpp(this_);
         return 0;
 }
 
-unsigned int Imf_3_0__MultiViewChannelName_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__MultiViewChannelName_ctor(
     Imf_MultiViewChannelName_t * * this_)
 {
         to_c(this_, new Imf_3_0::MultiViewChannelName());

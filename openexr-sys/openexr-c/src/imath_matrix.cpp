@@ -5,7 +5,7 @@
 
 #include <stdexcept>
 
-unsigned int Imath_3_0__Matrix33_float__row(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__row(
     Imath_M33f_t * this_
     , float * * return_
     , int i)
@@ -14,7 +14,7 @@ unsigned int Imath_3_0__Matrix33_float__row(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__row_const(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__row_const(
     Imath_M33f_t const * this_
     , float const * * return_
     , int i)
@@ -23,7 +23,7 @@ unsigned int Imath_3_0__Matrix33_float__row_const(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__uninitialized(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__uninitialized(
     Imath_M33f_t * this_
     , Imath_Uninitialized _unused)
 {
@@ -31,14 +31,14 @@ unsigned int Imath_3_0__Matrix33_float__uninitialized(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__identity(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__identity(
     Imath_M33f_t * this_)
 {
         new (this_) Imath_3_0::Matrix33<float>();
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__broadcast(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__broadcast(
     Imath_M33f_t * this_
     , float a)
 {
@@ -46,7 +46,7 @@ unsigned int Imath_3_0__Matrix33_float__broadcast(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__from_array(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__from_array(
     Imath_M33f_t * this_
     , float const a[3][3])
 {
@@ -54,7 +54,7 @@ unsigned int Imath_3_0__Matrix33_float__from_array(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__ctor(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__ctor(
     Imath_M33f_t * this_
     , float a
     , float b
@@ -70,7 +70,7 @@ unsigned int Imath_3_0__Matrix33_float__ctor(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__ctor_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__ctor_1(
     Imath_M33f_t * this_
     , Imath_M33f_t const * v)
 {
@@ -83,7 +83,7 @@ unsigned int Imath_3_0__Matrix33_float__ctor_1(
     }
 }
 
-unsigned int Imath_3_0__Matrix33_float___assign(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float___assign(
     Imath_M33f_t * this_
     , Imath_M33f_t const * * return_
     , Imath_M33f_t const * v)
@@ -97,14 +97,14 @@ unsigned int Imath_3_0__Matrix33_float___assign(
     }
 }
 
-unsigned int Imath_3_0__Matrix33_float__dtor(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__dtor(
     Imath_M33f_t * this_)
 {
         (to_cpp(this_)) -> Imath_3_0::Matrix33<float>::~Matrix33();
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__getValue(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__getValue(
     Imath_M33f_t * this_
     , float * * return_)
 {
@@ -112,7 +112,7 @@ unsigned int Imath_3_0__Matrix33_float__getValue(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__getValue_const(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__getValue_const(
     Imath_M33f_t const * this_
     , float const * * return_)
 {
@@ -120,7 +120,7 @@ unsigned int Imath_3_0__Matrix33_float__getValue_const(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float___eq(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float___eq(
     Imath_M33f_t const * this_
     , _Bool * return_
     , Imath_M33f_t const * v)
@@ -129,7 +129,7 @@ unsigned int Imath_3_0__Matrix33_float___eq(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float___ne(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float___ne(
     Imath_M33f_t const * this_
     , _Bool * return_
     , Imath_M33f_t const * v)
@@ -138,7 +138,7 @@ unsigned int Imath_3_0__Matrix33_float___ne(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__equalWithAbsError(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__equalWithAbsError(
     Imath_M33f_t const * this_
     , _Bool * return_
     , Imath_M33f_t const * v
@@ -148,7 +148,7 @@ unsigned int Imath_3_0__Matrix33_float__equalWithAbsError(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__equalWithRelError(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__equalWithRelError(
     Imath_M33f_t const * this_
     , _Bool * return_
     , Imath_M33f_t const * v
@@ -158,7 +158,7 @@ unsigned int Imath_3_0__Matrix33_float__equalWithRelError(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float___op_iadd(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float___op_iadd(
     Imath_M33f_t * this_
     , Imath_M33f_t const * * return_
     , Imath_M33f_t const * v)
@@ -167,7 +167,7 @@ unsigned int Imath_3_0__Matrix33_float___op_iadd(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__add_assign_scalar(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__add_assign_scalar(
     Imath_M33f_t * this_
     , Imath_M33f_t const * * return_
     , float a)
@@ -176,7 +176,7 @@ unsigned int Imath_3_0__Matrix33_float__add_assign_scalar(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float___op_add(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float___op_add(
     Imath_M33f_t const * this_
     , Imath_M33f_t * return_
     , Imath_M33f_t const * v)
@@ -185,7 +185,7 @@ unsigned int Imath_3_0__Matrix33_float___op_add(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float___op_isub(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float___op_isub(
     Imath_M33f_t * this_
     , Imath_M33f_t const * * return_
     , Imath_M33f_t const * v)
@@ -194,7 +194,7 @@ unsigned int Imath_3_0__Matrix33_float___op_isub(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__sub_assign_scalar(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__sub_assign_scalar(
     Imath_M33f_t * this_
     , Imath_M33f_t const * * return_
     , float a)
@@ -203,7 +203,7 @@ unsigned int Imath_3_0__Matrix33_float__sub_assign_scalar(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float___op_sub(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float___op_sub(
     Imath_M33f_t const * this_
     , Imath_M33f_t * return_
     , Imath_M33f_t const * v)
@@ -212,7 +212,7 @@ unsigned int Imath_3_0__Matrix33_float___op_sub(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float___op_sub_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float___op_sub_1(
     Imath_M33f_t const * this_
     , Imath_M33f_t * return_)
 {
@@ -220,7 +220,7 @@ unsigned int Imath_3_0__Matrix33_float___op_sub_1(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__negate(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__negate(
     Imath_M33f_t * this_
     , Imath_M33f_t const * * return_)
 {
@@ -228,7 +228,7 @@ unsigned int Imath_3_0__Matrix33_float__negate(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__mul_assign_scalar(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__mul_assign_scalar(
     Imath_M33f_t * this_
     , Imath_M33f_t const * * return_
     , float a)
@@ -237,7 +237,7 @@ unsigned int Imath_3_0__Matrix33_float__mul_assign_scalar(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__mul_scalar(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__mul_scalar(
     Imath_M33f_t const * this_
     , Imath_M33f_t * return_
     , float a)
@@ -246,7 +246,7 @@ unsigned int Imath_3_0__Matrix33_float__mul_scalar(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__div_assign_scalar(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__div_assign_scalar(
     Imath_M33f_t * this_
     , Imath_M33f_t const * * return_
     , float a)
@@ -255,7 +255,7 @@ unsigned int Imath_3_0__Matrix33_float__div_assign_scalar(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__div_scalar(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__div_scalar(
     Imath_M33f_t const * this_
     , Imath_M33f_t * return_
     , float a)
@@ -264,7 +264,7 @@ unsigned int Imath_3_0__Matrix33_float__div_scalar(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float___op_imul(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float___op_imul(
     Imath_M33f_t * this_
     , Imath_M33f_t const * * return_
     , Imath_M33f_t const * v)
@@ -273,7 +273,7 @@ unsigned int Imath_3_0__Matrix33_float___op_imul(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float___op_mul(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float___op_mul(
     Imath_M33f_t const * this_
     , Imath_M33f_t * return_
     , Imath_M33f_t const * v)
@@ -282,14 +282,14 @@ unsigned int Imath_3_0__Matrix33_float___op_mul(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__makeIdentity(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__makeIdentity(
     Imath_M33f_t * this_)
 {
         (to_cpp(this_)) -> makeIdentity();
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__transpose(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__transpose(
     Imath_M33f_t * this_
     , Imath_M33f_t const * * return_)
 {
@@ -297,7 +297,7 @@ unsigned int Imath_3_0__Matrix33_float__transpose(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__transposed(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__transposed(
     Imath_M33f_t const * this_
     , Imath_M33f_t * return_)
 {
@@ -305,7 +305,7 @@ unsigned int Imath_3_0__Matrix33_float__transposed(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__invert(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__invert(
     Imath_M33f_t * this_
     , Imath_M33f_t const * * return_)
 {
@@ -313,7 +313,7 @@ unsigned int Imath_3_0__Matrix33_float__invert(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__inverse(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__inverse(
     Imath_M33f_t const * this_
     , Imath_M33f_t * return_)
 {
@@ -321,7 +321,7 @@ unsigned int Imath_3_0__Matrix33_float__inverse(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__gjInvert(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__gjInvert(
     Imath_M33f_t * this_
     , Imath_M33f_t const * * return_)
 {
@@ -329,7 +329,7 @@ unsigned int Imath_3_0__Matrix33_float__gjInvert(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__gjInverse(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__gjInverse(
     Imath_M33f_t const * this_
     , Imath_M33f_t * return_)
 {
@@ -337,7 +337,7 @@ unsigned int Imath_3_0__Matrix33_float__gjInverse(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__minorOf(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__minorOf(
     Imath_M33f_t const * this_
     , float * return_
     , int const r
@@ -347,7 +347,7 @@ unsigned int Imath_3_0__Matrix33_float__minorOf(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__fastMinor(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__fastMinor(
     Imath_M33f_t const * this_
     , float * return_
     , int const r0
@@ -359,7 +359,7 @@ unsigned int Imath_3_0__Matrix33_float__fastMinor(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__determinant(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__determinant(
     Imath_M33f_t const * this_
     , float * return_)
 {
@@ -367,7 +367,7 @@ unsigned int Imath_3_0__Matrix33_float__determinant(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__setScale(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__setScale(
     Imath_M33f_t * this_
     , Imath_M33f_t const * * return_
     , float s)
@@ -376,7 +376,7 @@ unsigned int Imath_3_0__Matrix33_float__setScale(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__translation(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__translation(
     Imath_M33f_t const * this_
     , Imath_V2f_t * return_)
 {
@@ -384,42 +384,42 @@ unsigned int Imath_3_0__Matrix33_float__translation(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__baseTypeLowest(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__baseTypeLowest(
     float * return_)
 {
         *(return_) = Imath_3_0::Matrix33<float>::baseTypeLowest();
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__baseTypeMax(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__baseTypeMax(
     float * return_)
 {
         *(return_) = Imath_3_0::Matrix33<float>::baseTypeMax();
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__baseTypeSmallest(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__baseTypeSmallest(
     float * return_)
 {
         *(return_) = Imath_3_0::Matrix33<float>::baseTypeSmallest();
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__baseTypeEpsilon(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__baseTypeEpsilon(
     float * return_)
 {
         *(return_) = Imath_3_0::Matrix33<float>::baseTypeEpsilon();
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_float__dimensions(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_float__dimensions(
     unsigned int * return_)
 {
         *(return_) = Imath_3_0::Matrix33<float>::dimensions();
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__row(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__row(
     Imath_M33d_t * this_
     , double * * return_
     , int i)
@@ -428,7 +428,7 @@ unsigned int Imath_3_0__Matrix33_double__row(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__row_const(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__row_const(
     Imath_M33d_t const * this_
     , double const * * return_
     , int i)
@@ -437,7 +437,7 @@ unsigned int Imath_3_0__Matrix33_double__row_const(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__uninitialized(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__uninitialized(
     Imath_M33d_t * this_
     , Imath_Uninitialized _unused)
 {
@@ -445,14 +445,14 @@ unsigned int Imath_3_0__Matrix33_double__uninitialized(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__identity(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__identity(
     Imath_M33d_t * this_)
 {
         new (this_) Imath_3_0::Matrix33<double>();
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__broadcast(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__broadcast(
     Imath_M33d_t * this_
     , double a)
 {
@@ -460,7 +460,7 @@ unsigned int Imath_3_0__Matrix33_double__broadcast(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__from_array(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__from_array(
     Imath_M33d_t * this_
     , double const a[3][3])
 {
@@ -468,7 +468,7 @@ unsigned int Imath_3_0__Matrix33_double__from_array(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__ctor(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__ctor(
     Imath_M33d_t * this_
     , double a
     , double b
@@ -484,7 +484,7 @@ unsigned int Imath_3_0__Matrix33_double__ctor(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__ctor_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__ctor_1(
     Imath_M33d_t * this_
     , Imath_M33d_t const * v)
 {
@@ -497,7 +497,7 @@ unsigned int Imath_3_0__Matrix33_double__ctor_1(
     }
 }
 
-unsigned int Imath_3_0__Matrix33_double___assign(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double___assign(
     Imath_M33d_t * this_
     , Imath_M33d_t const * * return_
     , Imath_M33d_t const * v)
@@ -511,14 +511,14 @@ unsigned int Imath_3_0__Matrix33_double___assign(
     }
 }
 
-unsigned int Imath_3_0__Matrix33_double__dtor(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__dtor(
     Imath_M33d_t * this_)
 {
         (to_cpp(this_)) -> Imath_3_0::Matrix33<double>::~Matrix33();
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__getValue(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__getValue(
     Imath_M33d_t * this_
     , double * * return_)
 {
@@ -526,7 +526,7 @@ unsigned int Imath_3_0__Matrix33_double__getValue(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__getValue_const(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__getValue_const(
     Imath_M33d_t const * this_
     , double const * * return_)
 {
@@ -534,7 +534,7 @@ unsigned int Imath_3_0__Matrix33_double__getValue_const(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double___eq(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double___eq(
     Imath_M33d_t const * this_
     , _Bool * return_
     , Imath_M33d_t const * v)
@@ -543,7 +543,7 @@ unsigned int Imath_3_0__Matrix33_double___eq(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double___ne(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double___ne(
     Imath_M33d_t const * this_
     , _Bool * return_
     , Imath_M33d_t const * v)
@@ -552,7 +552,7 @@ unsigned int Imath_3_0__Matrix33_double___ne(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__equalWithAbsError(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__equalWithAbsError(
     Imath_M33d_t const * this_
     , _Bool * return_
     , Imath_M33d_t const * v
@@ -562,7 +562,7 @@ unsigned int Imath_3_0__Matrix33_double__equalWithAbsError(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__equalWithRelError(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__equalWithRelError(
     Imath_M33d_t const * this_
     , _Bool * return_
     , Imath_M33d_t const * v
@@ -572,7 +572,7 @@ unsigned int Imath_3_0__Matrix33_double__equalWithRelError(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double___op_iadd(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double___op_iadd(
     Imath_M33d_t * this_
     , Imath_M33d_t const * * return_
     , Imath_M33d_t const * v)
@@ -581,7 +581,7 @@ unsigned int Imath_3_0__Matrix33_double___op_iadd(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__add_assign_scalar(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__add_assign_scalar(
     Imath_M33d_t * this_
     , Imath_M33d_t const * * return_
     , double a)
@@ -590,7 +590,7 @@ unsigned int Imath_3_0__Matrix33_double__add_assign_scalar(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double___op_add(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double___op_add(
     Imath_M33d_t const * this_
     , Imath_M33d_t * return_
     , Imath_M33d_t const * v)
@@ -599,7 +599,7 @@ unsigned int Imath_3_0__Matrix33_double___op_add(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double___op_isub(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double___op_isub(
     Imath_M33d_t * this_
     , Imath_M33d_t const * * return_
     , Imath_M33d_t const * v)
@@ -608,7 +608,7 @@ unsigned int Imath_3_0__Matrix33_double___op_isub(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__sub_assign_scalar(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__sub_assign_scalar(
     Imath_M33d_t * this_
     , Imath_M33d_t const * * return_
     , double a)
@@ -617,7 +617,7 @@ unsigned int Imath_3_0__Matrix33_double__sub_assign_scalar(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double___op_sub(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double___op_sub(
     Imath_M33d_t const * this_
     , Imath_M33d_t * return_
     , Imath_M33d_t const * v)
@@ -626,7 +626,7 @@ unsigned int Imath_3_0__Matrix33_double___op_sub(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double___op_sub_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double___op_sub_1(
     Imath_M33d_t const * this_
     , Imath_M33d_t * return_)
 {
@@ -634,7 +634,7 @@ unsigned int Imath_3_0__Matrix33_double___op_sub_1(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__negate(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__negate(
     Imath_M33d_t * this_
     , Imath_M33d_t const * * return_)
 {
@@ -642,7 +642,7 @@ unsigned int Imath_3_0__Matrix33_double__negate(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__mul_assign_scalar(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__mul_assign_scalar(
     Imath_M33d_t * this_
     , Imath_M33d_t const * * return_
     , double a)
@@ -651,7 +651,7 @@ unsigned int Imath_3_0__Matrix33_double__mul_assign_scalar(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__mul_scalar(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__mul_scalar(
     Imath_M33d_t const * this_
     , Imath_M33d_t * return_
     , double a)
@@ -660,7 +660,7 @@ unsigned int Imath_3_0__Matrix33_double__mul_scalar(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__div_assign_scalar(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__div_assign_scalar(
     Imath_M33d_t * this_
     , Imath_M33d_t const * * return_
     , double a)
@@ -669,7 +669,7 @@ unsigned int Imath_3_0__Matrix33_double__div_assign_scalar(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__div_scalar(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__div_scalar(
     Imath_M33d_t const * this_
     , Imath_M33d_t * return_
     , double a)
@@ -678,7 +678,7 @@ unsigned int Imath_3_0__Matrix33_double__div_scalar(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double___op_imul(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double___op_imul(
     Imath_M33d_t * this_
     , Imath_M33d_t const * * return_
     , Imath_M33d_t const * v)
@@ -687,7 +687,7 @@ unsigned int Imath_3_0__Matrix33_double___op_imul(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double___op_mul(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double___op_mul(
     Imath_M33d_t const * this_
     , Imath_M33d_t * return_
     , Imath_M33d_t const * v)
@@ -696,14 +696,14 @@ unsigned int Imath_3_0__Matrix33_double___op_mul(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__makeIdentity(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__makeIdentity(
     Imath_M33d_t * this_)
 {
         (to_cpp(this_)) -> makeIdentity();
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__transpose(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__transpose(
     Imath_M33d_t * this_
     , Imath_M33d_t const * * return_)
 {
@@ -711,7 +711,7 @@ unsigned int Imath_3_0__Matrix33_double__transpose(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__transposed(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__transposed(
     Imath_M33d_t const * this_
     , Imath_M33d_t * return_)
 {
@@ -719,7 +719,7 @@ unsigned int Imath_3_0__Matrix33_double__transposed(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__invert(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__invert(
     Imath_M33d_t * this_
     , Imath_M33d_t const * * return_)
 {
@@ -727,7 +727,7 @@ unsigned int Imath_3_0__Matrix33_double__invert(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__inverse(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__inverse(
     Imath_M33d_t const * this_
     , Imath_M33d_t * return_)
 {
@@ -735,7 +735,7 @@ unsigned int Imath_3_0__Matrix33_double__inverse(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__gjInvert(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__gjInvert(
     Imath_M33d_t * this_
     , Imath_M33d_t const * * return_)
 {
@@ -743,7 +743,7 @@ unsigned int Imath_3_0__Matrix33_double__gjInvert(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__gjInverse(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__gjInverse(
     Imath_M33d_t const * this_
     , Imath_M33d_t * return_)
 {
@@ -751,7 +751,7 @@ unsigned int Imath_3_0__Matrix33_double__gjInverse(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__minorOf(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__minorOf(
     Imath_M33d_t const * this_
     , double * return_
     , int const r
@@ -761,7 +761,7 @@ unsigned int Imath_3_0__Matrix33_double__minorOf(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__fastMinor(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__fastMinor(
     Imath_M33d_t const * this_
     , double * return_
     , int const r0
@@ -773,7 +773,7 @@ unsigned int Imath_3_0__Matrix33_double__fastMinor(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__determinant(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__determinant(
     Imath_M33d_t const * this_
     , double * return_)
 {
@@ -781,7 +781,7 @@ unsigned int Imath_3_0__Matrix33_double__determinant(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__setScale(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__setScale(
     Imath_M33d_t * this_
     , Imath_M33d_t const * * return_
     , double s)
@@ -790,7 +790,7 @@ unsigned int Imath_3_0__Matrix33_double__setScale(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__translation(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__translation(
     Imath_M33d_t const * this_
     , Imath_V2d_t * return_)
 {
@@ -798,42 +798,42 @@ unsigned int Imath_3_0__Matrix33_double__translation(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__baseTypeLowest(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__baseTypeLowest(
     double * return_)
 {
         *(return_) = Imath_3_0::Matrix33<double>::baseTypeLowest();
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__baseTypeMax(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__baseTypeMax(
     double * return_)
 {
         *(return_) = Imath_3_0::Matrix33<double>::baseTypeMax();
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__baseTypeSmallest(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__baseTypeSmallest(
     double * return_)
 {
         *(return_) = Imath_3_0::Matrix33<double>::baseTypeSmallest();
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__baseTypeEpsilon(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__baseTypeEpsilon(
     double * return_)
 {
         *(return_) = Imath_3_0::Matrix33<double>::baseTypeEpsilon();
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix33_double__dimensions(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix33_double__dimensions(
     unsigned int * return_)
 {
         *(return_) = Imath_3_0::Matrix33<double>::dimensions();
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__row(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__row(
     Imath_M44f_t * this_
     , float * * return_
     , int i)
@@ -842,7 +842,7 @@ unsigned int Imath_3_0__Matrix44_float__row(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__row_const(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__row_const(
     Imath_M44f_t const * this_
     , float const * * return_
     , int i)
@@ -851,7 +851,7 @@ unsigned int Imath_3_0__Matrix44_float__row_const(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__uninitialized(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__uninitialized(
     Imath_M44f_t * this_
     , Imath_Uninitialized _unused)
 {
@@ -859,14 +859,14 @@ unsigned int Imath_3_0__Matrix44_float__uninitialized(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__identity(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__identity(
     Imath_M44f_t * this_)
 {
         new (this_) Imath_3_0::Matrix44<float>();
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__broadcast(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__broadcast(
     Imath_M44f_t * this_
     , float a)
 {
@@ -874,7 +874,7 @@ unsigned int Imath_3_0__Matrix44_float__broadcast(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__from_array(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__from_array(
     Imath_M44f_t * this_
     , float const a[4][4])
 {
@@ -882,7 +882,7 @@ unsigned int Imath_3_0__Matrix44_float__from_array(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__ctor(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__ctor(
     Imath_M44f_t * this_
     , float a
     , float b
@@ -905,7 +905,7 @@ unsigned int Imath_3_0__Matrix44_float__ctor(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__from_rotation_and_translation(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__from_rotation_and_translation(
     Imath_M44f_t * this_
     , Imath_M33f_t r
     , Imath_V3f_t t)
@@ -914,7 +914,7 @@ unsigned int Imath_3_0__Matrix44_float__from_rotation_and_translation(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__ctor_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__ctor_1(
     Imath_M44f_t * this_
     , Imath_M44f_t const * v)
 {
@@ -927,7 +927,7 @@ unsigned int Imath_3_0__Matrix44_float__ctor_1(
     }
 }
 
-unsigned int Imath_3_0__Matrix44_float___assign(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float___assign(
     Imath_M44f_t * this_
     , Imath_M44f_t const * * return_
     , Imath_M44f_t const * v)
@@ -941,14 +941,14 @@ unsigned int Imath_3_0__Matrix44_float___assign(
     }
 }
 
-unsigned int Imath_3_0__Matrix44_float__dtor(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__dtor(
     Imath_M44f_t * this_)
 {
         (to_cpp(this_)) -> Imath_3_0::Matrix44<float>::~Matrix44();
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__getValue(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__getValue(
     Imath_M44f_t * this_
     , float * * return_)
 {
@@ -956,7 +956,7 @@ unsigned int Imath_3_0__Matrix44_float__getValue(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__getValue_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__getValue_1(
     Imath_M44f_t const * this_
     , float const * * return_)
 {
@@ -964,7 +964,7 @@ unsigned int Imath_3_0__Matrix44_float__getValue_1(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float___eq(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float___eq(
     Imath_M44f_t const * this_
     , _Bool * return_
     , Imath_M44f_t const * v)
@@ -973,7 +973,7 @@ unsigned int Imath_3_0__Matrix44_float___eq(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float___ne(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float___ne(
     Imath_M44f_t const * this_
     , _Bool * return_
     , Imath_M44f_t const * v)
@@ -982,7 +982,7 @@ unsigned int Imath_3_0__Matrix44_float___ne(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__equalWithAbsError(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__equalWithAbsError(
     Imath_M44f_t const * this_
     , _Bool * return_
     , Imath_M44f_t const * v
@@ -992,7 +992,7 @@ unsigned int Imath_3_0__Matrix44_float__equalWithAbsError(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__equalWithRelError(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__equalWithRelError(
     Imath_M44f_t const * this_
     , _Bool * return_
     , Imath_M44f_t const * v
@@ -1002,7 +1002,7 @@ unsigned int Imath_3_0__Matrix44_float__equalWithRelError(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float___op_iadd(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float___op_iadd(
     Imath_M44f_t * this_
     , Imath_M44f_t const * * return_
     , Imath_M44f_t const * v)
@@ -1011,7 +1011,7 @@ unsigned int Imath_3_0__Matrix44_float___op_iadd(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__add_assign_scalar(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__add_assign_scalar(
     Imath_M44f_t * this_
     , Imath_M44f_t const * * return_
     , float a)
@@ -1020,7 +1020,7 @@ unsigned int Imath_3_0__Matrix44_float__add_assign_scalar(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float___op_add(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float___op_add(
     Imath_M44f_t const * this_
     , Imath_M44f_t * return_
     , Imath_M44f_t const * v)
@@ -1029,7 +1029,7 @@ unsigned int Imath_3_0__Matrix44_float___op_add(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float___op_isub(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float___op_isub(
     Imath_M44f_t * this_
     , Imath_M44f_t const * * return_
     , Imath_M44f_t const * v)
@@ -1038,7 +1038,7 @@ unsigned int Imath_3_0__Matrix44_float___op_isub(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__sub_assign_scalar(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__sub_assign_scalar(
     Imath_M44f_t * this_
     , Imath_M44f_t const * * return_
     , float a)
@@ -1047,7 +1047,7 @@ unsigned int Imath_3_0__Matrix44_float__sub_assign_scalar(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float___op_sub(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float___op_sub(
     Imath_M44f_t const * this_
     , Imath_M44f_t * return_
     , Imath_M44f_t const * v)
@@ -1056,7 +1056,7 @@ unsigned int Imath_3_0__Matrix44_float___op_sub(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float___op_sub_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float___op_sub_1(
     Imath_M44f_t const * this_
     , Imath_M44f_t * return_)
 {
@@ -1064,7 +1064,7 @@ unsigned int Imath_3_0__Matrix44_float___op_sub_1(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__negate(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__negate(
     Imath_M44f_t * this_
     , Imath_M44f_t const * * return_)
 {
@@ -1072,7 +1072,7 @@ unsigned int Imath_3_0__Matrix44_float__negate(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__mul_assign_scalar(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__mul_assign_scalar(
     Imath_M44f_t * this_
     , Imath_M44f_t const * * return_
     , float a)
@@ -1081,7 +1081,7 @@ unsigned int Imath_3_0__Matrix44_float__mul_assign_scalar(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__mul_scalar(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__mul_scalar(
     Imath_M44f_t const * this_
     , Imath_M44f_t * return_
     , float a)
@@ -1090,7 +1090,7 @@ unsigned int Imath_3_0__Matrix44_float__mul_scalar(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__div_assign_scalar(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__div_assign_scalar(
     Imath_M44f_t * this_
     , Imath_M44f_t const * * return_
     , float a)
@@ -1099,7 +1099,7 @@ unsigned int Imath_3_0__Matrix44_float__div_assign_scalar(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__div_scalar(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__div_scalar(
     Imath_M44f_t const * this_
     , Imath_M44f_t * return_
     , float a)
@@ -1108,7 +1108,7 @@ unsigned int Imath_3_0__Matrix44_float__div_scalar(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float___op_imul(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float___op_imul(
     Imath_M44f_t * this_
     , Imath_M44f_t const * * return_
     , Imath_M44f_t const * v)
@@ -1117,7 +1117,7 @@ unsigned int Imath_3_0__Matrix44_float___op_imul(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float___op_mul(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float___op_mul(
     Imath_M44f_t const * this_
     , Imath_M44f_t * return_
     , Imath_M44f_t const * v)
@@ -1126,7 +1126,7 @@ unsigned int Imath_3_0__Matrix44_float___op_mul(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__multiply(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__multiply(
     Imath_M44f_t const * a
     , Imath_M44f_t const * b
     , Imath_M44f_t * c)
@@ -1135,14 +1135,14 @@ unsigned int Imath_3_0__Matrix44_float__multiply(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__makeIdentity(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__makeIdentity(
     Imath_M44f_t * this_)
 {
         (to_cpp(this_)) -> makeIdentity();
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__transpose(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__transpose(
     Imath_M44f_t * this_
     , Imath_M44f_t const * * return_)
 {
@@ -1150,7 +1150,7 @@ unsigned int Imath_3_0__Matrix44_float__transpose(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__transposed(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__transposed(
     Imath_M44f_t const * this_
     , Imath_M44f_t * return_)
 {
@@ -1158,7 +1158,7 @@ unsigned int Imath_3_0__Matrix44_float__transposed(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__invert(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__invert(
     Imath_M44f_t * this_
     , Imath_M44f_t const * * return_)
 {
@@ -1166,7 +1166,7 @@ unsigned int Imath_3_0__Matrix44_float__invert(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__inverse(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__inverse(
     Imath_M44f_t const * this_
     , Imath_M44f_t * return_)
 {
@@ -1174,7 +1174,7 @@ unsigned int Imath_3_0__Matrix44_float__inverse(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__gjInvert(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__gjInvert(
     Imath_M44f_t * this_
     , Imath_M44f_t const * * return_)
 {
@@ -1182,7 +1182,7 @@ unsigned int Imath_3_0__Matrix44_float__gjInvert(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__gjInverse(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__gjInverse(
     Imath_M44f_t const * this_
     , Imath_M44f_t * return_)
 {
@@ -1190,7 +1190,7 @@ unsigned int Imath_3_0__Matrix44_float__gjInverse(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__minorOf(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__minorOf(
     Imath_M44f_t const * this_
     , float * return_
     , int const r
@@ -1200,7 +1200,7 @@ unsigned int Imath_3_0__Matrix44_float__minorOf(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__fastMinor(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__fastMinor(
     Imath_M44f_t const * this_
     , float * return_
     , int const r0
@@ -1214,7 +1214,7 @@ unsigned int Imath_3_0__Matrix44_float__fastMinor(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__determinant(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__determinant(
     Imath_M44f_t const * this_
     , float * return_)
 {
@@ -1222,7 +1222,7 @@ unsigned int Imath_3_0__Matrix44_float__determinant(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__setScale_uniform(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__setScale_uniform(
     Imath_M44f_t * this_
     , Imath_M44f_t const * * return_
     , float s)
@@ -1231,7 +1231,7 @@ unsigned int Imath_3_0__Matrix44_float__setScale_uniform(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__translation(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__translation(
     Imath_M44f_t const * this_
     , Imath_V3f_t * return_)
 {
@@ -1239,42 +1239,42 @@ unsigned int Imath_3_0__Matrix44_float__translation(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__baseTypeLowest(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__baseTypeLowest(
     float * return_)
 {
         *(return_) = Imath_3_0::Matrix44<float>::baseTypeLowest();
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__baseTypeMax(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__baseTypeMax(
     float * return_)
 {
         *(return_) = Imath_3_0::Matrix44<float>::baseTypeMax();
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__baseTypeSmallest(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__baseTypeSmallest(
     float * return_)
 {
         *(return_) = Imath_3_0::Matrix44<float>::baseTypeSmallest();
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__baseTypeEpsilon(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__baseTypeEpsilon(
     float * return_)
 {
         *(return_) = Imath_3_0::Matrix44<float>::baseTypeEpsilon();
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_float__dimensions(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_float__dimensions(
     unsigned int * return_)
 {
         *(return_) = Imath_3_0::Matrix44<float>::dimensions();
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__row(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__row(
     Imath_M44d_t * this_
     , double * * return_
     , int i)
@@ -1283,7 +1283,7 @@ unsigned int Imath_3_0__Matrix44_double__row(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__row_const(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__row_const(
     Imath_M44d_t const * this_
     , double const * * return_
     , int i)
@@ -1292,7 +1292,7 @@ unsigned int Imath_3_0__Matrix44_double__row_const(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__uninitialized(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__uninitialized(
     Imath_M44d_t * this_
     , Imath_Uninitialized _unused)
 {
@@ -1300,14 +1300,14 @@ unsigned int Imath_3_0__Matrix44_double__uninitialized(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__identity(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__identity(
     Imath_M44d_t * this_)
 {
         new (this_) Imath_3_0::Matrix44<double>();
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__broadcast(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__broadcast(
     Imath_M44d_t * this_
     , double a)
 {
@@ -1315,7 +1315,7 @@ unsigned int Imath_3_0__Matrix44_double__broadcast(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__from_array(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__from_array(
     Imath_M44d_t * this_
     , double const a[4][4])
 {
@@ -1323,7 +1323,7 @@ unsigned int Imath_3_0__Matrix44_double__from_array(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__ctor(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__ctor(
     Imath_M44d_t * this_
     , double a
     , double b
@@ -1346,7 +1346,7 @@ unsigned int Imath_3_0__Matrix44_double__ctor(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__from_rotation_and_translation(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__from_rotation_and_translation(
     Imath_M44d_t * this_
     , Imath_M33d_t r
     , Imath_V3d_t t)
@@ -1355,7 +1355,7 @@ unsigned int Imath_3_0__Matrix44_double__from_rotation_and_translation(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__ctor_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__ctor_1(
     Imath_M44d_t * this_
     , Imath_M44d_t const * v)
 {
@@ -1368,7 +1368,7 @@ unsigned int Imath_3_0__Matrix44_double__ctor_1(
     }
 }
 
-unsigned int Imath_3_0__Matrix44_double___assign(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double___assign(
     Imath_M44d_t * this_
     , Imath_M44d_t const * * return_
     , Imath_M44d_t const * v)
@@ -1382,14 +1382,14 @@ unsigned int Imath_3_0__Matrix44_double___assign(
     }
 }
 
-unsigned int Imath_3_0__Matrix44_double__dtor(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__dtor(
     Imath_M44d_t * this_)
 {
         (to_cpp(this_)) -> Imath_3_0::Matrix44<double>::~Matrix44();
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__getValue(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__getValue(
     Imath_M44d_t * this_
     , double * * return_)
 {
@@ -1397,7 +1397,7 @@ unsigned int Imath_3_0__Matrix44_double__getValue(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__getValue_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__getValue_1(
     Imath_M44d_t const * this_
     , double const * * return_)
 {
@@ -1405,7 +1405,7 @@ unsigned int Imath_3_0__Matrix44_double__getValue_1(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double___eq(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double___eq(
     Imath_M44d_t const * this_
     , _Bool * return_
     , Imath_M44d_t const * v)
@@ -1414,7 +1414,7 @@ unsigned int Imath_3_0__Matrix44_double___eq(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double___ne(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double___ne(
     Imath_M44d_t const * this_
     , _Bool * return_
     , Imath_M44d_t const * v)
@@ -1423,7 +1423,7 @@ unsigned int Imath_3_0__Matrix44_double___ne(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__equalWithAbsError(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__equalWithAbsError(
     Imath_M44d_t const * this_
     , _Bool * return_
     , Imath_M44d_t const * v
@@ -1433,7 +1433,7 @@ unsigned int Imath_3_0__Matrix44_double__equalWithAbsError(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__equalWithRelError(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__equalWithRelError(
     Imath_M44d_t const * this_
     , _Bool * return_
     , Imath_M44d_t const * v
@@ -1443,7 +1443,7 @@ unsigned int Imath_3_0__Matrix44_double__equalWithRelError(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double___op_iadd(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double___op_iadd(
     Imath_M44d_t * this_
     , Imath_M44d_t const * * return_
     , Imath_M44d_t const * v)
@@ -1452,7 +1452,7 @@ unsigned int Imath_3_0__Matrix44_double___op_iadd(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__add_assign_scalar(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__add_assign_scalar(
     Imath_M44d_t * this_
     , Imath_M44d_t const * * return_
     , double a)
@@ -1461,7 +1461,7 @@ unsigned int Imath_3_0__Matrix44_double__add_assign_scalar(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double___op_add(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double___op_add(
     Imath_M44d_t const * this_
     , Imath_M44d_t * return_
     , Imath_M44d_t const * v)
@@ -1470,7 +1470,7 @@ unsigned int Imath_3_0__Matrix44_double___op_add(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double___op_isub(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double___op_isub(
     Imath_M44d_t * this_
     , Imath_M44d_t const * * return_
     , Imath_M44d_t const * v)
@@ -1479,7 +1479,7 @@ unsigned int Imath_3_0__Matrix44_double___op_isub(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__sub_assign_scalar(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__sub_assign_scalar(
     Imath_M44d_t * this_
     , Imath_M44d_t const * * return_
     , double a)
@@ -1488,7 +1488,7 @@ unsigned int Imath_3_0__Matrix44_double__sub_assign_scalar(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double___op_sub(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double___op_sub(
     Imath_M44d_t const * this_
     , Imath_M44d_t * return_
     , Imath_M44d_t const * v)
@@ -1497,7 +1497,7 @@ unsigned int Imath_3_0__Matrix44_double___op_sub(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double___op_sub_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double___op_sub_1(
     Imath_M44d_t const * this_
     , Imath_M44d_t * return_)
 {
@@ -1505,7 +1505,7 @@ unsigned int Imath_3_0__Matrix44_double___op_sub_1(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__negate(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__negate(
     Imath_M44d_t * this_
     , Imath_M44d_t const * * return_)
 {
@@ -1513,7 +1513,7 @@ unsigned int Imath_3_0__Matrix44_double__negate(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__mul_assign_scalar(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__mul_assign_scalar(
     Imath_M44d_t * this_
     , Imath_M44d_t const * * return_
     , double a)
@@ -1522,7 +1522,7 @@ unsigned int Imath_3_0__Matrix44_double__mul_assign_scalar(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__mul_scalar(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__mul_scalar(
     Imath_M44d_t const * this_
     , Imath_M44d_t * return_
     , double a)
@@ -1531,7 +1531,7 @@ unsigned int Imath_3_0__Matrix44_double__mul_scalar(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__div_assign_scalar(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__div_assign_scalar(
     Imath_M44d_t * this_
     , Imath_M44d_t const * * return_
     , double a)
@@ -1540,7 +1540,7 @@ unsigned int Imath_3_0__Matrix44_double__div_assign_scalar(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__div_scalar(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__div_scalar(
     Imath_M44d_t const * this_
     , Imath_M44d_t * return_
     , double a)
@@ -1549,7 +1549,7 @@ unsigned int Imath_3_0__Matrix44_double__div_scalar(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double___op_imul(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double___op_imul(
     Imath_M44d_t * this_
     , Imath_M44d_t const * * return_
     , Imath_M44d_t const * v)
@@ -1558,7 +1558,7 @@ unsigned int Imath_3_0__Matrix44_double___op_imul(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double___op_mul(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double___op_mul(
     Imath_M44d_t const * this_
     , Imath_M44d_t * return_
     , Imath_M44d_t const * v)
@@ -1567,7 +1567,7 @@ unsigned int Imath_3_0__Matrix44_double___op_mul(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__multiply(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__multiply(
     Imath_M44d_t const * a
     , Imath_M44d_t const * b
     , Imath_M44d_t * c)
@@ -1576,14 +1576,14 @@ unsigned int Imath_3_0__Matrix44_double__multiply(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__makeIdentity(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__makeIdentity(
     Imath_M44d_t * this_)
 {
         (to_cpp(this_)) -> makeIdentity();
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__transpose(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__transpose(
     Imath_M44d_t * this_
     , Imath_M44d_t const * * return_)
 {
@@ -1591,7 +1591,7 @@ unsigned int Imath_3_0__Matrix44_double__transpose(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__transposed(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__transposed(
     Imath_M44d_t const * this_
     , Imath_M44d_t * return_)
 {
@@ -1599,7 +1599,7 @@ unsigned int Imath_3_0__Matrix44_double__transposed(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__invert(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__invert(
     Imath_M44d_t * this_
     , Imath_M44d_t const * * return_)
 {
@@ -1607,7 +1607,7 @@ unsigned int Imath_3_0__Matrix44_double__invert(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__inverse(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__inverse(
     Imath_M44d_t const * this_
     , Imath_M44d_t * return_)
 {
@@ -1615,7 +1615,7 @@ unsigned int Imath_3_0__Matrix44_double__inverse(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__gjInvert(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__gjInvert(
     Imath_M44d_t * this_
     , Imath_M44d_t const * * return_)
 {
@@ -1623,7 +1623,7 @@ unsigned int Imath_3_0__Matrix44_double__gjInvert(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__gjInverse(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__gjInverse(
     Imath_M44d_t const * this_
     , Imath_M44d_t * return_)
 {
@@ -1631,7 +1631,7 @@ unsigned int Imath_3_0__Matrix44_double__gjInverse(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__minorOf(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__minorOf(
     Imath_M44d_t const * this_
     , double * return_
     , int const r
@@ -1641,7 +1641,7 @@ unsigned int Imath_3_0__Matrix44_double__minorOf(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__fastMinor(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__fastMinor(
     Imath_M44d_t const * this_
     , double * return_
     , int const r0
@@ -1655,7 +1655,7 @@ unsigned int Imath_3_0__Matrix44_double__fastMinor(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__determinant(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__determinant(
     Imath_M44d_t const * this_
     , double * return_)
 {
@@ -1663,7 +1663,7 @@ unsigned int Imath_3_0__Matrix44_double__determinant(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__setScale_uniform(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__setScale_uniform(
     Imath_M44d_t * this_
     , Imath_M44d_t const * * return_
     , double s)
@@ -1672,7 +1672,7 @@ unsigned int Imath_3_0__Matrix44_double__setScale_uniform(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__translation(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__translation(
     Imath_M44d_t const * this_
     , Imath_V3d_t * return_)
 {
@@ -1680,35 +1680,35 @@ unsigned int Imath_3_0__Matrix44_double__translation(
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__baseTypeLowest(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__baseTypeLowest(
     double * return_)
 {
         *(return_) = Imath_3_0::Matrix44<double>::baseTypeLowest();
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__baseTypeMax(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__baseTypeMax(
     double * return_)
 {
         *(return_) = Imath_3_0::Matrix44<double>::baseTypeMax();
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__baseTypeSmallest(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__baseTypeSmallest(
     double * return_)
 {
         *(return_) = Imath_3_0::Matrix44<double>::baseTypeSmallest();
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__baseTypeEpsilon(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__baseTypeEpsilon(
     double * return_)
 {
         *(return_) = Imath_3_0::Matrix44<double>::baseTypeEpsilon();
         return 0;
 }
 
-unsigned int Imath_3_0__Matrix44_double__dimensions(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Matrix44_double__dimensions(
     unsigned int * return_)
 {
         *(return_) = Imath_3_0::Matrix44<double>::dimensions();

@@ -4,6 +4,7 @@
 #include <imf_compression.h>
 #include <imf_lineorder.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -910,7 +911,7 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__Header_readsNothing(
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0__Header_writeTo(
     Imf_Header_t const * this_
-    , unsigned long * return_
+    , uint64_t * return_
     , Imf_OStream_t * os
     , _Bool isTiled);
 #define Imf_Header_writeTo Imf_3_0__Header_writeTo

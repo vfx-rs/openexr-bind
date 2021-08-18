@@ -5,14 +5,14 @@
 
 #include <stdexcept>
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___ctor(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___ctor(
     Imath_Box2s_t * this_)
 {
         new (this_) Imath_3_0::Box<Imath_3_0::Vec2<short> >();
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___ctor_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___ctor_1(
     Imath_Box2s_t * this_
     , Imath_V2s_t const * point)
 {
@@ -20,7 +20,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___ctor_1(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___ctor_2(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___ctor_2(
     Imath_Box2s_t * this_
     , Imath_V2s_t const * minV
     , Imath_V2s_t const * maxV)
@@ -29,7 +29,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___ctor_2(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short____eq(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short____eq(
     Imath_Box2s_t const * this_
     , _Bool * return_
     , Imath_Box2s_t const * src)
@@ -38,7 +38,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short____eq(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short____ne(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short____ne(
     Imath_Box2s_t const * this_
     , _Bool * return_
     , Imath_Box2s_t const * src)
@@ -47,14 +47,14 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short____ne(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___makeEmpty(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___makeEmpty(
     Imath_Box2s_t * this_)
 {
         (to_cpp(this_)) -> makeEmpty();
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___extendBy(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___extendBy(
     Imath_Box2s_t * this_
     , Imath_V2s_t const * point)
 {
@@ -62,7 +62,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___extendBy(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___extendBy_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___extendBy_1(
     Imath_Box2s_t * this_
     , Imath_Box2s_t const * box)
 {
@@ -70,14 +70,14 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___extendBy_1(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___makeInfinite(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___makeInfinite(
     Imath_Box2s_t * this_)
 {
         (to_cpp(this_)) -> makeInfinite();
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___size(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___size(
     Imath_Box2s_t const * this_
     , Imath_V2s_t * return_)
 {
@@ -85,7 +85,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___size(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___center(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___center(
     Imath_Box2s_t const * this_
     , Imath_V2s_t * return_)
 {
@@ -93,7 +93,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___center(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___intersects(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___intersects(
     Imath_Box2s_t const * this_
     , _Bool * return_
     , Imath_V2s_t const * point)
@@ -102,7 +102,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___intersects(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___intersects_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___intersects_1(
     Imath_Box2s_t const * this_
     , _Bool * return_
     , Imath_Box2s_t const * box)
@@ -111,7 +111,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___intersects_1(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___majorAxis(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___majorAxis(
     Imath_Box2s_t const * this_
     , unsigned int * return_)
 {
@@ -119,7 +119,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___majorAxis(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___isEmpty(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___isEmpty(
     Imath_Box2s_t const * this_
     , _Bool * return_)
 {
@@ -127,7 +127,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___isEmpty(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___hasVolume(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___hasVolume(
     Imath_Box2s_t const * this_
     , _Bool * return_)
 {
@@ -135,7 +135,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___hasVolume(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___isInfinite(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___isInfinite(
     Imath_Box2s_t const * this_
     , _Bool * return_)
 {
@@ -143,7 +143,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___isInfinite(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___copy(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___copy(
     Imath_Box2s_t * this_
     , Imath_Box2s_t const * rhs)
 {
@@ -156,7 +156,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___copy(
     }
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___move(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___move(
     Imath_Box2s_t * this_
     , Imath_Box2s_t * rhs)
 {
@@ -169,7 +169,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___move(
     }
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___dtor(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___dtor(
     Imath_Box2s_t * this_)
 {
     try {
@@ -181,14 +181,14 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_short___dtor(
     }
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___ctor(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___ctor(
     Imath_Box2i_t * this_)
 {
         new (this_) Imath_3_0::Box<Imath_3_0::Vec2<int> >();
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___ctor_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___ctor_1(
     Imath_Box2i_t * this_
     , Imath_V2i_t const * point)
 {
@@ -196,7 +196,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___ctor_1(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___ctor_2(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___ctor_2(
     Imath_Box2i_t * this_
     , Imath_V2i_t const * minV
     , Imath_V2i_t const * maxV)
@@ -205,7 +205,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___ctor_2(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int____eq(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int____eq(
     Imath_Box2i_t const * this_
     , _Bool * return_
     , Imath_Box2i_t const * src)
@@ -214,7 +214,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int____eq(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int____ne(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int____ne(
     Imath_Box2i_t const * this_
     , _Bool * return_
     , Imath_Box2i_t const * src)
@@ -223,14 +223,14 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int____ne(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___makeEmpty(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___makeEmpty(
     Imath_Box2i_t * this_)
 {
         (to_cpp(this_)) -> makeEmpty();
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___extendBy(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___extendBy(
     Imath_Box2i_t * this_
     , Imath_V2i_t const * point)
 {
@@ -238,7 +238,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___extendBy(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___extendBy_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___extendBy_1(
     Imath_Box2i_t * this_
     , Imath_Box2i_t const * box)
 {
@@ -246,14 +246,14 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___extendBy_1(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___makeInfinite(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___makeInfinite(
     Imath_Box2i_t * this_)
 {
         (to_cpp(this_)) -> makeInfinite();
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___size(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___size(
     Imath_Box2i_t const * this_
     , Imath_V2i_t * return_)
 {
@@ -261,7 +261,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___size(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___center(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___center(
     Imath_Box2i_t const * this_
     , Imath_V2i_t * return_)
 {
@@ -269,7 +269,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___center(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___intersects(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___intersects(
     Imath_Box2i_t const * this_
     , _Bool * return_
     , Imath_V2i_t const * point)
@@ -278,7 +278,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___intersects(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___intersects_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___intersects_1(
     Imath_Box2i_t const * this_
     , _Bool * return_
     , Imath_Box2i_t const * box)
@@ -287,7 +287,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___intersects_1(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___majorAxis(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___majorAxis(
     Imath_Box2i_t const * this_
     , unsigned int * return_)
 {
@@ -295,7 +295,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___majorAxis(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___isEmpty(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___isEmpty(
     Imath_Box2i_t const * this_
     , _Bool * return_)
 {
@@ -303,7 +303,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___isEmpty(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___hasVolume(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___hasVolume(
     Imath_Box2i_t const * this_
     , _Bool * return_)
 {
@@ -311,7 +311,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___hasVolume(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___isInfinite(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___isInfinite(
     Imath_Box2i_t const * this_
     , _Bool * return_)
 {
@@ -319,7 +319,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___isInfinite(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___copy(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___copy(
     Imath_Box2i_t * this_
     , Imath_Box2i_t const * rhs)
 {
@@ -332,7 +332,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___copy(
     }
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___move(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___move(
     Imath_Box2i_t * this_
     , Imath_Box2i_t * rhs)
 {
@@ -345,7 +345,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___move(
     }
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___dtor(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___dtor(
     Imath_Box2i_t * this_)
 {
     try {
@@ -357,14 +357,14 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_int___dtor(
     }
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___ctor(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___ctor(
     Imath_Box2f_t * this_)
 {
         new (this_) Imath_3_0::Box<Imath_3_0::Vec2<float> >();
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___ctor_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___ctor_1(
     Imath_Box2f_t * this_
     , Imath_V2f_t const * point)
 {
@@ -372,7 +372,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___ctor_1(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___ctor_2(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___ctor_2(
     Imath_Box2f_t * this_
     , Imath_V2f_t const * minV
     , Imath_V2f_t const * maxV)
@@ -381,7 +381,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___ctor_2(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float____eq(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float____eq(
     Imath_Box2f_t const * this_
     , _Bool * return_
     , Imath_Box2f_t const * src)
@@ -390,7 +390,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float____eq(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float____ne(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float____ne(
     Imath_Box2f_t const * this_
     , _Bool * return_
     , Imath_Box2f_t const * src)
@@ -399,14 +399,14 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float____ne(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___makeEmpty(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___makeEmpty(
     Imath_Box2f_t * this_)
 {
         (to_cpp(this_)) -> makeEmpty();
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___extendBy(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___extendBy(
     Imath_Box2f_t * this_
     , Imath_V2f_t const * point)
 {
@@ -414,7 +414,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___extendBy(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___extendBy_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___extendBy_1(
     Imath_Box2f_t * this_
     , Imath_Box2f_t const * box)
 {
@@ -422,14 +422,14 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___extendBy_1(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___makeInfinite(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___makeInfinite(
     Imath_Box2f_t * this_)
 {
         (to_cpp(this_)) -> makeInfinite();
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___size(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___size(
     Imath_Box2f_t const * this_
     , Imath_V2f_t * return_)
 {
@@ -437,7 +437,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___size(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___center(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___center(
     Imath_Box2f_t const * this_
     , Imath_V2f_t * return_)
 {
@@ -445,7 +445,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___center(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___intersects(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___intersects(
     Imath_Box2f_t const * this_
     , _Bool * return_
     , Imath_V2f_t const * point)
@@ -454,7 +454,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___intersects(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___intersects_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___intersects_1(
     Imath_Box2f_t const * this_
     , _Bool * return_
     , Imath_Box2f_t const * box)
@@ -463,7 +463,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___intersects_1(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___majorAxis(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___majorAxis(
     Imath_Box2f_t const * this_
     , unsigned int * return_)
 {
@@ -471,7 +471,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___majorAxis(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___isEmpty(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___isEmpty(
     Imath_Box2f_t const * this_
     , _Bool * return_)
 {
@@ -479,7 +479,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___isEmpty(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___hasVolume(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___hasVolume(
     Imath_Box2f_t const * this_
     , _Bool * return_)
 {
@@ -487,7 +487,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___hasVolume(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___isInfinite(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___isInfinite(
     Imath_Box2f_t const * this_
     , _Bool * return_)
 {
@@ -495,7 +495,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___isInfinite(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___copy(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___copy(
     Imath_Box2f_t * this_
     , Imath_Box2f_t const * rhs)
 {
@@ -508,7 +508,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___copy(
     }
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___move(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___move(
     Imath_Box2f_t * this_
     , Imath_Box2f_t * rhs)
 {
@@ -521,7 +521,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___move(
     }
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___dtor(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___dtor(
     Imath_Box2f_t * this_)
 {
     try {
@@ -533,14 +533,14 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_float___dtor(
     }
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___ctor(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___ctor(
     Imath_Box2d_t * this_)
 {
         new (this_) Imath_3_0::Box<Imath_3_0::Vec2<double> >();
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___ctor_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___ctor_1(
     Imath_Box2d_t * this_
     , Imath_V2d_t const * point)
 {
@@ -548,7 +548,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___ctor_1(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___ctor_2(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___ctor_2(
     Imath_Box2d_t * this_
     , Imath_V2d_t const * minV
     , Imath_V2d_t const * maxV)
@@ -557,7 +557,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___ctor_2(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double____eq(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double____eq(
     Imath_Box2d_t const * this_
     , _Bool * return_
     , Imath_Box2d_t const * src)
@@ -566,7 +566,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double____eq(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double____ne(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double____ne(
     Imath_Box2d_t const * this_
     , _Bool * return_
     , Imath_Box2d_t const * src)
@@ -575,14 +575,14 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double____ne(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___makeEmpty(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___makeEmpty(
     Imath_Box2d_t * this_)
 {
         (to_cpp(this_)) -> makeEmpty();
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___extendBy(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___extendBy(
     Imath_Box2d_t * this_
     , Imath_V2d_t const * point)
 {
@@ -590,7 +590,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___extendBy(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___extendBy_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___extendBy_1(
     Imath_Box2d_t * this_
     , Imath_Box2d_t const * box)
 {
@@ -598,14 +598,14 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___extendBy_1(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___makeInfinite(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___makeInfinite(
     Imath_Box2d_t * this_)
 {
         (to_cpp(this_)) -> makeInfinite();
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___size(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___size(
     Imath_Box2d_t const * this_
     , Imath_V2d_t * return_)
 {
@@ -613,7 +613,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___size(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___center(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___center(
     Imath_Box2d_t const * this_
     , Imath_V2d_t * return_)
 {
@@ -621,7 +621,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___center(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___intersects(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___intersects(
     Imath_Box2d_t const * this_
     , _Bool * return_
     , Imath_V2d_t const * point)
@@ -630,7 +630,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___intersects(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___intersects_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___intersects_1(
     Imath_Box2d_t const * this_
     , _Bool * return_
     , Imath_Box2d_t const * box)
@@ -639,7 +639,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___intersects_1(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___majorAxis(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___majorAxis(
     Imath_Box2d_t const * this_
     , unsigned int * return_)
 {
@@ -647,7 +647,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___majorAxis(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___isEmpty(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___isEmpty(
     Imath_Box2d_t const * this_
     , _Bool * return_)
 {
@@ -655,7 +655,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___isEmpty(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___hasVolume(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___hasVolume(
     Imath_Box2d_t const * this_
     , _Bool * return_)
 {
@@ -663,7 +663,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___hasVolume(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___isInfinite(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___isInfinite(
     Imath_Box2d_t const * this_
     , _Bool * return_)
 {
@@ -671,7 +671,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___isInfinite(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___copy(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___copy(
     Imath_Box2d_t * this_
     , Imath_Box2d_t const * rhs)
 {
@@ -684,7 +684,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___copy(
     }
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___move(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___move(
     Imath_Box2d_t * this_
     , Imath_Box2d_t * rhs)
 {
@@ -697,7 +697,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___move(
     }
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___dtor(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___dtor(
     Imath_Box2d_t * this_)
 {
     try {
@@ -709,14 +709,14 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec2_double___dtor(
     }
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___ctor(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___ctor(
     Imath_Box3s_t * this_)
 {
         new (this_) Imath_3_0::Box<Imath_3_0::Vec3<short> >();
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___ctor_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___ctor_1(
     Imath_Box3s_t * this_
     , Imath_V3s_t const * point)
 {
@@ -724,7 +724,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___ctor_1(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___ctor_2(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___ctor_2(
     Imath_Box3s_t * this_
     , Imath_V3s_t const * minV
     , Imath_V3s_t const * maxV)
@@ -733,7 +733,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___ctor_2(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short____eq(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short____eq(
     Imath_Box3s_t const * this_
     , _Bool * return_
     , Imath_Box3s_t const * src)
@@ -742,7 +742,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short____eq(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short____ne(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short____ne(
     Imath_Box3s_t const * this_
     , _Bool * return_
     , Imath_Box3s_t const * src)
@@ -751,14 +751,14 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short____ne(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___makeEmpty(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___makeEmpty(
     Imath_Box3s_t * this_)
 {
         (to_cpp(this_)) -> makeEmpty();
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___extendBy(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___extendBy(
     Imath_Box3s_t * this_
     , Imath_V3s_t const * point)
 {
@@ -766,7 +766,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___extendBy(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___extendBy_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___extendBy_1(
     Imath_Box3s_t * this_
     , Imath_Box3s_t const * box)
 {
@@ -774,14 +774,14 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___extendBy_1(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___makeInfinite(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___makeInfinite(
     Imath_Box3s_t * this_)
 {
         (to_cpp(this_)) -> makeInfinite();
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___size(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___size(
     Imath_Box3s_t const * this_
     , Imath_V3s_t * return_)
 {
@@ -789,7 +789,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___size(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___center(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___center(
     Imath_Box3s_t const * this_
     , Imath_V3s_t * return_)
 {
@@ -797,7 +797,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___center(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___intersects(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___intersects(
     Imath_Box3s_t const * this_
     , _Bool * return_
     , Imath_V3s_t const * point)
@@ -806,7 +806,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___intersects(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___intersects_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___intersects_1(
     Imath_Box3s_t const * this_
     , _Bool * return_
     , Imath_Box3s_t const * box)
@@ -815,7 +815,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___intersects_1(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___majorAxis(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___majorAxis(
     Imath_Box3s_t const * this_
     , unsigned int * return_)
 {
@@ -823,7 +823,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___majorAxis(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___isEmpty(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___isEmpty(
     Imath_Box3s_t const * this_
     , _Bool * return_)
 {
@@ -831,7 +831,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___isEmpty(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___hasVolume(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___hasVolume(
     Imath_Box3s_t const * this_
     , _Bool * return_)
 {
@@ -839,7 +839,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___hasVolume(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___isInfinite(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___isInfinite(
     Imath_Box3s_t const * this_
     , _Bool * return_)
 {
@@ -847,7 +847,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___isInfinite(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___copy(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___copy(
     Imath_Box3s_t * this_
     , Imath_Box3s_t const * rhs)
 {
@@ -860,7 +860,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___copy(
     }
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___move(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___move(
     Imath_Box3s_t * this_
     , Imath_Box3s_t * rhs)
 {
@@ -873,7 +873,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___move(
     }
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___dtor(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___dtor(
     Imath_Box3s_t * this_)
 {
     try {
@@ -885,14 +885,14 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_short___dtor(
     }
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___ctor(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___ctor(
     Imath_Box3i_t * this_)
 {
         new (this_) Imath_3_0::Box<Imath_3_0::Vec3<int> >();
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___ctor_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___ctor_1(
     Imath_Box3i_t * this_
     , Imath_V3i_t const * point)
 {
@@ -900,7 +900,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___ctor_1(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___ctor_2(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___ctor_2(
     Imath_Box3i_t * this_
     , Imath_V3i_t const * minV
     , Imath_V3i_t const * maxV)
@@ -909,7 +909,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___ctor_2(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int____eq(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int____eq(
     Imath_Box3i_t const * this_
     , _Bool * return_
     , Imath_Box3i_t const * src)
@@ -918,7 +918,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int____eq(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int____ne(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int____ne(
     Imath_Box3i_t const * this_
     , _Bool * return_
     , Imath_Box3i_t const * src)
@@ -927,14 +927,14 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int____ne(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___makeEmpty(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___makeEmpty(
     Imath_Box3i_t * this_)
 {
         (to_cpp(this_)) -> makeEmpty();
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___extendBy(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___extendBy(
     Imath_Box3i_t * this_
     , Imath_V3i_t const * point)
 {
@@ -942,7 +942,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___extendBy(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___extendBy_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___extendBy_1(
     Imath_Box3i_t * this_
     , Imath_Box3i_t const * box)
 {
@@ -950,14 +950,14 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___extendBy_1(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___makeInfinite(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___makeInfinite(
     Imath_Box3i_t * this_)
 {
         (to_cpp(this_)) -> makeInfinite();
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___size(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___size(
     Imath_Box3i_t const * this_
     , Imath_V3i_t * return_)
 {
@@ -965,7 +965,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___size(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___center(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___center(
     Imath_Box3i_t const * this_
     , Imath_V3i_t * return_)
 {
@@ -973,7 +973,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___center(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___intersects(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___intersects(
     Imath_Box3i_t const * this_
     , _Bool * return_
     , Imath_V3i_t const * point)
@@ -982,7 +982,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___intersects(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___intersects_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___intersects_1(
     Imath_Box3i_t const * this_
     , _Bool * return_
     , Imath_Box3i_t const * box)
@@ -991,7 +991,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___intersects_1(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___majorAxis(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___majorAxis(
     Imath_Box3i_t const * this_
     , unsigned int * return_)
 {
@@ -999,7 +999,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___majorAxis(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___isEmpty(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___isEmpty(
     Imath_Box3i_t const * this_
     , _Bool * return_)
 {
@@ -1007,7 +1007,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___isEmpty(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___hasVolume(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___hasVolume(
     Imath_Box3i_t const * this_
     , _Bool * return_)
 {
@@ -1015,7 +1015,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___hasVolume(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___isInfinite(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___isInfinite(
     Imath_Box3i_t const * this_
     , _Bool * return_)
 {
@@ -1023,7 +1023,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___isInfinite(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___copy(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___copy(
     Imath_Box3i_t * this_
     , Imath_Box3i_t const * rhs)
 {
@@ -1036,7 +1036,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___copy(
     }
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___move(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___move(
     Imath_Box3i_t * this_
     , Imath_Box3i_t * rhs)
 {
@@ -1049,7 +1049,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___move(
     }
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___dtor(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___dtor(
     Imath_Box3i_t * this_)
 {
     try {
@@ -1061,14 +1061,14 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_int___dtor(
     }
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___ctor(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___ctor(
     Imath_Box3f_t * this_)
 {
         new (this_) Imath_3_0::Box<Imath_3_0::Vec3<float> >();
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___ctor_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___ctor_1(
     Imath_Box3f_t * this_
     , Imath_V3f_t const * point)
 {
@@ -1076,7 +1076,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___ctor_1(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___ctor_2(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___ctor_2(
     Imath_Box3f_t * this_
     , Imath_V3f_t const * minV
     , Imath_V3f_t const * maxV)
@@ -1085,7 +1085,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___ctor_2(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float____eq(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float____eq(
     Imath_Box3f_t const * this_
     , _Bool * return_
     , Imath_Box3f_t const * src)
@@ -1094,7 +1094,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float____eq(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float____ne(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float____ne(
     Imath_Box3f_t const * this_
     , _Bool * return_
     , Imath_Box3f_t const * src)
@@ -1103,14 +1103,14 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float____ne(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___makeEmpty(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___makeEmpty(
     Imath_Box3f_t * this_)
 {
         (to_cpp(this_)) -> makeEmpty();
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___extendBy(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___extendBy(
     Imath_Box3f_t * this_
     , Imath_V3f_t const * point)
 {
@@ -1118,7 +1118,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___extendBy(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___extendBy_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___extendBy_1(
     Imath_Box3f_t * this_
     , Imath_Box3f_t const * box)
 {
@@ -1126,14 +1126,14 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___extendBy_1(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___makeInfinite(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___makeInfinite(
     Imath_Box3f_t * this_)
 {
         (to_cpp(this_)) -> makeInfinite();
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___size(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___size(
     Imath_Box3f_t const * this_
     , Imath_V3f_t * return_)
 {
@@ -1141,7 +1141,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___size(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___center(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___center(
     Imath_Box3f_t const * this_
     , Imath_V3f_t * return_)
 {
@@ -1149,7 +1149,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___center(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___intersects(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___intersects(
     Imath_Box3f_t const * this_
     , _Bool * return_
     , Imath_V3f_t const * point)
@@ -1158,7 +1158,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___intersects(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___intersects_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___intersects_1(
     Imath_Box3f_t const * this_
     , _Bool * return_
     , Imath_Box3f_t const * box)
@@ -1167,7 +1167,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___intersects_1(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___majorAxis(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___majorAxis(
     Imath_Box3f_t const * this_
     , unsigned int * return_)
 {
@@ -1175,7 +1175,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___majorAxis(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___isEmpty(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___isEmpty(
     Imath_Box3f_t const * this_
     , _Bool * return_)
 {
@@ -1183,7 +1183,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___isEmpty(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___hasVolume(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___hasVolume(
     Imath_Box3f_t const * this_
     , _Bool * return_)
 {
@@ -1191,7 +1191,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___hasVolume(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___isInfinite(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___isInfinite(
     Imath_Box3f_t const * this_
     , _Bool * return_)
 {
@@ -1199,7 +1199,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___isInfinite(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___copy(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___copy(
     Imath_Box3f_t * this_
     , Imath_Box3f_t const * rhs)
 {
@@ -1212,7 +1212,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___copy(
     }
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___move(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___move(
     Imath_Box3f_t * this_
     , Imath_Box3f_t * rhs)
 {
@@ -1225,7 +1225,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___move(
     }
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___dtor(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___dtor(
     Imath_Box3f_t * this_)
 {
     try {
@@ -1237,14 +1237,14 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_float___dtor(
     }
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___ctor(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___ctor(
     Imath_Box3d_t * this_)
 {
         new (this_) Imath_3_0::Box<Imath_3_0::Vec3<double> >();
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___ctor_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___ctor_1(
     Imath_Box3d_t * this_
     , Imath_V3d_t const * point)
 {
@@ -1252,7 +1252,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___ctor_1(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___ctor_2(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___ctor_2(
     Imath_Box3d_t * this_
     , Imath_V3d_t const * minV
     , Imath_V3d_t const * maxV)
@@ -1261,7 +1261,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___ctor_2(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double____eq(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double____eq(
     Imath_Box3d_t const * this_
     , _Bool * return_
     , Imath_Box3d_t const * src)
@@ -1270,7 +1270,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double____eq(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double____ne(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double____ne(
     Imath_Box3d_t const * this_
     , _Bool * return_
     , Imath_Box3d_t const * src)
@@ -1279,14 +1279,14 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double____ne(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___makeEmpty(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___makeEmpty(
     Imath_Box3d_t * this_)
 {
         (to_cpp(this_)) -> makeEmpty();
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___extendBy(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___extendBy(
     Imath_Box3d_t * this_
     , Imath_V3d_t const * point)
 {
@@ -1294,7 +1294,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___extendBy(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___extendBy_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___extendBy_1(
     Imath_Box3d_t * this_
     , Imath_Box3d_t const * box)
 {
@@ -1302,14 +1302,14 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___extendBy_1(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___makeInfinite(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___makeInfinite(
     Imath_Box3d_t * this_)
 {
         (to_cpp(this_)) -> makeInfinite();
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___size(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___size(
     Imath_Box3d_t const * this_
     , Imath_V3d_t * return_)
 {
@@ -1317,7 +1317,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___size(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___center(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___center(
     Imath_Box3d_t const * this_
     , Imath_V3d_t * return_)
 {
@@ -1325,7 +1325,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___center(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___intersects(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___intersects(
     Imath_Box3d_t const * this_
     , _Bool * return_
     , Imath_V3d_t const * point)
@@ -1334,7 +1334,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___intersects(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___intersects_1(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___intersects_1(
     Imath_Box3d_t const * this_
     , _Bool * return_
     , Imath_Box3d_t const * box)
@@ -1343,7 +1343,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___intersects_1(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___majorAxis(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___majorAxis(
     Imath_Box3d_t const * this_
     , unsigned int * return_)
 {
@@ -1351,7 +1351,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___majorAxis(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___isEmpty(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___isEmpty(
     Imath_Box3d_t const * this_
     , _Bool * return_)
 {
@@ -1359,7 +1359,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___isEmpty(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___hasVolume(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___hasVolume(
     Imath_Box3d_t const * this_
     , _Bool * return_)
 {
@@ -1367,7 +1367,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___hasVolume(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___isInfinite(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___isInfinite(
     Imath_Box3d_t const * this_
     , _Bool * return_)
 {
@@ -1375,7 +1375,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___isInfinite(
         return 0;
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___copy(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___copy(
     Imath_Box3d_t * this_
     , Imath_Box3d_t const * rhs)
 {
@@ -1388,7 +1388,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___copy(
     }
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___move(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___move(
     Imath_Box3d_t * this_
     , Imath_Box3d_t * rhs)
 {
@@ -1401,7 +1401,7 @@ unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___move(
     }
 }
 
-unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___dtor(
+OPENEXR_CPPMM_API unsigned int Imath_3_0__Box_Imath_3_0__Vec3_double___dtor(
     Imath_Box3d_t * this_)
 {
     try {

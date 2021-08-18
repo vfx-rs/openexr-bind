@@ -3,7 +3,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0_globalThreadCount(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_globalThreadCount(
     int * return_)
 {
     try {
@@ -15,7 +15,7 @@ unsigned int Imf_3_0_globalThreadCount(
     }
 }
 
-unsigned int Imf_3_0_setGlobalThreadCount(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_setGlobalThreadCount(
     int count)
 {
     try {

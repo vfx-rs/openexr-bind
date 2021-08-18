@@ -5,7 +5,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0__Chromaticities_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__Chromaticities_ctor(
     Imf_Chromaticities_t * this_
     , Imath_V2f_t const * red
     , Imath_V2f_t const * green
@@ -21,7 +21,7 @@ unsigned int Imf_3_0__Chromaticities_ctor(
     }
 }
 
-unsigned int Imf_3_0__Chromaticities__eq(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__Chromaticities__eq(
     Imf_Chromaticities_t const * this_
     , _Bool * return_
     , Imf_Chromaticities_t const * v)
@@ -35,7 +35,7 @@ unsigned int Imf_3_0__Chromaticities__eq(
     }
 }
 
-unsigned int Imf_3_0__Chromaticities__ne(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__Chromaticities__ne(
     Imf_Chromaticities_t const * this_
     , _Bool * return_
     , Imf_Chromaticities_t const * v)
@@ -49,7 +49,7 @@ unsigned int Imf_3_0__Chromaticities__ne(
     }
 }
 
-unsigned int Imf_3_0__Chromaticities_copy(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__Chromaticities_copy(
     Imf_Chromaticities_t * this_
     , Imf_Chromaticities_t const * rhs)
 {
@@ -62,7 +62,7 @@ unsigned int Imf_3_0__Chromaticities_copy(
     }
 }
 
-unsigned int Imf_3_0__Chromaticities_move(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__Chromaticities_move(
     Imf_Chromaticities_t * this_
     , Imf_Chromaticities_t * rhs)
 {
@@ -75,7 +75,7 @@ unsigned int Imf_3_0__Chromaticities_move(
     }
 }
 
-unsigned int Imf_3_0__Chromaticities_dtor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__Chromaticities_dtor(
     Imf_Chromaticities_t * this_)
 {
     try {

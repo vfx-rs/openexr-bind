@@ -21,9 +21,9 @@ pub fn Imf_3_0__OStream_dtor(this_: *mut Imf_OStream_t) -> Exception;
 
 pub fn Imf_3_0__OStream_write(this_: *mut Imf_OStream_t, c: *const c_char, n: c_int) -> Exception;
 
-pub fn Imf_3_0__OStream_tellp(this_: *mut Imf_OStream_t, return_: *mut c_ulong) -> Exception;
+pub fn Imf_3_0__OStream_tellp(this_: *mut Imf_OStream_t, return_: *mut u64) -> Exception;
 
-pub fn Imf_3_0__OStream_seekp(this_: *mut Imf_OStream_t, pos: c_ulong) -> Exception;
+pub fn Imf_3_0__OStream_seekp(this_: *mut Imf_OStream_t, pos: u64) -> Exception;
 
 pub fn Imf_3_0__OStream_fileName(this_: *const Imf_OStream_t, return_: *mut *const c_char) -> Exception;
 
@@ -35,9 +35,9 @@ pub fn Imf_3_0__IStream_read(this_: *mut Imf_IStream_t, return_: *mut bool, c: *
 
 pub fn Imf_3_0__IStream_readMemoryMapped(this_: *mut Imf_IStream_t, return_: *mut *mut c_char, n: c_int) -> Exception;
 
-pub fn Imf_3_0__IStream_tellg(this_: *mut Imf_IStream_t, return_: *mut c_ulong) -> Exception;
+pub fn Imf_3_0__IStream_tellg(this_: *mut Imf_IStream_t, return_: *mut u64) -> Exception;
 
-pub fn Imf_3_0__IStream_seekg(this_: *mut Imf_IStream_t, pos: c_ulong) -> Exception;
+pub fn Imf_3_0__IStream_seekg(this_: *mut Imf_IStream_t, pos: u64) -> Exception;
 
 pub fn Imf_3_0__IStream_clear(this_: *mut Imf_IStream_t) -> Exception;
 

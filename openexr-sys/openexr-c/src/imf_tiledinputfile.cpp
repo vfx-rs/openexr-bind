@@ -9,7 +9,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0__TiledInputFile_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputFile_ctor(
     Imf_TiledInputFile_t * * this_
     , char const * fileName
     , int numThreads)
@@ -26,7 +26,7 @@ unsigned int Imf_3_0__TiledInputFile_ctor(
     }
 }
 
-unsigned int Imf_3_0__TiledInputFile_from_stream(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputFile_from_stream(
     Imf_TiledInputFile_t * * this_
     , Imf_IStream_t * is
     , int numThreads)
@@ -43,7 +43,7 @@ unsigned int Imf_3_0__TiledInputFile_from_stream(
     }
 }
 
-unsigned int Imf_3_0__TiledInputFile_dtor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputFile_dtor(
     Imf_TiledInputFile_t * this_)
 {
     try {
@@ -55,7 +55,7 @@ unsigned int Imf_3_0__TiledInputFile_dtor(
     }
 }
 
-unsigned int Imf_3_0__TiledInputFile_fileName(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputFile_fileName(
     Imf_TiledInputFile_t const * this_
     , char const * * return_)
 {
@@ -68,7 +68,7 @@ unsigned int Imf_3_0__TiledInputFile_fileName(
     }
 }
 
-unsigned int Imf_3_0__TiledInputFile_header(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputFile_header(
     Imf_TiledInputFile_t const * this_
     , Imf_Header_t const * * return_)
 {
@@ -81,7 +81,7 @@ unsigned int Imf_3_0__TiledInputFile_header(
     }
 }
 
-unsigned int Imf_3_0__TiledInputFile_version(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputFile_version(
     Imf_TiledInputFile_t const * this_
     , int * return_)
 {
@@ -94,7 +94,7 @@ unsigned int Imf_3_0__TiledInputFile_version(
     }
 }
 
-unsigned int Imf_3_0__TiledInputFile_setFrameBuffer(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputFile_setFrameBuffer(
     Imf_TiledInputFile_t * this_
     , Imf_FrameBuffer_t const * frameBuffer)
 {
@@ -110,7 +110,7 @@ unsigned int Imf_3_0__TiledInputFile_setFrameBuffer(
     }
 }
 
-unsigned int Imf_3_0__TiledInputFile_frameBuffer(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputFile_frameBuffer(
     Imf_TiledInputFile_t const * this_
     , Imf_FrameBuffer_t const * * return_)
 {
@@ -123,7 +123,7 @@ unsigned int Imf_3_0__TiledInputFile_frameBuffer(
     }
 }
 
-unsigned int Imf_3_0__TiledInputFile_isComplete(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputFile_isComplete(
     Imf_TiledInputFile_t const * this_
     , _Bool * return_)
 {
@@ -136,7 +136,7 @@ unsigned int Imf_3_0__TiledInputFile_isComplete(
     }
 }
 
-unsigned int Imf_3_0__TiledInputFile_tileXSize(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputFile_tileXSize(
     Imf_TiledInputFile_t const * this_
     , unsigned int * return_)
 {
@@ -149,7 +149,7 @@ unsigned int Imf_3_0__TiledInputFile_tileXSize(
     }
 }
 
-unsigned int Imf_3_0__TiledInputFile_tileYSize(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputFile_tileYSize(
     Imf_TiledInputFile_t const * this_
     , unsigned int * return_)
 {
@@ -162,7 +162,7 @@ unsigned int Imf_3_0__TiledInputFile_tileYSize(
     }
 }
 
-unsigned int Imf_3_0__TiledInputFile_levelMode(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputFile_levelMode(
     Imf_TiledInputFile_t const * this_
     , Imf_LevelMode * return_)
 {
@@ -175,7 +175,7 @@ unsigned int Imf_3_0__TiledInputFile_levelMode(
     }
 }
 
-unsigned int Imf_3_0__TiledInputFile_levelRoundingMode(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputFile_levelRoundingMode(
     Imf_TiledInputFile_t const * this_
     , Imf_LevelRoundingMode * return_)
 {
@@ -188,7 +188,7 @@ unsigned int Imf_3_0__TiledInputFile_levelRoundingMode(
     }
 }
 
-unsigned int Imf_3_0__TiledInputFile_numLevels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputFile_numLevels(
     Imf_TiledInputFile_t const * this_
     , int * return_)
 {
@@ -204,7 +204,7 @@ unsigned int Imf_3_0__TiledInputFile_numLevels(
     }
 }
 
-unsigned int Imf_3_0__TiledInputFile_numXLevels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputFile_numXLevels(
     Imf_TiledInputFile_t const * this_
     , int * return_)
 {
@@ -217,7 +217,7 @@ unsigned int Imf_3_0__TiledInputFile_numXLevels(
     }
 }
 
-unsigned int Imf_3_0__TiledInputFile_numYLevels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputFile_numYLevels(
     Imf_TiledInputFile_t const * this_
     , int * return_)
 {
@@ -230,7 +230,7 @@ unsigned int Imf_3_0__TiledInputFile_numYLevels(
     }
 }
 
-unsigned int Imf_3_0__TiledInputFile_isValidLevel(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputFile_isValidLevel(
     Imf_TiledInputFile_t const * this_
     , _Bool * return_
     , int lx
@@ -245,7 +245,7 @@ unsigned int Imf_3_0__TiledInputFile_isValidLevel(
     }
 }
 
-unsigned int Imf_3_0__TiledInputFile_levelWidth(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputFile_levelWidth(
     Imf_TiledInputFile_t const * this_
     , int * return_
     , int lx)
@@ -262,7 +262,7 @@ unsigned int Imf_3_0__TiledInputFile_levelWidth(
     }
 }
 
-unsigned int Imf_3_0__TiledInputFile_levelHeight(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputFile_levelHeight(
     Imf_TiledInputFile_t const * this_
     , int * return_
     , int ly)
@@ -279,7 +279,7 @@ unsigned int Imf_3_0__TiledInputFile_levelHeight(
     }
 }
 
-unsigned int Imf_3_0__TiledInputFile_numXTiles(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputFile_numXTiles(
     Imf_TiledInputFile_t const * this_
     , int * return_
     , int lx)
@@ -296,7 +296,7 @@ unsigned int Imf_3_0__TiledInputFile_numXTiles(
     }
 }
 
-unsigned int Imf_3_0__TiledInputFile_numYTiles(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputFile_numYTiles(
     Imf_TiledInputFile_t const * this_
     , int * return_
     , int ly)
@@ -313,7 +313,7 @@ unsigned int Imf_3_0__TiledInputFile_numYTiles(
     }
 }
 
-unsigned int Imf_3_0__TiledInputFile_dataWindowForLevel(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputFile_dataWindowForLevel(
     Imf_TiledInputFile_t const * this_
     , Imath_Box2i_t * return_
     , int lx
@@ -334,7 +334,7 @@ unsigned int Imf_3_0__TiledInputFile_dataWindowForLevel(
     }
 }
 
-unsigned int Imf_3_0__TiledInputFile_dataWindowForTile(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputFile_dataWindowForTile(
     Imf_TiledInputFile_t const * this_
     , Imath_Box2i_t * return_
     , int dx
@@ -357,7 +357,7 @@ unsigned int Imf_3_0__TiledInputFile_dataWindowForTile(
     }
 }
 
-unsigned int Imf_3_0__TiledInputFile_readTile(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputFile_readTile(
     Imf_TiledInputFile_t * this_
     , int dx
     , int dy
@@ -382,7 +382,7 @@ unsigned int Imf_3_0__TiledInputFile_readTile(
     }
 }
 
-unsigned int Imf_3_0__TiledInputFile_readTiles(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputFile_readTiles(
     Imf_TiledInputFile_t * this_
     , int dx1
     , int dx2
@@ -409,7 +409,7 @@ unsigned int Imf_3_0__TiledInputFile_readTiles(
     }
 }
 
-unsigned int Imf_3_0__TiledInputFile_rawTileData(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledInputFile_rawTileData(
     Imf_TiledInputFile_t * this_
     , int * dx
     , int * dy

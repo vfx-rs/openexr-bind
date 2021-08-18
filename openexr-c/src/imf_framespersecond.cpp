@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0_fps_23_976(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_fps_23_976(
     Imf_Rational_t * return_)
 {
     try {
@@ -16,7 +16,7 @@ unsigned int Imf_3_0_fps_23_976(
     }
 }
 
-unsigned int Imf_3_0_fps_24(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_fps_24(
     Imf_Rational_t * return_)
 {
     try {
@@ -28,7 +28,7 @@ unsigned int Imf_3_0_fps_24(
     }
 }
 
-unsigned int Imf_3_0_fps_25(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_fps_25(
     Imf_Rational_t * return_)
 {
     try {
@@ -40,7 +40,7 @@ unsigned int Imf_3_0_fps_25(
     }
 }
 
-unsigned int Imf_3_0_fps_29_97(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_fps_29_97(
     Imf_Rational_t * return_)
 {
     try {
@@ -52,7 +52,7 @@ unsigned int Imf_3_0_fps_29_97(
     }
 }
 
-unsigned int Imf_3_0_fps_30(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_fps_30(
     Imf_Rational_t * return_)
 {
     try {
@@ -64,7 +64,7 @@ unsigned int Imf_3_0_fps_30(
     }
 }
 
-unsigned int Imf_3_0_fps_47_952(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_fps_47_952(
     Imf_Rational_t * return_)
 {
     try {
@@ -76,7 +76,7 @@ unsigned int Imf_3_0_fps_47_952(
     }
 }
 
-unsigned int Imf_3_0_fps_48(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_fps_48(
     Imf_Rational_t * return_)
 {
     try {
@@ -88,7 +88,7 @@ unsigned int Imf_3_0_fps_48(
     }
 }
 
-unsigned int Imf_3_0_fps_50(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_fps_50(
     Imf_Rational_t * return_)
 {
     try {
@@ -100,7 +100,7 @@ unsigned int Imf_3_0_fps_50(
     }
 }
 
-unsigned int Imf_3_0_fps_59_94(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_fps_59_94(
     Imf_Rational_t * return_)
 {
     try {
@@ -112,7 +112,7 @@ unsigned int Imf_3_0_fps_59_94(
     }
 }
 
-unsigned int Imf_3_0_fps_60(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_fps_60(
     Imf_Rational_t * return_)
 {
     try {
@@ -124,7 +124,7 @@ unsigned int Imf_3_0_fps_60(
     }
 }
 
-unsigned int Imf_3_0_guessExactFps_f64(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_guessExactFps_f64(
     Imf_Rational_t * return_
     , double fps)
 {
@@ -137,7 +137,7 @@ unsigned int Imf_3_0_guessExactFps_f64(
     }
 }
 
-unsigned int Imf_3_0_guessExactFps(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_guessExactFps(
     Imf_Rational_t * return_
     , Imf_Rational_t const * fps)
 {

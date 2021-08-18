@@ -15,7 +15,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0__TiledRgbaOutputFile_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_ctor(
     Imf_TiledRgbaOutputFile_t * * this_
     , char const * name
     , Imf_Header_t const * header
@@ -38,7 +38,7 @@ unsigned int Imf_3_0__TiledRgbaOutputFile_ctor(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaOutputFile_from_stream(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_from_stream(
     Imf_TiledRgbaOutputFile_t * * this_
     , Imf_OStream_t * os
     , Imf_Header_t const * header
@@ -61,7 +61,7 @@ unsigned int Imf_3_0__TiledRgbaOutputFile_from_stream(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaOutputFile_with_windows(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_with_windows(
     Imf_TiledRgbaOutputFile_t * * this_
     , char const * name
     , int tileXSize
@@ -90,7 +90,7 @@ unsigned int Imf_3_0__TiledRgbaOutputFile_with_windows(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaOutputFile_with_dimensions(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_with_dimensions(
     Imf_TiledRgbaOutputFile_t * * this_
     , char const * name
     , int width
@@ -119,7 +119,7 @@ unsigned int Imf_3_0__TiledRgbaOutputFile_with_dimensions(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaOutputFile_dtor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_dtor(
     Imf_TiledRgbaOutputFile_t * this_)
 {
     try {
@@ -131,7 +131,7 @@ unsigned int Imf_3_0__TiledRgbaOutputFile_dtor(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaOutputFile_setFrameBuffer(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_setFrameBuffer(
     Imf_TiledRgbaOutputFile_t * this_
     , Imf_Rgba_t const * base
     , unsigned long xStride
@@ -146,7 +146,7 @@ unsigned int Imf_3_0__TiledRgbaOutputFile_setFrameBuffer(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaOutputFile_header(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_header(
     Imf_TiledRgbaOutputFile_t const * this_
     , Imf_Header_t const * * return_)
 {
@@ -159,7 +159,7 @@ unsigned int Imf_3_0__TiledRgbaOutputFile_header(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaOutputFile_frameBuffer(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_frameBuffer(
     Imf_TiledRgbaOutputFile_t const * this_
     , Imf_FrameBuffer_t const * * return_)
 {
@@ -172,7 +172,7 @@ unsigned int Imf_3_0__TiledRgbaOutputFile_frameBuffer(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaOutputFile_displayWindow(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_displayWindow(
     Imf_TiledRgbaOutputFile_t const * this_
     , Imath_Box2i_t const * * return_)
 {
@@ -185,7 +185,7 @@ unsigned int Imf_3_0__TiledRgbaOutputFile_displayWindow(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaOutputFile_dataWindow(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_dataWindow(
     Imf_TiledRgbaOutputFile_t const * this_
     , Imath_Box2i_t const * * return_)
 {
@@ -198,7 +198,7 @@ unsigned int Imf_3_0__TiledRgbaOutputFile_dataWindow(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaOutputFile_pixelAspectRatio(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_pixelAspectRatio(
     Imf_TiledRgbaOutputFile_t const * this_
     , float * return_)
 {
@@ -211,7 +211,7 @@ unsigned int Imf_3_0__TiledRgbaOutputFile_pixelAspectRatio(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaOutputFile_screenWindowCenter(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_screenWindowCenter(
     Imf_TiledRgbaOutputFile_t const * this_
     , Imath_V2f_t * return_)
 {
@@ -224,7 +224,7 @@ unsigned int Imf_3_0__TiledRgbaOutputFile_screenWindowCenter(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaOutputFile_screenWindowWidth(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_screenWindowWidth(
     Imf_TiledRgbaOutputFile_t const * this_
     , float * return_)
 {
@@ -237,7 +237,7 @@ unsigned int Imf_3_0__TiledRgbaOutputFile_screenWindowWidth(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaOutputFile_lineOrder(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_lineOrder(
     Imf_TiledRgbaOutputFile_t const * this_
     , Imf_LineOrder * return_)
 {
@@ -250,7 +250,7 @@ unsigned int Imf_3_0__TiledRgbaOutputFile_lineOrder(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaOutputFile_compression(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_compression(
     Imf_TiledRgbaOutputFile_t const * this_
     , Imf_Compression * return_)
 {
@@ -263,7 +263,7 @@ unsigned int Imf_3_0__TiledRgbaOutputFile_compression(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaOutputFile_channels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_channels(
     Imf_TiledRgbaOutputFile_t const * this_
     , Imf_RgbaChannels * return_)
 {
@@ -276,7 +276,7 @@ unsigned int Imf_3_0__TiledRgbaOutputFile_channels(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaOutputFile_tileXSize(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_tileXSize(
     Imf_TiledRgbaOutputFile_t const * this_
     , unsigned int * return_)
 {
@@ -289,7 +289,7 @@ unsigned int Imf_3_0__TiledRgbaOutputFile_tileXSize(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaOutputFile_tileYSize(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_tileYSize(
     Imf_TiledRgbaOutputFile_t const * this_
     , unsigned int * return_)
 {
@@ -302,7 +302,7 @@ unsigned int Imf_3_0__TiledRgbaOutputFile_tileYSize(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaOutputFile_levelMode(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_levelMode(
     Imf_TiledRgbaOutputFile_t const * this_
     , Imf_LevelMode * return_)
 {
@@ -315,7 +315,7 @@ unsigned int Imf_3_0__TiledRgbaOutputFile_levelMode(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaOutputFile_levelRoundingMode(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_levelRoundingMode(
     Imf_TiledRgbaOutputFile_t const * this_
     , Imf_LevelRoundingMode * return_)
 {
@@ -328,7 +328,7 @@ unsigned int Imf_3_0__TiledRgbaOutputFile_levelRoundingMode(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaOutputFile_numLevels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_numLevels(
     Imf_TiledRgbaOutputFile_t const * this_
     , int * return_)
 {
@@ -344,7 +344,7 @@ unsigned int Imf_3_0__TiledRgbaOutputFile_numLevels(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaOutputFile_numXLevels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_numXLevels(
     Imf_TiledRgbaOutputFile_t const * this_
     , int * return_)
 {
@@ -357,7 +357,7 @@ unsigned int Imf_3_0__TiledRgbaOutputFile_numXLevels(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaOutputFile_numYLevels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_numYLevels(
     Imf_TiledRgbaOutputFile_t const * this_
     , int * return_)
 {
@@ -370,7 +370,7 @@ unsigned int Imf_3_0__TiledRgbaOutputFile_numYLevels(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaOutputFile_isValidLevel(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_isValidLevel(
     Imf_TiledRgbaOutputFile_t const * this_
     , _Bool * return_
     , int lx
@@ -385,7 +385,7 @@ unsigned int Imf_3_0__TiledRgbaOutputFile_isValidLevel(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaOutputFile_levelWidth(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_levelWidth(
     Imf_TiledRgbaOutputFile_t const * this_
     , int * return_
     , int lx)
@@ -402,7 +402,7 @@ unsigned int Imf_3_0__TiledRgbaOutputFile_levelWidth(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaOutputFile_levelHeight(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_levelHeight(
     Imf_TiledRgbaOutputFile_t const * this_
     , int * return_
     , int ly)
@@ -419,7 +419,7 @@ unsigned int Imf_3_0__TiledRgbaOutputFile_levelHeight(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaOutputFile_numXTiles(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_numXTiles(
     Imf_TiledRgbaOutputFile_t const * this_
     , int * return_
     , int lx)
@@ -436,7 +436,7 @@ unsigned int Imf_3_0__TiledRgbaOutputFile_numXTiles(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaOutputFile_numYTiles(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_numYTiles(
     Imf_TiledRgbaOutputFile_t const * this_
     , int * return_
     , int ly)
@@ -453,7 +453,7 @@ unsigned int Imf_3_0__TiledRgbaOutputFile_numYTiles(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaOutputFile_dataWindowForLevel(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_dataWindowForLevel(
     Imf_TiledRgbaOutputFile_t const * this_
     , Imath_Box2i_t * return_
     , int lx
@@ -471,7 +471,7 @@ unsigned int Imf_3_0__TiledRgbaOutputFile_dataWindowForLevel(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaOutputFile_dataWindowForTile(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_dataWindowForTile(
     Imf_TiledRgbaOutputFile_t const * this_
     , Imath_Box2i_t * return_
     , int dx
@@ -494,7 +494,7 @@ unsigned int Imf_3_0__TiledRgbaOutputFile_dataWindowForTile(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaOutputFile_writeTile(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_writeTile(
     Imf_TiledRgbaOutputFile_t * this_
     , int dx
     , int dy
@@ -516,7 +516,7 @@ unsigned int Imf_3_0__TiledRgbaOutputFile_writeTile(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaOutputFile_writeTiles(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_writeTiles(
     Imf_TiledRgbaOutputFile_t * this_
     , int dxMin
     , int dxMax
@@ -540,7 +540,7 @@ unsigned int Imf_3_0__TiledRgbaOutputFile_writeTiles(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaOutputFile_updatePreviewImage(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaOutputFile_updatePreviewImage(
     Imf_TiledRgbaOutputFile_t * this_
     , Imf_PreviewRgba_t const * newPixels)
 {
@@ -559,7 +559,7 @@ unsigned int Imf_3_0__TiledRgbaOutputFile_updatePreviewImage(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_ctor(
     Imf_TiledRgbaInputFile_t * * this_
     , char const * name
     , int numThreads)
@@ -576,7 +576,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_ctor(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_from_stream(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_from_stream(
     Imf_TiledRgbaInputFile_t * * this_
     , Imf_IStream_t * is
     , int numThreads)
@@ -593,7 +593,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_from_stream(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_with_layer(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_with_layer(
     Imf_TiledRgbaInputFile_t * * this_
     , char const * name
     , std_string_t const * layerName
@@ -611,7 +611,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_with_layer(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_from_stream_with_layer(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_from_stream_with_layer(
     Imf_TiledRgbaInputFile_t * * this_
     , Imf_IStream_t * is
     , std_string_t const * layerName
@@ -629,7 +629,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_from_stream_with_layer(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_dtor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_dtor(
     Imf_TiledRgbaInputFile_t * this_)
 {
     try {
@@ -641,7 +641,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_dtor(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_setFrameBuffer(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_setFrameBuffer(
     Imf_TiledRgbaInputFile_t * this_
     , Imf_Rgba_t * base
     , unsigned long xStride
@@ -659,7 +659,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_setFrameBuffer(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_setLayerName(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_setLayerName(
     Imf_TiledRgbaInputFile_t * this_
     , std_string_t const * layerName)
 {
@@ -672,7 +672,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_setLayerName(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_header(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_header(
     Imf_TiledRgbaInputFile_t const * this_
     , Imf_Header_t const * * return_)
 {
@@ -685,7 +685,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_header(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_frameBuffer(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_frameBuffer(
     Imf_TiledRgbaInputFile_t const * this_
     , Imf_FrameBuffer_t const * * return_)
 {
@@ -698,7 +698,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_frameBuffer(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_displayWindow(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_displayWindow(
     Imf_TiledRgbaInputFile_t const * this_
     , Imath_Box2i_t const * * return_)
 {
@@ -711,7 +711,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_displayWindow(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_dataWindow(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_dataWindow(
     Imf_TiledRgbaInputFile_t const * this_
     , Imath_Box2i_t const * * return_)
 {
@@ -724,7 +724,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_dataWindow(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_pixelAspectRatio(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_pixelAspectRatio(
     Imf_TiledRgbaInputFile_t const * this_
     , float * return_)
 {
@@ -737,7 +737,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_pixelAspectRatio(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_screenWindowCenter(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_screenWindowCenter(
     Imf_TiledRgbaInputFile_t const * this_
     , Imath_V2f_t * return_)
 {
@@ -750,7 +750,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_screenWindowCenter(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_screenWindowWidth(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_screenWindowWidth(
     Imf_TiledRgbaInputFile_t const * this_
     , float * return_)
 {
@@ -763,7 +763,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_screenWindowWidth(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_lineOrder(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_lineOrder(
     Imf_TiledRgbaInputFile_t const * this_
     , Imf_LineOrder * return_)
 {
@@ -776,7 +776,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_lineOrder(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_compression(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_compression(
     Imf_TiledRgbaInputFile_t const * this_
     , Imf_Compression * return_)
 {
@@ -789,7 +789,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_compression(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_channels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_channels(
     Imf_TiledRgbaInputFile_t const * this_
     , Imf_RgbaChannels * return_)
 {
@@ -802,7 +802,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_channels(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_fileName(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_fileName(
     Imf_TiledRgbaInputFile_t const * this_
     , char const * * return_)
 {
@@ -815,7 +815,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_fileName(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_isComplete(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_isComplete(
     Imf_TiledRgbaInputFile_t const * this_
     , _Bool * return_)
 {
@@ -828,7 +828,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_isComplete(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_version(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_version(
     Imf_TiledRgbaInputFile_t const * this_
     , int * return_)
 {
@@ -841,7 +841,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_version(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_tileXSize(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_tileXSize(
     Imf_TiledRgbaInputFile_t const * this_
     , unsigned int * return_)
 {
@@ -854,7 +854,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_tileXSize(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_tileYSize(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_tileYSize(
     Imf_TiledRgbaInputFile_t const * this_
     , unsigned int * return_)
 {
@@ -867,7 +867,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_tileYSize(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_levelMode(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_levelMode(
     Imf_TiledRgbaInputFile_t const * this_
     , Imf_LevelMode * return_)
 {
@@ -880,7 +880,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_levelMode(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_levelRoundingMode(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_levelRoundingMode(
     Imf_TiledRgbaInputFile_t const * this_
     , Imf_LevelRoundingMode * return_)
 {
@@ -893,7 +893,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_levelRoundingMode(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_numLevels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_numLevels(
     Imf_TiledRgbaInputFile_t const * this_
     , int * return_)
 {
@@ -906,7 +906,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_numLevels(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_numXLevels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_numXLevels(
     Imf_TiledRgbaInputFile_t const * this_
     , int * return_)
 {
@@ -919,7 +919,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_numXLevels(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_numYLevels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_numYLevels(
     Imf_TiledRgbaInputFile_t const * this_
     , int * return_)
 {
@@ -932,7 +932,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_numYLevels(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_isValidLevel(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_isValidLevel(
     Imf_TiledRgbaInputFile_t const * this_
     , _Bool * return_
     , int lx
@@ -947,7 +947,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_isValidLevel(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_levelWidth(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_levelWidth(
     Imf_TiledRgbaInputFile_t const * this_
     , int * return_
     , int lx)
@@ -964,7 +964,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_levelWidth(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_levelHeight(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_levelHeight(
     Imf_TiledRgbaInputFile_t const * this_
     , int * return_
     , int ly)
@@ -981,7 +981,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_levelHeight(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_numXTiles(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_numXTiles(
     Imf_TiledRgbaInputFile_t const * this_
     , int * return_
     , int lx)
@@ -998,7 +998,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_numXTiles(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_numYTiles(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_numYTiles(
     Imf_TiledRgbaInputFile_t const * this_
     , int * return_
     , int ly)
@@ -1015,7 +1015,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_numYTiles(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_dataWindowForLevel(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_dataWindowForLevel(
     Imf_TiledRgbaInputFile_t const * this_
     , Imath_Box2i_t * return_
     , int lx
@@ -1033,7 +1033,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_dataWindowForLevel(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_dataWindowForTile(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_dataWindowForTile(
     Imf_TiledRgbaInputFile_t const * this_
     , Imath_Box2i_t * return_
     , int dx
@@ -1056,7 +1056,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_dataWindowForTile(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_readTile(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_readTile(
     Imf_TiledRgbaInputFile_t * this_
     , int dx
     , int dy
@@ -1072,7 +1072,7 @@ unsigned int Imf_3_0__TiledRgbaInputFile_readTile(
     }
 }
 
-unsigned int Imf_3_0__TiledRgbaInputFile_readTiles(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__TiledRgbaInputFile_readTiles(
     Imf_TiledRgbaInputFile_t * this_
     , int dxMin
     , int dxMax

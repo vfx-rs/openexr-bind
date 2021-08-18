@@ -3,7 +3,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0_isTiled(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_isTiled(
     _Bool * return_
     , int version)
 {
@@ -16,7 +16,7 @@ unsigned int Imf_3_0_isTiled(
     }
 }
 
-unsigned int Imf_3_0_isMultiPart(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_isMultiPart(
     _Bool * return_
     , int version)
 {
@@ -29,7 +29,7 @@ unsigned int Imf_3_0_isMultiPart(
     }
 }
 
-unsigned int Imf_3_0_isNonImage(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_isNonImage(
     _Bool * return_
     , int version)
 {
@@ -42,7 +42,7 @@ unsigned int Imf_3_0_isNonImage(
     }
 }
 
-unsigned int Imf_3_0_makeTiled(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_makeTiled(
     int * return_
     , int version)
 {
@@ -55,7 +55,7 @@ unsigned int Imf_3_0_makeTiled(
     }
 }
 
-unsigned int Imf_3_0_makeNotTiled(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_makeNotTiled(
     int * return_
     , int version)
 {
@@ -68,7 +68,7 @@ unsigned int Imf_3_0_makeNotTiled(
     }
 }
 
-unsigned int Imf_3_0_getVersion(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_getVersion(
     int * return_
     , int version)
 {
@@ -81,7 +81,7 @@ unsigned int Imf_3_0_getVersion(
     }
 }
 
-unsigned int Imf_3_0_getFlags(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_getFlags(
     int * return_
     , int version)
 {
@@ -94,7 +94,7 @@ unsigned int Imf_3_0_getFlags(
     }
 }
 
-unsigned int Imf_3_0_supportsFlags(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_supportsFlags(
     _Bool * return_
     , int flags)
 {
@@ -107,7 +107,7 @@ unsigned int Imf_3_0_supportsFlags(
     }
 }
 
-unsigned int Imf_3_0_isImfMagic(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_isImfMagic(
     _Bool * return_
     , char const bytes[4])
 {

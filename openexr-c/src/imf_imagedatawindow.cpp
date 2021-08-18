@@ -6,7 +6,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0_dataWindowForFile(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_dataWindowForFile(
     Imath_Box2i_t * return_
     , Imf_Header_t const * hdr
     , Imf_Image_t const * img

@@ -6,17 +6,17 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0__DeepSlice_sizeof()
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepSlice_sizeof()
 {
         return sizeof(Imf_3_0::DeepSlice);
 }
 
-unsigned int Imf_3_0__DeepSlice_alignof()
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepSlice_alignof()
 {
         return alignof(Imf_3_0::DeepSlice);
 }
 
-unsigned int Imf_3_0__DeepSlice_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepSlice_ctor(
     Imf_DeepSlice_t * this_
     , Imf_PixelType type
     , char * base
@@ -38,7 +38,7 @@ unsigned int Imf_3_0__DeepSlice_ctor(
     }
 }
 
-unsigned int Imf_3_0__DeepSlice_dtor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepSlice_dtor(
     Imf_DeepSlice_t * this_)
 {
     try {
@@ -50,7 +50,7 @@ unsigned int Imf_3_0__DeepSlice_dtor(
     }
 }
 
-unsigned int Imf_3_0__DeepSlice_copy(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepSlice_copy(
     Imf_DeepSlice_t * this_
     , Imf_DeepSlice_t const * rhs)
 {
@@ -63,7 +63,7 @@ unsigned int Imf_3_0__DeepSlice_copy(
     }
 }
 
-unsigned int Imf_3_0__DeepFrameBuffer_insert(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepFrameBuffer_insert(
     Imf_DeepFrameBuffer_t * this_
     , char const * name
     , Imf_DeepSlice_t const * slice)
@@ -80,7 +80,7 @@ unsigned int Imf_3_0__DeepFrameBuffer_insert(
     }
 }
 
-unsigned int Imf_3_0__DeepFrameBuffer_findSlice(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepFrameBuffer_findSlice(
     Imf_DeepFrameBuffer_t * this_
     , Imf_DeepSlice_t * * return_
     , char const * name)
@@ -94,7 +94,7 @@ unsigned int Imf_3_0__DeepFrameBuffer_findSlice(
     }
 }
 
-unsigned int Imf_3_0__DeepFrameBuffer_findSlice_const(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepFrameBuffer_findSlice_const(
     Imf_DeepFrameBuffer_t const * this_
     , Imf_DeepSlice_t const * * return_
     , char const * name)
@@ -108,7 +108,7 @@ unsigned int Imf_3_0__DeepFrameBuffer_findSlice_const(
     }
 }
 
-unsigned int Imf_3_0__DeepFrameBuffer_begin(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepFrameBuffer_begin(
     Imf_DeepFrameBuffer_t * this_
     , Imf_DeepFrameBuffer_Iterator_t * return_)
 {
@@ -121,7 +121,7 @@ unsigned int Imf_3_0__DeepFrameBuffer_begin(
     }
 }
 
-unsigned int Imf_3_0__DeepFrameBuffer_begin_const(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepFrameBuffer_begin_const(
     Imf_DeepFrameBuffer_t const * this_
     , Imf_DeepFrameBuffer_ConstIterator_t * return_)
 {
@@ -134,7 +134,7 @@ unsigned int Imf_3_0__DeepFrameBuffer_begin_const(
     }
 }
 
-unsigned int Imf_3_0__DeepFrameBuffer_end(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepFrameBuffer_end(
     Imf_DeepFrameBuffer_t * this_
     , Imf_DeepFrameBuffer_Iterator_t * return_)
 {
@@ -147,7 +147,7 @@ unsigned int Imf_3_0__DeepFrameBuffer_end(
     }
 }
 
-unsigned int Imf_3_0__DeepFrameBuffer_end_const(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepFrameBuffer_end_const(
     Imf_DeepFrameBuffer_t const * this_
     , Imf_DeepFrameBuffer_ConstIterator_t * return_)
 {
@@ -160,7 +160,7 @@ unsigned int Imf_3_0__DeepFrameBuffer_end_const(
     }
 }
 
-unsigned int Imf_3_0__DeepFrameBuffer_insertSampleCountSlice(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepFrameBuffer_insertSampleCountSlice(
     Imf_DeepFrameBuffer_t * this_
     , Imf_Slice_t const * slice)
 {
@@ -176,7 +176,7 @@ unsigned int Imf_3_0__DeepFrameBuffer_insertSampleCountSlice(
     }
 }
 
-unsigned int Imf_3_0__DeepFrameBuffer_getSampleCountSlice(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepFrameBuffer_getSampleCountSlice(
     Imf_DeepFrameBuffer_t const * this_
     , Imf_Slice_t const * * return_)
 {
@@ -189,7 +189,7 @@ unsigned int Imf_3_0__DeepFrameBuffer_getSampleCountSlice(
     }
 }
 
-unsigned int Imf_3_0__DeepFrameBuffer_copy(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepFrameBuffer_copy(
     Imf_DeepFrameBuffer_t * * this_
     , Imf_DeepFrameBuffer_t const * rhs)
 {
@@ -202,7 +202,7 @@ unsigned int Imf_3_0__DeepFrameBuffer_copy(
     }
 }
 
-unsigned int Imf_3_0__DeepFrameBuffer_dtor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepFrameBuffer_dtor(
     Imf_DeepFrameBuffer_t * this_)
 {
     try {
@@ -214,7 +214,7 @@ unsigned int Imf_3_0__DeepFrameBuffer_dtor(
     }
 }
 
-unsigned int Imf_3_0__DeepFrameBuffer_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepFrameBuffer_ctor(
     Imf_DeepFrameBuffer_t * * this_)
 {
     try {
@@ -226,17 +226,17 @@ unsigned int Imf_3_0__DeepFrameBuffer_ctor(
     }
 }
 
-unsigned int Imf_3_0__DeepFrameBuffer__Iterator_sizeof()
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepFrameBuffer__Iterator_sizeof()
 {
         return sizeof(Imf_3_0::DeepFrameBuffer::Iterator);
 }
 
-unsigned int Imf_3_0__DeepFrameBuffer__Iterator_alignof()
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepFrameBuffer__Iterator_alignof()
 {
         return alignof(Imf_3_0::DeepFrameBuffer::Iterator);
 }
 
-unsigned int Imf_3_0__DeepFrameBuffer__Iterator_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepFrameBuffer__Iterator_ctor(
     Imf_DeepFrameBuffer_Iterator_t * this_)
 {
     try {
@@ -248,7 +248,7 @@ unsigned int Imf_3_0__DeepFrameBuffer__Iterator_ctor(
     }
 }
 
-unsigned int Imf_3_0__DeepFrameBuffer__Iterator__op_inc(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepFrameBuffer__Iterator__op_inc(
     Imf_DeepFrameBuffer_Iterator_t * this_
     , Imf_DeepFrameBuffer_Iterator_t * * return_)
 {
@@ -261,7 +261,7 @@ unsigned int Imf_3_0__DeepFrameBuffer__Iterator__op_inc(
     }
 }
 
-unsigned int Imf_3_0__DeepFrameBuffer__Iterator_name(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepFrameBuffer__Iterator_name(
     Imf_DeepFrameBuffer_Iterator_t const * this_
     , char const * * return_)
 {
@@ -274,7 +274,7 @@ unsigned int Imf_3_0__DeepFrameBuffer__Iterator_name(
     }
 }
 
-unsigned int Imf_3_0__DeepFrameBuffer__Iterator_slice(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepFrameBuffer__Iterator_slice(
     Imf_DeepFrameBuffer_Iterator_t const * this_
     , Imf_DeepSlice_t * * return_)
 {
@@ -287,7 +287,7 @@ unsigned int Imf_3_0__DeepFrameBuffer__Iterator_slice(
     }
 }
 
-unsigned int Imf_3_0__DeepFrameBuffer__Iterator_copy(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepFrameBuffer__Iterator_copy(
     Imf_DeepFrameBuffer_Iterator_t * this_
     , Imf_DeepFrameBuffer_Iterator_t const * rhs)
 {
@@ -295,17 +295,17 @@ unsigned int Imf_3_0__DeepFrameBuffer__Iterator_copy(
         return 0;
 }
 
-unsigned int Imf_3_0__DeepFrameBuffer__ConstIterator_sizeof()
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepFrameBuffer__ConstIterator_sizeof()
 {
         return sizeof(Imf_3_0::DeepFrameBuffer::ConstIterator);
 }
 
-unsigned int Imf_3_0__DeepFrameBuffer__ConstIterator_alignof()
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepFrameBuffer__ConstIterator_alignof()
 {
         return alignof(Imf_3_0::DeepFrameBuffer::ConstIterator);
 }
 
-unsigned int Imf_3_0__DeepFrameBuffer__ConstIterator_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepFrameBuffer__ConstIterator_ctor(
     Imf_DeepFrameBuffer_ConstIterator_t * this_)
 {
     try {
@@ -317,7 +317,7 @@ unsigned int Imf_3_0__DeepFrameBuffer__ConstIterator_ctor(
     }
 }
 
-unsigned int Imf_3_0__DeepFrameBuffer__ConstIterator_from_mut(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepFrameBuffer__ConstIterator_from_mut(
     Imf_DeepFrameBuffer_ConstIterator_t * this_
     , Imf_DeepFrameBuffer_Iterator_t const * rhs)
 {
@@ -330,7 +330,7 @@ unsigned int Imf_3_0__DeepFrameBuffer__ConstIterator_from_mut(
     }
 }
 
-unsigned int Imf_3_0__DeepFrameBuffer__ConstIterator__op_inc(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepFrameBuffer__ConstIterator__op_inc(
     Imf_DeepFrameBuffer_ConstIterator_t * this_
     , Imf_DeepFrameBuffer_ConstIterator_t * * return_)
 {
@@ -343,7 +343,7 @@ unsigned int Imf_3_0__DeepFrameBuffer__ConstIterator__op_inc(
     }
 }
 
-unsigned int Imf_3_0__DeepFrameBuffer__ConstIterator_name(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepFrameBuffer__ConstIterator_name(
     Imf_DeepFrameBuffer_ConstIterator_t const * this_
     , char const * * return_)
 {
@@ -356,7 +356,7 @@ unsigned int Imf_3_0__DeepFrameBuffer__ConstIterator_name(
     }
 }
 
-unsigned int Imf_3_0__DeepFrameBuffer__ConstIterator_slice(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepFrameBuffer__ConstIterator_slice(
     Imf_DeepFrameBuffer_ConstIterator_t const * this_
     , Imf_DeepSlice_t const * * return_)
 {
@@ -369,7 +369,7 @@ unsigned int Imf_3_0__DeepFrameBuffer__ConstIterator_slice(
     }
 }
 
-unsigned int Imf_3_0__DeepFrameBuffer__ConstIterator_copy(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepFrameBuffer__ConstIterator_copy(
     Imf_DeepFrameBuffer_ConstIterator_t * this_
     , Imf_DeepFrameBuffer_ConstIterator_t const * rhs)
 {
@@ -377,7 +377,7 @@ unsigned int Imf_3_0__DeepFrameBuffer__ConstIterator_copy(
         return 0;
 }
 
-unsigned int Imf_3_0_deep_frame_buffer_const_iter_eq(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_deep_frame_buffer_const_iter_eq(
     _Bool * return_
     , Imf_DeepFrameBuffer_ConstIterator_t const * _param0
     , Imf_DeepFrameBuffer_ConstIterator_t const * _param1)

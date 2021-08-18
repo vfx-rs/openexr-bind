@@ -7,7 +7,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0__HalfLut_apply(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__HalfLut_apply(
     Imf_HalfLut_t const * this_
     , Imath_half_t * data
     , int nData
@@ -22,7 +22,7 @@ unsigned int Imf_3_0__HalfLut_apply(
     }
 }
 
-unsigned int Imf_3_0__HalfLut_apply_1(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__HalfLut_apply_1(
     Imf_HalfLut_t const * this_
     , Imf_Slice_t const * data
     , Imath_Box2i_t const * dataWindow)
@@ -36,7 +36,7 @@ unsigned int Imf_3_0__HalfLut_apply_1(
     }
 }
 
-unsigned int Imf_3_0__HalfLut_dtor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__HalfLut_dtor(
     Imf_HalfLut_t * this_)
 {
     try {
@@ -48,7 +48,7 @@ unsigned int Imf_3_0__HalfLut_dtor(
     }
 }
 
-unsigned int Imf_3_0__RgbaLut_apply(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaLut_apply(
     Imf_RgbaLut_t const * this_
     , Imf_Rgba_t * data
     , int nData
@@ -63,7 +63,7 @@ unsigned int Imf_3_0__RgbaLut_apply(
     }
 }
 
-unsigned int Imf_3_0__RgbaLut_apply_1(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaLut_apply_1(
     Imf_RgbaLut_t const * this_
     , Imf_Rgba_t * base
     , int xStride
@@ -79,7 +79,7 @@ unsigned int Imf_3_0__RgbaLut_apply_1(
     }
 }
 
-unsigned int Imf_3_0__RgbaLut_dtor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__RgbaLut_dtor(
     Imf_RgbaLut_t * this_)
 {
     try {

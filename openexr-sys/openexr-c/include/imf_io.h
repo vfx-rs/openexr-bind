@@ -2,6 +2,7 @@
 #include "openexr-api-export.h"
 
 #include <stdbool.h>
+#include <stdint.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -32,13 +33,13 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__OStream_write(
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0__OStream_tellp(
     Imf_OStream_t * this_
-    , unsigned long * return_);
+    , uint64_t * return_);
 #define Imf_OStream_tellp Imf_3_0__OStream_tellp
 
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0__OStream_seekp(
     Imf_OStream_t * this_
-    , unsigned long pos);
+    , uint64_t pos);
 #define Imf_OStream_seekp Imf_3_0__OStream_seekp
 
 
@@ -76,13 +77,13 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__IStream_readMemoryMapped(
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0__IStream_tellg(
     Imf_IStream_t * this_
-    , unsigned long * return_);
+    , uint64_t * return_);
 #define Imf_IStream_tellg Imf_3_0__IStream_tellg
 
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0__IStream_seekg(
     Imf_IStream_t * this_
-    , unsigned long pos);
+    , uint64_t pos);
 #define Imf_IStream_seekg Imf_3_0__IStream_seekg
 
 

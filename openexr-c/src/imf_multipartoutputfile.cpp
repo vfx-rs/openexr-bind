@@ -6,7 +6,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0__MultiPartOutputFile_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__MultiPartOutputFile_ctor(
     Imf_MultiPartOutputFile_t * * this_
     , char const * fileName
     , Imf_Header_t const * headers
@@ -29,7 +29,7 @@ unsigned int Imf_3_0__MultiPartOutputFile_ctor(
     }
 }
 
-unsigned int Imf_3_0__MultiPartOutputFile_from_stream(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__MultiPartOutputFile_from_stream(
     Imf_MultiPartOutputFile_t * * this_
     , Imf_OStream_t * os
     , Imf_Header_t const * headers
@@ -46,7 +46,7 @@ unsigned int Imf_3_0__MultiPartOutputFile_from_stream(
     }
 }
 
-unsigned int Imf_3_0__MultiPartOutputFile_parts(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__MultiPartOutputFile_parts(
     Imf_MultiPartOutputFile_t const * this_
     , int * return_)
 {
@@ -59,7 +59,7 @@ unsigned int Imf_3_0__MultiPartOutputFile_parts(
     }
 }
 
-unsigned int Imf_3_0__MultiPartOutputFile_header(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__MultiPartOutputFile_header(
     Imf_MultiPartOutputFile_t const * this_
     , Imf_Header_t const * * return_
     , int n)
@@ -76,7 +76,7 @@ unsigned int Imf_3_0__MultiPartOutputFile_header(
     }
 }
 
-unsigned int Imf_3_0__MultiPartOutputFile_dtor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__MultiPartOutputFile_dtor(
     Imf_MultiPartOutputFile_t * this_)
 {
     try {

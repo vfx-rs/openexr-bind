@@ -7,7 +7,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0_saveFlatImage_with_header(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_saveFlatImage_with_header(
     std_string_t const * fileName
     , Imf_Header_t const * hdr
     , Imf_FlatImage_t const * img
@@ -25,7 +25,7 @@ unsigned int Imf_3_0_saveFlatImage_with_header(
     }
 }
 
-unsigned int Imf_3_0_saveFlatImage(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_saveFlatImage(
     std_string_t const * fileName
     , Imf_FlatImage_t const * img)
 {
@@ -41,7 +41,7 @@ unsigned int Imf_3_0_saveFlatImage(
     }
 }
 
-unsigned int Imf_3_0_loadFlatImage_with_header(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_loadFlatImage_with_header(
     std_string_t const * fileName
     , Imf_Header_t * hdr
     , Imf_FlatImage_t * img)
@@ -58,7 +58,7 @@ unsigned int Imf_3_0_loadFlatImage_with_header(
     }
 }
 
-unsigned int Imf_3_0_loadFlatImage(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_loadFlatImage(
     std_string_t const * fileName
     , Imf_FlatImage_t * img)
 {
@@ -74,7 +74,7 @@ unsigned int Imf_3_0_loadFlatImage(
     }
 }
 
-unsigned int Imf_3_0_saveFlatScanLineImage_with_header(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_saveFlatScanLineImage_with_header(
     std_string_t const * fileName
     , Imf_Header_t const * hdr
     , Imf_FlatImage_t const * img
@@ -92,7 +92,7 @@ unsigned int Imf_3_0_saveFlatScanLineImage_with_header(
     }
 }
 
-unsigned int Imf_3_0_saveFlatScanLineImage(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_saveFlatScanLineImage(
     std_string_t const * fileName
     , Imf_FlatImage_t const * img)
 {
@@ -108,7 +108,7 @@ unsigned int Imf_3_0_saveFlatScanLineImage(
     }
 }
 
-unsigned int Imf_3_0_loadFlatScanLineImage_with_header(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_loadFlatScanLineImage_with_header(
     std_string_t const * fileName
     , Imf_Header_t * hdr
     , Imf_FlatImage_t * img)
@@ -125,7 +125,7 @@ unsigned int Imf_3_0_loadFlatScanLineImage_with_header(
     }
 }
 
-unsigned int Imf_3_0_loadFlatScanLineImage(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_loadFlatScanLineImage(
     std_string_t const * fileName
     , Imf_FlatImage_t * img)
 {
@@ -141,7 +141,7 @@ unsigned int Imf_3_0_loadFlatScanLineImage(
     }
 }
 
-unsigned int Imf_3_0_saveFlatTiledImage_with_header(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_saveFlatTiledImage_with_header(
     std_string_t const * fileName
     , Imf_Header_t const * hdr
     , Imf_FlatImage_t const * img
@@ -159,7 +159,7 @@ unsigned int Imf_3_0_saveFlatTiledImage_with_header(
     }
 }
 
-unsigned int Imf_3_0_saveFlatTiledImage(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_saveFlatTiledImage(
     std_string_t const * fileName
     , Imf_FlatImage_t const * img)
 {
@@ -175,7 +175,7 @@ unsigned int Imf_3_0_saveFlatTiledImage(
     }
 }
 
-unsigned int Imf_3_0_loadFlatTiledImage_with_header(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_loadFlatTiledImage_with_header(
     std_string_t const * fileName
     , Imf_Header_t * hdr
     , Imf_FlatImage_t * img)
@@ -192,7 +192,7 @@ unsigned int Imf_3_0_loadFlatTiledImage_with_header(
     }
 }
 
-unsigned int Imf_3_0_loadFlatTiledImage(
+OPENEXR_CPPMM_API unsigned int Imf_3_0_loadFlatTiledImage(
     std_string_t const * fileName
     , Imf_FlatImage_t * img)
 {

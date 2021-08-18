@@ -4,17 +4,17 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0__KeyCode_sizeof()
+OPENEXR_CPPMM_API unsigned int Imf_3_0__KeyCode_sizeof()
 {
         return sizeof(Imf_3_0::KeyCode);
 }
 
-unsigned int Imf_3_0__KeyCode_alignof()
+OPENEXR_CPPMM_API unsigned int Imf_3_0__KeyCode_alignof()
 {
         return alignof(Imf_3_0::KeyCode);
 }
 
-unsigned int Imf_3_0__KeyCode_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__KeyCode_ctor(
     Imf_KeyCode_t * this_
     , int filmMfcCode
     , int filmType
@@ -33,7 +33,7 @@ unsigned int Imf_3_0__KeyCode_ctor(
     }
 }
 
-unsigned int Imf_3_0__KeyCode_copy(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__KeyCode_copy(
     Imf_KeyCode_t * this_
     , Imf_KeyCode_t const * other)
 {
@@ -46,7 +46,7 @@ unsigned int Imf_3_0__KeyCode_copy(
     }
 }
 
-unsigned int Imf_3_0__KeyCode_dtor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__KeyCode_dtor(
     Imf_KeyCode_t * this_)
 {
     try {
@@ -58,7 +58,7 @@ unsigned int Imf_3_0__KeyCode_dtor(
     }
 }
 
-unsigned int Imf_3_0__KeyCode__assign(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__KeyCode__assign(
     Imf_KeyCode_t * this_
     , Imf_KeyCode_t * * return_
     , Imf_KeyCode_t const * other)
@@ -72,7 +72,7 @@ unsigned int Imf_3_0__KeyCode__assign(
     }
 }
 
-unsigned int Imf_3_0__KeyCode_filmMfcCode(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__KeyCode_filmMfcCode(
     Imf_KeyCode_t const * this_
     , int * return_)
 {
@@ -85,7 +85,7 @@ unsigned int Imf_3_0__KeyCode_filmMfcCode(
     }
 }
 
-unsigned int Imf_3_0__KeyCode_setFilmMfcCode(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__KeyCode_setFilmMfcCode(
     Imf_KeyCode_t * this_
     , int filmMfcCode)
 {
@@ -101,7 +101,7 @@ unsigned int Imf_3_0__KeyCode_setFilmMfcCode(
     }
 }
 
-unsigned int Imf_3_0__KeyCode_filmType(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__KeyCode_filmType(
     Imf_KeyCode_t const * this_
     , int * return_)
 {
@@ -114,7 +114,7 @@ unsigned int Imf_3_0__KeyCode_filmType(
     }
 }
 
-unsigned int Imf_3_0__KeyCode_setFilmType(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__KeyCode_setFilmType(
     Imf_KeyCode_t * this_
     , int filmType)
 {
@@ -130,7 +130,7 @@ unsigned int Imf_3_0__KeyCode_setFilmType(
     }
 }
 
-unsigned int Imf_3_0__KeyCode_prefix(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__KeyCode_prefix(
     Imf_KeyCode_t const * this_
     , int * return_)
 {
@@ -143,7 +143,7 @@ unsigned int Imf_3_0__KeyCode_prefix(
     }
 }
 
-unsigned int Imf_3_0__KeyCode_setPrefix(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__KeyCode_setPrefix(
     Imf_KeyCode_t * this_
     , int prefix)
 {
@@ -159,7 +159,7 @@ unsigned int Imf_3_0__KeyCode_setPrefix(
     }
 }
 
-unsigned int Imf_3_0__KeyCode_count(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__KeyCode_count(
     Imf_KeyCode_t const * this_
     , int * return_)
 {
@@ -172,7 +172,7 @@ unsigned int Imf_3_0__KeyCode_count(
     }
 }
 
-unsigned int Imf_3_0__KeyCode_setCount(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__KeyCode_setCount(
     Imf_KeyCode_t * this_
     , int count)
 {
@@ -188,7 +188,7 @@ unsigned int Imf_3_0__KeyCode_setCount(
     }
 }
 
-unsigned int Imf_3_0__KeyCode_perfOffset(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__KeyCode_perfOffset(
     Imf_KeyCode_t const * this_
     , int * return_)
 {
@@ -201,7 +201,7 @@ unsigned int Imf_3_0__KeyCode_perfOffset(
     }
 }
 
-unsigned int Imf_3_0__KeyCode_setPerfOffset(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__KeyCode_setPerfOffset(
     Imf_KeyCode_t * this_
     , int perfOffset)
 {
@@ -217,7 +217,7 @@ unsigned int Imf_3_0__KeyCode_setPerfOffset(
     }
 }
 
-unsigned int Imf_3_0__KeyCode_perfsPerFrame(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__KeyCode_perfsPerFrame(
     Imf_KeyCode_t const * this_
     , int * return_)
 {
@@ -230,7 +230,7 @@ unsigned int Imf_3_0__KeyCode_perfsPerFrame(
     }
 }
 
-unsigned int Imf_3_0__KeyCode_setPerfsPerFrame(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__KeyCode_setPerfsPerFrame(
     Imf_KeyCode_t * this_
     , int perfsPerFrame_)
 {
@@ -246,7 +246,7 @@ unsigned int Imf_3_0__KeyCode_setPerfsPerFrame(
     }
 }
 
-unsigned int Imf_3_0__KeyCode_perfsPerCount(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__KeyCode_perfsPerCount(
     Imf_KeyCode_t const * this_
     , int * return_)
 {
@@ -259,7 +259,7 @@ unsigned int Imf_3_0__KeyCode_perfsPerCount(
     }
 }
 
-unsigned int Imf_3_0__KeyCode_setPerfsPerCount(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__KeyCode_setPerfsPerCount(
     Imf_KeyCode_t * this_
     , int perfsPerCount)
 {

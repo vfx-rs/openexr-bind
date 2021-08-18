@@ -9,7 +9,7 @@
 
 #include <stdexcept>
 
-unsigned int Imf_3_0__DeepTiledInputFile_ctor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputFile_ctor(
     Imf_DeepTiledInputFile_t * * this_
     , char const * fileName
     , int numThreads)
@@ -26,7 +26,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_ctor(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledInputFile_from_stream(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputFile_from_stream(
     Imf_DeepTiledInputFile_t * * this_
     , Imf_IStream_t * is
     , int numThreads)
@@ -40,7 +40,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_from_stream(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledInputFile_dtor(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputFile_dtor(
     Imf_DeepTiledInputFile_t * this_)
 {
     try {
@@ -52,7 +52,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_dtor(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledInputFile_fileName(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputFile_fileName(
     Imf_DeepTiledInputFile_t const * this_
     , char const * * return_)
 {
@@ -65,7 +65,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_fileName(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledInputFile_header(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputFile_header(
     Imf_DeepTiledInputFile_t const * this_
     , Imf_Header_t const * * return_)
 {
@@ -78,7 +78,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_header(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledInputFile_version(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputFile_version(
     Imf_DeepTiledInputFile_t const * this_
     , int * return_)
 {
@@ -91,7 +91,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_version(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledInputFile_setFrameBuffer(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputFile_setFrameBuffer(
     Imf_DeepTiledInputFile_t * this_
     , Imf_DeepFrameBuffer_t const * frameBuffer)
 {
@@ -107,7 +107,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_setFrameBuffer(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledInputFile_frameBuffer(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputFile_frameBuffer(
     Imf_DeepTiledInputFile_t const * this_
     , Imf_DeepFrameBuffer_t const * * return_)
 {
@@ -120,7 +120,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_frameBuffer(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledInputFile_isComplete(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputFile_isComplete(
     Imf_DeepTiledInputFile_t const * this_
     , _Bool * return_)
 {
@@ -133,7 +133,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_isComplete(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledInputFile_tileXSize(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputFile_tileXSize(
     Imf_DeepTiledInputFile_t const * this_
     , unsigned int * return_)
 {
@@ -146,7 +146,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_tileXSize(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledInputFile_tileYSize(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputFile_tileYSize(
     Imf_DeepTiledInputFile_t const * this_
     , unsigned int * return_)
 {
@@ -159,7 +159,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_tileYSize(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledInputFile_levelMode(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputFile_levelMode(
     Imf_DeepTiledInputFile_t const * this_
     , Imf_LevelMode * return_)
 {
@@ -172,7 +172,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_levelMode(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledInputFile_levelRoundingMode(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputFile_levelRoundingMode(
     Imf_DeepTiledInputFile_t const * this_
     , Imf_LevelRoundingMode * return_)
 {
@@ -185,7 +185,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_levelRoundingMode(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledInputFile_numLevels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputFile_numLevels(
     Imf_DeepTiledInputFile_t const * this_
     , int * return_)
 {
@@ -198,7 +198,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_numLevels(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledInputFile_numXLevels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputFile_numXLevels(
     Imf_DeepTiledInputFile_t const * this_
     , int * return_)
 {
@@ -211,7 +211,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_numXLevels(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledInputFile_numYLevels(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputFile_numYLevels(
     Imf_DeepTiledInputFile_t const * this_
     , int * return_)
 {
@@ -224,7 +224,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_numYLevels(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledInputFile_isValidLevel(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputFile_isValidLevel(
     Imf_DeepTiledInputFile_t const * this_
     , _Bool * return_
     , int lx
@@ -239,7 +239,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_isValidLevel(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledInputFile_totalTiles(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputFile_totalTiles(
     Imf_DeepTiledInputFile_t const * this_
     , unsigned long * return_)
 {
@@ -252,7 +252,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_totalTiles(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledInputFile_levelWidth(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputFile_levelWidth(
     Imf_DeepTiledInputFile_t const * this_
     , int * return_
     , int lx)
@@ -269,7 +269,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_levelWidth(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledInputFile_levelHeight(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputFile_levelHeight(
     Imf_DeepTiledInputFile_t const * this_
     , int * return_
     , int ly)
@@ -286,7 +286,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_levelHeight(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledInputFile_numXTiles(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputFile_numXTiles(
     Imf_DeepTiledInputFile_t const * this_
     , int * return_
     , int lx)
@@ -303,7 +303,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_numXTiles(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledInputFile_numYTiles(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputFile_numYTiles(
     Imf_DeepTiledInputFile_t const * this_
     , int * return_
     , int ly)
@@ -320,7 +320,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_numYTiles(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledInputFile_dataWindowForLevel(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputFile_dataWindowForLevel(
     Imf_DeepTiledInputFile_t const * this_
     , Imath_Box2i_t * return_
     , int lx
@@ -338,7 +338,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_dataWindowForLevel(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledInputFile_dataWindowForTile(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputFile_dataWindowForTile(
     Imf_DeepTiledInputFile_t const * this_
     , Imath_Box2i_t * return_
     , int dx
@@ -361,7 +361,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_dataWindowForTile(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledInputFile_readTile(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputFile_readTile(
     Imf_DeepTiledInputFile_t * this_
     , int dx
     , int dy
@@ -386,7 +386,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_readTile(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledInputFile_readTiles(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputFile_readTiles(
     Imf_DeepTiledInputFile_t * this_
     , int dx1
     , int dx2
@@ -413,7 +413,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_readTiles(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledInputFile_rawTileData(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputFile_rawTileData(
     Imf_DeepTiledInputFile_t const * this_
     , int * dx
     , int * dy
@@ -431,7 +431,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_rawTileData(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledInputFile_readPixelSampleCount(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputFile_readPixelSampleCount(
     Imf_DeepTiledInputFile_t * this_
     , int dx
     , int dy
@@ -456,7 +456,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_readPixelSampleCount(
     }
 }
 
-unsigned int Imf_3_0__DeepTiledInputFile_readPixelSampleCounts(
+OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepTiledInputFile_readPixelSampleCounts(
     Imf_DeepTiledInputFile_t * this_
     , int dx1
     , int dx2
