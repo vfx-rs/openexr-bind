@@ -84,6 +84,10 @@ set(SOURCES
 set(LIBNAME openexr-c-0_10)
 add_library(${LIBNAME} STATIC ${SOURCES})
 add_library(${LIBNAME}-shared SHARED ${SOURCES})
+
+set_target_properties(${LIBNAME} PROPERTIES CXX_VISIBILITY_PRESET hidden)
+set_target_properties(${LIBNAME}-shared PROPERTIES CXX_VISIBILITY_PRESET hidden)
+
 target_include_directories(${LIBNAME} PRIVATE /home/anders/packages/imath/3.0.1/include)
 target_include_directories(${LIBNAME}-shared PRIVATE /home/anders/packages/imath/3.0.1/include)
 target_include_directories(${LIBNAME} PRIVATE /home/anders/packages/imath/3.0.1/include/Imath)

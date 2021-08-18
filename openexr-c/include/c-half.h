@@ -1,4 +1,6 @@
 #pragma once
+#include "openexr-api-export.h"
+
 #include <stdbool.h>
 
 #ifdef __cplusplus
@@ -56,36 +58,36 @@ typedef unsigned int Imath_half_FromBitsTag;
  * sizeof (unsigned short) == 2 */
 typedef struct Imath_3_0__half_t_s {
     char data[2];
-} __attribute__((aligned(2))) Imath_3_0__half_t;
+} OPENEXR_ALIGN(2) Imath_3_0__half_t;
 typedef Imath_3_0__half_t Imath_half_t;
 
 
 /** returns the size of this type in bytes */
-unsigned int Imath_3_0__half_sizeof();
+OPENEXR_API unsigned int Imath_3_0__half_sizeof();
 #define Imath_half_sizeof Imath_3_0__half_sizeof
 
 
 /** returns the size of this type in bytes */
-unsigned int Imath_3_0__half_alignof();
+OPENEXR_API unsigned int Imath_3_0__half_alignof();
 #define Imath_half_alignof Imath_3_0__half_alignof
 
 
 /** Default construction provides no initialization (hence it is
 not constexpr). */
-unsigned int Imath_3_0__half_ctor(
+OPENEXR_API unsigned int Imath_3_0__half_ctor(
     Imath_half_t * this_);
 #define Imath_half_ctor Imath_3_0__half_ctor
 
 
 /** Construct from float */
-unsigned int Imath_3_0__half_from_float(
+OPENEXR_API unsigned int Imath_3_0__half_from_float(
     Imath_half_t * this_
     , float f);
 #define Imath_half_from_float Imath_3_0__half_from_float
 
 
 /** Construct from bit-vector */
-unsigned int Imath_3_0__half_ctor_1(
+OPENEXR_API unsigned int Imath_3_0__half_ctor_1(
     Imath_half_t * this_
     , Imath_half_FromBitsTag tag
     , unsigned short bits);
@@ -93,34 +95,34 @@ unsigned int Imath_3_0__half_ctor_1(
 
 
 /** Copy constructor */
-unsigned int Imath_3_0__half_copy(
+OPENEXR_API unsigned int Imath_3_0__half_copy(
     Imath_half_t * this_
     , Imath_half_t const * rhs);
 #define Imath_half_copy Imath_3_0__half_copy
 
 
 /** Destructor */
-unsigned int Imath_3_0__half_dtor(
+OPENEXR_API unsigned int Imath_3_0__half_dtor(
     Imath_half_t * this_);
 #define Imath_half_dtor Imath_3_0__half_dtor
 
 
 /** Conversion to float */
-unsigned int Imath_3_0__half_operatorfloat(
+OPENEXR_API unsigned int Imath_3_0__half_operatorfloat(
     Imath_half_t const * this_
     , float * return_);
 #define Imath_half_operatorfloat Imath_3_0__half_operatorfloat
 
 
 /** Unary minus */
-unsigned int Imath_3_0__half__op_sub(
+OPENEXR_API unsigned int Imath_3_0__half__op_sub(
     Imath_half_t const * this_
     , Imath_half_t * return_);
 #define Imath_half__op_sub Imath_3_0__half__op_sub
 
 
 /** Assignment */
-unsigned int Imath_3_0__half__assign(
+OPENEXR_API unsigned int Imath_3_0__half__assign(
     Imath_half_t * this_
     , Imath_half_t * * return_
     , Imath_half_t const * h);
@@ -128,7 +130,7 @@ unsigned int Imath_3_0__half__assign(
 
 
 /** Assignment from float */
-unsigned int Imath_3_0__half__assign_1(
+OPENEXR_API unsigned int Imath_3_0__half__assign_1(
     Imath_half_t * this_
     , Imath_half_t * * return_
     , float f);
@@ -136,7 +138,7 @@ unsigned int Imath_3_0__half__assign_1(
 
 
 /** Addition assignment */
-unsigned int Imath_3_0__half__op_iadd(
+OPENEXR_API unsigned int Imath_3_0__half__op_iadd(
     Imath_half_t * this_
     , Imath_half_t * * return_
     , Imath_half_t h);
@@ -144,7 +146,7 @@ unsigned int Imath_3_0__half__op_iadd(
 
 
 /** Addition assignment from float */
-unsigned int Imath_3_0__half__op_iadd_1(
+OPENEXR_API unsigned int Imath_3_0__half__op_iadd_1(
     Imath_half_t * this_
     , Imath_half_t * * return_
     , float f);
@@ -152,7 +154,7 @@ unsigned int Imath_3_0__half__op_iadd_1(
 
 
 /** Subtraction assignment */
-unsigned int Imath_3_0__half__op_isub(
+OPENEXR_API unsigned int Imath_3_0__half__op_isub(
     Imath_half_t * this_
     , Imath_half_t * * return_
     , Imath_half_t h);
@@ -160,7 +162,7 @@ unsigned int Imath_3_0__half__op_isub(
 
 
 /** Subtraction assignment from float */
-unsigned int Imath_3_0__half__op_isub_1(
+OPENEXR_API unsigned int Imath_3_0__half__op_isub_1(
     Imath_half_t * this_
     , Imath_half_t * * return_
     , float f);
@@ -168,7 +170,7 @@ unsigned int Imath_3_0__half__op_isub_1(
 
 
 /** Multiplication assignment */
-unsigned int Imath_3_0__half__op_imul(
+OPENEXR_API unsigned int Imath_3_0__half__op_imul(
     Imath_half_t * this_
     , Imath_half_t * * return_
     , Imath_half_t h);
@@ -176,7 +178,7 @@ unsigned int Imath_3_0__half__op_imul(
 
 
 /** Multiplication assignment from float */
-unsigned int Imath_3_0__half__op_imul_1(
+OPENEXR_API unsigned int Imath_3_0__half__op_imul_1(
     Imath_half_t * this_
     , Imath_half_t * * return_
     , float f);
@@ -184,7 +186,7 @@ unsigned int Imath_3_0__half__op_imul_1(
 
 
 /** Division assignment */
-unsigned int Imath_3_0__half__op_idiv(
+OPENEXR_API unsigned int Imath_3_0__half__op_idiv(
     Imath_half_t * this_
     , Imath_half_t * * return_
     , Imath_half_t h);
@@ -192,7 +194,7 @@ unsigned int Imath_3_0__half__op_idiv(
 
 
 /** Division assignment from float */
-unsigned int Imath_3_0__half__op_idiv_1(
+OPENEXR_API unsigned int Imath_3_0__half__op_idiv_1(
     Imath_half_t * this_
     , Imath_half_t * * return_
     , float f);
@@ -202,7 +204,7 @@ unsigned int Imath_3_0__half__op_idiv_1(
 /** Round to n-bit precision (n should be between 0 and 10).
 After rounding, the significand's 10-n least significant
 bits will be zero. */
-unsigned int Imath_3_0__half_round(
+OPENEXR_API unsigned int Imath_3_0__half_round(
     Imath_half_t const * this_
     , Imath_half_t * return_
     , unsigned int n);
@@ -211,87 +213,87 @@ unsigned int Imath_3_0__half_round(
 
 /** Return true if a normalized number, a denormalized number, or
 zero. */
-unsigned int Imath_3_0__half_isFinite(
+OPENEXR_API unsigned int Imath_3_0__half_isFinite(
     Imath_half_t const * this_
     , _Bool * return_);
 #define Imath_half_isFinite Imath_3_0__half_isFinite
 
 
 /** Return true if a normalized number. */
-unsigned int Imath_3_0__half_isNormalized(
+OPENEXR_API unsigned int Imath_3_0__half_isNormalized(
     Imath_half_t const * this_
     , _Bool * return_);
 #define Imath_half_isNormalized Imath_3_0__half_isNormalized
 
 
 /** Return true if a denormalized number. */
-unsigned int Imath_3_0__half_isDenormalized(
+OPENEXR_API unsigned int Imath_3_0__half_isDenormalized(
     Imath_half_t const * this_
     , _Bool * return_);
 #define Imath_half_isDenormalized Imath_3_0__half_isDenormalized
 
 
 /** Return true if zero. */
-unsigned int Imath_3_0__half_isZero(
+OPENEXR_API unsigned int Imath_3_0__half_isZero(
     Imath_half_t const * this_
     , _Bool * return_);
 #define Imath_half_isZero Imath_3_0__half_isZero
 
 
 /** Return true if NAN. */
-unsigned int Imath_3_0__half_isNan(
+OPENEXR_API unsigned int Imath_3_0__half_isNan(
     Imath_half_t const * this_
     , _Bool * return_);
 #define Imath_half_isNan Imath_3_0__half_isNan
 
 
 /** Return true if a positive or a negative infinity */
-unsigned int Imath_3_0__half_isInfinity(
+OPENEXR_API unsigned int Imath_3_0__half_isInfinity(
     Imath_half_t const * this_
     , _Bool * return_);
 #define Imath_half_isInfinity Imath_3_0__half_isInfinity
 
 
 /** Return true if the sign bit is set (negative) */
-unsigned int Imath_3_0__half_isNegative(
+OPENEXR_API unsigned int Imath_3_0__half_isNegative(
     Imath_half_t const * this_
     , _Bool * return_);
 #define Imath_half_isNegative Imath_3_0__half_isNegative
 
 
 /** Return +infinity */
-unsigned int Imath_3_0__half_posInf(
+OPENEXR_API unsigned int Imath_3_0__half_posInf(
     Imath_half_t * return_);
 #define Imath_half_posInf Imath_3_0__half_posInf
 
 
 /** Return -infinity */
-unsigned int Imath_3_0__half_negInf(
+OPENEXR_API unsigned int Imath_3_0__half_negInf(
     Imath_half_t * return_);
 #define Imath_half_negInf Imath_3_0__half_negInf
 
 
 /** Returns a NAN with the bit pattern 0111111111111111 */
-unsigned int Imath_3_0__half_qNan(
+OPENEXR_API unsigned int Imath_3_0__half_qNan(
     Imath_half_t * return_);
 #define Imath_half_qNan Imath_3_0__half_qNan
 
 
 /** Return a NAN with the bit pattern 0111110111111111 */
-unsigned int Imath_3_0__half_sNan(
+OPENEXR_API unsigned int Imath_3_0__half_sNan(
     Imath_half_t * return_);
 #define Imath_half_sNan Imath_3_0__half_sNan
 
 
 /** Return the bit pattern */
-unsigned int Imath_3_0__half_bits(
+OPENEXR_API unsigned int Imath_3_0__half_bits(
     Imath_half_t const * this_
     , unsigned short * return_);
 #define Imath_half_bits Imath_3_0__half_bits
 
 
 /** Set the bit pattern */
-unsigned int Imath_3_0__half_setBits(
+OPENEXR_API unsigned int Imath_3_0__half_setBits(
     Imath_half_t * this_
     , unsigned short bits);
 #define Imath_half_setBits Imath_3_0__half_setBits

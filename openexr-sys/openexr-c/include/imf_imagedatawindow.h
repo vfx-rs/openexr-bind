@@ -1,4 +1,6 @@
 #pragma once
+#include "openexr-api-export.h"
+
 #include <imath_box.h>
 
 #ifdef __cplusplus
@@ -16,7 +18,7 @@ enum Imf_3_0__DataWindowSource_e {
 };
 typedef unsigned int Imf_DataWindowSource;
 
-unsigned int Imf_3_0_dataWindowForFile(
+OPENEXR_API unsigned int Imf_3_0_dataWindowForFile(
     Imath_Box2i_t * return_
     , Imf_Header_t const * hdr
     , Imf_Image_t const * img

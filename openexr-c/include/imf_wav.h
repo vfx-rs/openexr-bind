@@ -1,10 +1,12 @@
 #pragma once
+#include "openexr-api-export.h"
+
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-unsigned int Imf_3_0_wav2Encode(
+OPENEXR_API unsigned int Imf_3_0_wav2Encode(
     unsigned short * in
     , int nx
     , int ox
@@ -14,7 +16,7 @@ unsigned int Imf_3_0_wav2Encode(
 #define Imf_wav2Encode Imf_3_0_wav2Encode
 
 
-unsigned int Imf_3_0_wav2Decode(
+OPENEXR_API unsigned int Imf_3_0_wav2Decode(
     unsigned short * in
     , int nx
     , int ox

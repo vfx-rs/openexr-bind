@@ -1,4 +1,6 @@
 #pragma once
+#include "openexr-api-export.h"
+
 #include <imath_box.h>
 #include <imf_tiledescription.h>
 #include <stdbool.h>
@@ -22,94 +24,94 @@ typedef Imf_3_0__DeepTiledInputFile_t Imf_DeepTiledInputFile_t;
 
 typedef struct Imf_3_0__DeepTiledOutputPart_t_s {
     char data[8];
-} __attribute__((aligned(8))) Imf_3_0__DeepTiledOutputPart_t;
+} OPENEXR_ALIGN(8) Imf_3_0__DeepTiledOutputPart_t;
 typedef Imf_3_0__DeepTiledOutputPart_t Imf_DeepTiledOutputPart_t;
 
 
 /** returns the size of this type in bytes */
-unsigned int Imf_3_0__DeepTiledOutputPart_sizeof();
+OPENEXR_API unsigned int Imf_3_0__DeepTiledOutputPart_sizeof();
 #define Imf_DeepTiledOutputPart_sizeof Imf_3_0__DeepTiledOutputPart_sizeof
 
 
 /** returns the size of this type in bytes */
-unsigned int Imf_3_0__DeepTiledOutputPart_alignof();
+OPENEXR_API unsigned int Imf_3_0__DeepTiledOutputPart_alignof();
 #define Imf_DeepTiledOutputPart_alignof Imf_3_0__DeepTiledOutputPart_alignof
 
 
-unsigned int Imf_3_0__DeepTiledOutputPart_ctor(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledOutputPart_ctor(
     Imf_DeepTiledOutputPart_t * this_
     , Imf_MultiPartOutputFile_t * multiPartFile
     , int partNumber);
 #define Imf_DeepTiledOutputPart_ctor Imf_3_0__DeepTiledOutputPart_ctor
 
 
-unsigned int Imf_3_0__DeepTiledOutputPart_fileName(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledOutputPart_fileName(
     Imf_DeepTiledOutputPart_t const * this_
     , char const * * return_);
 #define Imf_DeepTiledOutputPart_fileName Imf_3_0__DeepTiledOutputPart_fileName
 
 
-unsigned int Imf_3_0__DeepTiledOutputPart_header(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledOutputPart_header(
     Imf_DeepTiledOutputPart_t const * this_
     , Imf_Header_t const * * return_);
 #define Imf_DeepTiledOutputPart_header Imf_3_0__DeepTiledOutputPart_header
 
 
-unsigned int Imf_3_0__DeepTiledOutputPart_setFrameBuffer(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledOutputPart_setFrameBuffer(
     Imf_DeepTiledOutputPart_t * this_
     , Imf_DeepFrameBuffer_t const * frameBuffer);
 #define Imf_DeepTiledOutputPart_setFrameBuffer Imf_3_0__DeepTiledOutputPart_setFrameBuffer
 
 
-unsigned int Imf_3_0__DeepTiledOutputPart_frameBuffer(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledOutputPart_frameBuffer(
     Imf_DeepTiledOutputPart_t const * this_
     , Imf_DeepFrameBuffer_t const * * return_);
 #define Imf_DeepTiledOutputPart_frameBuffer Imf_3_0__DeepTiledOutputPart_frameBuffer
 
 
-unsigned int Imf_3_0__DeepTiledOutputPart_tileXSize(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledOutputPart_tileXSize(
     Imf_DeepTiledOutputPart_t const * this_
     , unsigned int * return_);
 #define Imf_DeepTiledOutputPart_tileXSize Imf_3_0__DeepTiledOutputPart_tileXSize
 
 
-unsigned int Imf_3_0__DeepTiledOutputPart_tileYSize(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledOutputPart_tileYSize(
     Imf_DeepTiledOutputPart_t const * this_
     , unsigned int * return_);
 #define Imf_DeepTiledOutputPart_tileYSize Imf_3_0__DeepTiledOutputPart_tileYSize
 
 
-unsigned int Imf_3_0__DeepTiledOutputPart_levelMode(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledOutputPart_levelMode(
     Imf_DeepTiledOutputPart_t const * this_
     , Imf_LevelMode * return_);
 #define Imf_DeepTiledOutputPart_levelMode Imf_3_0__DeepTiledOutputPart_levelMode
 
 
-unsigned int Imf_3_0__DeepTiledOutputPart_levelRoundingMode(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledOutputPart_levelRoundingMode(
     Imf_DeepTiledOutputPart_t const * this_
     , Imf_LevelRoundingMode * return_);
 #define Imf_DeepTiledOutputPart_levelRoundingMode Imf_3_0__DeepTiledOutputPart_levelRoundingMode
 
 
-unsigned int Imf_3_0__DeepTiledOutputPart_numLevels(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledOutputPart_numLevels(
     Imf_DeepTiledOutputPart_t const * this_
     , int * return_);
 #define Imf_DeepTiledOutputPart_numLevels Imf_3_0__DeepTiledOutputPart_numLevels
 
 
-unsigned int Imf_3_0__DeepTiledOutputPart_numXLevels(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledOutputPart_numXLevels(
     Imf_DeepTiledOutputPart_t const * this_
     , int * return_);
 #define Imf_DeepTiledOutputPart_numXLevels Imf_3_0__DeepTiledOutputPart_numXLevels
 
 
-unsigned int Imf_3_0__DeepTiledOutputPart_numYLevels(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledOutputPart_numYLevels(
     Imf_DeepTiledOutputPart_t const * this_
     , int * return_);
 #define Imf_DeepTiledOutputPart_numYLevels Imf_3_0__DeepTiledOutputPart_numYLevels
 
 
-unsigned int Imf_3_0__DeepTiledOutputPart_isValidLevel(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledOutputPart_isValidLevel(
     Imf_DeepTiledOutputPart_t const * this_
     , _Bool * return_
     , int lx
@@ -117,35 +119,35 @@ unsigned int Imf_3_0__DeepTiledOutputPart_isValidLevel(
 #define Imf_DeepTiledOutputPart_isValidLevel Imf_3_0__DeepTiledOutputPart_isValidLevel
 
 
-unsigned int Imf_3_0__DeepTiledOutputPart_levelWidth(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledOutputPart_levelWidth(
     Imf_DeepTiledOutputPart_t const * this_
     , int * return_
     , int lx);
 #define Imf_DeepTiledOutputPart_levelWidth Imf_3_0__DeepTiledOutputPart_levelWidth
 
 
-unsigned int Imf_3_0__DeepTiledOutputPart_levelHeight(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledOutputPart_levelHeight(
     Imf_DeepTiledOutputPart_t const * this_
     , int * return_
     , int ly);
 #define Imf_DeepTiledOutputPart_levelHeight Imf_3_0__DeepTiledOutputPart_levelHeight
 
 
-unsigned int Imf_3_0__DeepTiledOutputPart_numXTiles(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledOutputPart_numXTiles(
     Imf_DeepTiledOutputPart_t const * this_
     , int * return_
     , int lx);
 #define Imf_DeepTiledOutputPart_numXTiles Imf_3_0__DeepTiledOutputPart_numXTiles
 
 
-unsigned int Imf_3_0__DeepTiledOutputPart_numYTiles(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledOutputPart_numYTiles(
     Imf_DeepTiledOutputPart_t const * this_
     , int * return_
     , int ly);
 #define Imf_DeepTiledOutputPart_numYTiles Imf_3_0__DeepTiledOutputPart_numYTiles
 
 
-unsigned int Imf_3_0__DeepTiledOutputPart_dataWindowForLevel(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledOutputPart_dataWindowForLevel(
     Imf_DeepTiledOutputPart_t const * this_
     , Imath_Box2i_t * return_
     , int lx
@@ -153,7 +155,7 @@ unsigned int Imf_3_0__DeepTiledOutputPart_dataWindowForLevel(
 #define Imf_DeepTiledOutputPart_dataWindowForLevel Imf_3_0__DeepTiledOutputPart_dataWindowForLevel
 
 
-unsigned int Imf_3_0__DeepTiledOutputPart_dataWindowForTile(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledOutputPart_dataWindowForTile(
     Imf_DeepTiledOutputPart_t const * this_
     , Imath_Box2i_t * return_
     , int dx
@@ -163,7 +165,7 @@ unsigned int Imf_3_0__DeepTiledOutputPart_dataWindowForTile(
 #define Imf_DeepTiledOutputPart_dataWindowForTile Imf_3_0__DeepTiledOutputPart_dataWindowForTile
 
 
-unsigned int Imf_3_0__DeepTiledOutputPart_writeTile(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledOutputPart_writeTile(
     Imf_DeepTiledOutputPart_t * this_
     , int dx
     , int dy
@@ -172,7 +174,7 @@ unsigned int Imf_3_0__DeepTiledOutputPart_writeTile(
 #define Imf_DeepTiledOutputPart_writeTile Imf_3_0__DeepTiledOutputPart_writeTile
 
 
-unsigned int Imf_3_0__DeepTiledOutputPart_writeTiles(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledOutputPart_writeTiles(
     Imf_DeepTiledOutputPart_t * this_
     , int dx1
     , int dx2
@@ -183,25 +185,25 @@ unsigned int Imf_3_0__DeepTiledOutputPart_writeTiles(
 #define Imf_DeepTiledOutputPart_writeTiles Imf_3_0__DeepTiledOutputPart_writeTiles
 
 
-unsigned int Imf_3_0__DeepTiledOutputPart_copyPixels_from_file(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledOutputPart_copyPixels_from_file(
     Imf_DeepTiledOutputPart_t * this_
     , Imf_DeepTiledInputFile_t * in);
 #define Imf_DeepTiledOutputPart_copyPixels_from_file Imf_3_0__DeepTiledOutputPart_copyPixels_from_file
 
 
-unsigned int Imf_3_0__DeepTiledOutputPart_copyPixels_from_part(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledOutputPart_copyPixels_from_part(
     Imf_DeepTiledOutputPart_t * this_
     , Imf_DeepTiledInputPart_t * in);
 #define Imf_DeepTiledOutputPart_copyPixels_from_part Imf_3_0__DeepTiledOutputPart_copyPixels_from_part
 
 
-unsigned int Imf_3_0__DeepTiledOutputPart_updatePreviewImage(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledOutputPart_updatePreviewImage(
     Imf_DeepTiledOutputPart_t * this_
     , Imf_PreviewRgba_t const * newPixels);
 #define Imf_DeepTiledOutputPart_updatePreviewImage Imf_3_0__DeepTiledOutputPart_updatePreviewImage
 
 
-unsigned int Imf_3_0__DeepTiledOutputPart_breakTile(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledOutputPart_breakTile(
     Imf_DeepTiledOutputPart_t * this_
     , int dx
     , int dy

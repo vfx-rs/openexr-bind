@@ -1,4 +1,6 @@
 #pragma once
+#include "openexr-api-export.h"
+
 #include <imf_pixeltype.h>
 #include <imf_tiledescription.h>
 #include <stdbool.h>
@@ -16,47 +18,47 @@ typedef Imf_3_0__FlatImageLevel_t Imf_FlatImageLevel_t;
 
 typedef struct Imf_3_0__FlatImage_t_s {
     char _unused;
-} __attribute__((aligned(8))) Imf_3_0__FlatImage_t;
+} OPENEXR_ALIGN(8) Imf_3_0__FlatImage_t;
 typedef Imf_3_0__FlatImage_t Imf_FlatImage_t;
 
 
-unsigned int Imf_3_0__FlatImage_levelMode(
+OPENEXR_API unsigned int Imf_3_0__FlatImage_levelMode(
     Imf_FlatImage_t const * this_
     , Imf_LevelMode * return_);
 #define Imf_FlatImage_levelMode Imf_3_0__FlatImage_levelMode
 
 
-unsigned int Imf_3_0__FlatImage_levelRoundingMode(
+OPENEXR_API unsigned int Imf_3_0__FlatImage_levelRoundingMode(
     Imf_FlatImage_t const * this_
     , Imf_LevelRoundingMode * return_);
 #define Imf_FlatImage_levelRoundingMode Imf_3_0__FlatImage_levelRoundingMode
 
 
-unsigned int Imf_3_0__FlatImage_numLevels(
+OPENEXR_API unsigned int Imf_3_0__FlatImage_numLevels(
     Imf_FlatImage_t const * this_
     , int * return_);
 #define Imf_FlatImage_numLevels Imf_3_0__FlatImage_numLevels
 
 
-unsigned int Imf_3_0__FlatImage_numXLevels(
+OPENEXR_API unsigned int Imf_3_0__FlatImage_numXLevels(
     Imf_FlatImage_t const * this_
     , int * return_);
 #define Imf_FlatImage_numXLevels Imf_3_0__FlatImage_numXLevels
 
 
-unsigned int Imf_3_0__FlatImage_numYLevels(
+OPENEXR_API unsigned int Imf_3_0__FlatImage_numYLevels(
     Imf_FlatImage_t const * this_
     , int * return_);
 #define Imf_FlatImage_numYLevels Imf_3_0__FlatImage_numYLevels
 
 
-unsigned int Imf_3_0__FlatImage_dataWindow(
+OPENEXR_API unsigned int Imf_3_0__FlatImage_dataWindow(
     Imf_FlatImage_t const * this_
     , Imath_Box2i_t const * * return_);
 #define Imf_FlatImage_dataWindow Imf_3_0__FlatImage_dataWindow
 
 
-unsigned int Imf_3_0__FlatImage_dataWindowForLevel(
+OPENEXR_API unsigned int Imf_3_0__FlatImage_dataWindowForLevel(
     Imf_FlatImage_t const * this_
     , Imath_Box2i_t const * * return_
     , int lx
@@ -64,21 +66,21 @@ unsigned int Imf_3_0__FlatImage_dataWindowForLevel(
 #define Imf_FlatImage_dataWindowForLevel Imf_3_0__FlatImage_dataWindowForLevel
 
 
-unsigned int Imf_3_0__FlatImage_levelWidth(
+OPENEXR_API unsigned int Imf_3_0__FlatImage_levelWidth(
     Imf_FlatImage_t const * this_
     , int * return_
     , int lx);
 #define Imf_FlatImage_levelWidth Imf_3_0__FlatImage_levelWidth
 
 
-unsigned int Imf_3_0__FlatImage_levelHeight(
+OPENEXR_API unsigned int Imf_3_0__FlatImage_levelHeight(
     Imf_FlatImage_t const * this_
     , int * return_
     , int ly);
 #define Imf_FlatImage_levelHeight Imf_3_0__FlatImage_levelHeight
 
 
-unsigned int Imf_3_0__FlatImage_resize(
+OPENEXR_API unsigned int Imf_3_0__FlatImage_resize(
     Imf_FlatImage_t * this_
     , Imath_Box2i_t const * dataWindow
     , Imf_LevelMode levelMode
@@ -86,14 +88,14 @@ unsigned int Imf_3_0__FlatImage_resize(
 #define Imf_FlatImage_resize Imf_3_0__FlatImage_resize
 
 
-unsigned int Imf_3_0__FlatImage_shiftPixels(
+OPENEXR_API unsigned int Imf_3_0__FlatImage_shiftPixels(
     Imf_FlatImage_t * this_
     , int dx
     , int dy);
 #define Imf_FlatImage_shiftPixels Imf_3_0__FlatImage_shiftPixels
 
 
-unsigned int Imf_3_0__FlatImage_insertChannel(
+OPENEXR_API unsigned int Imf_3_0__FlatImage_insertChannel(
     Imf_FlatImage_t * this_
     , std_string_t const * name
     , Imf_PixelType type
@@ -103,30 +105,30 @@ unsigned int Imf_3_0__FlatImage_insertChannel(
 #define Imf_FlatImage_insertChannel Imf_3_0__FlatImage_insertChannel
 
 
-unsigned int Imf_3_0__FlatImage_eraseChannel(
+OPENEXR_API unsigned int Imf_3_0__FlatImage_eraseChannel(
     Imf_FlatImage_t * this_
     , std_string_t const * name);
 #define Imf_FlatImage_eraseChannel Imf_3_0__FlatImage_eraseChannel
 
 
-unsigned int Imf_3_0__FlatImage_clearChannels(
+OPENEXR_API unsigned int Imf_3_0__FlatImage_clearChannels(
     Imf_FlatImage_t * this_);
 #define Imf_FlatImage_clearChannels Imf_3_0__FlatImage_clearChannels
 
 
-unsigned int Imf_3_0__FlatImage_renameChannel(
+OPENEXR_API unsigned int Imf_3_0__FlatImage_renameChannel(
     Imf_FlatImage_t * this_
     , std_string_t const * oldName
     , std_string_t const * newName);
 #define Imf_FlatImage_renameChannel Imf_3_0__FlatImage_renameChannel
 
 
-unsigned int Imf_3_0__FlatImage_default(
+OPENEXR_API unsigned int Imf_3_0__FlatImage_default(
     Imf_FlatImage_t * * this_);
 #define Imf_FlatImage_default Imf_3_0__FlatImage_default
 
 
-unsigned int Imf_3_0__FlatImage_ctor(
+OPENEXR_API unsigned int Imf_3_0__FlatImage_ctor(
     Imf_FlatImage_t * * this_
     , Imath_Box2i_t const * dataWindow
     , Imf_LevelMode levelMode
@@ -134,12 +136,12 @@ unsigned int Imf_3_0__FlatImage_ctor(
 #define Imf_FlatImage_ctor Imf_3_0__FlatImage_ctor
 
 
-unsigned int Imf_3_0__FlatImage_dtor(
+OPENEXR_API unsigned int Imf_3_0__FlatImage_dtor(
     Imf_FlatImage_t * this_);
 #define Imf_FlatImage_dtor Imf_3_0__FlatImage_dtor
 
 
-unsigned int Imf_3_0__FlatImage_level(
+OPENEXR_API unsigned int Imf_3_0__FlatImage_level(
     Imf_FlatImage_t * this_
     , Imf_FlatImageLevel_t * * return_
     , int lx
@@ -147,7 +149,7 @@ unsigned int Imf_3_0__FlatImage_level(
 #define Imf_FlatImage_level Imf_3_0__FlatImage_level
 
 
-unsigned int Imf_3_0__FlatImage_level_const(
+OPENEXR_API unsigned int Imf_3_0__FlatImage_level_const(
     Imf_FlatImage_t const * this_
     , Imf_FlatImageLevel_t const * * return_
     , int lx

@@ -1,4 +1,6 @@
 #pragma once
+#include "openexr-api-export.h"
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -6,16 +8,16 @@ extern "C" {
 
 typedef struct Imf_3_0__DeepCompositing_t_s {
     char _unused;
-} __attribute__((aligned(8))) Imf_3_0__DeepCompositing_t;
+} OPENEXR_ALIGN(8) Imf_3_0__DeepCompositing_t;
 typedef Imf_3_0__DeepCompositing_t Imf_DeepCompositing_t;
 
 
-unsigned int Imf_3_0__DeepCompositing_ctor(
+OPENEXR_API unsigned int Imf_3_0__DeepCompositing_ctor(
     Imf_DeepCompositing_t * * this_);
 #define Imf_DeepCompositing_ctor Imf_3_0__DeepCompositing_ctor
 
 
-unsigned int Imf_3_0__DeepCompositing_dtor(
+OPENEXR_API unsigned int Imf_3_0__DeepCompositing_dtor(
     Imf_DeepCompositing_t * this_);
 #define Imf_DeepCompositing_dtor Imf_3_0__DeepCompositing_dtor
 
@@ -53,7 +55,7 @@ unsigned int Imf_3_0__DeepCompositing_dtor(
 
 
 /////////////////////////////////////////// */
-unsigned int Imf_3_0__DeepCompositing_composite_pixel(
+OPENEXR_API unsigned int Imf_3_0__DeepCompositing_composite_pixel(
     Imf_DeepCompositing_t * this_
     , float * outputs
     , float const * * inputs
@@ -82,7 +84,7 @@ unsigned int Imf_3_0__DeepCompositing_composite_pixel(
  the channel layout is identical to composite_pixel() 
 
 //////////////////////////////////////////////////////////// */
-unsigned int Imf_3_0__DeepCompositing_sort(
+OPENEXR_API unsigned int Imf_3_0__DeepCompositing_sort(
     Imf_DeepCompositing_t * this_
     , int * order
     , float const * * inputs
@@ -93,7 +95,7 @@ unsigned int Imf_3_0__DeepCompositing_sort(
 #define Imf_DeepCompositing_sort Imf_3_0__DeepCompositing_sort
 
 
-unsigned int Imf_3_0__DeepCompositing__assign(
+OPENEXR_API unsigned int Imf_3_0__DeepCompositing__assign(
     Imf_DeepCompositing_t * this_
     , Imf_DeepCompositing_t * * return_
     , Imf_DeepCompositing_t const * rhs);

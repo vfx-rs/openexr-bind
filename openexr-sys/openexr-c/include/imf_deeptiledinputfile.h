@@ -1,4 +1,6 @@
 #pragma once
+#include "openexr-api-export.h"
+
 #include <imath_box.h>
 #include <imf_tiledescription.h>
 #include <stdbool.h>
@@ -16,108 +18,108 @@ typedef Imf_3_0__IStream_t Imf_IStream_t;
 
 typedef struct Imf_3_0__DeepTiledInputFile_t_s {
     char _unused;
-} __attribute__((aligned(8))) Imf_3_0__DeepTiledInputFile_t;
+} OPENEXR_ALIGN(8) Imf_3_0__DeepTiledInputFile_t;
 typedef Imf_3_0__DeepTiledInputFile_t Imf_DeepTiledInputFile_t;
 
 
-unsigned int Imf_3_0__DeepTiledInputFile_ctor(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledInputFile_ctor(
     Imf_DeepTiledInputFile_t * * this_
     , char const * fileName
     , int numThreads);
 #define Imf_DeepTiledInputFile_ctor Imf_3_0__DeepTiledInputFile_ctor
 
 
-unsigned int Imf_3_0__DeepTiledInputFile_from_stream(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledInputFile_from_stream(
     Imf_DeepTiledInputFile_t * * this_
     , Imf_IStream_t * is
     , int numThreads);
 #define Imf_DeepTiledInputFile_from_stream Imf_3_0__DeepTiledInputFile_from_stream
 
 
-unsigned int Imf_3_0__DeepTiledInputFile_dtor(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledInputFile_dtor(
     Imf_DeepTiledInputFile_t * this_);
 #define Imf_DeepTiledInputFile_dtor Imf_3_0__DeepTiledInputFile_dtor
 
 
-unsigned int Imf_3_0__DeepTiledInputFile_fileName(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledInputFile_fileName(
     Imf_DeepTiledInputFile_t const * this_
     , char const * * return_);
 #define Imf_DeepTiledInputFile_fileName Imf_3_0__DeepTiledInputFile_fileName
 
 
-unsigned int Imf_3_0__DeepTiledInputFile_header(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledInputFile_header(
     Imf_DeepTiledInputFile_t const * this_
     , Imf_Header_t const * * return_);
 #define Imf_DeepTiledInputFile_header Imf_3_0__DeepTiledInputFile_header
 
 
-unsigned int Imf_3_0__DeepTiledInputFile_version(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledInputFile_version(
     Imf_DeepTiledInputFile_t const * this_
     , int * return_);
 #define Imf_DeepTiledInputFile_version Imf_3_0__DeepTiledInputFile_version
 
 
-unsigned int Imf_3_0__DeepTiledInputFile_setFrameBuffer(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledInputFile_setFrameBuffer(
     Imf_DeepTiledInputFile_t * this_
     , Imf_DeepFrameBuffer_t const * frameBuffer);
 #define Imf_DeepTiledInputFile_setFrameBuffer Imf_3_0__DeepTiledInputFile_setFrameBuffer
 
 
-unsigned int Imf_3_0__DeepTiledInputFile_frameBuffer(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledInputFile_frameBuffer(
     Imf_DeepTiledInputFile_t const * this_
     , Imf_DeepFrameBuffer_t const * * return_);
 #define Imf_DeepTiledInputFile_frameBuffer Imf_3_0__DeepTiledInputFile_frameBuffer
 
 
-unsigned int Imf_3_0__DeepTiledInputFile_isComplete(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledInputFile_isComplete(
     Imf_DeepTiledInputFile_t const * this_
     , _Bool * return_);
 #define Imf_DeepTiledInputFile_isComplete Imf_3_0__DeepTiledInputFile_isComplete
 
 
-unsigned int Imf_3_0__DeepTiledInputFile_tileXSize(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledInputFile_tileXSize(
     Imf_DeepTiledInputFile_t const * this_
     , unsigned int * return_);
 #define Imf_DeepTiledInputFile_tileXSize Imf_3_0__DeepTiledInputFile_tileXSize
 
 
-unsigned int Imf_3_0__DeepTiledInputFile_tileYSize(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledInputFile_tileYSize(
     Imf_DeepTiledInputFile_t const * this_
     , unsigned int * return_);
 #define Imf_DeepTiledInputFile_tileYSize Imf_3_0__DeepTiledInputFile_tileYSize
 
 
-unsigned int Imf_3_0__DeepTiledInputFile_levelMode(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledInputFile_levelMode(
     Imf_DeepTiledInputFile_t const * this_
     , Imf_LevelMode * return_);
 #define Imf_DeepTiledInputFile_levelMode Imf_3_0__DeepTiledInputFile_levelMode
 
 
-unsigned int Imf_3_0__DeepTiledInputFile_levelRoundingMode(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledInputFile_levelRoundingMode(
     Imf_DeepTiledInputFile_t const * this_
     , Imf_LevelRoundingMode * return_);
 #define Imf_DeepTiledInputFile_levelRoundingMode Imf_3_0__DeepTiledInputFile_levelRoundingMode
 
 
-unsigned int Imf_3_0__DeepTiledInputFile_numLevels(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledInputFile_numLevels(
     Imf_DeepTiledInputFile_t const * this_
     , int * return_);
 #define Imf_DeepTiledInputFile_numLevels Imf_3_0__DeepTiledInputFile_numLevels
 
 
-unsigned int Imf_3_0__DeepTiledInputFile_numXLevels(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledInputFile_numXLevels(
     Imf_DeepTiledInputFile_t const * this_
     , int * return_);
 #define Imf_DeepTiledInputFile_numXLevels Imf_3_0__DeepTiledInputFile_numXLevels
 
 
-unsigned int Imf_3_0__DeepTiledInputFile_numYLevels(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledInputFile_numYLevels(
     Imf_DeepTiledInputFile_t const * this_
     , int * return_);
 #define Imf_DeepTiledInputFile_numYLevels Imf_3_0__DeepTiledInputFile_numYLevels
 
 
-unsigned int Imf_3_0__DeepTiledInputFile_isValidLevel(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledInputFile_isValidLevel(
     Imf_DeepTiledInputFile_t const * this_
     , _Bool * return_
     , int lx
@@ -125,41 +127,41 @@ unsigned int Imf_3_0__DeepTiledInputFile_isValidLevel(
 #define Imf_DeepTiledInputFile_isValidLevel Imf_3_0__DeepTiledInputFile_isValidLevel
 
 
-unsigned int Imf_3_0__DeepTiledInputFile_totalTiles(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledInputFile_totalTiles(
     Imf_DeepTiledInputFile_t const * this_
     , unsigned long * return_);
 #define Imf_DeepTiledInputFile_totalTiles Imf_3_0__DeepTiledInputFile_totalTiles
 
 
-unsigned int Imf_3_0__DeepTiledInputFile_levelWidth(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledInputFile_levelWidth(
     Imf_DeepTiledInputFile_t const * this_
     , int * return_
     , int lx);
 #define Imf_DeepTiledInputFile_levelWidth Imf_3_0__DeepTiledInputFile_levelWidth
 
 
-unsigned int Imf_3_0__DeepTiledInputFile_levelHeight(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledInputFile_levelHeight(
     Imf_DeepTiledInputFile_t const * this_
     , int * return_
     , int ly);
 #define Imf_DeepTiledInputFile_levelHeight Imf_3_0__DeepTiledInputFile_levelHeight
 
 
-unsigned int Imf_3_0__DeepTiledInputFile_numXTiles(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledInputFile_numXTiles(
     Imf_DeepTiledInputFile_t const * this_
     , int * return_
     , int lx);
 #define Imf_DeepTiledInputFile_numXTiles Imf_3_0__DeepTiledInputFile_numXTiles
 
 
-unsigned int Imf_3_0__DeepTiledInputFile_numYTiles(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledInputFile_numYTiles(
     Imf_DeepTiledInputFile_t const * this_
     , int * return_
     , int ly);
 #define Imf_DeepTiledInputFile_numYTiles Imf_3_0__DeepTiledInputFile_numYTiles
 
 
-unsigned int Imf_3_0__DeepTiledInputFile_dataWindowForLevel(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledInputFile_dataWindowForLevel(
     Imf_DeepTiledInputFile_t const * this_
     , Imath_Box2i_t * return_
     , int lx
@@ -167,7 +169,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_dataWindowForLevel(
 #define Imf_DeepTiledInputFile_dataWindowForLevel Imf_3_0__DeepTiledInputFile_dataWindowForLevel
 
 
-unsigned int Imf_3_0__DeepTiledInputFile_dataWindowForTile(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledInputFile_dataWindowForTile(
     Imf_DeepTiledInputFile_t const * this_
     , Imath_Box2i_t * return_
     , int dx
@@ -177,7 +179,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_dataWindowForTile(
 #define Imf_DeepTiledInputFile_dataWindowForTile Imf_3_0__DeepTiledInputFile_dataWindowForTile
 
 
-unsigned int Imf_3_0__DeepTiledInputFile_readTile(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledInputFile_readTile(
     Imf_DeepTiledInputFile_t * this_
     , int dx
     , int dy
@@ -186,7 +188,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_readTile(
 #define Imf_DeepTiledInputFile_readTile Imf_3_0__DeepTiledInputFile_readTile
 
 
-unsigned int Imf_3_0__DeepTiledInputFile_readTiles(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledInputFile_readTiles(
     Imf_DeepTiledInputFile_t * this_
     , int dx1
     , int dx2
@@ -197,7 +199,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_readTiles(
 #define Imf_DeepTiledInputFile_readTiles Imf_3_0__DeepTiledInputFile_readTiles
 
 
-unsigned int Imf_3_0__DeepTiledInputFile_rawTileData(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledInputFile_rawTileData(
     Imf_DeepTiledInputFile_t const * this_
     , int * dx
     , int * dy
@@ -208,7 +210,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_rawTileData(
 #define Imf_DeepTiledInputFile_rawTileData Imf_3_0__DeepTiledInputFile_rawTileData
 
 
-unsigned int Imf_3_0__DeepTiledInputFile_readPixelSampleCount(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledInputFile_readPixelSampleCount(
     Imf_DeepTiledInputFile_t * this_
     , int dx
     , int dy
@@ -217,7 +219,7 @@ unsigned int Imf_3_0__DeepTiledInputFile_readPixelSampleCount(
 #define Imf_DeepTiledInputFile_readPixelSampleCount Imf_3_0__DeepTiledInputFile_readPixelSampleCount
 
 
-unsigned int Imf_3_0__DeepTiledInputFile_readPixelSampleCounts(
+OPENEXR_API unsigned int Imf_3_0__DeepTiledInputFile_readPixelSampleCounts(
     Imf_DeepTiledInputFile_t * this_
     , int dx1
     , int dx2
