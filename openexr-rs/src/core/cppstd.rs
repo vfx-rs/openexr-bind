@@ -25,7 +25,7 @@ impl CppString {
                 ptr,
                 &mut dummy,
                 cstring.as_ptr(),
-                cstring.as_bytes().len() as u64,
+                cstring.as_bytes().len(),
             );
             CppString(ptr)
         }
@@ -153,7 +153,7 @@ impl CppVectorString {
     ///
     pub unsafe fn get_unchecked(&self, pos: usize) -> CppStringRef {
         let mut ptr = std::ptr::null();
-        sys::std_vector_string_index(self.0, &mut ptr, pos as u64);
+        sys::std_vector_string_index(self.0, &mut ptr, pos);
         CppStringRef::new(ptr)
     }
 

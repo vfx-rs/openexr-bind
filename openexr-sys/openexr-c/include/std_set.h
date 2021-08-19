@@ -2,6 +2,7 @@
 #include "openexr-api-export.h"
 
 #include <stdbool.h>
+#include <stddef.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -41,6 +42,12 @@ OPENEXR_CPPMM_API unsigned int std__set_std__string__cend(
     std_set_string_t const * this_
     , std_set_string_iterator_t * return_);
 #define std_set_string_cend std__set_std__string__cend
+
+
+OPENEXR_CPPMM_API unsigned int std__set_std__string__size(
+    std_set_string_t const * this_
+    , size_t * return_);
+#define std_set_string_size std__set_std__string__size
 
 
 /** returns the size of this type in bytes */

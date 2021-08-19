@@ -19,7 +19,7 @@ pub fn std__string_copy(this_: *mut *mut std_string_t, rhs: *const std_string_t)
 
 pub fn std__string_dtor(this_: *mut std_string_t) -> Exception;
 
-pub fn std__string_assign(this_: *mut std_string_t, return_: *mut *mut std_string_t, s: *const c_char, count: c_ulong) -> Exception;
+pub fn std__string_assign(this_: *mut std_string_t, return_: *mut *mut std_string_t, s: *const c_char, count: usize) -> Exception;
 
 pub fn std__string_c_str(this_: *const std_string_t, return_: *mut *const c_char) -> Exception;
 

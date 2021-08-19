@@ -21,6 +21,10 @@ pub fn std__vector_std__string__ctor(this_: *mut *mut std_vector_string_t) -> Ex
 
 pub fn std__vector_std__string__dtor(this_: *mut std_vector_string_t) -> Exception;
 
+pub fn std__vector_std__string__size(this_: *const std_vector_string_t, return_: *mut usize) -> Exception;
+
+pub fn std__vector_std__string__index(this_: *const std_vector_string_t, return_: *mut *const std_string_t, pos: usize) -> Exception;
+
 pub fn std__vector_std__string__data(this_: *mut std_vector_string_t, return_: *mut *mut std_string_t) -> Exception;
 
 pub fn std__vector_std__string__data_const(this_: *const std_vector_string_t, return_: *mut *const std_string_t) -> Exception;
@@ -30,6 +34,10 @@ pub fn std__vector_std__string__push_back(this_: *mut std_vector_string_t, value
 pub fn std__vector_float__ctor(this_: *mut *mut std_vector_float_t) -> Exception;
 
 pub fn std__vector_float__dtor(this_: *mut std_vector_float_t) -> Exception;
+
+pub fn std__vector_float__size(this_: *const std_vector_float_t, return_: *mut usize) -> Exception;
+
+pub fn std__vector_float__index(this_: *const std_vector_float_t, return_: *mut *const c_float, pos: usize) -> Exception;
 
 pub fn std__vector_float__data(this_: *mut std_vector_float_t, return_: *mut *mut c_float) -> Exception;
 

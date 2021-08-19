@@ -202,8 +202,8 @@ impl TiledRgbaOutputFile {
             sys::Imf_TiledRgbaOutputFile_setFrameBuffer(
                 self.0,
                 data.as_ptr() as *const sys::Imf_Rgba_t,
-                x_stride as u64,
-                y_stride as u64,
+                x_stride,
+                y_stride,
             )
             .into_result()?;
         }
@@ -814,8 +814,8 @@ impl TiledRgbaInputFile {
             sys::Imf_TiledRgbaInputFile_setFrameBuffer(
                 self.0,
                 pixels.as_mut_ptr() as *mut Rgba as *mut sys::Imf_Rgba_t,
-                x_stride as u64,
-                y_stride as u64,
+                x_stride,
+                y_stride,
             )
             .into_result()?;
         }

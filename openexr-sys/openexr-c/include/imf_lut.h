@@ -8,10 +8,10 @@ extern "C" {
 
 typedef struct Imath_3_0__Box_Imath_3_0__Vec2_int___t_s Imath_3_0__Box_Imath_3_0__Vec2_int___t;
 typedef Imath_3_0__Box_Imath_3_0__Vec2_int___t Imath_Box2i_t;
-typedef struct Imath_3_0__half_t_s Imath_3_0__half_t;
-typedef Imath_3_0__half_t Imath_half_t;
 typedef struct Imf_3_0__Rgba_t_s Imf_3_0__Rgba_t;
 typedef Imf_3_0__Rgba_t Imf_Rgba_t;
+typedef struct Imath_3_0__half_t_s Imath_3_0__half_t;
+typedef Imath_3_0__half_t Imath_half_t;
 typedef struct Imf_3_0__Slice_t_s Imf_3_0__Slice_t;
 typedef Imf_3_0__Slice_t Imf_Slice_t;
 

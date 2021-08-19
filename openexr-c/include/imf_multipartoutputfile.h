@@ -7,10 +7,10 @@
 extern "C" {
 #endif
 
-typedef struct Imf_3_0__OStream_t_s Imf_3_0__OStream_t;
-typedef Imf_3_0__OStream_t Imf_OStream_t;
 typedef struct Imf_3_0__Header_t_s Imf_3_0__Header_t;
 typedef Imf_3_0__Header_t Imf_Header_t;
+typedef struct Imf_3_0__OStream_t_s Imf_3_0__OStream_t;
+typedef Imf_3_0__OStream_t Imf_OStream_t;
 
 typedef struct Imf_3_0__MultiPartOutputFile_t_s {
     char _unused;

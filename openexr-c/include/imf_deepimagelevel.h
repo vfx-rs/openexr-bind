@@ -6,16 +6,6 @@
 extern "C" {
 #endif
 
-typedef struct Imath_3_0__Box_Imath_3_0__Vec2_int___t_s Imath_3_0__Box_Imath_3_0__Vec2_int___t;
-typedef Imath_3_0__Box_Imath_3_0__Vec2_int___t Imath_Box2i_t;
-typedef struct Imf_3_0__SampleCountChannel_t_s Imf_3_0__SampleCountChannel_t;
-typedef Imf_3_0__SampleCountChannel_t Imf_SampleCountChannel_t;
-typedef struct std__string_t_s std__string_t;
-typedef std__string_t std_string_t;
-typedef struct Imf_3_0__DeepImage_t_s Imf_3_0__DeepImage_t;
-typedef Imf_3_0__DeepImage_t Imf_DeepImage_t;
-typedef struct Imf_3_0__Image_t_s Imf_3_0__Image_t;
-typedef Imf_3_0__Image_t Imf_Image_t;
 typedef struct Imf_3_0__DeepImageChannel_t_s Imf_3_0__DeepImageChannel_t;
 typedef Imf_3_0__DeepImageChannel_t Imf_DeepImageChannel_t;
 typedef struct Imf_3_0__TypedDeepImageChannel_half__t_s Imf_3_0__TypedDeepImageChannel_half__t;
@@ -24,6 +14,16 @@ typedef struct Imf_3_0__TypedDeepImageChannel_float__t_s Imf_3_0__TypedDeepImage
 typedef Imf_3_0__TypedDeepImageChannel_float__t Imf_DeepFloatChannel_t;
 typedef struct Imf_3_0__TypedDeepImageChannel_unsignedint__t_s Imf_3_0__TypedDeepImageChannel_unsignedint__t;
 typedef Imf_3_0__TypedDeepImageChannel_unsignedint__t Imf_DeepUIntChannel_t;
+typedef struct Imath_3_0__Box_Imath_3_0__Vec2_int___t_s Imath_3_0__Box_Imath_3_0__Vec2_int___t;
+typedef Imath_3_0__Box_Imath_3_0__Vec2_int___t Imath_Box2i_t;
+typedef struct Imf_3_0__SampleCountChannel_t_s Imf_3_0__SampleCountChannel_t;
+typedef Imf_3_0__SampleCountChannel_t Imf_SampleCountChannel_t;
+typedef struct std__string_t_s std__string_t;
+typedef std__string_t std_string_t;
+typedef struct Imf_3_0__Image_t_s Imf_3_0__Image_t;
+typedef Imf_3_0__Image_t Imf_Image_t;
+typedef struct Imf_3_0__DeepImage_t_s Imf_3_0__DeepImage_t;
+typedef Imf_3_0__DeepImage_t Imf_DeepImage_t;
 
 typedef struct Imf_3_0__DeepImageLevel_t_s {
     char _unused;

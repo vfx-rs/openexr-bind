@@ -11,12 +11,12 @@
 extern "C" {
 #endif
 
-typedef struct Imath_3_0__half_t_s Imath_3_0__half_t;
-typedef Imath_3_0__half_t Imath_half_t;
-typedef struct Imf_3_0__FlatImageLevel_t_s Imf_3_0__FlatImageLevel_t;
-typedef Imf_3_0__FlatImageLevel_t Imf_FlatImageLevel_t;
 typedef struct Imf_3_0__ImageLevel_t_s Imf_3_0__ImageLevel_t;
 typedef Imf_3_0__ImageLevel_t Imf_ImageLevel_t;
+typedef struct Imf_3_0__FlatImageLevel_t_s Imf_3_0__FlatImageLevel_t;
+typedef Imf_3_0__FlatImageLevel_t Imf_FlatImageLevel_t;
+typedef struct Imath_3_0__half_t_s Imath_3_0__half_t;
+typedef Imath_3_0__half_t Imath_half_t;
 
 typedef struct Imf_3_0__FlatImageChannel_t_s {
     char _unused;

@@ -9,18 +9,18 @@
 extern "C" {
 #endif
 
+typedef struct Imf_3_0__PreviewRgba_t_s Imf_3_0__PreviewRgba_t;
+typedef Imf_3_0__PreviewRgba_t Imf_PreviewRgba_t;
+typedef struct Imf_3_0__DeepTiledInputPart_t_s Imf_3_0__DeepTiledInputPart_t;
+typedef Imf_3_0__DeepTiledInputPart_t Imf_DeepTiledInputPart_t;
+typedef struct Imf_3_0__DeepFrameBuffer_t_s Imf_3_0__DeepFrameBuffer_t;
+typedef Imf_3_0__DeepFrameBuffer_t Imf_DeepFrameBuffer_t;
+typedef struct Imf_3_0__Header_t_s Imf_3_0__Header_t;
+typedef Imf_3_0__Header_t Imf_Header_t;
 typedef struct Imf_3_0__DeepTiledInputFile_t_s Imf_3_0__DeepTiledInputFile_t;
 typedef Imf_3_0__DeepTiledInputFile_t Imf_DeepTiledInputFile_t;
 typedef struct Imf_3_0__OStream_t_s Imf_3_0__OStream_t;
 typedef Imf_3_0__OStream_t Imf_OStream_t;
-typedef struct Imf_3_0__DeepFrameBuffer_t_s Imf_3_0__DeepFrameBuffer_t;
-typedef Imf_3_0__DeepFrameBuffer_t Imf_DeepFrameBuffer_t;
-typedef struct Imf_3_0__PreviewRgba_t_s Imf_3_0__PreviewRgba_t;
-typedef Imf_3_0__PreviewRgba_t Imf_PreviewRgba_t;
-typedef struct Imf_3_0__Header_t_s Imf_3_0__Header_t;
-typedef Imf_3_0__Header_t Imf_Header_t;
-typedef struct Imf_3_0__DeepTiledInputPart_t_s Imf_3_0__DeepTiledInputPart_t;
-typedef Imf_3_0__DeepTiledInputPart_t Imf_DeepTiledInputPart_t;
 
 typedef struct Imf_3_0__DeepTiledOutputFile_t_s {
     char _unused;

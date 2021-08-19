@@ -40,7 +40,7 @@ OPENEXR_CPPMM_API unsigned int std__string_assign(
     std_string_t * this_
     , std_string_t * * return_
     , char const * s
-    , unsigned long count)
+    , size_t count)
 {
     try {
         to_c(return_, (to_cpp(this_)) -> assign(s, count));

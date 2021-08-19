@@ -11,10 +11,10 @@
 extern "C" {
 #endif
 
-typedef struct Imf_3_0__ImageLevel_t_s Imf_3_0__ImageLevel_t;
-typedef Imf_3_0__ImageLevel_t Imf_ImageLevel_t;
 typedef struct Imf_3_0__DeepImageLevel_t_s Imf_3_0__DeepImageLevel_t;
 typedef Imf_3_0__DeepImageLevel_t Imf_DeepImageLevel_t;
+typedef struct Imf_3_0__ImageLevel_t_s Imf_3_0__ImageLevel_t;
+typedef Imf_3_0__ImageLevel_t Imf_ImageLevel_t;
 
 typedef struct Imf_3_0__SampleCountChannel_t_s {
     char _unused;

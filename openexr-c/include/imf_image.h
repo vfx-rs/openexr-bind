@@ -9,16 +9,16 @@
 extern "C" {
 #endif
 
+typedef struct Imf_3_0__Channel_t_s Imf_3_0__Channel_t;
+typedef Imf_3_0__Channel_t Imf_Channel_t;
 typedef struct Imath_3_0__Box_Imath_3_0__Vec2_int___t_s Imath_3_0__Box_Imath_3_0__Vec2_int___t;
 typedef Imath_3_0__Box_Imath_3_0__Vec2_int___t Imath_Box2i_t;
 typedef struct std__string_t_s std__string_t;
 typedef std__string_t std_string_t;
-typedef struct std__map_std__string_std__string__t_s std__map_std__string_std__string__t;
-typedef std__map_std__string_std__string__t std_map_string_string_t;
 typedef struct Imf_3_0__ImageLevel_t_s Imf_3_0__ImageLevel_t;
 typedef Imf_3_0__ImageLevel_t Imf_ImageLevel_t;
-typedef struct Imf_3_0__Channel_t_s Imf_3_0__Channel_t;
-typedef Imf_3_0__Channel_t Imf_Channel_t;
+typedef struct std__map_std__string_std__string__t_s std__map_std__string_std__string__t;
+typedef std__map_std__string_std__string__t std_map_string_string_t;
 
 typedef struct Imf_3_0__Image_t_s {
     char _unused;

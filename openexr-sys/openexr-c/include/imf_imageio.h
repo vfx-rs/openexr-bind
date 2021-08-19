@@ -9,10 +9,10 @@ extern "C" {
 
 typedef struct std__string_t_s std__string_t;
 typedef std__string_t std_string_t;
-typedef struct Imf_3_0__Header_t_s Imf_3_0__Header_t;
-typedef Imf_3_0__Header_t Imf_Header_t;
 typedef struct Imf_3_0__Image_t_s Imf_3_0__Image_t;
 typedef Imf_3_0__Image_t Imf_Image_t;
+typedef struct Imf_3_0__Header_t_s Imf_3_0__Header_t;
+typedef Imf_3_0__Header_t Imf_Header_t;
 
 OPENEXR_CPPMM_API unsigned int Imf_3_0_saveImage(
     std_string_t const * fileName

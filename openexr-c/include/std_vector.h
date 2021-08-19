@@ -1,6 +1,7 @@
 #pragma once
 #include "openexr-api-export.h"
 
+#include <stddef.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -30,6 +31,19 @@ OPENEXR_CPPMM_API unsigned int std__vector_std__string__dtor(
 #define std_vector_string_dtor std__vector_std__string__dtor
 
 
+OPENEXR_CPPMM_API unsigned int std__vector_std__string__size(
+    std_vector_string_t const * this_
+    , size_t * return_);
+#define std_vector_string_size std__vector_std__string__size
+
+
+OPENEXR_CPPMM_API unsigned int std__vector_std__string__index(
+    std_vector_string_t const * this_
+    , std_string_t const * * return_
+    , size_t pos);
+#define std_vector_string_index std__vector_std__string__index
+
+
 OPENEXR_CPPMM_API unsigned int std__vector_std__string__data(
     std_vector_string_t * this_
     , std_string_t * * return_);
@@ -56,6 +70,19 @@ OPENEXR_CPPMM_API unsigned int std__vector_float__ctor(
 OPENEXR_CPPMM_API unsigned int std__vector_float__dtor(
     std_vector_float_t * this_);
 #define std_vector_float_dtor std__vector_float__dtor
+
+
+OPENEXR_CPPMM_API unsigned int std__vector_float__size(
+    std_vector_float_t const * this_
+    , size_t * return_);
+#define std_vector_float_size std__vector_float__size
+
+
+OPENEXR_CPPMM_API unsigned int std__vector_float__index(
+    std_vector_float_t const * this_
+    , float const * * return_
+    , size_t pos);
+#define std_vector_float_index std__vector_float__index
 
 
 OPENEXR_CPPMM_API unsigned int std__vector_float__data(
