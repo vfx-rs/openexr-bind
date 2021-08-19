@@ -64,7 +64,6 @@ fn is_dylib_path(s: &str, re: &Regex) -> Option<DylibPathInfo> {
     None
 }
 
-#[cfg(target_os="windows")]
 fn is_dll_lib_path(s: &str, re: &Regex) -> Option<DylibPathInfo> {
     if let Some(m) = re.captures_iter(s).next() {
         if let Some(c0) = m.get(0) {

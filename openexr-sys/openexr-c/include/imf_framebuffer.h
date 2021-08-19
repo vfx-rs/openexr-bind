@@ -4,6 +4,7 @@
 #include <imf_pixeltype.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include <stdint.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -64,8 +65,8 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__Slice_with_origin(
     , Imf_PixelType type
     , void const * ptr
     , Imath_V2i_t const * origin
-    , long w
-    , long h
+    , int64_t w
+    , int64_t h
     , size_t xStride
     , size_t yStride
     , int xSampling

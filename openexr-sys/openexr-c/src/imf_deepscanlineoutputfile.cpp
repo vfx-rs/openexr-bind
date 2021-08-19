@@ -174,12 +174,12 @@ OPENEXR_CPPMM_API unsigned int Imf_3_0__DeepScanLineOutputFile_updatePreviewImag
     try {
         (to_cpp(this_)) -> updatePreviewImage(to_cpp(newPixels));
         return 0;
-    } catch (Iex::BaseExc& e) {
-        TLG_EXCEPTION_STRING = e.what();
-        return 2;
     } catch (Iex::LogicExc& e) {
         TLG_EXCEPTION_STRING = e.what();
         return 3;
+    } catch (Iex::BaseExc& e) {
+        TLG_EXCEPTION_STRING = e.what();
+        return 2;
     } catch (std::exception& e) {
         TLG_EXCEPTION_STRING = e.what();
         return -1;

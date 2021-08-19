@@ -59,8 +59,9 @@ struct DeepScanLineOutputFile {
 
     IMF_EXPORT
     void updatePreviewImage(const Imf::PreviewRgba newPixels[])
-        CPPMM_THROWS(Iex::BaseExc, IEX_BASE)
-            CPPMM_THROWS(Iex::LogicExc, IEX_LOGIC_ERROR);
+            CPPMM_THROWS(Iex::LogicExc, IEX_LOGIC_ERROR)
+        CPPMM_THROWS(Iex::BaseExc, IEX_BASE);
+
 } CPPMM_OPAQUEPTR;
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
