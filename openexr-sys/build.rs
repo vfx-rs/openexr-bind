@@ -14,6 +14,7 @@ fn build_imath(target_dir: &Path) -> std::string::String {
         .define("IMATH_IS_SUBPROJECT", "ON")
         .define("BUILD_TESTING", "OFF")
         .define("BUILD_SHARED_LIBS", "ON")
+        .generator("Ninja")
         .build()
         .to_str()
         .expect("Unable to convert imath_root to str")
@@ -32,6 +33,7 @@ fn build_openexr(target_dir: &Path) -> std::string::String {
         .define("BUILD_TESTING", "OFF")
         .define("OPENEXR_INSTALL_EXAMPLES", "OFF")
         .define("BUILD_SHARED_LIBS", "ON")
+        .generator("Ninja")
         .build()
         .to_str()
         .expect("Unable to convert openexr_root to str")
@@ -45,6 +47,7 @@ struct DylibPathInfo {
     libname: String,
 }
 
+#[cfg(not(target_os="windows"))]
 fn is_dylib_path(s: &str, re: &Regex) -> Option<DylibPathInfo> {
     if let Some(m) = re.captures_iter(s).next() {
         if let Some(c0) = m.get(0) {
@@ -61,8 +64,62 @@ fn is_dylib_path(s: &str, re: &Regex) -> Option<DylibPathInfo> {
     None
 }
 
+fn is_dll_lib_path(s: &str, re: &Regex) -> Option<DylibPathInfo> {
+    if let Some(m) = re.captures_iter(s).next() {
+        if let Some(c0) = m.get(0) {
+            if let Some(c1) = m.get(1) {
+                return Some(DylibPathInfo {
+                    path: s.to_string(),
+                    basename: c0.as_str().to_string(),
+                    libname: c1.as_str().to_string(),
+                });
+            }
+        }
+    }
+
+    None
+}
+
+#[cfg(target_os="windows")]
 fn get_linking_from_cmake(link_txt_path: &Path) -> Vec<DylibPathInfo> {
-    let link_txt = std::fs::read_to_string(link_txt_path).expect(&format!(
+    let build_make_path = link_txt_path.join("build.make");
+    
+    // For windows we generate an NMake Makefile then we'll parse that here to
+    // figure out our linker args
+    let build_make = std::fs::read_to_string(&build_make_path).expect(&format!(
+        "Could not read link_txt_path: {}",
+        build_make_path.display()
+    ));
+
+    let re = Regex::new(
+        r"(?:.*\\(.*))(\.lib)$",
+    )
+    .unwrap();
+
+    let mut found_slash_dll = false;
+    let mut libs = Vec::new();
+    println!("cargo:warning=Found links:");
+    for tok in build_make.split_whitespace() {
+        if tok == "/dll" {
+            found_slash_dll = true;
+        } else if found_slash_dll {
+            if tok == "<<" {
+                break;
+            } else {
+                if let Some(dlp) = is_dll_lib_path(tok, &re) {
+                    libs.push(dlp);
+                }
+            }
+        }
+    }
+
+    libs
+}
+
+#[cfg(not(target_os="windows"))]
+fn get_linking_from_cmake(link_txt_path: &Path) -> Vec<DylibPathInfo> {
+    let link_txt_path = link_txt_path.join("link.txt");
+    let link_txt = std::fs::read_to_string(&link_txt_path).expect(&format!(
         "Could not read link_txt_path: {}",
         link_txt_path.display()
     ));
@@ -115,27 +172,37 @@ fn main() {
 
     let lib_path = target_dir.join("lib");
     let cmake_prefix_path = lib_path.join("cmake");
+
+    #[cfg(not(target_os="windows"))]
+    let generator = "Unix Makefiles";
+
+    #[cfg(target_os="windows")]
+    let generator = "NMake Makefiles";
+
     let dst = if build_libraries {
         let _ = build_imath(&target_dir);
         let _ = build_openexr(&target_dir);
         cmake::Config::new(clib_name)
             .define("CMAKE_EXPORT_COMPILE_COMMANDS", "ON")
             .define("CMAKE_PREFIX_PATH", cmake_prefix_path.to_str().unwrap())
+            .profile("Release")
+            .generator(&generator)
             .build()
     } else {
         cmake::Config::new(clib_name)
             .define("CMAKE_EXPORT_COMPILE_COMMANDS", "ON")
+            .generator(&generator)
+            .profile("Release")
             .build()
     };
 
     let link_txt_path = Path::new(&dst)
         .join("build")
         .join("CMakeFiles")
-        .join(format!("{}-shared.dir", clib_versioned_name))
-        .join("link.txt");
+        .join(format!("{}-shared.dir", clib_versioned_name));
 
     let dylibs = get_linking_from_cmake(&link_txt_path);
-    // println!("cargo:warning=linklibs: {:?}", dylibs);
+    println!("cargo:warning=linklibs: {:?}", dylibs);
 
     // link our wrapper library
     println!("cargo:rustc-link-search=native={}", dst.display());
@@ -165,6 +232,7 @@ fn main() {
             let libdir = Path::new(&d.path).parent().unwrap();
             println!("cargo:rustc-link-search=native={}", libdir.display());
             println!("cargo:rustc-link-lib=dylib={}", &d.libname);
+            println!("cargo:warning=linking to {}", &d.libname);
         }
     }
 
