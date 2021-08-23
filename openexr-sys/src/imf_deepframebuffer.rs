@@ -5,15 +5,15 @@
 use crate::*;
 use std::os::raw::*;
 
-#[repr(C, align(%ALIGNImf_3_0::DeepSlice%))]
+#[repr(C, align(8))]
 #[derive(Clone)]
 pub struct Imf_3_0__DeepSlice_t {
-    _inner: [u8; %SIZEImf_3_0::DeepSlice%]
+    _inner: [u8; 56]
 }
 
 impl Default for Imf_3_0__DeepSlice_t {
     fn default() -> Self {
-        Self { _inner: [0u8; %SIZEImf_3_0::DeepSlice%] }
+        Self { _inner: [0u8; 56] }
     }
 }
 
@@ -32,15 +32,15 @@ impl Imf_3_0__DeepSlice_t {
 pub struct Imf_3_0__DeepFrameBuffer_t {
     _unused: [u8; 0],
 }
-#[repr(C, align(%ALIGNImf_3_0::DeepFrameBuffer::Iterator%))]
+#[repr(C, align(8))]
 #[derive(Clone)]
 pub struct Imf_3_0__DeepFrameBuffer__Iterator_t {
-    _inner: [u8; %SIZEImf_3_0::DeepFrameBuffer::Iterator%]
+    _inner: [u8; 8]
 }
 
 impl Default for Imf_3_0__DeepFrameBuffer__Iterator_t {
     fn default() -> Self {
-        Self { _inner: [0u8; %SIZEImf_3_0::DeepFrameBuffer::Iterator%] }
+        Self { _inner: [0u8; 8] }
     }
 }
 
@@ -55,15 +55,15 @@ impl Imf_3_0__DeepFrameBuffer__Iterator_t {
     }
 }
 
-#[repr(C, align(%ALIGNImf_3_0::DeepFrameBuffer::ConstIterator%))]
+#[repr(C, align(8))]
 #[derive(Clone)]
 pub struct Imf_3_0__DeepFrameBuffer__ConstIterator_t {
-    _inner: [u8; %SIZEImf_3_0::DeepFrameBuffer::ConstIterator%]
+    _inner: [u8; 8]
 }
 
 impl Default for Imf_3_0__DeepFrameBuffer__ConstIterator_t {
     fn default() -> Self {
-        Self { _inner: [0u8; %SIZEImf_3_0::DeepFrameBuffer::ConstIterator%] }
+        Self { _inner: [0u8; 8] }
     }
 }
 

@@ -5,15 +5,15 @@
 use crate::*;
 use std::os::raw::*;
 
-#[repr(C, align(%ALIGNImf_3_0::Name%))]
+#[repr(C, align(1))]
 #[derive(Clone)]
 pub struct Imf_3_0__Name_t {
-    _inner: [u8; %SIZEImf_3_0::Name%]
+    _inner: [u8; 256]
 }
 
 impl Default for Imf_3_0__Name_t {
     fn default() -> Self {
-        Self { _inner: [0u8; %SIZEImf_3_0::Name%] }
+        Self { _inner: [0u8; 256] }
     }
 }
 

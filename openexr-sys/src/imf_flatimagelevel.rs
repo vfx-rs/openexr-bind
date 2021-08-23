@@ -9,15 +9,15 @@ use std::os::raw::*;
 pub struct Imf_3_0__FlatImageLevel_t {
     _unused: [u8; 0],
 }
-#[repr(C, align(%ALIGNImf_3_0::FlatImageLevel::Iterator%))]
+#[repr(C, align(8))]
 #[derive(Clone)]
 pub struct Imf_3_0__FlatImageLevel__Iterator_t {
-    _inner: [u8; %SIZEImf_3_0::FlatImageLevel::Iterator%]
+    _inner: [u8; 8]
 }
 
 impl Default for Imf_3_0__FlatImageLevel__Iterator_t {
     fn default() -> Self {
-        Self { _inner: [0u8; %SIZEImf_3_0::FlatImageLevel::Iterator%] }
+        Self { _inner: [0u8; 8] }
     }
 }
 
@@ -32,15 +32,15 @@ impl Imf_3_0__FlatImageLevel__Iterator_t {
     }
 }
 
-#[repr(C, align(%ALIGNImf_3_0::FlatImageLevel::ConstIterator%))]
+#[repr(C, align(8))]
 #[derive(Clone)]
 pub struct Imf_3_0__FlatImageLevel__ConstIterator_t {
-    _inner: [u8; %SIZEImf_3_0::FlatImageLevel::ConstIterator%]
+    _inner: [u8; 8]
 }
 
 impl Default for Imf_3_0__FlatImageLevel__ConstIterator_t {
     fn default() -> Self {
-        Self { _inner: [0u8; %SIZEImf_3_0::FlatImageLevel::ConstIterator%] }
+        Self { _inner: [0u8; 8] }
     }
 }
 

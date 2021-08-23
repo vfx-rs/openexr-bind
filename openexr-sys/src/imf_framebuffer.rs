@@ -5,15 +5,15 @@
 use crate::*;
 use std::os::raw::*;
 
-#[repr(C, align(%ALIGNImf_3_0::Slice%))]
+#[repr(C, align(8))]
 #[derive(Clone)]
 pub struct Imf_3_0__Slice_t {
-    _inner: [u8; %SIZEImf_3_0::Slice%]
+    _inner: [u8; 56]
 }
 
 impl Default for Imf_3_0__Slice_t {
     fn default() -> Self {
-        Self { _inner: [0u8; %SIZEImf_3_0::Slice%] }
+        Self { _inner: [0u8; 56] }
     }
 }
 
@@ -32,15 +32,15 @@ impl Imf_3_0__Slice_t {
 pub struct Imf_3_0__FrameBuffer_t {
     _unused: [u8; 0],
 }
-#[repr(C, align(%ALIGNImf_3_0::FrameBuffer::Iterator%))]
+#[repr(C, align(8))]
 #[derive(Clone)]
 pub struct Imf_3_0__FrameBuffer__Iterator_t {
-    _inner: [u8; %SIZEImf_3_0::FrameBuffer::Iterator%]
+    _inner: [u8; 8]
 }
 
 impl Default for Imf_3_0__FrameBuffer__Iterator_t {
     fn default() -> Self {
-        Self { _inner: [0u8; %SIZEImf_3_0::FrameBuffer::Iterator%] }
+        Self { _inner: [0u8; 8] }
     }
 }
 
@@ -55,15 +55,15 @@ impl Imf_3_0__FrameBuffer__Iterator_t {
     }
 }
 
-#[repr(C, align(%ALIGNImf_3_0::FrameBuffer::ConstIterator%))]
+#[repr(C, align(8))]
 #[derive(Clone)]
 pub struct Imf_3_0__FrameBuffer__ConstIterator_t {
-    _inner: [u8; %SIZEImf_3_0::FrameBuffer::ConstIterator%]
+    _inner: [u8; 8]
 }
 
 impl Default for Imf_3_0__FrameBuffer__ConstIterator_t {
     fn default() -> Self {
-        Self { _inner: [0u8; %SIZEImf_3_0::FrameBuffer::ConstIterator%] }
+        Self { _inner: [0u8; 8] }
     }
 }
 

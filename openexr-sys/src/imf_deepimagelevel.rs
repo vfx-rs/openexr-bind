@@ -9,15 +9,15 @@ use std::os::raw::*;
 pub struct Imf_3_0__DeepImageLevel_t {
     _unused: [u8; 0],
 }
-#[repr(C, align(%ALIGNImf_3_0::DeepImageLevel::Iterator%))]
+#[repr(C, align(8))]
 #[derive(Clone)]
 pub struct Imf_3_0__DeepImageLevel__Iterator_t {
-    _inner: [u8; %SIZEImf_3_0::DeepImageLevel::Iterator%]
+    _inner: [u8; 8]
 }
 
 impl Default for Imf_3_0__DeepImageLevel__Iterator_t {
     fn default() -> Self {
-        Self { _inner: [0u8; %SIZEImf_3_0::DeepImageLevel::Iterator%] }
+        Self { _inner: [0u8; 8] }
     }
 }
 
@@ -32,15 +32,15 @@ impl Imf_3_0__DeepImageLevel__Iterator_t {
     }
 }
 
-#[repr(C, align(%ALIGNImf_3_0::DeepImageLevel::ConstIterator%))]
+#[repr(C, align(8))]
 #[derive(Clone)]
 pub struct Imf_3_0__DeepImageLevel__ConstIterator_t {
-    _inner: [u8; %SIZEImf_3_0::DeepImageLevel::ConstIterator%]
+    _inner: [u8; 8]
 }
 
 impl Default for Imf_3_0__DeepImageLevel__ConstIterator_t {
     fn default() -> Self {
-        Self { _inner: [0u8; %SIZEImf_3_0::DeepImageLevel::ConstIterator%] }
+        Self { _inner: [0u8; 8] }
     }
 }
 

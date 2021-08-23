@@ -379,4 +379,18 @@ fn main() {
     println!("cargo:rustc-link-lib=dylib=stdc++");
     #[cfg(target_os = "macos")]
     println!("cargo:rustc-link-lib=dylib=c++");
+
+    // Insert the C++ ABI info
+    let output = std::process::Command::new("python")
+        .args(&["{1}-c/abigen/insert_abi.py", 
+              "src", 
+              "src", 
+              &format!("{{}}/build/abigen.txt", std::env::var("OUT_DIR").unwrap())])
+        .output()
+        .expect("Could not launch python insert_abi.py");
+
+    if !output.status.success() {{
+        panic!("python insert_abi failed");
+    }}
+
 }

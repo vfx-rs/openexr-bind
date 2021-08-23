@@ -5,15 +5,15 @@
 use crate::*;
 use std::os::raw::*;
 
-#[repr(C, align(%ALIGNImf_3_0::DeepTiledOutputPart%))]
+#[repr(C, align(8))]
 #[derive(Clone)]
 pub struct Imf_3_0__DeepTiledOutputPart_t {
-    _inner: [u8; %SIZEImf_3_0::DeepTiledOutputPart%]
+    _inner: [u8; 8]
 }
 
 impl Default for Imf_3_0__DeepTiledOutputPart_t {
     fn default() -> Self {
-        Self { _inner: [0u8; %SIZEImf_3_0::DeepTiledOutputPart%] }
+        Self { _inner: [0u8; 8] }
     }
 }
 

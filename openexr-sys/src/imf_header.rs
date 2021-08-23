@@ -5,15 +5,15 @@
 use crate::*;
 use std::os::raw::*;
 
-#[repr(C, align(%ALIGNImf_3_0::Header%))]
+#[repr(C, align(8))]
 #[derive(Clone)]
 pub struct Imf_3_0__Header_t {
-    _inner: [u8; %SIZEImf_3_0::Header%]
+    _inner: [u8; 56]
 }
 
 impl Default for Imf_3_0__Header_t {
     fn default() -> Self {
-        Self { _inner: [0u8; %SIZEImf_3_0::Header%] }
+        Self { _inner: [0u8; 56] }
     }
 }
 
@@ -28,15 +28,15 @@ impl Imf_3_0__Header_t {
     }
 }
 
-#[repr(C, align(%ALIGNImf_3_0::Header::Iterator%))]
+#[repr(C, align(8))]
 #[derive(Clone)]
 pub struct Imf_3_0__Header__Iterator_t {
-    _inner: [u8; %SIZEImf_3_0::Header::Iterator%]
+    _inner: [u8; 8]
 }
 
 impl Default for Imf_3_0__Header__Iterator_t {
     fn default() -> Self {
-        Self { _inner: [0u8; %SIZEImf_3_0::Header::Iterator%] }
+        Self { _inner: [0u8; 8] }
     }
 }
 
@@ -51,15 +51,15 @@ impl Imf_3_0__Header__Iterator_t {
     }
 }
 
-#[repr(C, align(%ALIGNImf_3_0::Header::ConstIterator%))]
+#[repr(C, align(8))]
 #[derive(Clone)]
 pub struct Imf_3_0__Header__ConstIterator_t {
-    _inner: [u8; %SIZEImf_3_0::Header::ConstIterator%]
+    _inner: [u8; 8]
 }
 
 impl Default for Imf_3_0__Header__ConstIterator_t {
     fn default() -> Self {
-        Self { _inner: [0u8; %SIZEImf_3_0::Header::ConstIterator%] }
+        Self { _inner: [0u8; 8] }
     }
 }
 

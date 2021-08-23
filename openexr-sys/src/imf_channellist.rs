@@ -18,15 +18,15 @@ pub struct Imf_3_0__Channel_t {
 pub struct Imf_3_0__ChannelList_t {
     _unused: [u8; 0],
 }
-#[repr(C, align(%ALIGNImf_3_0::ChannelList::Iterator%))]
+#[repr(C, align(8))]
 #[derive(Clone)]
 pub struct Imf_3_0__ChannelList__Iterator_t {
-    _inner: [u8; %SIZEImf_3_0::ChannelList::Iterator%]
+    _inner: [u8; 8]
 }
 
 impl Default for Imf_3_0__ChannelList__Iterator_t {
     fn default() -> Self {
-        Self { _inner: [0u8; %SIZEImf_3_0::ChannelList::Iterator%] }
+        Self { _inner: [0u8; 8] }
     }
 }
 
@@ -41,15 +41,15 @@ impl Imf_3_0__ChannelList__Iterator_t {
     }
 }
 
-#[repr(C, align(%ALIGNImf_3_0::ChannelList::ConstIterator%))]
+#[repr(C, align(8))]
 #[derive(Clone)]
 pub struct Imf_3_0__ChannelList__ConstIterator_t {
-    _inner: [u8; %SIZEImf_3_0::ChannelList::ConstIterator%]
+    _inner: [u8; 8]
 }
 
 impl Default for Imf_3_0__ChannelList__ConstIterator_t {
     fn default() -> Self {
-        Self { _inner: [0u8; %SIZEImf_3_0::ChannelList::ConstIterator%] }
+        Self { _inner: [0u8; 8] }
     }
 }
 
