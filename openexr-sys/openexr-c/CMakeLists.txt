@@ -115,3 +115,18 @@ target_link_libraries(${LIBNAME}-shared OpenEXR::OpenEXR)
 target_link_libraries(${LIBNAME} OpenEXR::OpenEXRUtil)
 target_link_libraries(${LIBNAME}-shared OpenEXR::OpenEXRUtil)
 install(TARGETS ${LIBNAME} DESTINATION ${CMAKE_INSTALL_PREFIX})
+install(TARGETS ${LIBNAME}-shared DESTINATION ${CMAKE_INSTALL_PREFIX})
+
+add_subdirectory(abigen)
+add_custom_command(OUTPUT include
+    COMMAND abigen
+    COMMAND python ARGS ${CMAKE_CURRENT_SOURCE_DIR}/abigen/insert_abi.py ${CMAKE_CURRENT_SOURCE_DIR}/include.in ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_BINARY_DIR}/abigen.txt
+)
+
+add_custom_target(run_abigen
+    DEPENDS include
+)
+
+add_dependencies(${LIBNAME} run_abigen)
+add_dependencies(${LIBNAME}-shared run_abigen)
+
