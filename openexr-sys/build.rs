@@ -382,10 +382,10 @@ fn main() {
 
     // Insert the C++ ABI info
     let output = std::process::Command::new("python")
-        .args(&["{1}-c/abigen/insert_abi.py", 
+        .args(&[&format!("{}-c/abigen/insert_abi.py", PRJ_NAME), 
               "src", 
               "src", 
-              &format!("{{}}/build/abigen.txt", std::env::var("OUT_DIR").unwrap())])
+              &format!("{}/build/abigen.txt", std::env::var("OUT_DIR").unwrap())])
         .output()
         .expect("Could not launch python insert_abi.py");
 
