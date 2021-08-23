@@ -6,7 +6,7 @@
 extern "C" {
 #endif
 
-const char* OPENEXR_CPPMM_API openexr_get_exception_string();
+OPENEXR_CPPMM_API const char* openexr_get_exception_string();
 
 #ifdef __cplusplus
 }

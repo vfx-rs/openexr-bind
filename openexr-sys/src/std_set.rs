@@ -9,15 +9,15 @@ use std::os::raw::*;
 pub struct std__set_std__string__t {
     _unused: [u8; 0],
 }
-#[repr(C, align(8))]
+#[repr(C, align(%ALIGNstd::set<std::string>::const_iterator%))]
 #[derive(Clone)]
 pub struct std__set_std__string___const_iterator_t {
-    _inner: [u8; 8]
+    _inner: [u8; %SIZEstd::set<std::string>::const_iterator%]
 }
 
 impl Default for std__set_std__string___const_iterator_t {
     fn default() -> Self {
-        Self { _inner: [0u8; 8] }
+        Self { _inner: [0u8; %SIZEstd::set<std::string>::const_iterator%] }
     }
 }
 

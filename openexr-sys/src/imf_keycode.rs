@@ -5,15 +5,15 @@
 use crate::*;
 use std::os::raw::*;
 
-#[repr(C, align(4))]
+#[repr(C, align(%ALIGNImf_3_0::KeyCode%))]
 #[derive(Clone)]
 pub struct Imf_3_0__KeyCode_t {
-    _inner: [u8; 28]
+    _inner: [u8; %SIZEImf_3_0::KeyCode%]
 }
 
 impl Default for Imf_3_0__KeyCode_t {
     fn default() -> Self {
-        Self { _inner: [0u8; 28] }
+        Self { _inner: [0u8; %SIZEImf_3_0::KeyCode%] }
     }
 }
 
