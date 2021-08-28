@@ -3,6 +3,7 @@ project(openexr-c VERSION 0.10.0)
 set(CMAKE_CXX_STANDARD 14 CACHE STRING "")
 set(SOURCES
     src/std_vector.cpp
+    include/std_vector.h
     src/imf_huf.cpp
     src/imf_keycode.cpp
     src/imf_imagelevel.cpp
@@ -81,6 +82,15 @@ set(SOURCES
     src/imf_flatimagelevel.cpp
     src/openexr-errors.cpp
 )
+find_package(OpenEXR REQUIRED)
+find_package(Imath REQUIRED)
+
+add_subdirectory(abigen)
+add_custom_command(OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/include/std_vector.h
+    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/include.in/std_vector.h 
+    COMMAND abigen
+    COMMAND python ARGS ${CMAKE_CURRENT_SOURCE_DIR}/abigen/insert_abi.py ${CMAKE_CURRENT_SOURCE_DIR}/include.in ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_BINARY_DIR}/abigen.txt
+)
 set(LIBNAME openexr-c-0_10)
 add_library(${LIBNAME} STATIC ${SOURCES})
 add_library(${LIBNAME}-shared SHARED ${SOURCES})
@@ -108,25 +118,9 @@ target_include_directories(${LIBNAME} PRIVATE include)
 target_include_directories(${LIBNAME}-shared PRIVATE include)
 target_include_directories(${LIBNAME} PRIVATE src)
 target_include_directories(${LIBNAME}-shared PRIVATE src)
-find_package(OpenEXR REQUIRED)
-find_package(Imath REQUIRED)
 target_link_libraries(${LIBNAME} OpenEXR::OpenEXR)
 target_link_libraries(${LIBNAME}-shared OpenEXR::OpenEXR)
 target_link_libraries(${LIBNAME} OpenEXR::OpenEXRUtil)
 target_link_libraries(${LIBNAME}-shared OpenEXR::OpenEXRUtil)
 install(TARGETS ${LIBNAME} DESTINATION ${CMAKE_INSTALL_PREFIX})
 install(TARGETS ${LIBNAME}-shared DESTINATION ${CMAKE_INSTALL_PREFIX})
-
-add_subdirectory(abigen)
-add_custom_command(OUTPUT include
-    COMMAND abigen
-    COMMAND python ARGS ${CMAKE_CURRENT_SOURCE_DIR}/abigen/insert_abi.py ${CMAKE_CURRENT_SOURCE_DIR}/include.in ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_BINARY_DIR}/abigen.txt
-)
-
-add_custom_target(run_abigen
-    DEPENDS include
-)
-
-add_dependencies(${LIBNAME} run_abigen)
-add_dependencies(${LIBNAME}-shared run_abigen)
-
