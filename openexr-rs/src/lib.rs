@@ -23,8 +23,9 @@
 //! cargo build
 //! ```
 //!
-//! If you have an existing installation of OpenEXR that you would like to use
-//! instead:
+//! While this method is supported and easiest to get starter, it is strongly 
+//! recommended that you build and install the C++ library separately and build
+//! the crate against it like so:
 //!
 //! ```bash
 //! cargo add openexr
