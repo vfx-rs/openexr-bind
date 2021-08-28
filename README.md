@@ -14,13 +14,15 @@ Currently, the project is owned by the Academy Software Foundation (ASWF) Rust
 Working Group, but the project's ownership may be transferred to the OpenEXR
 project once the project is mature.
 
-# Checkout
+# For Developers
+
+## Checkout
 After cloning this module run the following command to clone the openexr and imath submodules.
 ```bash
 git submodule update --init
 ```
 
-# Generating bindings
+## Generating bindings
 First you must have `astgen` and `asttoc` in your PATH.
 
 run `bind.sh`, passing the path to your OpenEXR and Imath installations as environment variables:
@@ -46,29 +48,29 @@ cd openexr-sys
 env OPENEXR_ROOT=/path/to/openexr IMATH_ROOT=/path/to/imath cargo build
 ```
 
-# Versions
+## Versions
 There is a branch for each supported minor version of the target library. Other versions may or may not bind successfully.
 
 # Contributing
 
 Please see [the contributions document](CONTRIBUTING.md) for more information.
 
-# Building
+## Building
 
-## Dev Container
+### Dev Container
 
 We support and do most of our development using Visual Studio Code's [remote containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers). If you have the latest Docker, VSCode, and the remote containers plugin installed, then you should be able to develop in the container by following the documentation above.
 
-## Generic
+### Generic
 
 1. Install dependencies
-2. Compile OpenEXR v3.0.1.
+2. Compile OpenEXR v3.0.5.
 3. Compile cppmm, making sure to include the system's `stdint.h` in the `cppmm/astgen/resources` folder.
 4. Make sure that OpenEXR is in the library path, cppmm in the `PATH`, and `IMATH_ROOT` and `OPENEXR_ROOT` are both pointing to the folder where OpenEXR was compiled to.
 5. cd openexr-bind folder and run the `bind.sh` script.
 6. cd into the openexr-rs folder and run cargo commands as needed. We recommend running `cargo test` to make sure everything is set up.
 
-## Ubuntu 20.04
+### Ubuntu 20.04
 
 1. Install dependencies
     ```bash
@@ -91,7 +93,7 @@ We support and do most of our development using Visual Studio Code's [remote con
     ```bash
     mkdir -p /tmp/openexr && \
     cd /tmp/openexr && \
-    curl -L https://github.com/AcademySoftwareFoundation/openexr/archive/refs/tags/v3.0.1.tar.gz | tar -xvz && \
+    curl -L https://github.com/AcademySoftwareFoundation/openexr/archive/refs/tags/v3.0.5.tar.gz | tar -xvz && \
     cd openexr-3.0.1 && \
     mkdir build && \
     cd build && \
