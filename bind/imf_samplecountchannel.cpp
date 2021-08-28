@@ -57,7 +57,7 @@ struct SampleCountChannel {
     bool pLinear() const;
     int pixelsPerRow() const;
     int pixelsPerColumn() const;
-    unsigned long numPixels() const;
+    size_t numPixels() const;
     Imf::ImageLevel& level();
     const Imf::ImageLevel& level() const;
 

@@ -915,13 +915,6 @@ mod tests {
     #[test]
     fn test_timecode_set_frame_to_greater_than_max_failure() {
         let mut timecode = super::TimeCode::default();
-        // NOTE: There is a bug with OpenEXR where the max time code should be 29, but v3.0.1 doesn't include that fix.
-        // Adding a check for a frame value of 30 to address future patches.
-        assert_eq!(
-            timecode.set_frame(30).is_ok(),
-            true,
-            "OpenEXR bug fixed post v3.0.1"
-        );
         assert_eq!(timecode.set_frame(60).is_err(), true);
     }
 

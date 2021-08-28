@@ -204,13 +204,15 @@ impl Header {
         unsafe {
             let ptr = System
                 .alloc(Layout::array::<sys::Imf_Header_t>(num).unwrap())
-                as *mut sys::Imf_Header_t;
+                                as *mut sys::Imf_Header_t;
 
-            // FIXME: is this safe? We're only using Vec as an intermediary
-            // but not sure...
+            dbg!(std::mem::size_of::<sys::Imf_Header_t>());
+
             let mut array =
-                Vec::from_raw_parts(ptr, num, num).into_boxed_slice();
+                Box::from_raw(std::slice::from_raw_parts_mut(ptr, num));
+
             for header in array.iter_mut() {
+                println!("header: {:p}", header as *mut _);
                 sys::Imf_Header_with_dimensions(
                     header,
                     64,

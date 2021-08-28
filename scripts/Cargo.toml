@@ -19,3 +19,4 @@ exclude = [
 [build-dependencies]
 cmake = "0.1"
 regex = "1.5.4"
+quick-xml = "0.22"
