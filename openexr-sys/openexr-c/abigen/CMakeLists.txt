@@ -1,8 +1,0 @@
-file(GLOB ABIGEN_SOURCE *.cpp)
-add_executable(abigen ${ABIGEN_SOURCE})
-target_include_directories(abigen PRIVATE /home/anders/packages/imath/3.0.1/include)
-target_include_directories(abigen PRIVATE /home/anders/packages/imath/3.0.1/include/Imath)
-target_include_directories(abigen PRIVATE /home/anders/packages/openexr/3.0.1/include)
-target_include_directories(abigen PRIVATE /home/anders/packages/openexr/3.0.1/include/OpenEXR)
-target_link_libraries(abigen PRIVATE OpenEXR::OpenEXR)
-target_link_libraries(abigen PRIVATE OpenEXR::OpenEXRUtil)
