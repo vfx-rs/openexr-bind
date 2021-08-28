@@ -14,6 +14,7 @@ fn build_imath(target_dir: &Path, build_type: &str) -> std::string::String {
         .define("IMATH_IS_SUBPROJECT", "ON")
         .define("BUILD_TESTING", "OFF")
         .define("BUILD_SHARED_LIBS", "ON")
+        .always_configure(false)
         .build()
         .to_str()
         .expect("Unable to convert imath_root to str")
@@ -32,6 +33,7 @@ fn build_openexr(target_dir: &Path, build_type: &str) -> std::string::String {
         .define("BUILD_TESTING", "OFF")
         .define("OPENEXR_INSTALL_EXAMPLES", "OFF")
         .define("BUILD_SHARED_LIBS", "ON")
+        .always_configure(false)
         .build()
         .to_str()
         .expect("Unable to convert openexr_root to str")
@@ -109,11 +111,9 @@ fn get_linking_from_vsproj(
         match reader.read_event(&mut buf) {
             Ok(Event::Start(ref e)) => match e.name() {
                 b"ItemDefinitionGroup" => {
-                    println!("cargo:warning=ItemDefinitionGroup");
                     for attr in e.attributes() {
                         if let Ok(attr) = attr {
                             println!(
-                                "cargo:warning=Condition = {:?}",
                                 std::str::from_utf8(attr.value.borrow())
                                     .unwrap()
                             );
@@ -123,7 +123,6 @@ fn get_linking_from_vsproj(
                                         .unwrap();
                                 if s.contains(build_type) {
                                     println!(
-                                        "cargo:warning=FDOUND ITEM DEIFNITOIN"
                                     );
                                     in_item_definition = true;
                                 }
@@ -132,7 +131,6 @@ fn get_linking_from_vsproj(
                     }
                 }
                 b"Link" if in_item_definition => {
-                    println!("cargo:warning=  Link");
                     in_link = true;
                 }
                 b"AdditionalDependencies" if in_item_definition && in_link => {
@@ -142,13 +140,9 @@ fn get_linking_from_vsproj(
             },
             Ok(Event::End(ref e)) => match e.name() {
                 b"ItemDefinitionGroup" => {
-                    println!("cargo:warning=/ItemDefinitionGroup");
                     in_item_definition = false;
                 }
                 b"Link" => {
-                    if in_link {
-                        println!("cargo:warning=  /Link");
-                    }
                     in_link = false;
                 }
                 b"AdditionalDependencies" => in_deps = false,
@@ -228,8 +222,14 @@ fn get_linking_from_cmake(
 }
 
 #[cfg(not(target_os = "windows"))]
-fn get_linking_from_cmake(link_txt_path: &Path) -> Vec<DylibPathInfo> {
-    let link_txt_path = link_txt_path.join("link.txt");
+fn get_linking_from_cmake(build_path: &Path,
+    clib_versioned_name: &str,
+    build_type: &str,
+) -> Vec<DylibPathInfo> {
+    let link_txt_path = build_path
+        .join("CMakeFiles")
+        .join(format!("{}.dir", clib_versioned_name))
+        .join("link.txt");
     let link_txt = std::fs::read_to_string(&link_txt_path).expect(&format!(
         "Could not read link_txt_path: {}",
         link_txt_path.display()
@@ -302,6 +302,7 @@ fn main() {
         };
 
     let dst = if build_libraries {
+        println!("cargo:warning=Building packaged openexr");
         let _ = build_imath(&target_dir, &build_type);
         let _ = build_openexr(&target_dir, &build_type);
         cmake::Config::new(clib_name)
@@ -309,12 +310,15 @@ fn main() {
             .define("CMAKE_PREFIX_PATH", cmake_prefix_path.to_str().unwrap())
             .profile(&build_type)
             .generator(&generator)
+            .always_configure(false)
             .build()
     } else {
+        println!("cargo:warning=Building system openexr");
         cmake::Config::new(clib_name)
             .define("CMAKE_EXPORT_COMPILE_COMMANDS", "ON")
             .generator(&generator)
             .profile(&build_type)
+            .always_configure(false)
             .build()
     };
 
