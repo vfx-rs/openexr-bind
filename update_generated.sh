@@ -17,3 +17,6 @@ rm -rf ${project_name}-sys ${project_name}-c
 
 cp -r build/${project_name}-sys .
 cp -r build/${project_name}-sys/${project_name}-c .
+
+rm -rf ../build/${project_name}-sys/*
+cp -r build/${project_name}-sys/* ../${project_name}-sys/
