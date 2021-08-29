@@ -6,3 +6,7 @@ dev_bind.sh
 .vscode
 .devcontainer
 *.code-workspace
+
+# built crates
+/openexr-sys
+/openexr-rs
