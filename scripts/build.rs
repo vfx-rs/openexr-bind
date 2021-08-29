@@ -64,6 +64,7 @@ fn is_dylib_path(s: &str, re: &Regex) -> Option<DylibPathInfo> {
     None
 }
 
+#[cfg(target_os = "windows")]
 fn is_dll_lib_path(s: &str, re: &Regex) -> Option<DylibPathInfo> {
     if let Some(m) = re.captures_iter(s).next() {
         if let Some(c0) = m.get(0) {
@@ -94,7 +95,7 @@ fn get_linking_from_vsproj(
 
     let proj_path = build_path.join(format!("{}.vcxproj", clib_versioned_name));
     let proj_xml = std::fs::read_to_string(&proj_path).ok()?;
-    println!("cargo:warning=loaded vsproj {}", proj_path.display());
+    // println!("cargo:warning=loaded vsproj {}", proj_path.display());
 
     let re = Regex::new(r"(?:.*\\(.*))(\.lib)$").unwrap();
 
@@ -113,17 +114,11 @@ fn get_linking_from_vsproj(
                 b"ItemDefinitionGroup" => {
                     for attr in e.attributes() {
                         if let Ok(attr) = attr {
-                            println!(
-                                std::str::from_utf8(attr.value.borrow())
-                                    .unwrap()
-                            );
                             if attr.key == b"Condition" {
                                 let s =
                                     std::str::from_utf8(attr.value.borrow())
                                         .unwrap();
                                 if s.contains(build_type) {
-                                    println!(
-                                    );
                                     in_item_definition = true;
                                 }
                             }
@@ -184,7 +179,7 @@ fn get_linking_from_nmake(
 
     let mut found_slash_dll = false;
     let mut libs = Vec::new();
-    println!("cargo:warning=Found links:");
+    // println!("cargo:warning=Found links:");
     for tok in build_make.split_whitespace() {
         if tok == "/dll" {
             found_slash_dll = true;
@@ -273,9 +268,9 @@ fn main() {
     };
 
     let out_dir = std::env::var("OUT_DIR").unwrap();
-    println!("cargo:warning=out dir is {}", out_dir);
+    // println!("cargo:warning=out dir is {}", out_dir);
     let target_dir = Path::new(&out_dir).ancestors().skip(3).next().unwrap();
-    println!("cargo:warning=target dir is {}", target_dir.display());
+    // println!("cargo:warning=target dir is {}", target_dir.display());
 
     let clib_name = format!("{}-c", PRJ_NAME);
     let clib_versioned_name =
@@ -313,7 +308,7 @@ fn main() {
             .always_configure(false)
             .build()
     } else {
-        println!("cargo:warning=Building system openexr");
+        println!("cargo:warning=Using system openexr");
         cmake::Config::new(clib_name)
             .define("CMAKE_EXPORT_COMPILE_COMMANDS", "ON")
             .generator(&generator)
@@ -329,7 +324,7 @@ fn main() {
         &clib_shared_versioned_name,
         &build_type,
     );
-    println!("cargo:warning=linklibs: {:?}", dylibs);
+    // println!("cargo:warning=linklibs: {:?}", dylibs);
 
     // link our wrapper library
     println!("cargo:rustc-link-search=native={}", dst.display());
@@ -342,7 +337,7 @@ fn main() {
         // now copy the build dylibs to the top-level target directory and link from
         // there
         println!("cargo:rustc-link-search=native={}", lib_path.display());
-        println!("cargo:warning=adding link path {}", lib_path.display());
+        // println!("cargo:warning=adding link path {}", lib_path.display());
 
         let mut env_path = format!(
             "{};{}",
@@ -356,9 +351,9 @@ fn main() {
             env_path = format!("{};{}", env_path, libdir.display());
             println!("cargo:rustc-link-search=native={}", libdir.display());
             println!("cargo:rustc-link-lib=dylib={}", &d.libname);
-            println!("cargo:warning=linking to {}", &d.libname);
+            // println!("cargo:warning=linking to {}", &d.libname);
         }
-        println!("cargo:warning=path is {}", &env_path);
+        // println!("cargo:warning=path is {}", &env_path);
 
         // finally, set LD_LIBRARY_PATH to the target directory when running things
         // from cargo. If you want to install somewhere, you're on your own for now...
@@ -375,7 +370,7 @@ fn main() {
             let libdir = Path::new(&d.path).parent().unwrap();
             println!("cargo:rustc-link-search=native={}", libdir.display());
             println!("cargo:rustc-link-lib=dylib={}", &d.libname);
-            println!("cargo:warning=linking to {}", &d.libname);
+            // println!("cargo:warning=linking to {}", &d.libname);
         }
     }
 
