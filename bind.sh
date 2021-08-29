@@ -49,6 +49,9 @@ sed \
     -e "s/PATCH_VERSION/${patch_version}/g" \
     scripts/Cargo.toml > build/${project_name}-sys/Cargo.toml
 
+# Copy over the readme
+cp scripts/README.md build/${project_name}-sys/README.md
+
 # Copy the tests over
 cp test.rs build/${project_name}-sys/src
 
