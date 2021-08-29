@@ -5,6 +5,22 @@ const PRJ_NAME: &str = "PROJECT_NAME";
 const MJR_VERSION: u32 = MAJOR_VERSION;
 const MNR_VERSION: u32 = MINOR_VERSION;
 
+fn build_zlib(target_dir: &Path, build_type: &str) -> std::string::String {
+    // We need to set this to Release or else the openexr symlinks will be incorrect.
+    // Fixed by
+    cmake::Config::new("thirdparty/Imath")
+        .profile(build_type)
+        .define("CMAKE_INSTALL_PREFIX", target_dir.to_str().unwrap())
+        .define("IMATH_IS_SUBPROJECT", "ON")
+        .define("BUILD_TESTING", "OFF")
+        .define("BUILD_SHARED_LIBS", "ON")
+        .always_configure(false)
+        .build()
+        .to_str()
+        .expect("Unable to convert imath_root to str")
+        .to_string()
+}
+
 fn build_imath(target_dir: &Path, build_type: &str) -> std::string::String {
     // We need to set this to Release or else the openexr symlinks will be incorrect.
     // Fixed by
@@ -258,7 +274,7 @@ fn main() {
     // If the user has set CMAKE_PREFIX_PATH then we don't want to build the
     // bundled libraries, *unless* they have also set OPENEXR_BUILD_LIBRARIES=1
     let build_libraries = if std::env::var("CMAKE_PREFIX_PATH").is_ok() {
-        if let Ok(obl) = std::env::var("OPENEXR_BUILD_LIBRARIES") {
+        if let Ok(obl) = std::env::var("CPPMM_OPENEXR_BUILD_LIBRARIES") {
             obl == "1"
         } else {
             false
@@ -298,6 +314,7 @@ fn main() {
 
     let dst = if build_libraries {
         println!("cargo:warning=Building packaged openexr");
+        let _ = build_zlib(&target_dir, &build_type);
         let _ = build_imath(&target_dir, &build_type);
         let _ = build_openexr(&target_dir, &build_type);
         cmake::Config::new(clib_name)

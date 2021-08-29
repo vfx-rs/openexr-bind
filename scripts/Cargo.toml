@@ -14,6 +14,17 @@ exclude = [
     "thirdparty/openexr/src/examples",
     "thirdparty/openexr/src/test",
     "thirdparty/openexr/docs",
+    "thirdparty/zlib/amiga",
+    "thirdparty/zlib/contrib",
+    "thirdparty/zlib/doc",
+    "thirdparty/zlib/examples",
+    "thirdparty/zlib/msdos",
+    "thirdparty/zlib/nintendods",
+    "thirdparty/zlib/old",
+    "thirdparty/zlib/os400",
+    "thirdparty/zlib/qnx",
+    "thirdparty/zlib/test",
+    "thirdparty/zlib/watcom",
 ]
 
 [build-dependencies]
