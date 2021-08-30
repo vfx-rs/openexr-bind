@@ -8,7 +8,7 @@ const MNR_VERSION: u32 = MINOR_VERSION;
 fn build_zlib(target_dir: &Path, build_type: &str) -> std::string::String {
     // We need to set this to Release or else the openexr symlinks will be incorrect.
     // Fixed by
-    cmake::Config::new("thirdparty/Imath")
+    cmake::Config::new("thirdparty/zlib")
         .profile(build_type)
         .define("CMAKE_INSTALL_PREFIX", target_dir.to_str().unwrap())
         .define("IMATH_IS_SUBPROJECT", "ON")
@@ -397,6 +397,14 @@ fn main() {
     println!("cargo:rustc-link-lib=dylib=c++");
 
     // Insert the C++ ABI info
+    // Run abigen again since our build directory could have changed
+    let build_dir = Path::new(&std::env::var("OUT_DIR").unwrap()).join("build");
+    let abigen_bin = build_dir.join("abigen").join("abigen");
+    let output = std::process::Command::new(abigen_bin)
+        .current_dir(build_dir)
+        .output()
+        .expect("Could not run abigen");
+
     let output = std::process::Command::new("python")
         .args(&[&format!("{}-c/abigen/insert_abi.py", PRJ_NAME), 
               "src", 

@@ -34,6 +34,7 @@ asttoc build/ast -o build -p ${project_name} \
 mkdir -p build/${project_name}-sys/thirdparty
 cp -r thirdparty/openexr build/${project_name}-sys/thirdparty/
 cp -r thirdparty/Imath build/${project_name}-sys/thirdparty/
+cp -r thirdparty/zlib build/${project_name}-sys/thirdparty/
 
 sed \
     -e "s/PROJECT_NAME/${project_name}/g" \
