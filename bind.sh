@@ -13,7 +13,7 @@ rm -rf build
 project_name="openexr"
 major_version=0
 minor_version=10
-patch_version=0
+patch_version=1
 
 # Generate ast json files from parsing c++ bind files
 astgen bind -v 1 -u -o build/ast -- \
