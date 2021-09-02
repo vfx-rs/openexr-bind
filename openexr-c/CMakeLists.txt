@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(openexr-c VERSION 0.10.0)
+project(openexr-c VERSION 0.10.1)
 set(CMAKE_CXX_STANDARD 14 CACHE STRING "")
 set(SOURCES
     src/std_vector.cpp
@@ -89,7 +89,11 @@ add_subdirectory(abigen)
 add_custom_command(OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/include/std_vector.h
     DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/include.in/std_vector.h 
     COMMAND abigen
-    COMMAND python ARGS ${CMAKE_CURRENT_SOURCE_DIR}/abigen/insert_abi.py ${CMAKE_CURRENT_SOURCE_DIR}/include.in ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_BINARY_DIR}/abigen.txt
+    COMMAND python ARGS 
+        ${CMAKE_CURRENT_SOURCE_DIR}/abigen/insert_abi.py 
+        ${CMAKE_CURRENT_SOURCE_DIR}/include.in 
+        ${CMAKE_CURRENT_BINARY_DIR}/include 
+        ${CMAKE_CURRENT_BINARY_DIR}/abigen.txt
 )
 set(LIBNAME openexr-c-0_10)
 add_library(${LIBNAME} STATIC ${SOURCES})
@@ -106,6 +110,8 @@ if (WIN32)
 target_compile_definitions(${LIBNAME} PRIVATE _Bool=bool)
 target_compile_definitions(${LIBNAME}-shared PRIVATE _Bool=bool)
 endif()
+target_include_directories(${LIBNAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/include)
+target_include_directories(${LIBNAME}-shared PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/include)
 target_include_directories(${LIBNAME} PRIVATE /home/anders/packages/imath/3.0.5/include)
 target_include_directories(${LIBNAME}-shared PRIVATE /home/anders/packages/imath/3.0.5/include)
 target_include_directories(${LIBNAME} PRIVATE /home/anders/packages/imath/3.0.5/include/Imath)

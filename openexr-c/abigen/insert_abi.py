@@ -38,8 +38,17 @@ for root, dirs, files in os.walk(in_path):
 
         new_head = os.path.join(out_path, rel_head)
 
+        # This doesn't always work, for... reasons, so need to handle the file 
+        # exists error
         if not os.path.exists(new_head):
-            os.makedirs(new_head)
+            import errno
+            try:
+                os.makedirs(new_head)
+            except OSError as e:
+                if e.errno == errno.EEXIST:
+                    pass
+                else:
+                    raise
         
         new_fn = os.path.join(new_head, file)
 
