@@ -57,7 +57,7 @@ public:
     unsigned short bits() const;
     void setBits(unsigned short bits);
 
-} CPPMM_OPAQUEBYTES;
+} CPPMM_VALUETYPE;
 
 } // namespace IMATH_INTERNAL_NAMESPACE
 
