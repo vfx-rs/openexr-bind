@@ -85,6 +85,9 @@ RUN mkdir -p /tmp/cppmm && \
     make install && \
     rm -rf /tmp/cppmm
 
+RUN apt install -y python
+RUN apt install -y vim
+
 ENV LD_LIBRARY_PATH=/usr/local/lib:/usr/local/lib64:$LD_LIBRARY_PATH
 
 # Get useful tools
