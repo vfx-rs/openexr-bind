@@ -1,0 +1,8 @@
+/Cargo.lock
+thirdparty/zlib/zconf.h
+thirdparty/zlib/zconf.h.included
+/target
+openexr-c/include/imf_*.h
+openexr-c/include/std_*.h
+openexr-c/include/c-half.h
+openexr-c/include/imath_*.h
