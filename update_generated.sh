@@ -9,9 +9,9 @@ trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
 trap 'echo "\"${last_command}\" exited with code $?."' ERR
 
 project_name="openexr"
-major_version=0
-minor_version=10
-patch_version=0
+major_version=3
+minor_version=0
+patch_version=5
 
 rm -rf ${project_name}-sys ${project_name}-c
 
