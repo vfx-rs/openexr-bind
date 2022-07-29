@@ -49,6 +49,8 @@ struct Header {
         CPPMM_THROWS(Iex::ArgExc, IEX_INVALID_ARGUMENT);
 
     CPPMM_COPY(Imf, Header)
+    IMF_EXPORT
+    Header(Imf::Header&& other);
     ~Header();
 
     IMF_EXPORT
@@ -169,6 +171,26 @@ struct Header {
     Imf::Compression& compression();
     IMF_EXPORT
     const Imf::Compression& compression() const CPPMM_RENAME(compression_const);
+
+    //-----------------------------------------------------
+    // The header object allows one to store a compression level to be
+    // used when writing a file.
+    //
+    // NB: These are NOT attributes, and will not be written to the
+    // file, but are instead ephemeral settings to be used for this
+    // instance of the header object.
+    //
+    // -----------------------------------------------------
+    IMF_EXPORT
+    void resetDefaultCompressionLevels();
+    IMF_EXPORT
+    int& zipCompressionLevel();
+    IMF_EXPORT
+    int zipCompressionLevel() const;
+    IMF_EXPORT
+    float& dwaCompressionLevel();
+    IMF_EXPORT
+    float dwaCompressionLevel() const;
 
     IMF_EXPORT
     void setName(const std::string& name);
