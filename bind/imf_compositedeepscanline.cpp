@@ -82,6 +82,22 @@ public:
 
     IMF_EXPORT
     void setCompositing(Imf::DeepCompositing* compositing);
+
+    //
+    // set the maximum number of samples that will be composited.
+    // If a single scanline has more samples, readPixels will throw
+    // an exception. This mechanism prevents the library allocating
+    // excessive memory to composite deep scanline images.
+    // A value of 0 will cause deep compositing to be disabled entirely
+    // A negative value disables the limit, allowing images with
+    // arbitrarily large sample counts to be composited
+    //
+    IMF_EXPORT
+    static void setMaximumSampleCount(int64_t sampleCount);
+
+    IMF_EXPORT
+    static int64_t getMaximumSampleCount();
+
 } CPPMM_OPAQUEPTR;
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
