@@ -36,7 +36,7 @@ inline int getVersion(int version);
 inline int getFlags(int version);
 inline bool supportsFlags(int flags);
 IMF_EXPORT
-bool isImfMagic(const char bytes[4]);
+bool isImfMagic(const char* bytes) CPPMM_MANUAL;
 
 } // namespace OPENEXR_IMF_INTERNAL_NAMESPACE
 
