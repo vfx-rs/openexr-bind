@@ -1,0 +1,31 @@
+[package]
+name = "openexr-sys"
+version = "0.10.1"
+description="cppmm-based FFI bindings for OpenEXR 3.0.5"
+license="BSD-3-Clause"
+authors = ["Anders Langlands <anderslanglands@gmail.com>",
+           "Luke Titley <from+openexr_rs@luketitley.com>",
+           "Scott Wilson <scott@propersquid.com>",
+           "Tiago Carvalho <tiago.carvalho@loquattech.com>"]
+edition = "2018"
+
+exclude = [
+    "thirdparty/Imath/src/ImathTest",
+    "thirdparty/Imath/src/PyImath",
+    "thirdparty/openexr/src/examples",
+    "thirdparty/openexr/src/test",
+    "thirdparty/openexr/docs",
+    "thirdparty/zlib/amiga",
+    "thirdparty/zlib/contrib",
+    "thirdparty/zlib/doc",
+    "thirdparty/zlib/examples",
+    "thirdparty/zlib/msdos",
+    "thirdparty/zlib/nintendods",
+    "thirdparty/zlib/old",
+    "thirdparty/zlib/os400",
+    "thirdparty/zlib/qnx",
+    "thirdparty/zlib/watcom",
+]
+
+[build-dependencies]
+cppmm-build = "^0.2"

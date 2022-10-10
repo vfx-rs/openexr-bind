@@ -1,0 +1,53 @@
+[package]
+name = "openexr"
+version = "0.11.0"
+authors = ["Anders Langlands <anderslanglands@gmail.com>",
+           "Luke Titley <from+openexr_rs@luketitley.com>",
+           "Scott Wilson <scott@propersquid.com>",
+           "Tiago Carvalho <tiago.carvalho@loquattech.com>"]
+edition = "2018"
+
+license="BSD-3-Clause"
+description = "High-level bindings to OpenEXR 3.0.5"
+documentation = "https://docs.rs/openexr"
+repository = "https://github.com/vfx-rs/openexr-rs"
+readme = "README.md"
+keywords = ["graphics", "image", "vfx", "exr", "openexr"]
+categories = ["api-bindings", "computer-vision", "graphics", "multimedia", "rendering"]
+
+[package.metadata.docs.rs]
+# docs.rs uses a nightly compiler, so by instructing it to use our `doc-images` feature we
+# ensure that it will render any images that we may have in inner attribute documentation.
+# and include the markdown docs
+features = ["long-form-docs"]
+# KateX for math notation
+rustdoc-args = [ "--html-in-header", "katex-header.html" ]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+openexr-sys = "^0.10.1"
+imath-traits = "^0.4"
+cgmath = {version = "^0.18", optional = true}
+glam = {version = "^0.17", optional = true}
+nalgebra = {version = "^0.27", optional = true}
+nalgebra-glm = {version = "^0.12", optional = true}
+half = "^1.7"
+thiserror = "^1.0"
+paste = "^1.0"
+bitflags = "^1.2"
+embed-doc-image = {version = "0.1.4", optional=true}
+cfg-if = "^1.0"
+
+[dev-dependencies]
+png = "^0.16"
+itertools = "^0.10"
+lazy_static = "^1.4"
+
+[features]
+default = []
+imath_cgmath = ["imath-traits/cgmath", "cgmath"]
+imath_glam = ["imath-traits/glam", "glam"]
+imath_nalgebra = ["imath-traits/nalgebra", "nalgebra"]
+imath_nalgebra-glm = ["imath-traits/nalgebra-glm", "nalgebra-glm"]
+long-form-docs = ["embed-doc-image"]
